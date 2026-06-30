@@ -1,11 +1,7 @@
 import { PreviewWithCodeUI } from "@/components/preview-with-code-ui";
 import { formatCode } from "@/lib/format-code";
 import { highlightCode } from "@/lib/highlight-code";
-import {
-  getDemoSource,
-  getRegistrySource,
-  readOptionalFromRoot,
-} from "@/lib/registry";
+import { getDemoSource, getRegistrySource, readOptionalFromRoot } from "@/lib/registry";
 
 export const PreviewWithCode = async ({
   children,
@@ -38,11 +34,7 @@ export const PreviewWithCode = async ({
   const highlightedCode = await highlightCode(code, "tsx");
 
   return (
-    <PreviewWithCodeUI
-      code={code}
-      highlightedCode={highlightedCode}
-      className={className}
-    >
+    <PreviewWithCodeUI code={code} highlightedCode={highlightedCode} className={className}>
       {children}
     </PreviewWithCodeUI>
   );

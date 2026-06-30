@@ -1,10 +1,11 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState,
+  VisibilityState} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -36,57 +37,46 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-type Payment = {
+interface Payment {
   id: string;
   amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
-};
+}
 
 const data: Payment[] = [
-  { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
+  { amount: 100, email: "m@example.com", id: "728ed52f", status: "pending" },
   {
-    id: "489e1d42",
     amount: 125,
-    status: "processing",
     email: "example@gmail.com",
-  },
-  {
-    id: "8ab531a9",
-    amount: 250,
-    status: "success",
-    email: "success@acme.com",
-  },
-  { id: "3cd492e8", amount: 90, status: "failed", email: "info@company.io" },
-  {
-    id: "7ef5b31a",
-    amount: 300,
-    status: "success",
-    email: "hello@startup.dev",
-  },
-  { id: "2ba14c6e", amount: 45, status: "pending", email: "jane@corp.com" },
-  {
-    id: "9fa72d1b",
-    amount: 180,
+    id: "489e1d42",
     status: "processing",
-    email: "bob@example.org",
   },
-  { id: "1ec38f7c", amount: 220, status: "success", email: "alice@demo.net" },
+  {
+    amount: 250,
+    email: "success@acme.com",
+    id: "8ab531a9",
+    status: "success",
+  },
+  { amount: 90, email: "info@company.io", id: "3cd492e8", status: "failed" },
+  {
+    amount: 300,
+    email: "hello@startup.dev",
+    id: "7ef5b31a",
+    status: "success",
+  },
+  { amount: 45, email: "jane@corp.com", id: "2ba14c6e", status: "pending" },
+  {
+    amount: 180,
+    email: "bob@example.org",
+    id: "9fa72d1b",
+    status: "processing",
+  },
+  { amount: 220, email: "alice@demo.net", id: "1ec38f7c", status: "success" },
 ];
 
 const columns: ColumnDef<Payment>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
@@ -94,34 +84,36 @@ const columns: ColumnDef<Payment>[] = [
         aria-label="Select row"
       />
     ),
-    enableSorting: false,
     enableHiding: false,
+    enableSorting: false,
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    id: "select",
   },
   {
     accessorKey: "status",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
     header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
   },
   {
     accessorKey: "email",
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Email
         <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("email")}</div>
-    ),
   },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -130,10 +122,9 @@ const columns: ColumnDef<Payment>[] = [
       }).format(amount);
       return <div className="text-right font-medium">{formatted}</div>;
     },
+    header: () => <div className="text-right">Amount</div>,
   },
   {
-    id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original;
       return (
@@ -146,9 +137,7 @@ const columns: ColumnDef<Payment>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -158,6 +147,8 @@ const columns: ColumnDef<Payment>[] = [
         </DropdownMenu>
       );
     },
+    enableHiding: false,
+    id: "actions",
   },
 ];
 
@@ -168,21 +159,21 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
-    data,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      sorting,
     },
   });
 
@@ -192,9 +183,7 @@ export function DataTableDemo() {
         <Input
           placeholder="Filter by email..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -229,10 +218,7 @@ export function DataTableDemo() {
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -241,26 +227,17 @@ export function DataTableDemo() {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

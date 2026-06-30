@@ -3,9 +3,7 @@
   "name": "e-data-table",
   "title": "Data Table",
   "description": "Sortable, filterable task table with status/priority facets, column visibility, and pagination.",
-  "dependencies": [
-    "@tanstack/react-table"
-  ],
+  "dependencies": ["@tanstack/react-table"],
   "registryDependencies": [
     "avatar",
     "badge",

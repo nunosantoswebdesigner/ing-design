@@ -48,9 +48,7 @@ const SidebarPageGroup = ({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-muted-foreground font-medium">
-        {label}
-      </SidebarGroupLabel>
+      <SidebarGroupLabel className="text-muted-foreground font-medium">{label}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {pages.map((page) => (
@@ -100,11 +98,7 @@ export const DocsSidebar = ({
                   <SidebarMenuButton
                     asChild
                     className={MENU_BUTTON_CLS}
-                    isActive={
-                      href === ROUTES.DOCS
-                        ? pathname === href
-                        : pathname.startsWith(href)
-                    }
+                    isActive={href === ROUTES.DOCS ? pathname === href : pathname.startsWith(href)}
                   >
                     <Link href={href}>
                       <span className="absolute inset-0 flex w-(--sidebar-menu-width) bg-transparent" />
@@ -126,20 +120,11 @@ export const DocsSidebar = ({
 
           const folderIndexUrl = `${ROUTES.DOCS}/${item.$id ?? ""}`;
           const pages = isComponentsFolder(item)
-            ? getAllPagesFromFolder(item).filter(
-                (page) => page.url !== ROUTES.DOCS_COMPONENTS
-              )
-            : getPagesFromFolder(item).filter(
-                (page) => page.url !== folderIndexUrl
-              );
+            ? getAllPagesFromFolder(item).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS)
+            : getPagesFromFolder(item).filter((page) => page.url !== folderIndexUrl);
 
           return (
-            <SidebarPageGroup
-              key={item.$id}
-              label={item.name}
-              pages={pages}
-              pathname={pathname}
-            />
+            <SidebarPageGroup key={item.$id} label={item.name} pages={pages} pathname={pathname} />
           );
         })}
         <div className="from-background via-background/80 to-background/50 sticky -bottom-1 z-10 h-16 shrink-0 bg-linear-to-t blur-xs" />

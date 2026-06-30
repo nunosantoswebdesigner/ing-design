@@ -3,11 +3,7 @@ import { CopyButton } from "@/components/copy-button";
 import { getIconForLanguageExtension } from "@/components/icons";
 import { formatCode } from "@/lib/format-code";
 import { highlightCode } from "@/lib/highlight-code";
-import {
-  getDemoSource,
-  getRegistrySource,
-  readOptionalFromRoot,
-} from "@/lib/registry";
+import { getDemoSource, getRegistrySource, readOptionalFromRoot } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
 const ComponentCode = ({
@@ -85,16 +81,8 @@ export const ComponentSource = async ({
   }
 
   return (
-    <CodeCollapsibleWrapper
-      className={className}
-      navTriggerClassName={cn(!title && "top-3")}
-    >
-      <ComponentCode
-        code={code}
-        highlightedCode={highlightedCode}
-        language={lang}
-        title={title}
-      />
+    <CodeCollapsibleWrapper className={className} navTriggerClassName={cn(!title && "top-3")}>
+      <ComponentCode code={code} highlightedCode={highlightedCode} language={lang} title={title} />
     </CodeCollapsibleWrapper>
   );
 };

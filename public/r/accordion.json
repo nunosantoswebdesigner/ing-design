@@ -3,10 +3,7 @@
   "name": "accordion",
   "title": "Accordion",
   "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/accordion.tsx",

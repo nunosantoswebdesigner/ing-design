@@ -34,7 +34,7 @@ const Dialog = ({
 
       lastOpen.current = open;
     },
-    [playClose, playOpen, sounds]
+    [playClose, playOpen, sounds],
   );
 
   useEffect(() => {
@@ -50,43 +50,25 @@ const Dialog = ({
       playStateSound(open);
       onOpenChange?.(open);
     },
-    [onOpenChange, playStateSound]
+    [onOpenChange, playStateSound],
   );
 
   if (!sounds) {
-    return (
-      <DialogPrimitive.Root
-        data-slot="dialog"
-        onOpenChange={onOpenChange}
-        {...props}
-      />
-    );
+    return <DialogPrimitive.Root data-slot="dialog" onOpenChange={onOpenChange} {...props} />;
   }
 
-  return (
-    <DialogPrimitive.Root
-      data-slot="dialog"
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
-  );
+  return <DialogPrimitive.Root data-slot="dialog" onOpenChange={handleOpenChange} {...props} />;
 };
 
-const DialogTrigger = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) => (
+const DialogTrigger = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) => (
   <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 );
 
-const DialogPortal = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) => (
+const DialogPortal = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) => (
   <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 );
 
-const DialogClose = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) => (
+const DialogClose = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) => (
   <DialogPrimitive.Close data-slot="dialog-close" {...props} />
 );
 
@@ -98,7 +80,7 @@ const DialogOverlay = ({
     data-slot="dialog-overlay"
     className={cn(
       "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
-      className
+      className,
     )}
     {...props}
   />
@@ -118,7 +100,7 @@ const DialogContent = ({
       data-slot="dialog-content"
       className={cn(
         "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
-        className
+        className,
       )}
       {...props}
     >
@@ -136,10 +118,7 @@ const DialogContent = ({
   </DialogPortal>
 );
 
-const DialogHeader = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => (
+const DialogHeader = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     data-slot="dialog-header"
     className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
@@ -147,16 +126,10 @@ const DialogHeader = ({
   />
 );
 
-const DialogFooter = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => (
+const DialogFooter = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     data-slot="dialog-footer"
-    className={cn(
-      "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
-      className
-    )}
+    className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
     {...props}
   />
 );

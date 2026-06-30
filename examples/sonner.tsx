@@ -39,8 +39,8 @@ export function SonnerDemo() {
           variant="outline"
           onClick={() =>
             toast("File deleted.", {
-              description: "report.pdf was moved to trash.",
               action: { label: "Undo", onClick: () => toast.success("Restored.") },
+              description: "report.pdf was moved to trash.",
             })
           }
         >

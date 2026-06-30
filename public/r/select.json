@@ -3,10 +3,7 @@
   "name": "select",
   "title": "Select",
   "description": "A custom dropdown for selecting a single value — with groups, labels, separators, and keyboard navigation.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/select.tsx",

@@ -108,7 +108,9 @@ export const FigmaDiffButton = ({
   const isMobile = useIsMobile();
 
   const runFetch = useCallback(async () => {
-    if (!componentName) {return;}
+    if (!componentName) {
+      return;
+    }
     setFetchState({ status: "loading" });
     try {
       const res = await fetch(`/api/diff/figma/${theme}/${componentName}`);

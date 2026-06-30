@@ -67,7 +67,7 @@ const Volume2Icon = forwardRef<Volume2IconHandle, Volume2IconProps>(
           controls.start("animate");
         }
       },
-      [controls, onMouseEnter]
+      [controls, onMouseEnter],
     );
 
     const handleMouseLeave = useCallback(
@@ -78,7 +78,7 @@ const Volume2Icon = forwardRef<Volume2IconHandle, Volume2IconProps>(
           controls.start("normal");
         }
       },
-      [controls, onMouseLeave]
+      [controls, onMouseLeave],
     );
 
     return (
@@ -115,7 +115,7 @@ const Volume2Icon = forwardRef<Volume2IconHandle, Volume2IconProps>(
         </svg>
       </div>
     );
-  }
+  },
 );
 
 Volume2Icon.displayName = "Volume2Icon";

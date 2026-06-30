@@ -3,9 +3,7 @@
   "name": "tooltip",
   "title": "Tooltip",
   "description": "A floating label that appears on hover or focus, with directional slide animations and an arrow pointer.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/tooltip.tsx",

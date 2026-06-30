@@ -3,10 +3,7 @@
   "name": "breadcrumb",
   "title": "Breadcrumb",
   "description": "Shows the user's current location within a site hierarchy and provides navigation links to parent pages.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/breadcrumb.tsx",

@@ -10,9 +10,15 @@ export function TabsDemo() {
       {/* Basic */}
       <Tabs defaultValue="preview">
         <TabsList>
-          <TabsTrigger value="preview" sound="tabSwitch">Preview</TabsTrigger>
-          <TabsTrigger value="code" sound="tabSwitch">Code</TabsTrigger>
-          <TabsTrigger value="docs" sound="tabSwitch">Docs</TabsTrigger>
+          <TabsTrigger value="preview" sound="tabSwitch">
+            Preview
+          </TabsTrigger>
+          <TabsTrigger value="code" sound="tabSwitch">
+            Code
+          </TabsTrigger>
+          <TabsTrigger value="docs" sound="tabSwitch">
+            Docs
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="preview">
           <div className="bg-muted/40 flex h-20 items-center justify-center rounded-md border text-sm">
@@ -34,8 +40,12 @@ export function TabsDemo() {
       {/* With icons and card panels */}
       <Tabs defaultValue="account" className="w-full">
         <TabsList className="w-full">
-          <TabsTrigger value="account" className="flex-1" sound="tabSwitch">Account</TabsTrigger>
-          <TabsTrigger value="password" className="flex-1" sound="tabSwitch">Password</TabsTrigger>
+          <TabsTrigger value="account" className="flex-1" sound="tabSwitch">
+            Account
+          </TabsTrigger>
+          <TabsTrigger value="password" className="flex-1" sound="tabSwitch">
+            Password
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="account">
           <Card>
@@ -82,9 +92,15 @@ export function TabsDemo() {
       {/* Disabled trigger */}
       <Tabs defaultValue="active">
         <TabsList>
-          <TabsTrigger value="active" sound="tabSwitch">Active</TabsTrigger>
-          <TabsTrigger value="archived" sound="tabSwitch">Archived</TabsTrigger>
-          <TabsTrigger value="deleted" disabled>Deleted</TabsTrigger>
+          <TabsTrigger value="active" sound="tabSwitch">
+            Active
+          </TabsTrigger>
+          <TabsTrigger value="archived" sound="tabSwitch">
+            Archived
+          </TabsTrigger>
+          <TabsTrigger value="deleted" disabled>
+            Deleted
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="active">
           <div className="text-muted-foreground text-sm">Active items shown here.</div>

@@ -3,13 +3,8 @@
   "name": "calendar",
   "title": "Calendar",
   "description": "A date picker calendar with support for single, multiple, and range selection.",
-  "dependencies": [
-    "react-day-picker",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["react-day-picker", "lucide-react"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/calendar.tsx",

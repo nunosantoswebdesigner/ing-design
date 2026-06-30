@@ -33,7 +33,9 @@ export const DocsShareMenu = ({
   const [posting, setPosting] = useState(false);
 
   const absoluteUrl = useMemo(() => {
-    if (url.startsWith("http")) {return url;}
+    if (url.startsWith("http")) {
+      return url;
+    }
     return `${SITE.URL}${url.startsWith("/") ? url : `/${url}`}`;
   }, [url]);
 
@@ -48,11 +50,13 @@ export const DocsShareMenu = ({
   const urlEncoded = encodeURIComponent(absoluteUrl);
 
   const handlePostToDiscord = useCallback(async () => {
-    if (posting) {return;}
+    if (posting) {
+      return;
+    }
     setPosting(true);
 
     const share = fetch("/api/share/discord", {
-      body: JSON.stringify({ title, description, url: absoluteUrl }),
+      body: JSON.stringify({ description, title, url: absoluteUrl }),
       headers: { "Content-Type": "application/json" },
       method: "POST",
     }).then(async (res) => {

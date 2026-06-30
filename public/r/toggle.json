@@ -3,10 +3,7 @@
   "name": "toggle",
   "title": "Toggle",
   "description": "A two-state button that can be pressed on or off, with sound feedback and multiple visual variants.",
-  "dependencies": [
-    "radix-ui",
-    "class-variance-authority"
-  ],
+  "dependencies": ["radix-ui", "class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/toggle.tsx",

@@ -32,7 +32,7 @@ const Collapsible = ({
 
       lastOpen.current = open;
     },
-    [playCollapse, playExpand, sounds]
+    [playCollapse, playExpand, sounds],
   );
 
   useEffect(() => {
@@ -48,44 +48,30 @@ const Collapsible = ({
       playStateSound(open);
       onOpenChange?.(open);
     },
-    [onOpenChange, playStateSound]
+    [onOpenChange, playStateSound],
   );
 
   if (!sounds) {
     return (
-      <CollapsiblePrimitive.Root
-        data-slot="collapsible"
-        onOpenChange={onOpenChange}
-        {...props}
-      />
+      <CollapsiblePrimitive.Root data-slot="collapsible" onOpenChange={onOpenChange} {...props} />
     );
   }
 
   return (
-    <CollapsiblePrimitive.Root
-      data-slot="collapsible"
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
+    <CollapsiblePrimitive.Root data-slot="collapsible" onOpenChange={handleOpenChange} {...props} />
   );
 };
 
 const CollapsibleTrigger = ({
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) => (
-  <CollapsiblePrimitive.CollapsibleTrigger
-    data-slot="collapsible-trigger"
-    {...props}
-  />
+  <CollapsiblePrimitive.CollapsibleTrigger data-slot="collapsible-trigger" {...props} />
 );
 
 const CollapsibleContent = ({
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) => (
-  <CollapsiblePrimitive.CollapsibleContent
-    data-slot="collapsible-content"
-    {...props}
-  />
+  <CollapsiblePrimitive.CollapsibleContent data-slot="collapsible-content" {...props} />
 );
 
 export { Collapsible, CollapsibleContent, CollapsibleTrigger };

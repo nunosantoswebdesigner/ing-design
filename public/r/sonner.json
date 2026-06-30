@@ -3,11 +3,7 @@
   "name": "sonner",
   "title": "Sonner",
   "description": "Toast notifications powered by Sonner, themed to match your design system.",
-  "dependencies": [
-    "sonner",
-    "next-themes",
-    "lucide-react"
-  ],
+  "dependencies": ["sonner", "next-themes", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/sonner.tsx",

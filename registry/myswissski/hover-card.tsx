@@ -1,5 +1,1 @@
-export {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent,
-} from "@/registry/new-york/hover-card";
+export { HoverCard, HoverCardTrigger, HoverCardContent } from "@/registry/new-york/hover-card";

@@ -32,7 +32,9 @@ const CATEGORY_LABEL: Record<TokenCategory, string> = {
 // ─── Color swatch ─────────────────────────────────────────────────────────────
 
 const Swatch = ({ hex, className }: { hex?: string; className?: string }) => {
-  if (!hex) {return null;}
+  if (!hex) {
+    return null;
+  }
   return (
     <span
       className={cn(
@@ -209,7 +211,9 @@ export const FigmaDiffView = ({ data }: { data: DiffResult }) => {
       <div className="overflow-y-auto max-h-[340px]">
         {categories.map((cat) => {
           const rows = filtered.filter((t) => t.category === cat);
-          if (rows.length === 0) {return null;}
+          if (rows.length === 0) {
+            return null;
+          }
           return (
             <div key={cat}>
               <div className="sticky top-0 z-10 bg-muted/80 backdrop-blur-sm px-4 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground border-b border-border/50">

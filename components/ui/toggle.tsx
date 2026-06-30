@@ -33,7 +33,7 @@ const toggleVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 data-[state=on]:bg-secondary/60",
       },
     },
-  }
+  },
 );
 
 const Toggle = ({
@@ -42,8 +42,7 @@ const Toggle = ({
   size,
   onPressedChange,
   ...props
-}: React.ComponentProps<typeof TogglePrimitive.Root> &
-  VariantProps<typeof toggleVariants>) => {
+}: React.ComponentProps<typeof TogglePrimitive.Root> & VariantProps<typeof toggleVariants>) => {
   const playOn = useFeedback({ sound: "toggleOn" });
   const playOff = useFeedback({ sound: "toggleOff" });
 

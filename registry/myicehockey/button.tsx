@@ -21,10 +21,8 @@ const buttonVariants = cva(
         sm: "h-8 gap-1.5 px-3 has-[>svg]:px-2.5",
       },
       variant: {
-        default:
-          "bg-blue-700 text-white hover:bg-blue-900 shadow-lg shadow-blue-900/20",
-        destructive:
-          "bg-red-600 text-white hover:bg-red-700",
+        default: "bg-blue-700 text-white hover:bg-blue-900 shadow-lg shadow-blue-900/20",
+        destructive: "bg-red-600 text-white hover:bg-red-700",
         ghost:
           "hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-950/30 dark:hover:text-blue-300",
         link: "text-blue-600 underline-offset-4 hover:underline",
@@ -34,22 +32,15 @@ const buttonVariants = cva(
           "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-950/50 dark:text-blue-200 dark:hover:bg-blue-950",
       },
     },
-  }
+  },
 );
 
 export interface ButtonProps
-  extends React.ComponentProps<"button">,
-    VariantProps<typeof buttonVariants> {
+  extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
-const Button = ({
-  className,
-  variant,
-  size,
-  asChild = false,
-  ...props
-}: ButtonProps) => {
+const Button = ({ className, variant, size, asChild = false, ...props }: ButtonProps) => {
   const Comp = asChild ? Slot.Root : "button";
 
   return (

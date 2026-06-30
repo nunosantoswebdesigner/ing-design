@@ -3,9 +3,7 @@
   "name": "switch",
   "title": "Switch",
   "description": "A binary toggle control with smooth thumb animation and distinct on/off audio feedback.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/switch.tsx",

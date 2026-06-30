@@ -3,9 +3,7 @@
   "name": "aspect-ratio",
   "title": "Aspect Ratio",
   "description": "Displays content within a desired ratio, preventing layout shift as media loads.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/aspect-ratio.tsx",

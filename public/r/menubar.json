@@ -3,10 +3,7 @@
   "name": "menubar",
   "title": "Menubar",
   "description": "A persistent horizontal menu bar with dropdown menus — checkboxes, radio groups, sub-menus, and keyboard shortcuts.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/menubar.tsx",

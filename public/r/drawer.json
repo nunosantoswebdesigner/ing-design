@@ -3,9 +3,7 @@
   "name": "drawer",
   "title": "Drawer",
   "description": "A panel that slides in from any edge of the screen — draggable on touch, dismissable by overlay click or swipe.",
-  "dependencies": [
-    "vaul"
-  ],
+  "dependencies": ["vaul"],
   "files": [
     {
       "path": "registry/new-york/drawer.tsx",

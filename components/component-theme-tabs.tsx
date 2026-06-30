@@ -8,9 +8,7 @@ import { DEFAULT_REGISTRY_THEME_ID, REGISTRY_THEMES } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 
 // Marker component — props are consumed by ComponentThemeTabs, never rendered directly
-export const ThemeTab = (
-  _: React.PropsWithChildren<{ name: string }>
-) => null;
+export const ThemeTab = (_: React.PropsWithChildren<{ name: string }>) => null;
 
 export const ComponentThemeTabs = ({
   children,
@@ -28,7 +26,7 @@ export const ComponentThemeTabs = ({
     React.Children.forEach(children, (child) => {
       if (React.isValidElement(child)) {
         const props = child.props as { name?: string; children?: React.ReactNode };
-        if (props.name) map.set(props.name, props.children);
+        if (props.name) {map.set(props.name, props.children);}
       }
     });
     return map;
@@ -37,16 +35,16 @@ export const ComponentThemeTabs = ({
   const baseContent = overrides.get(DEFAULT_REGISTRY_THEME_ID);
 
   const tabs = REGISTRY_THEMES.map((theme) => ({
-    id: theme.id,
-    label: theme.label,
     colorTheme: theme.colorTheme,
     content: overrides.has(theme.id) ? overrides.get(theme.id) : baseContent,
+    id: theme.id,
     inherits: !overrides.has(theme.id),
+    label: theme.label,
   }));
 
-  if (!baseContent) return null;
+  if (!baseContent) {return null;}
 
-  const activeTab = tabs.find((t) => t.id === themeParam) ? themeParam! : tabs[0].id;
+  const activeTab = tabs.some((t) => t.id === themeParam) ? themeParam! : tabs[0].id;
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());

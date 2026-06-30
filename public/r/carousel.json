@@ -3,13 +3,8 @@
   "name": "carousel",
   "title": "Carousel",
   "description": "A swipeable slideshow for cycling through content — images, cards, or any elements.",
-  "dependencies": [
-    "embla-carousel-react",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["embla-carousel-react", "lucide-react"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/carousel.tsx",

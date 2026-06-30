@@ -32,71 +32,66 @@ const headVariants: Variants = {
   normal: { d: "m12 5 7 7-7 7", translateX: 0 },
 };
 
-export const ArrowRightIcon = forwardRef<
-  ArrowRightIconHandle,
-  ArrowRightIconProps
->(({ className, onMouseEnter, onMouseLeave, size = 18, ...props }, ref) => {
-  const controls = useAnimation();
-  const controlledRef = useRef(false);
+export const ArrowRightIcon = forwardRef<ArrowRightIconHandle, ArrowRightIconProps>(
+  ({ className, onMouseEnter, onMouseLeave, size = 18, ...props }, ref) => {
+    const controls = useAnimation();
+    const controlledRef = useRef(false);
 
-  useImperativeHandle(ref, () => {
-    controlledRef.current = true;
-    return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
-    };
-  });
+    useImperativeHandle(ref, () => {
+      controlledRef.current = true;
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
-  const handleMouseEnter = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (controlledRef.current) {
-        onMouseEnter?.(event);
-        return;
-      }
+    const handleMouseEnter = useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        if (controlledRef.current) {
+          onMouseEnter?.(event);
+          return;
+        }
 
-      void controls.start("animate");
-    },
-    [controls, onMouseEnter]
-  );
+        void controls.start("animate");
+      },
+      [controls, onMouseEnter],
+    );
 
-  const handleMouseLeave = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (controlledRef.current) {
-        onMouseLeave?.(event);
-        return;
-      }
+    const handleMouseLeave = useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        if (controlledRef.current) {
+          onMouseLeave?.(event);
+          return;
+        }
 
-      void controls.start("normal");
-    },
-    [controls, onMouseLeave]
-  );
+        void controls.start("normal");
+      },
+      [controls, onMouseLeave],
+    );
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <svg
-        fill="none"
-        height={size}
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-        width={size}
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <motion.path animate={controls} d="M5 12h14" variants={shaftVariants} />
-        <motion.path
-          animate={controls}
-          d="m12 5 7 7-7 7"
-          variants={headVariants}
-        />
-      </svg>
-    </div>
-  );
-});
+        <svg
+          fill="none"
+          height={size}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width={size}
+        >
+          <motion.path animate={controls} d="M5 12h14" variants={shaftVariants} />
+          <motion.path animate={controls} d="m12 5 7 7-7 7" variants={headVariants} />
+        </svg>
+      </div>
+    );
+  },
+);
 
 ArrowRightIcon.displayName = "ArrowRightIcon";

@@ -7,9 +7,7 @@ export function AlertDemo() {
     <Alert className="w-full max-w-sm">
       <Terminal className="size-4" />
       <AlertTitle>Heads up!</AlertTitle>
-      <AlertDescription>
-        You can add components to your app using the CLI.
-      </AlertDescription>
+      <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
     </Alert>
   );
 }

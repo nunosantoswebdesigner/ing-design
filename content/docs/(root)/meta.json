@@ -1,4 +1,10 @@
 {
   "title": "Get Started",
-  "pages": ["index", "[Installation](/docs/installation)", "[Documentation](/docs/documentation)", "[Libraries](/docs/libraries)", "[Themes](/docs/themes)"]
+  "pages": [
+    "index",
+    "[Installation](/docs/installation)",
+    "[Documentation](/docs/documentation)",
+    "[Libraries](/docs/libraries)",
+    "[Themes](/docs/themes)"
+  ]
 }

@@ -3,10 +3,7 @@
   "name": "dialog",
   "title": "Dialog",
   "description": "A modal overlay that focuses user attention on a task or message, blocking interaction with the rest of the page until dismissed.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/dialog.tsx",

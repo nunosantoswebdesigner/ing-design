@@ -52,7 +52,7 @@ const ComponentIcon = forwardRef<ComponentIconHandle, ComponentIconProps>(
           controls.start("animate");
         }
       },
-      [controls, onMouseEnter]
+      [controls, onMouseEnter],
     );
 
     const handleMouseLeave = useCallback(
@@ -63,7 +63,7 @@ const ComponentIcon = forwardRef<ComponentIconHandle, ComponentIconProps>(
           controls.start("normal");
         }
       },
-      [controls, onMouseLeave]
+      [controls, onMouseLeave],
     );
 
     return (
@@ -111,7 +111,7 @@ const ComponentIcon = forwardRef<ComponentIconHandle, ComponentIconProps>(
         </svg>
       </div>
     );
-  }
+  },
 );
 
 ComponentIcon.displayName = "ComponentIcon";

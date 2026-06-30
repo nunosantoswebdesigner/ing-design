@@ -28,9 +28,7 @@ const catalogLinkset = (origin: string) => {
             type: "text/markdown",
           },
         ],
-        "service-desc": [
-          { href: `${base}${ROUTES.OPENAPI}`, type: "application/json" },
-        ],
+        "service-desc": [{ href: `${base}${ROUTES.OPENAPI}`, type: "application/json" }],
         "service-doc": [
           { href: `${base}${ROUTES.DOCS}`, type: "text/html" },
           { href: `${base}${ROUTES.LLMS}`, type: "text/plain" },
@@ -38,19 +36,13 @@ const catalogLinkset = (origin: string) => {
           { href: `${base}${homeContentRoute}`, type: "text/markdown" },
           { href: LINK.SHADCN_MCP_DOCS, type: "text/html" },
         ],
-        status: [
-          { href: `${base}${ROUTES.API_STATUS}`, type: "application/json" },
-        ],
+        status: [{ href: `${base}${ROUTES.API_STATUS}`, type: "application/json" }],
       },
       {
         anchor: `${base}${ROUTES.REGISTRY}`,
-        "service-desc": [
-          { href: `${base}${ROUTES.OPENAPI}`, type: "application/json" },
-        ],
+        "service-desc": [{ href: `${base}${ROUTES.OPENAPI}`, type: "application/json" }],
         "service-doc": [{ href: `${base}${ROUTES.DOCS}`, type: "text/html" }],
-        status: [
-          { href: `${base}${ROUTES.API_STATUS}`, type: "application/json" },
-        ],
+        status: [{ href: `${base}${ROUTES.API_STATUS}`, type: "application/json" }],
       },
     ],
   };

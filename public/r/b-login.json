@@ -4,12 +4,7 @@
   "title": "Login",
   "description": "Full-page login block with card, split, and centered layout variants.",
   "dependencies": [],
-  "registryDependencies": [
-    "button",
-    "input",
-    "label",
-    "e-auth"
-  ],
+  "registryDependencies": ["button", "input", "label", "e-auth"],
   "files": [
     {
       "path": "registry/new-york/b-login.tsx",

@@ -49,8 +49,7 @@ export function KbdDemo() {
 
       {/* Inline in text */}
       <p className="text-sm text-muted-foreground">
-        Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open the command menu, or{" "}
-        <Kbd>Esc</Kbd> to close it.
+        Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open the command menu, or <Kbd>Esc</Kbd> to close it.
       </p>
     </div>
   );

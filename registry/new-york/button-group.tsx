@@ -4,11 +4,7 @@ interface ButtonGroupProps extends React.ComponentProps<"div"> {
   orientation?: "horizontal" | "vertical";
 }
 
-const ButtonGroup = ({
-  className,
-  orientation = "horizontal",
-  ...props
-}: ButtonGroupProps) => (
+const ButtonGroup = ({ className, orientation = "horizontal", ...props }: ButtonGroupProps) => (
   <div
     data-slot="button-group"
     data-orientation={orientation}
@@ -34,7 +30,7 @@ const ButtonGroup = ({
             "[&>[data-slot=button]:not(:first-child):not(:last-child)]:rounded-none",
             "[&>[data-slot=button]:not(:last-child)]:-mb-px",
           ],
-      className
+      className,
     )}
     {...props}
   />

@@ -3,12 +3,8 @@
   "name": "toggle-group",
   "title": "Toggle Group",
   "description": "A set of toggle buttons with shared variant and size, supporting single or multiple selection.",
-  "dependencies": [
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "toggle"
-  ],
+  "dependencies": ["radix-ui"],
+  "registryDependencies": ["toggle"],
   "files": [
     {
       "path": "registry/new-york/toggle-group.tsx",

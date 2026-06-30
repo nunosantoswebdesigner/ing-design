@@ -3,9 +3,7 @@
   "name": "slider",
   "title": "Slider",
   "description": "A draggable input for selecting a numeric value or range, with support for steps, vertical orientation, and audio feedback.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/slider.tsx",

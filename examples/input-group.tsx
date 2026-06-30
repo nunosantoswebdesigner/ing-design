@@ -22,9 +22,7 @@ export function InputGroupDemo() {
         <InputGroupText>
           <Globe />
         </InputGroupText>
-        <InputGroupText className="text-muted-foreground/60">
-          https://
-        </InputGroupText>
+        <InputGroupText className="text-muted-foreground/60">https://</InputGroupText>
         <Input placeholder="example.com" />
       </InputGroup>
 

@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 import registry from "@/registry.json";
 import { cn } from "@/lib/utils";
@@ -7,9 +7,7 @@ import { cn } from "@/lib/utils";
 type RegistryItem = (typeof registry.items)[number];
 
 const formatThemeName = (folder: string) =>
-  folder
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  folder.replaceAll(/[-_]/g, " ").replaceAll(/\b\w/g, (c) => c.toUpperCase());
 
 const getThemes = () => {
   const registryDir = path.join(process.cwd(), "registry");
@@ -23,13 +21,11 @@ const getThemes = () => {
         .filter((f) => f.endsWith(".tsx"))
         .map((f) => {
           const name = f.replace(".tsx", "");
-          const meta: RegistryItem | undefined = registry.items.find(
-            (item) => item.name === name
-          );
-          return { name, description: meta?.description ?? null };
+          const meta: RegistryItem | undefined = registry.items.find((item) => item.name === name);
+          return { description: meta?.description ?? null, name };
         });
 
-      return { folder: d.name, label: formatThemeName(d.name), components };
+      return { components, folder: d.name, label: formatThemeName(d.name) };
     });
 };
 
@@ -52,19 +48,14 @@ export const RegistryThemesList = () => {
           <div
             className={cn(
               "rounded-xl border divide-y overflow-hidden",
-              components.length === 0 && "opacity-50"
+              components.length === 0 && "opacity-50",
             )}
           >
             {components.length === 0 ? (
-              <p className="px-4 py-3 text-sm text-muted-foreground">
-                No components yet.
-              </p>
+              <p className="px-4 py-3 text-sm text-muted-foreground">No components yet.</p>
             ) : (
               components.map((c) => (
-                <div
-                  key={c.name}
-                  className="flex items-center justify-between px-4 py-2.5 text-sm"
-                >
+                <div key={c.name} className="flex items-center justify-between px-4 py-2.5 text-sm">
                   <code className="font-mono text-[0.8rem]">{c.name}</code>
                   {c.description && (
                     <span className="text-muted-foreground text-xs text-right max-w-xs">

@@ -3,10 +3,7 @@
   "name": "sheet",
   "title": "Sheet",
   "description": "A modal panel that slides in from any edge of the screen — for navigation, settings, and focused tasks.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/sheet.tsx",

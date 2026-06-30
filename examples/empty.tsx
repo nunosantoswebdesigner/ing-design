@@ -1,13 +1,7 @@
 import { Inbox } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyAction,
-  EmptyDescription,
-  EmptyIcon,
-  EmptyTitle,
-} from "@/components/ui/empty";
+import { Empty, EmptyAction, EmptyDescription, EmptyIcon, EmptyTitle } from "@/components/ui/empty";
 
 export function EmptyDemo() {
   return (
@@ -17,8 +11,7 @@ export function EmptyDemo() {
       </EmptyIcon>
       <EmptyTitle>No messages yet</EmptyTitle>
       <EmptyDescription>
-        When you receive messages they'll appear here. Start a conversation to
-        get going.
+        When you receive messages they'll appear here. Start a conversation to get going.
       </EmptyDescription>
       <EmptyAction>
         <Button>New message</Button>

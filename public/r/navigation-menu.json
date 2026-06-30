@@ -3,11 +3,7 @@
   "name": "navigation-menu",
   "title": "Navigation Menu",
   "description": "A horizontal navigation bar with animated flyout panels, link groups, and a shared viewport.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react",
-    "class-variance-authority"
-  ],
+  "dependencies": ["radix-ui", "lucide-react", "class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/navigation-menu.tsx",

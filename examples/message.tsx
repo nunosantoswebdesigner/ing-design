@@ -44,14 +44,13 @@ export function MessageDemo() {
             <Bubble variant="secondary">
               <BubbleContent>
                 ING Design is a shadcn-based registry. Each component lives in{" "}
-                <code>registry/new-york/</code> and can be installed via the
-                CLI.
+                <code>registry/new-york/</code> and can be installed via the CLI.
               </BubbleContent>
             </Bubble>
             <Bubble variant="secondary">
               <BubbleContent>
-                It supports multiple themes — new-york, force8, myswissski, and
-                myicehockey — each with its own token overrides.
+                It supports multiple themes — new-york, force8, myswissski, and myicehockey — each
+                with its own token overrides.
               </BubbleContent>
             </Bubble>
             <MessageFooter>

@@ -3,12 +3,8 @@
   "name": "pagination",
   "title": "Pagination",
   "description": "Navigation controls for moving between pages with numbered links, previous/next, and ellipsis.",
-  "dependencies": [
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/pagination.tsx",

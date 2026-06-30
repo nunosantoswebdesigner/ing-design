@@ -10,13 +10,7 @@
   "githubUrl": "https://github.com/Aniket-508/ogimagecn",
   "githubUsername": "Aniket-508",
   "distribution": "open-source",
-  "categories": [
-    "react",
-    "nextjs",
-    "tailwind",
-    "shadcn-registry",
-    "component-library"
-  ],
+  "categories": ["react", "nextjs", "tailwind", "shadcn-registry", "component-library"],
   "installExample": "npx shadcn@latest add @ogimagecn/simple",
   "sampleComponents": ["simple"],
   "features": [

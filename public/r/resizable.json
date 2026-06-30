@@ -3,10 +3,7 @@
   "name": "resizable",
   "title": "Resizable",
   "description": "Draggable split panels for horizontal and vertical layouts.",
-  "dependencies": [
-    "react-resizable-panels",
-    "lucide-react"
-  ],
+  "dependencies": ["react-resizable-panels", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/resizable.tsx",

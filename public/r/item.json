@@ -3,9 +3,7 @@
   "name": "item",
   "title": "Item",
   "description": "A composable row for lists, settings, and navigation — combines an icon, label, description, and trailing action slot.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/item.tsx",

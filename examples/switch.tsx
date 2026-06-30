@@ -37,9 +37,9 @@ export function SwitchDemo() {
       {/* Group */}
       <div className="flex flex-col gap-3 rounded-lg border p-4">
         {[
-          { id: "sw-email", label: "Email digest", defaultChecked: true },
-          { id: "sw-sms", label: "SMS alerts", defaultChecked: false },
-          { id: "sw-slack", label: "Slack messages", defaultChecked: true },
+          { defaultChecked: true, id: "sw-email", label: "Email digest" },
+          { defaultChecked: false, id: "sw-sms", label: "SMS alerts" },
+          { defaultChecked: true, id: "sw-slack", label: "Slack messages" },
         ].map(({ id, label, defaultChecked }) => (
           <div key={id} className="flex items-center justify-between">
             <Label htmlFor={id}>{label}</Label>

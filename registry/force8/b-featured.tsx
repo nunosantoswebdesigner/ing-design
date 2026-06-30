@@ -5,21 +5,12 @@ import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import type { ChartConfig } from '@/components/ui/chart';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable, type DataTableRow } from "@/components/ui/e-data-table";
+import { DataTable } from '@/components/ui/e-data-table';
+import type { DataTableRow } from '@/components/ui/e-data-table';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -54,67 +45,157 @@ export interface FeaturedBlockProps {
 
 const DEFAULT_STATS: FeaturedStat[] = [
   {
+    description: "Across all disciplines",
     label: "Registered Athletes",
+    subtitle: "Trending up this season",
     trend: "+12.5%",
     trendUp: true,
     value: "1,284",
-    subtitle: "Trending up this season",
-    description: "Across all disciplines",
   },
   {
+    description: "Review entry requirements",
     label: "Race Entries",
+    subtitle: "Down 8% this period",
     trend: "-8%",
     trendUp: false,
     value: "3,842",
-    subtitle: "Down 8% this period",
-    description: "Review entry requirements",
   },
   {
+    description: "Targets exceeded this month",
     label: "Sessions Completed",
+    subtitle: "Strong training retention",
     trend: "+18.3%",
     trendUp: true,
     value: "24,610",
-    subtitle: "Strong training retention",
-    description: "Targets exceeded this month",
   },
   {
+    description: "Meets season projections",
     label: "Podium Rate",
+    subtitle: "Steady performance increase",
     trend: "+4.5%",
     trendUp: true,
     value: "38.2%",
-    subtitle: "Steady performance increase",
-    description: "Meets season projections",
   },
 ];
 
 const DEFAULT_CHART_DATA: FeaturedChartPoint[] = [
-  { date: "Nov 4",  visitors: 1200 },
+  { date: "Nov 4", visitors: 1200 },
   { date: "Nov 11", visitors: 2800 },
   { date: "Nov 18", visitors: 4100 },
   { date: "Nov 25", visitors: 5600 },
-  { date: "Dec 2",  visitors: 7400 },
-  { date: "Dec 9",  visitors: 9800 },
-  { date: "Dec 16", visitors: 12300 },
-  { date: "Dec 23", visitors: 15700 },
-  { date: "Jan 6",  visitors: 18200 },
-  { date: "Jan 13", visitors: 14900 },
-  { date: "Jan 20", visitors: 17300 },
-  { date: "Jan 27", visitors: 20100 },
-  { date: "Feb 3",  visitors: 22800 },
-  { date: "Feb 10", visitors: 24610 },
+  { date: "Dec 2", visitors: 7400 },
+  { date: "Dec 9", visitors: 9800 },
+  { date: "Dec 16", visitors: 12_300 },
+  { date: "Dec 23", visitors: 15_700 },
+  { date: "Jan 6", visitors: 18_200 },
+  { date: "Jan 13", visitors: 14_900 },
+  { date: "Jan 20", visitors: 17_300 },
+  { date: "Jan 27", visitors: 20_100 },
+  { date: "Feb 3", visitors: 22_800 },
+  { date: "Feb 10", visitors: 24_610 },
 ];
 
 const DEFAULT_TABLE_ROWS: DataTableRow[] = [
-  { id: "1",  header: "Marco Odermatt",       avatarSrc: "https://i.pravatar.cc/40?img=3",  sectionType: "Giant Slalom", status: "in-process", target: 24, limit: 20, reviewer: "Helmut Krug" },
-  { id: "2",  header: "Mikaela Shiffrin",     avatarSrc: "https://i.pravatar.cc/40?img=5",  sectionType: "Slalom",       status: "done",       target: 28, limit: 26, reviewer: "Mike Day" },
-  { id: "3",  header: "Sofia Goggia",         avatarSrc: "https://i.pravatar.cc/40?img=10", sectionType: "Downhill",     status: "cancelled",  target: 18, limit: 12, reviewer: "M. Blardone" },
-  { id: "4",  header: "Alexis Pinturault",    avatarSrc: "https://i.pravatar.cc/40?img=12", sectionType: "All-round",    status: "pending",    target: 22, limit: 18, reviewer: null },
-  { id: "5",  header: "Lara Gut-Behrami",     avatarSrc: "https://i.pravatar.cc/40?img=9",  sectionType: "Super-G",      status: "done",       target: 20, limit: 17, reviewer: "M. Blardone" },
-  { id: "6",  header: "Henrik Kristoffersen", avatarSrc: "https://i.pravatar.cc/40?img=15", sectionType: "Slalom",       status: "in-process", target: 26, limit: 22, reviewer: "Helmut Krug" },
-  { id: "7",  header: "Petra Vlhová",         avatarSrc: "https://i.pravatar.cc/40?img=11", sectionType: "Slalom",       status: "pending",    target: 24, limit: 20, reviewer: null },
-  { id: "8",  header: "Corinne Suter",        avatarSrc: "https://i.pravatar.cc/40?img=8",  sectionType: "Downhill",     status: "done",       target: 16, limit: 14, reviewer: "M. Blardone" },
-  { id: "9",  header: "Matthias Mayer",       avatarSrc: "https://i.pravatar.cc/40?img=20", sectionType: "Super-G",      status: "cancelled",  target: 14, limit: 10, reviewer: "Christian Pravda" },
-  { id: "10", header: "Wendy Holdener",       avatarSrc: "https://i.pravatar.cc/40?img=13", sectionType: "All-round",    status: "done",       target: 22, limit: 20, reviewer: null },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=3",
+    header: "Marco Odermatt",
+    id: "1",
+    limit: 20,
+    reviewer: "Helmut Krug",
+    sectionType: "Giant Slalom",
+    status: "in-process",
+    target: 24,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=5",
+    header: "Mikaela Shiffrin",
+    id: "2",
+    limit: 26,
+    reviewer: "Mike Day",
+    sectionType: "Slalom",
+    status: "done",
+    target: 28,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=10",
+    header: "Sofia Goggia",
+    id: "3",
+    limit: 12,
+    reviewer: "M. Blardone",
+    sectionType: "Downhill",
+    status: "cancelled",
+    target: 18,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=12",
+    header: "Alexis Pinturault",
+    id: "4",
+    limit: 18,
+    reviewer: null,
+    sectionType: "All-round",
+    status: "pending",
+    target: 22,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=9",
+    header: "Lara Gut-Behrami",
+    id: "5",
+    limit: 17,
+    reviewer: "M. Blardone",
+    sectionType: "Super-G",
+    status: "done",
+    target: 20,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=15",
+    header: "Henrik Kristoffersen",
+    id: "6",
+    limit: 22,
+    reviewer: "Helmut Krug",
+    sectionType: "Slalom",
+    status: "in-process",
+    target: 26,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=11",
+    header: "Petra Vlhová",
+    id: "7",
+    limit: 20,
+    reviewer: null,
+    sectionType: "Slalom",
+    status: "pending",
+    target: 24,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=8",
+    header: "Corinne Suter",
+    id: "8",
+    limit: 14,
+    reviewer: "M. Blardone",
+    sectionType: "Downhill",
+    status: "done",
+    target: 16,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=20",
+    header: "Matthias Mayer",
+    id: "9",
+    limit: 10,
+    reviewer: "Christian Pravda",
+    sectionType: "Super-G",
+    status: "cancelled",
+    target: 14,
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/40?img=13",
+    header: "Wendy Holdener",
+    id: "10",
+    limit: 20,
+    reviewer: null,
+    sectionType: "All-round",
+    status: "done",
+    target: 22,
+  },
 ];
 
 // ─── Stat Cards ──────────────────────────────────────────────────────────────
@@ -130,7 +211,7 @@ function StatCards({ stats }: { stats: FeaturedStat[] }) {
               <span
                 className={cn(
                   "inline-flex items-center gap-1 text-xs font-medium",
-                  stat.trendUp ? "text-emerald-600 dark:text-emerald-400" : "text-destructive"
+                  stat.trendUp ? "text-emerald-600 dark:text-emerald-400" : "text-destructive",
                 )}
               >
                 {stat.trendUp ? (
@@ -164,8 +245,8 @@ function StatCards({ stats }: { stats: FeaturedStat[] }) {
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
     color: "var(--foreground)",
+    label: "Visitors",
   },
 } satisfies ChartConfig;
 
@@ -248,10 +329,7 @@ function FeaturedBlock({
   className,
 }: FeaturedBlockProps) {
   return (
-    <div
-      data-slot="featured-block"
-      className={cn("flex flex-col gap-6 p-6", className)}
-    >
+    <div data-slot="featured-block" className={cn("flex flex-col gap-6 p-6", className)}>
       <StatCards stats={stats} />
       <ChartSection
         title={chartTitle}
@@ -265,13 +343,13 @@ function FeaturedBlock({
         description={tableDescription}
         rowsPerPageOptions={rowsPerPageOptions}
         columnLabels={{
-          header:            "Athlete",
-          sectionType:       "Discipline",
-          target:            "Goal",
-          limit:             "Sessions",
-          reviewer:          "Coach",
-          filterPlaceholder: "Filter athletes...",
           assignPlaceholder: "Assign coach",
+          filterPlaceholder: "Filter athletes...",
+          header: "Athlete",
+          limit: "Sessions",
+          reviewer: "Coach",
+          sectionType: "Discipline",
+          target: "Goal",
         }}
       />
     </div>

@@ -30,11 +30,11 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
-  { icon: HomeIcon, label: "Home", active: false },
-  { icon: LayoutDashboardIcon, label: "Dashboard", active: true },
-  { icon: InboxIcon, label: "Inbox", badge: "4", active: false },
-  { icon: UsersIcon, label: "Team", active: false },
-  { icon: SettingsIcon, label: "Settings", active: false },
+  { active: false, icon: HomeIcon, label: "Home" },
+  { active: true, icon: LayoutDashboardIcon, label: "Dashboard" },
+  { active: false, badge: "4", icon: InboxIcon, label: "Inbox" },
+  { active: false, icon: UsersIcon, label: "Team" },
+  { active: false, icon: SettingsIcon, label: "Settings" },
 ];
 
 export function SidebarDemo() {
@@ -69,16 +69,11 @@ export function SidebarDemo() {
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton
-                      isActive={item.active}
-                      tooltip={item.label}
-                    >
+                    <SidebarMenuButton isActive={item.active} tooltip={item.label}>
                       <item.icon />
                       <span>{item.label}</span>
                     </SidebarMenuButton>
-                    {item.badge && (
-                      <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
-                    )}
+                    {item.badge && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

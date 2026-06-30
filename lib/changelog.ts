@@ -14,12 +14,7 @@ export type ChangelogPage = ReturnType<typeof source.getPages>[number] & {
 };
 
 export const getDateFromFile = (slugs: string[]) => {
-  const filePath = path.join(
-    process.cwd(),
-    DOCS_DIR,
-    ...slugs.slice(0, -1),
-    `${slugs.at(-1)}.mdx`
-  );
+  const filePath = path.join(process.cwd(), DOCS_DIR, ...slugs.slice(0, -1), `${slugs.at(-1)}.mdx`);
 
   try {
     const content = fs.readFileSync(filePath, "utf-8");

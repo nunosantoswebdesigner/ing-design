@@ -3,9 +3,7 @@
   "name": "hover-card",
   "title": "Hover Card",
   "description": "A floating card that appears when hovering over a trigger — for previewing content without navigating away.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/hover-card.tsx",

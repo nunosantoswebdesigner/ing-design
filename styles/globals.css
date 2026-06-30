@@ -229,12 +229,22 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @utility scroll-fade-x {
-  mask-image: linear-gradient(to right, transparent 0, black 1rem, black calc(100% - 1rem), transparent 100%);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 1rem,
+    black calc(100% - 1rem),
+    transparent 100%
+  );
 }
 
 @utility scroll-fade-b {
@@ -366,11 +376,7 @@
       width: 2px;
       height: 100%;
       content: "";
-      background-color: color-mix(
-        in oklab,
-        var(--muted-foreground) 50%,
-        transparent
-      );
+      background-color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
     }
   }
 

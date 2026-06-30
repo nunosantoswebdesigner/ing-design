@@ -70,15 +70,11 @@ const parseDocPageUrl = (url: string): DocUrlKind => {
 const searchKeywordsFromUrl = (url: string) => {
   const segments = url.split("/").filter(Boolean);
   return segments.flatMap((segment) =>
-    segment.includes("-") ? [segment, ...segment.split("-")] : [segment]
+    segment.includes("-") ? [segment, ...segment.split("-")] : [segment],
   );
 };
 
-const buildDocPageKeywords = (
-  parsed: DocUrlKind,
-  url: string,
-  breadcrumb: string[]
-): string[] => [
+const buildDocPageKeywords = (parsed: DocUrlKind, url: string, breadcrumb: string[]): string[] => [
   ...(parsed.kind === "page" ? [] : [parsed.kind]),
   ...breadcrumb.filter(Boolean).flatMap((s) => [s, s.toLowerCase()]),
   ...searchKeywordsFromUrl(url),
@@ -133,7 +129,7 @@ const CommandMenuItem = ({
       ref={ref}
       className={cn(
         "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-md border border-transparent px-3! font-medium",
-        className
+        className,
       )}
       {...props}
     >
@@ -172,8 +168,7 @@ export const CommandMenu = ({
   });
 
   const treeGroups = useMemo(() => {
-    const groups: { label: string; pages: { url: string; name: string }[] }[] =
-      [];
+    const groups: { label: string; pages: { url: string; name: string }[] }[] = [];
     for (const item of tree.children) {
       if (item.type !== "folder") {
         continue;
@@ -184,9 +179,7 @@ export const CommandMenu = ({
 
       const pages = (
         isComponentsFolder(item)
-          ? getAllPagesFromFolder(item).filter(
-              (page) => page.url !== ROUTES.DOCS_COMPONENTS
-            )
+          ? getAllPagesFromFolder(item).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS)
           : getPagesFromFolder(item)
       ).map((p) => ({
         name: typeof p.name === "string" ? p.name : String(p.name),
@@ -208,19 +201,17 @@ export const CommandMenu = ({
       const parsed = parseDocPageUrl(item.url);
       if (parsed.kind === "theme") {
         setCopyPayload(
-          `${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/theme-${parsed.slug}`
+          `${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/theme-${parsed.slug}`,
         );
         return;
       }
       if (parsed.kind === "component" || parsed.kind === "template") {
-        setCopyPayload(
-          `${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/${parsed.slug}`
-        );
+        setCopyPayload(`${packageManager} dlx shadcn@latest add ${SITE.REGISTRY}/${parsed.slug}`);
         return;
       }
       setCopyPayload("");
     },
-    [packageManager]
+    [packageManager],
   );
 
   const handleBlockHighlight = useCallback(
@@ -228,7 +219,7 @@ export const CommandMenu = ({
       setShowGoToPage(true);
       setCopyPayload(`${packageManager} dlx shadcn@latest add ${block.name}`);
     },
-    [packageManager]
+    [packageManager],
   );
 
   const runCommand = useCallback((command: () => unknown) => {
@@ -238,22 +229,15 @@ export const CommandMenu = ({
 
   const handleOpenClick = useCallback(() => setOpen(true), []);
 
-  const handleFilter = useCallback(
-    (value: string, search: string, keywords?: string[]) => {
-      const extendValue = `${value} ${keywords?.join(" ") || ""}`;
-      if (extendValue.toLowerCase().includes(search.toLowerCase())) {
-        return 1;
-      }
-      return 0;
-    },
-    []
-  );
+  const handleFilter = useCallback((value: string, search: string, keywords?: string[]) => {
+    const extendValue = `${value} ${keywords?.join(" ") || ""}`;
+    if (extendValue.toLowerCase().includes(search.toLowerCase())) {
+      return 1;
+    }
+    return 0;
+  }, []);
 
-  const renderDocPageItem = (
-    title: string,
-    url: string,
-    breadcrumb: string[]
-  ) => {
+  const renderDocPageItem = (title: string, url: string, breadcrumb: string[]) => {
     const parsed = parseDocPageUrl(url);
     return (
       <CommandMenuItem
@@ -297,11 +281,7 @@ export const CommandMenu = ({
         });
       }
 
-      if (
-        e.key === "c" &&
-        (e.metaKey || e.ctrlKey) &&
-        copyPayload.includes("shadcn@latest")
-      ) {
+      if (e.key === "c" && (e.metaKey || e.ctrlKey) && copyPayload.includes("shadcn@latest")) {
         runCommand(() => {
           copyFeedback();
           copyToClipboard(copyPayload);
@@ -319,7 +299,7 @@ export const CommandMenu = ({
         <Button
           variant="secondary"
           className={cn(
-            "bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
+            "bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64",
           )}
           onClick={handleOpenClick}
           {...props}
@@ -369,38 +349,20 @@ export const CommandMenu = ({
               </CommandGroup>
             )}
             {treeGroups.map((group) => (
-              <CommandGroup
-                key={group.label}
-                className={GROUP_HEADING_CLS}
-                heading={group.label}
-              >
-                {group.pages.map((page) =>
-                  renderDocPageItem(page.name, page.url, [group.label])
-                )}
+              <CommandGroup key={group.label} className={GROUP_HEADING_CLS} heading={group.label}>
+                {group.pages.map((page) => renderDocPageItem(page.name, page.url, [group.label]))}
               </CommandGroup>
             ))}
             {blocks?.length ? (
-              <CommandGroup
-                heading="Blocks"
-                className="p-0! **:[[cmdk-group-heading]]:p-3!"
-              >
+              <CommandGroup heading="Blocks" className="p-0! **:[[cmdk-group-heading]]:p-3!">
                 {blocks.map((block) => (
                   <CommandMenuItem
                     key={block.name}
                     value={block.name}
                     onHighlight={() => handleBlockHighlight(block)}
-                    keywords={[
-                      "block",
-                      block.name,
-                      block.description,
-                      ...block.categories,
-                    ]}
+                    keywords={["block", block.name, block.description, ...block.categories]}
                     onSelect={() =>
-                      runCommand(() =>
-                        router.push(
-                          `/blocks/${block.categories[0]}#${block.name}`
-                        )
-                      )
+                      runCommand(() => router.push(`/blocks/${block.categories[0]}#${block.name}`))
                     }
                   >
                     <SquareDashedIcon />
@@ -419,9 +381,7 @@ export const CommandMenu = ({
             <Kbd className="shrink-0">
               <CornerDownLeftIcon />
             </Kbd>{" "}
-            {showGoToPage ? (
-              <span className="min-w-0 truncate">Go to Page</span>
-            ) : null}
+            {showGoToPage ? <span className="min-w-0 truncate">Go to Page</span> : null}
           </div>
           {copyPayload && (
             <>

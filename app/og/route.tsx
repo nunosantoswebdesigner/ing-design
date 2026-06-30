@@ -43,6 +43,6 @@ export const GET = (request: Request) => {
     {
       height: 630,
       width: 1200,
-    }
+    },
   );
 };

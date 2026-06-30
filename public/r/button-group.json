@@ -3,9 +3,7 @@
   "name": "button-group",
   "title": "Button Group",
   "description": "Connects multiple buttons into a single visual unit, sharing borders and aligned corners.",
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/button-group.tsx",

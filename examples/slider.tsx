@@ -17,13 +17,7 @@ export function SliderDemo() {
           <span>Volume</span>
           <span>{single[0]}%</span>
         </div>
-        <Slider
-          value={single}
-          onValueChange={setSingle}
-          min={0}
-          max={100}
-          sounds
-        />
+        <Slider value={single} onValueChange={setSingle} min={0} max={100} sounds />
       </div>
 
       {/* Range */}
@@ -34,13 +28,7 @@ export function SliderDemo() {
             ${range[0]} – ${range[1]}
           </span>
         </div>
-        <Slider
-          value={range}
-          onValueChange={setRange}
-          min={0}
-          max={100}
-          sounds
-        />
+        <Slider value={range} onValueChange={setRange} min={0} max={100} sounds />
       </div>
 
       {/* Stepped */}
@@ -49,14 +37,7 @@ export function SliderDemo() {
           <span>Step (25)</span>
           <span>{stepped[0]}</span>
         </div>
-        <Slider
-          value={stepped}
-          onValueChange={setStepped}
-          min={0}
-          max={100}
-          step={25}
-          sounds
-        />
+        <Slider value={stepped} onValueChange={setStepped} min={0} max={100} step={25} sounds />
       </div>
 
       {/* Disabled */}
@@ -68,12 +49,7 @@ export function SliderDemo() {
       {/* Vertical */}
       <div className="flex items-end gap-6">
         {[30, 60, 80].map((v, i) => (
-          <Slider
-            key={i}
-            defaultValue={[v]}
-            orientation="vertical"
-            className="h-28"
-          />
+          <Slider key={i} defaultValue={[v]} orientation="vertical" className="h-28" />
         ))}
       </div>
     </div>

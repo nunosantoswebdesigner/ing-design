@@ -27,7 +27,9 @@ export function BubbleDemo() {
 
       {/* All variants */}
       <div className="flex flex-col gap-2">
-        {(["default", "secondary", "muted", "tinted", "outline", "ghost", "destructive"] as const).map((v) => (
+        {(
+          ["default", "secondary", "muted", "tinted", "outline", "ghost", "destructive"] as const
+        ).map((v) => (
           <Bubble key={v} variant={v}>
             <BubbleContent className="capitalize">{v} variant</BubbleContent>
           </Bubble>

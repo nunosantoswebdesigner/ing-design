@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BoldIcon,
-  ItalicIcon,
-  MicIcon,
-  MicOffIcon,
-  StarIcon,
-  UnderlineIcon,
-} from "lucide-react";
+import { BoldIcon, ItalicIcon, MicIcon, MicOffIcon, StarIcon, UnderlineIcon } from "lucide-react";
 import { useState } from "react";
 
 import { Toggle } from "@/components/ui/toggle";

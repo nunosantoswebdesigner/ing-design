@@ -37,8 +37,7 @@ const toLinear = (number: number): number => {
 const getForegroundFromBackground = (rgb: string) => {
   const [r, g, b] = rgb.split(" ").map(Number);
 
-  const luminance =
-    0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+  const luminance = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
 
   return luminance > 0.179 ? "#000" : "#fff";
 };
@@ -58,15 +57,12 @@ export const getColors = (): ColorPalette[] => {
             ...c,
             className: `${name}-${c.scale}`,
             foreground: getForegroundFromBackground(rgb),
-            hsl: c.hsl.replace(
-              /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-              "$1 $2 $3"
-            ),
+            hsl: c.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, "$1 $2 $3"),
             id: `${name}-${c.scale}`,
             name,
             oklch: `oklch(${c.oklch.replace(
               /^oklch\(([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)$/,
-              "$1 $2 $3"
+              "$1 $2 $3",
             )})`,
             rgb,
             var: `--color-${name}-${c.scale}`,

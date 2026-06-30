@@ -3,13 +3,8 @@
   "name": "message-scroller",
   "title": "Message Scroller",
   "description": "A chat transcript scroller with auto-scroll, scroll anchoring, and live region support.",
-  "dependencies": [
-    "@shadcn/react",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["@shadcn/react", "lucide-react"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/message-scroller.tsx",

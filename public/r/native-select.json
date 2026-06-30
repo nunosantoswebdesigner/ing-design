@@ -3,9 +3,7 @@
   "name": "native-select",
   "title": "Native Select",
   "description": "A styled native <select> element with a custom chevron, size variants, and sound feedback.",
-  "dependencies": [
-    "lucide-react"
-  ],
+  "dependencies": ["lucide-react"],
   "files": [
     {
       "path": "registry/new-york/native-select.tsx",

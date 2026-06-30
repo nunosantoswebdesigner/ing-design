@@ -7,24 +7,18 @@ const Breadcrumb = ({ ...props }: React.ComponentProps<"nav">) => (
   <nav data-slot="breadcrumb" aria-label="breadcrumb" {...props} />
 );
 
-const BreadcrumbList = ({
-  className,
-  ...props
-}: React.ComponentProps<"ol">) => (
+const BreadcrumbList = ({ className, ...props }: React.ComponentProps<"ol">) => (
   <ol
     data-slot="breadcrumb-list"
     className={cn(
       "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5",
-      className
+      className,
     )}
     {...props}
   />
 );
 
-const BreadcrumbItem = ({
-  className,
-  ...props
-}: React.ComponentProps<"li">) => (
+const BreadcrumbItem = ({ className, ...props }: React.ComponentProps<"li">) => (
   <li
     data-slot="breadcrumb-item"
     className={cn("inline-flex items-center gap-1.5", className)}
@@ -48,10 +42,7 @@ const BreadcrumbLink = ({
   );
 };
 
-const BreadcrumbPage = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
+const BreadcrumbPage = ({ className, ...props }: React.ComponentProps<"span">) => (
   <span
     data-slot="breadcrumb-page"
     role="link"
@@ -62,11 +53,7 @@ const BreadcrumbPage = ({
   />
 );
 
-const BreadcrumbSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) => (
+const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<"li">) => (
   <li
     data-slot="breadcrumb-separator"
     role="presentation"
@@ -78,10 +65,7 @@ const BreadcrumbSeparator = ({
   </li>
 );
 
-const BreadcrumbEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
+const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<"span">) => (
   <span
     data-slot="breadcrumb-ellipsis"
     role="presentation"

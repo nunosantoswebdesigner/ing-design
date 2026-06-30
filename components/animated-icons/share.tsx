@@ -50,7 +50,7 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
 
         void controls.start("animate");
       },
-      [controls, onMouseEnter]
+      [controls, onMouseEnter],
     );
 
     const handleMouseLeave = useCallback(
@@ -62,7 +62,7 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
 
         void controls.start("normal");
       },
-      [controls, onMouseLeave]
+      [controls, onMouseLeave],
     );
 
     return (
@@ -91,7 +91,7 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
         </svg>
       </div>
     );
-  }
+  },
 );
 
 ShareIcon.displayName = "ShareIcon";

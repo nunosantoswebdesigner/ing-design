@@ -1,5 +1,5 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import { NextResponse } from "next/server";
 
@@ -15,10 +15,7 @@ const getRegistryItem = (name: string): RegistryItem | undefined =>
 
 const readRegistryFile = async (name: string): Promise<string | null> => {
   try {
-    return await readFile(
-      path.join(process.cwd(), "registry/new-york", `${name}.tsx`),
-      "utf-8"
-    );
+    return await readFile(path.join(process.cwd(), "registry/new-york", `${name}.tsx`), "utf-8");
   } catch {
     return null;
   }
@@ -28,22 +25,22 @@ const readRegistryFile = async (name: string): Promise<string | null> => {
 // that don't exist in registry/new-york — V0 knows how to resolve those itself).
 const resolveCustomDeps = async (
   name: string,
-  visited: Set<string>
+  visited: Set<string>,
 ): Promise<{ name: string; content: string }[]> => {
   const item = getRegistryItem(name);
-  if (!item) return [];
+  if (!item) {return [];}
 
-  const deps = ((item as { registryDependencies?: string[] }).registryDependencies ?? []);
+  const deps = (item as { registryDependencies?: string[] }).registryDependencies ?? [];
   const results: { name: string; content: string }[] = [];
 
   for (const dep of deps) {
-    if (visited.has(dep)) continue;
+    if (visited.has(dep)) {continue;}
 
     const content = await readRegistryFile(dep);
-    if (!content) continue; // shadcn base component — skip
+    if (!content) {continue;} // shadcn base component — skip
 
     visited.add(dep);
-    results.push({ name: dep, content });
+    results.push({ content, name: dep });
 
     const nested = await resolveCustomDeps(dep, visited);
     results.push(...nested);
@@ -54,7 +51,7 @@ const resolveCustomDeps = async (
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ theme: string; component: string }> }
+  { params }: { params: Promise<{ theme: string; component: string }> },
 ) {
   const { theme, component } = await params;
 
@@ -70,37 +67,36 @@ export async function GET(
 
   const title =
     component.charAt(0).toUpperCase() +
-    component.slice(1).replace(/-([a-z])/g, (_, c: string) => ` ${c.toUpperCase()}`);
+    component.slice(1).replaceAll(/-([a-z])/g, (_, c: string) => ` ${c.toUpperCase()}`);
 
   const cssVars =
-    themeConfig.cssVars ??
-    REGISTRY_THEMES.find((t) => t.id === DEFAULT_REGISTRY_THEME_ID)?.cssVars;
+    themeConfig.cssVars ?? REGISTRY_THEMES.find((t) => t.id === DEFAULT_REGISTRY_THEME_ID)?.cssVars;
 
   // Resolve custom deps — start visited with the component itself to prevent cycles
   const depFiles = await resolveCustomDeps(component, new Set([component]));
 
   const files = [
     {
-      path: `components/ui/${component}.tsx`,
       content,
-      type: "registry:ui",
+      path: `components/ui/${component}.tsx`,
       target: `components/ui/${component}.tsx`,
+      type: "registry:ui",
     },
     ...depFiles.map(({ name, content: depContent }) => ({
-      path: `components/ui/${name}.tsx`,
       content: depContent,
-      type: "registry:ui",
+      path: `components/ui/${name}.tsx`,
       target: `components/ui/${name}.tsx`,
+      type: "registry:ui",
     })),
   ];
 
   const registryItem = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
-    name: component,
-    type: "registry:ui",
-    title,
     description: `${title} component — ${themeConfig.label} theme`,
     files,
+    name: component,
+    title,
+    type: "registry:ui",
     ...(cssVars ? { cssVars } : {}),
   };
 

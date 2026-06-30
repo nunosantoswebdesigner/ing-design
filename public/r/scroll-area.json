@@ -3,9 +3,7 @@
   "name": "scroll-area",
   "title": "Scroll Area",
   "description": "A custom-styled scrollable container with a thin overlay scrollbar for both vertical and horizontal overflow.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/scroll-area.tsx",

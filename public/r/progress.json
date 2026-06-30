@@ -3,9 +3,7 @@
   "name": "progress",
   "title": "Progress",
   "description": "A horizontal bar that visualises completion of a task or process.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/progress.tsx",

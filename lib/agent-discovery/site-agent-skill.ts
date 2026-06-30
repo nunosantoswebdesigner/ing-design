@@ -69,9 +69,7 @@ Available themes: \`new-york\` (base), \`force8\`, \`myswissski\`, \`myicehockey
 `;
 
 export const siteAgentSkillDigest = (): string => {
-  const hex = createHash("sha256")
-    .update(SITE_AGENT_SKILL_MD, "utf-8")
-    .digest("hex");
+  const hex = createHash("sha256").update(SITE_AGENT_SKILL_MD, "utf-8").digest("hex");
 
   return `sha256:${hex}`;
 };

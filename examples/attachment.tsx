@@ -68,21 +68,27 @@ export function AttachmentDemo() {
       {/* Sizes */}
       <div className="flex flex-wrap items-center gap-3">
         <Attachment size="default">
-          <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+          <AttachmentMedia>
+            <FileTextIcon />
+          </AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>default.pdf</AttachmentTitle>
             <AttachmentDescription>PDF · 1.2 MB</AttachmentDescription>
           </AttachmentContent>
         </Attachment>
         <Attachment size="sm">
-          <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+          <AttachmentMedia>
+            <FileTextIcon />
+          </AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>small.pdf</AttachmentTitle>
             <AttachmentDescription>PDF · 1.2 MB</AttachmentDescription>
           </AttachmentContent>
         </Attachment>
         <Attachment size="xs">
-          <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+          <AttachmentMedia>
+            <FileTextIcon />
+          </AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>xs.pdf</AttachmentTitle>
             <AttachmentDescription>PDF</AttachmentDescription>
@@ -116,7 +122,9 @@ export function AttachmentDemo() {
       <AttachmentGroup>
         {["data.csv", "summary.pdf", "notes.txt", "archive.zip"].map((name) => (
           <Attachment key={name} size="sm">
-            <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+            <AttachmentMedia>
+              <FileTextIcon />
+            </AttachmentMedia>
             <AttachmentContent>
               <AttachmentTitle>{name}</AttachmentTitle>
               <AttachmentDescription>Ready</AttachmentDescription>

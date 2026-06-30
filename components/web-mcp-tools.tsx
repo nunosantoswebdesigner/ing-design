@@ -5,10 +5,7 @@ import { useEffect } from "react";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 
-type ToolExecute = (
-  input: unknown,
-  options: { signal: AbortSignal }
-) => Promise<unknown>;
+type ToolExecute = (input: unknown, options: { signal: AbortSignal }) => Promise<unknown>;
 
 interface ModelContextApi {
   registerTool?: (
@@ -18,7 +15,7 @@ interface ModelContextApi {
       inputSchema: Record<string, unknown>;
       name: string;
     },
-    options?: { signal: AbortSignal }
+    options?: { signal: AbortSignal },
   ) => (() => void) | undefined;
 }
 
@@ -81,8 +78,7 @@ export const WebMcpTools = () => {
     });
 
     register({
-      description:
-        "Fetch the published shadcn registry manifest (registry.json) for this site.",
+      description: "Fetch the published shadcn registry manifest (registry.json) for this site.",
       execute: async (_input, { signal }) => {
         const res = await fetch(`${window.location.origin}${ROUTES.REGISTRY}`, {
           signal,

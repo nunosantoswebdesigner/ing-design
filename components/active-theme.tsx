@@ -19,9 +19,7 @@ export const ActiveThemeProvider = ({
   children: ReactNode;
   initialTheme?: string;
 }) => {
-  const [activeTheme, setActiveTheme] = useState<string>(
-    () => initialTheme || DEFAULT_THEME
-  );
+  const [activeTheme, setActiveTheme] = useState<string>(() => initialTheme || DEFAULT_THEME);
 
   useEffect(() => {
     [...document.body.classList]
@@ -45,9 +43,7 @@ export const ActiveThemeProvider = ({
 export const useThemeConfig = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error(
-      "useThemeConfig must be used within an ActiveThemeProvider"
-    );
+    throw new Error("useThemeConfig must be used within an ActiveThemeProvider");
   }
   return context;
 };

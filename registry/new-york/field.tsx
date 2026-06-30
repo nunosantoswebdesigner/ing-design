@@ -4,11 +4,11 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-type FieldContextValue = {
+interface FieldContextValue {
   id: string;
   error?: string;
   required?: boolean;
-};
+}
 
 const FieldContext = React.createContext<FieldContextValue>({ id: "" });
 
@@ -30,7 +30,7 @@ const Field = ({
   const id = idProp ?? generatedId;
 
   return (
-    <FieldContext.Provider value={{ id, error, required }}>
+    <FieldContext.Provider value={{ error, id, required }}>
       <div
         data-slot="field"
         data-invalid={error ? "" : undefined}
@@ -41,11 +41,7 @@ const Field = ({
   );
 };
 
-const FieldLabel = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"label">) => {
+const FieldLabel = ({ className, children, ...props }: React.ComponentProps<"label">) => {
   const { id, error, required } = React.useContext(FieldContext);
 
   return (
@@ -55,7 +51,7 @@ const FieldLabel = ({
       className={cn(
         "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         error && "text-destructive",
-        className
+        className,
       )}
       {...props}
     >
@@ -69,10 +65,7 @@ const FieldLabel = ({
   );
 };
 
-const FieldDescription = ({
-  className,
-  ...props
-}: React.ComponentProps<"p">) => {
+const FieldDescription = ({ className, ...props }: React.ComponentProps<"p">) => {
   const { id } = React.useContext(FieldContext);
 
   return (
@@ -85,15 +78,11 @@ const FieldDescription = ({
   );
 };
 
-const FieldError = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"p">) => {
+const FieldError = ({ className, children, ...props }: React.ComponentProps<"p">) => {
   const { id, error } = React.useContext(FieldContext);
   const message = children ?? error;
 
-  if (!message) return null;
+  if (!message) {return null;}
 
   return (
     <p

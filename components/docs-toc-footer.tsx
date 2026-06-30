@@ -6,13 +6,7 @@ import { DOCS_DIR } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import { cn } from "@/lib/utils";
 
-export const DocsTocFooter = ({
-  docId,
-  className,
-}: {
-  docId: string;
-  className?: string;
-}) => (
+export const DocsTocFooter = ({ docId, className }: { docId: string; className?: string }) => (
   <div className={cn("flex flex-col gap-2", className)}>
     {docId && (
       <a

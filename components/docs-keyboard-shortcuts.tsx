@@ -17,11 +17,7 @@ export const DocsKeyboardShortcuts = ({
   const router = useRouter();
   const playClick = useFeedback({ sound: "click" });
 
-  const navigate = (
-    href: string | null,
-    direction: "previous" | "next",
-    keys: string
-  ) => {
+  const navigate = (href: string | null, direction: "previous" | "next", keys: string) => {
     if (href) {
       playClick();
       trackEvent({
@@ -40,7 +36,7 @@ export const DocsKeyboardShortcuts = ({
     () => {
       navigate(next, "next", "ArrowRight");
     },
-    { preventDefault: true }
+    { preventDefault: true },
   );
 
   useHotkeys(
@@ -48,7 +44,7 @@ export const DocsKeyboardShortcuts = ({
     () => {
       navigate(previous, "previous", "ArrowLeft");
     },
-    { preventDefault: true }
+    { preventDefault: true },
   );
 
   return null;

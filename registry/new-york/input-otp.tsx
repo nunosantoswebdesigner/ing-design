@@ -14,19 +14,13 @@ const InputOTP = ({
   containerClassName?: string;
 }) => (
   <OTPInput
-    containerClassName={cn(
-      "flex items-center gap-2 has-disabled:opacity-50",
-      containerClassName
-    )}
+    containerClassName={cn("flex items-center gap-2 has-disabled:opacity-50", containerClassName)}
     className={cn("disabled:cursor-not-allowed", className)}
     {...props}
   />
 );
 
-const InputOTPGroup = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => (
+const InputOTPGroup = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div className={cn("flex items-center", className)} {...props} />
 );
 
@@ -46,7 +40,7 @@ const InputOTPSlot = ({
         "last:rounded-r-md",
         "aria-invalid:border-destructive",
         isActive && "border-ring ring-ring/50 z-10 ring-[3px]",
-        className
+        className,
       )}
       {...props}
     >

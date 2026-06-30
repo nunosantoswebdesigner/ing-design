@@ -34,7 +34,7 @@ const Drawer = ({
 
       lastOpen.current = open;
     },
-    [playClose, playOpen, sounds]
+    [playClose, playOpen, sounds],
   );
 
   useEffect(() => {
@@ -50,43 +50,25 @@ const Drawer = ({
       playStateSound(open);
       onOpenChange?.(open);
     },
-    [onOpenChange, playStateSound]
+    [onOpenChange, playStateSound],
   );
 
   if (!sounds) {
-    return (
-      <DrawerPrimitive.Root
-        data-slot="drawer"
-        onOpenChange={onOpenChange}
-        {...props}
-      />
-    );
+    return <DrawerPrimitive.Root data-slot="drawer" onOpenChange={onOpenChange} {...props} />;
   }
 
-  return (
-    <DrawerPrimitive.Root
-      data-slot="drawer"
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
-  );
+  return <DrawerPrimitive.Root data-slot="drawer" onOpenChange={handleOpenChange} {...props} />;
 };
 
-const DrawerTrigger = ({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) => (
+const DrawerTrigger = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) => (
   <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 );
 
-const DrawerPortal = ({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) => (
+const DrawerPortal = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Portal>) => (
   <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 );
 
-const DrawerClose = ({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Close>) => (
+const DrawerClose = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Close>) => (
   <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 );
 
@@ -98,7 +80,7 @@ const DrawerOverlay = ({
     data-slot="drawer-overlay"
     className={cn(
       "fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0",
-      className
+      className,
     )}
     {...props}
   />
@@ -119,7 +101,7 @@ const DrawerContent = ({
         "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
         "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
         "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
-        className
+        className,
       )}
       {...props}
     >
@@ -134,7 +116,7 @@ const DrawerHeader = ({ className, ...props }: React.ComponentProps<"div">) => (
     data-slot="drawer-header"
     className={cn(
       "flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-1.5 md:text-left",
-      className
+      className,
     )}
     {...props}
   />

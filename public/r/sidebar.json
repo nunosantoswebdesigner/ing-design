@@ -3,19 +3,8 @@
   "name": "sidebar",
   "title": "Sidebar",
   "description": "A collapsible app sidebar with navigation groups, search, badges, tooltips, and mobile sheet support.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "button",
-    "input",
-    "separator",
-    "sheet",
-    "skeleton",
-    "tooltip"
-  ],
+  "dependencies": ["radix-ui", "lucide-react", "class-variance-authority"],
+  "registryDependencies": ["button", "input", "separator", "sheet", "skeleton", "tooltip"],
   "files": [
     {
       "path": "registry/new-york/sidebar.tsx",

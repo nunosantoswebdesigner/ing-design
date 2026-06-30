@@ -1,10 +1,11 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
-  VisibilityState,
+  VisibilityState} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -31,13 +32,7 @@ import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -214,7 +209,7 @@ function ReviewerCell({
   assignPlaceholder?: string;
   onChange?: (value: string) => void;
 }) {
-  if (reviewer) return <span className="text-sm">{reviewer}</span>;
+  if (reviewer) {return <span className="text-sm">{reviewer}</span>;}
   return (
     <Select onValueChange={onChange}>
       <SelectTrigger className="h-7 w-35 text-xs">
@@ -240,13 +235,13 @@ function DataTable({
   rowsPerPageOptions = [10, 20, 50],
 }: DataTableProps) {
   const labels = {
-    header:             columnLabels.header             ?? "Athlete",
-    sectionType:        columnLabels.sectionType        ?? "Discipline",
-    target:             columnLabels.target             ?? "Goal",
-    limit:              columnLabels.limit              ?? "Sessions",
-    reviewer:           columnLabels.reviewer           ?? "Coach",
-    filterPlaceholder:  columnLabels.filterPlaceholder  ?? "Filter athletes...",
-    assignPlaceholder:  columnLabels.assignPlaceholder  ?? "Assign coach",
+    assignPlaceholder: columnLabels.assignPlaceholder ?? "Assign coach",
+    filterPlaceholder: columnLabels.filterPlaceholder ?? "Filter athletes...",
+    header: columnLabels.header ?? "Athlete",
+    limit: columnLabels.limit ?? "Sessions",
+    reviewer: columnLabels.reviewer ?? "Coach",
+    sectionType: columnLabels.sectionType ?? "Discipline",
+    target: columnLabels.target ?? "Goal",
   };
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -257,11 +252,19 @@ function DataTable({
   const [sectionTypeFilter, setSectionTypeFilter] = useState<string[]>([]);
   const [headerFilter, setHeaderFilter] = useState("");
 
-  const sectionTypes = Array.from(new Set(rows.map((r) => r.sectionType)));
+  const sectionTypes = [...new Set(rows.map((r) => r.sectionType))];
 
   const columns: ColumnDef<DataTableRow>[] = [
     {
-      id: "select",
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(v) => row.toggleSelected(!!v)}
+          aria-label="Select row"
+        />
+      ),
+      enableHiding: false,
+      enableSorting: false,
       header: ({ table }) => (
         <Checkbox
           checked={
@@ -272,38 +275,17 @@ function DataTable({
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(v) => row.toggleSelected(!!v)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      id: "select",
     },
     {
-      id: "drag",
-      header: () => null,
-      cell: () => (
-        <GripVertical className="size-4 cursor-grab text-muted-foreground" />
-      ),
-      enableSorting: false,
+      cell: () => <GripVertical className="size-4 cursor-grab text-muted-foreground" />,
       enableHiding: false,
+      enableSorting: false,
+      header: () => null,
+      id: "drag",
     },
     {
       accessorKey: "header",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="-ml-3 h-8"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {labels.header}
-          <ChevronsUpDown className="ml-1.5 size-3.5" />
-        </Button>
-      ),
       cell: ({ row }) => {
         const name: string = row.getValue("header");
         const initials = name
@@ -324,19 +306,32 @@ function DataTable({
       },
       filterFn: (row, _id, value: string) =>
         row.original.header.toLowerCase().includes(value.toLowerCase()),
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="-ml-3 h-8"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          {labels.header}
+          <ChevronsUpDown className="ml-1.5 size-3.5" />
+        </Button>
+      ),
     },
     {
       accessorKey: "sectionType",
-      header: () => labels.sectionType,
       cell: ({ row }) => (
         <Badge variant="outline" className="text-xs font-normal">
           {row.getValue("sectionType")}
         </Badge>
       ),
       filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
+      header: () => labels.sectionType,
     },
     {
       accessorKey: "status",
+      cell: ({ row }) => <StatusCell status={row.getValue("status")} />,
+      filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -348,32 +343,29 @@ function DataTable({
           <ChevronsUpDown className="ml-1.5 size-3.5" />
         </Button>
       ),
-      cell: ({ row }) => <StatusCell status={row.getValue("status")} />,
-      filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
     },
     {
       accessorKey: "target",
+      cell: ({ row }) => <div className="text-right text-sm">{row.getValue("target")}</div>,
       header: () => <div className="text-right">{labels.target}</div>,
-      cell: ({ row }) => (
-        <div className="text-right text-sm">{row.getValue("target")}</div>
-      ),
     },
     {
       accessorKey: "limit",
+      cell: ({ row }) => <div className="text-right text-sm">{row.getValue("limit")}</div>,
       header: () => <div className="text-right">{labels.limit}</div>,
-      cell: ({ row }) => (
-        <div className="text-right text-sm">{row.getValue("limit")}</div>
-      ),
     },
     {
       accessorKey: "reviewer",
-      header: () => labels.reviewer,
-      cell: ({ row }) => <ReviewerCell reviewer={row.getValue("reviewer")} assignPlaceholder={labels.assignPlaceholder} />,
+      cell: ({ row }) => (
+        <ReviewerCell
+          reviewer={row.getValue("reviewer")}
+          assignPlaceholder={labels.assignPlaceholder}
+        />
+      ),
       enableSorting: false,
+      header: () => labels.reviewer,
     },
     {
-      id: "actions",
-      enableHiding: false,
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -384,36 +376,34 @@ function DataTable({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(row.original.id)}
-            >
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View section</DropdownMenuItem>
             <DropdownMenuItem>Edit section</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
-              Delete section
-            </DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">Delete section</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
+      enableHiding: false,
+      id: "actions",
     },
   ];
 
   const table = useReactTable({
-    data: rows,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data: rows,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    state: { sorting, columnFilters, columnVisibility, rowSelection },
+    onSortingChange: setSorting,
+    state: { columnFilters, columnVisibility, rowSelection, sorting },
   });
 
   const handleHeaderFilter = (value: string) => {
@@ -461,17 +451,37 @@ function DataTable({
           <FacetFilter
             label="Status"
             options={[
-              { value: "done",       label: "Done",       icon: CheckCircle2,   iconClassName: "text-emerald-600 dark:text-emerald-400" },
-              { value: "in-process", label: "In Process", icon: Loader2,        iconClassName: "text-muted-foreground animate-spin" },
-              { value: "pending",    label: "Pending",    icon: AlertTriangle,  iconClassName: "text-amber-500 dark:text-amber-400" },
-              { value: "cancelled",  label: "Cancelled",  icon: CircleX,        iconClassName: "text-destructive" },
+              {
+                icon: CheckCircle2,
+                iconClassName: "text-emerald-600 dark:text-emerald-400",
+                label: "Done",
+                value: "done",
+              },
+              {
+                icon: Loader2,
+                iconClassName: "text-muted-foreground animate-spin",
+                label: "In Process",
+                value: "in-process",
+              },
+              {
+                icon: AlertTriangle,
+                iconClassName: "text-amber-500 dark:text-amber-400",
+                label: "Pending",
+                value: "pending",
+              },
+              {
+                icon: CircleX,
+                iconClassName: "text-destructive",
+                label: "Cancelled",
+                value: "cancelled",
+              },
             ]}
             selected={statusFilter}
             onSelect={handleStatusFilter}
           />
           <FacetFilter
             label={labels.sectionType}
-            options={sectionTypes.map((t) => ({ value: t, label: t }))}
+            options={sectionTypes.map((t) => ({ label: t, value: t }))}
             selected={sectionTypeFilter}
             onSelect={handleSectionTypeFilter}
           />
@@ -530,10 +540,7 @@ function DataTable({
             <TableBody>
               {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}

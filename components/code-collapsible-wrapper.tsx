@@ -3,11 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -30,17 +26,8 @@ export const CodeCollapsibleWrapper = ({
       {...props}
     >
       <CollapsibleTrigger asChild>
-        <div
-          className={cn(
-            "absolute top-1.5 right-9 z-10 flex items-center",
-            navTriggerClassName
-          )}
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground h-7 rounded-md px-2"
-          >
+        <div className={cn("absolute top-1.5 right-9 z-10 flex items-center", navTriggerClassName)}>
+          <Button variant="ghost" size="sm" className="text-muted-foreground h-7 rounded-md px-2">
             {isOpened ? "Collapse" : "Expand"}
           </Button>
           <Separator orientation="vertical" className="mx-1.5 h-4!" />

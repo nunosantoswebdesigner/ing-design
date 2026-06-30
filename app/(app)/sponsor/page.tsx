@@ -29,26 +29,20 @@ const SponsorPage = async () => {
             Support the project
           </h1>
           <p className="text-base text-muted-foreground text-balance">
-            startercn is a template for building your own shadcn/ui registry.
-            Every component is free and that&apos;s not changing.
+            startercn is a template for building your own shadcn/ui registry. Every component is
+            free and that&apos;s not changing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
-            I&apos;m not going to paywall features or gate components behind a
-            sponsorship tier. But if startercn made your project better, or you
-            just like that this exists in the open, sponsoring is a nice way to
-            say so. It helps me justify spending real time on it instead of
-            treating it like a side-of-desk thing.
+            I&apos;m not going to paywall features or gate components behind a sponsorship tier. But
+            if startercn made your project better, or you just like that this exists in the open,
+            sponsoring is a nice way to say so. It helps me justify spending real time on it instead
+            of treating it like a side-of-desk thing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
-            Any amount is genuinely appreciated. And if money&apos;s not your
-            thing, starring the repo or sharing something you liked works too.
+            Any amount is genuinely appreciated. And if money&apos;s not your thing, starring the
+            repo or sharing something you liked works too.
           </p>
-          <ExternalLinkButton
-            sound="heart"
-            size="lg"
-            className="mt-4"
-            href={LINK.SPONSOR}
-          >
+          <ExternalLinkButton sound="heart" size="lg" className="mt-4" href={LINK.SPONSOR}>
             <Heart />
             Sponsor on GitHub
             <ExternalLink className="size-3.5 opacity-60" />
@@ -63,10 +57,7 @@ const SponsorPage = async () => {
             const empty = tier.slots - filled;
 
             return (
-              <div
-                key={tier.name}
-                className="flex flex-col gap-3 py-6 first-of-type:pt-0"
-              >
+              <div key={tier.name} className="flex flex-col gap-3 py-6 first-of-type:pt-0">
                 <div
                   className="relative flex items-center justify-center rounded-md px-8 py-2.5"
                   style={{
@@ -75,21 +66,20 @@ const SponsorPage = async () => {
                       "inset 0 1px 1px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.12)",
                   }}
                 >
-                  {[
-                    "left-2.5 top-1/2 -translate-y-1/2",
-                    "right-2.5 top-1/2 -translate-y-1/2",
-                  ].map((pos) => (
-                    <span
-                      key={pos}
-                      className={`absolute size-2 rounded-full ${pos}`}
-                      style={{
-                        background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), transparent 50%), ${tier.colors.bg}`,
-                        border: "1px solid rgba(0,0,0,0.15)",
-                        boxShadow:
-                          "inset 0 1px 2px rgba(0,0,0,0.3), inset 0 -1px 1px rgba(255,255,255,0.2), 0 1px 1px rgba(255,255,255,0.15)",
-                      }}
-                    />
-                  ))}
+                  {["left-2.5 top-1/2 -translate-y-1/2", "right-2.5 top-1/2 -translate-y-1/2"].map(
+                    (pos) => (
+                      <span
+                        key={pos}
+                        className={`absolute size-2 rounded-full ${pos}`}
+                        style={{
+                          background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), transparent 50%), ${tier.colors.bg}`,
+                          border: "1px solid rgba(0,0,0,0.15)",
+                          boxShadow:
+                            "inset 0 1px 2px rgba(0,0,0,0.3), inset 0 -1px 1px rgba(255,255,255,0.2), 0 1px 1px rgba(255,255,255,0.15)",
+                        }}
+                      />
+                    ),
+                  )}
                   <h3
                     className="text-xs font-extrabold uppercase tracking-[0.2em]"
                     style={{ color: tier.colors.text }}
@@ -124,9 +114,7 @@ const SponsorPage = async () => {
                           className="h-8 w-auto opacity-60 transition-opacity group-hover:opacity-100"
                         />
                       ) : (
-                        <span className="text-sm font-medium text-foreground">
-                          {sponsor.name}
-                        </span>
+                        <span className="text-sm font-medium text-foreground">{sponsor.name}</span>
                       )}
                     </a>
                   ))}
@@ -194,12 +182,10 @@ const SponsorPage = async () => {
       <section className="container-wrapper relative">
         <div className="container flex flex-col items-center gap-4 py-16 md:py-20 lg:py-24">
           <div className="flex flex-col items-center gap-2 text-center">
-            <h2 className="text-lg font-bold tracking-tight">
-              Want to back the project?
-            </h2>
+            <h2 className="text-lg font-bold tracking-tight">Want to back the project?</h2>
             <p className="max-w-sm text-sm text-muted-foreground">
-              Every bit helps — whether it&apos;s a sponsorship, a star, or
-              sharing something you found useful.
+              Every bit helps — whether it&apos;s a sponsorship, a star, or sharing something you
+              found useful.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -207,11 +193,7 @@ const SponsorPage = async () => {
               <Heart />
               Become a Sponsor
             </ExternalLinkButton>
-            <ExternalLinkButton
-              sound="star"
-              variant="outline"
-              href={LINK.GITHUB}
-            >
+            <ExternalLinkButton sound="star" variant="outline" href={LINK.GITHUB}>
               <Star />
               Star on GitHub
             </ExternalLinkButton>

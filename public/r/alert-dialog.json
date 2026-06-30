@@ -3,12 +3,8 @@
   "name": "alert-dialog",
   "title": "Alert Dialog",
   "description": "A modal dialog that interrupts the user with important content and requires a response before continuing.",
-  "dependencies": [
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["radix-ui"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/alert-dialog.tsx",

@@ -22,10 +22,7 @@ const toFeedbackKey = (k: string): FeedbackType =>
   k.replaceAll(/-([a-z])/g, (_, c: string) => c.toUpperCase()) as FeedbackType;
 
 const patchKeyByFeedback = Object.fromEntries(
-  (Object.keys(audio._patch.sounds) as PatchSoundKey[]).map((k) => [
-    toFeedbackKey(k),
-    k,
-  ])
+  (Object.keys(audio._patch.sounds) as PatchSoundKey[]).map((k) => [toFeedbackKey(k), k]),
 ) as Record<FeedbackType, PatchSoundKey>;
 
 const hapticPresetByType: Partial<Record<FeedbackType, string>> = {
@@ -60,11 +57,7 @@ export interface UseFeedbackOptions {
   haptic?: boolean;
 }
 
-export const useFeedback = ({
-  sound,
-  soundDef,
-  haptic = true,
-}: UseFeedbackOptions) => {
+export const useFeedback = ({ sound, soundDef, haptic = true }: UseFeedbackOptions) => {
   const { trigger: hapticTrigger } = useWebHaptics();
   const [soundEnabled] = useSoundEnabled();
   const [hapticsEnabled] = useHapticsEnabled();

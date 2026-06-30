@@ -3,9 +3,7 @@
   "name": "tabs",
   "title": "Tabs",
   "description": "A tabbed interface that displays one content panel at a time, with keyboard navigation and optional audio feedback.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/tabs.tsx",

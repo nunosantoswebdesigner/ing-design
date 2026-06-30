@@ -3,9 +3,7 @@
   "name": "chart",
   "title": "Chart",
   "description": "A Recharts wrapper with themed tooltips, legends, and CSS variable color config.",
-  "dependencies": [
-    "recharts"
-  ],
+  "dependencies": ["recharts"],
   "files": [
     {
       "path": "registry/new-york/chart.tsx",

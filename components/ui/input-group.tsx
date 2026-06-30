@@ -18,16 +18,13 @@ const InputGroup = ({ className, ...props }: React.ComponentProps<"div">) => (
       "[&>[data-slot=button]:not(:first-child)]:rounded-l-none",
       "[&>[data-slot=button]:not(:last-child)]:rounded-r-none",
       "[&>[data-slot=button]:focus-visible]:relative [&>[data-slot=button]:focus-visible]:z-10",
-      className
+      className,
     )}
     {...props}
   />
 );
 
-const InputGroupText = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => (
+const InputGroupText = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     data-slot="input-group-text"
     className={cn(
@@ -35,7 +32,7 @@ const InputGroupText = ({
       "rounded-none first:rounded-l-md last:rounded-r-md",
       "not-first:-ml-px",
       "[&_svg:not([class*='size-'])]:size-4",
-      className
+      className,
     )}
     {...props}
   />

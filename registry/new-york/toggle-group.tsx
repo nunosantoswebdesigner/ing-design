@@ -27,9 +27,7 @@ const ToggleGroup = ({
     className={cn("flex items-center gap-1", className)}
     {...props}
   >
-    <ToggleGroupContext.Provider value={{ size, variant }}>
-      {children}
-    </ToggleGroupContext.Provider>
+    <ToggleGroupContext.Provider value={{ size, variant }}>{children}</ToggleGroupContext.Provider>
   </ToggleGroupPrimitive.Root>
 );
 
@@ -51,7 +49,7 @@ const ToggleGroupItem = ({
           variant: variant ?? ctx.variant,
         }),
         "min-w-0",
-        className
+        className,
       )}
       {...props}
     />

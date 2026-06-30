@@ -13,17 +13,17 @@ import {
 } from "@/components/ui/chart";
 
 const barData = [
-  { month: "Jan", components: 12, installs: 84 },
-  { month: "Feb", components: 18, installs: 130 },
-  { month: "Mar", components: 24, installs: 198 },
-  { month: "Apr", components: 31, installs: 240 },
-  { month: "May", components: 38, installs: 312 },
-  { month: "Jun", components: 45, installs: 390 },
+  { components: 12, installs: 84, month: "Jan" },
+  { components: 18, installs: 130, month: "Feb" },
+  { components: 24, installs: 198, month: "Mar" },
+  { components: 31, installs: 240, month: "Apr" },
+  { components: 38, installs: 312, month: "May" },
+  { components: 45, installs: 390, month: "Jun" },
 ];
 
 const barConfig = {
-  components: { label: "Components", color: "var(--color-primary)" },
-  installs: { label: "Installs", color: "var(--color-muted-foreground)" },
+  components: { color: "var(--color-primary)", label: "Components" },
+  installs: { color: "var(--color-muted-foreground)", label: "Installs" },
 } satisfies ChartConfig;
 
 const areaData = [
@@ -36,7 +36,7 @@ const areaData = [
 ];
 
 const areaConfig = {
-  users: { label: "Active users", color: "var(--color-primary)" },
+  users: { color: "var(--color-primary)", label: "Active users" },
 } satisfies ChartConfig;
 
 export function ChartDemo() {

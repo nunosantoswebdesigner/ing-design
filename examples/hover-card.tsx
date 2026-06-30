@@ -2,11 +2,7 @@ import { CalendarDays } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 export function HoverCardDemo() {
   return (
@@ -27,9 +23,7 @@ export function HoverCardDemo() {
             </p>
             <div className="flex items-center gap-2 pt-2">
               <CalendarDays className="size-4 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">
-                Joined December 2021
-              </span>
+              <span className="text-xs text-muted-foreground">Joined December 2021</span>
             </div>
           </div>
         </div>

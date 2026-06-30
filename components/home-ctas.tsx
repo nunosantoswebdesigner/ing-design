@@ -59,11 +59,7 @@ const BrowseComponentsButton = () => {
       onMouseLeave={handleMouseLeave}
     >
       <Link href={ROUTES.DOCS_COMPONENTS} transitionTypes={["nav-forward"]}>
-        <ComponentIcon
-          className="hidden sm:inline"
-          ref={componentIconRef}
-          size={22}
-        />
+        <ComponentIcon className="hidden sm:inline" ref={componentIconRef} size={22} />
         Browse Components
       </Link>
     </Button>
@@ -71,12 +67,7 @@ const BrowseComponentsButton = () => {
 };
 
 export const HomeCtas = ({ className }: { className?: string }) => (
-  <div
-    className={cn(
-      "flex flex-wrap items-center justify-center gap-4",
-      className
-    )}
-  >
+  <div className={cn("flex flex-wrap items-center justify-center gap-4", className)}>
     <GetStartedButton />
     <BrowseComponentsButton />
   </div>

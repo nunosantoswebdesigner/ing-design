@@ -4,12 +4,7 @@
   "title": "Register",
   "description": "Full-page registration block with card, split, and centered layout variants.",
   "dependencies": [],
-  "registryDependencies": [
-    "button",
-    "input",
-    "label",
-    "e-auth"
-  ],
+  "registryDependencies": ["button", "input", "label", "e-auth"],
   "files": [
     {
       "path": "registry/new-york/b-register.tsx",

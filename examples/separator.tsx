@@ -7,9 +7,7 @@ export function SeparatorDemo() {
       <div className="w-full max-w-xs">
         <div className="space-y-1">
           <h4 className="text-sm font-medium leading-none">ING Design</h4>
-          <p className="text-muted-foreground text-sm">
-            A component registry built on shadcn/ui.
-          </p>
+          <p className="text-muted-foreground text-sm">A component registry built on shadcn/ui.</p>
         </div>
         <Separator className="my-4" />
         <div className="flex h-5 items-center gap-4 text-sm">

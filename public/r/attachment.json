@@ -3,13 +3,8 @@
   "name": "attachment",
   "title": "Attachment",
   "description": "A file or image attachment card with media, metadata, upload states, and actions.",
-  "dependencies": [
-    "radix-ui",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["radix-ui", "class-variance-authority"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/new-york/attachment.tsx",

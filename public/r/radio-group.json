@@ -3,10 +3,7 @@
   "name": "radio-group",
   "title": "Radio Group",
   "description": "A set of mutually exclusive options where only one can be selected at a time.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/radio-group.tsx",

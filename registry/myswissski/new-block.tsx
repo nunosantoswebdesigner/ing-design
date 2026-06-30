@@ -7,11 +7,7 @@ export interface NewBlockProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const NewBlock = ({ className, children, ...props }: NewBlockProps) => (
-  <div
-    data-slot="new-block"
-    className={cn("flex flex-col gap-6 p-6", className)}
-    {...props}
-  >
+  <div data-slot="new-block" className={cn("flex flex-col gap-6 p-6", className)} {...props}>
     {children}
   </div>
 );

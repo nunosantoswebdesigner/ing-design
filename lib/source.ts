@@ -32,11 +32,9 @@ export const getPageMarkdownUrl = (page: InferPageType<typeof source>) => {
 export const getLLMText = async (page: InferPageType<typeof source>) => {
   const processed = await page.data.getText("processed");
 
-  const sections = [
-    page.data.description,
-    AGENT_DOCS_DIRECTIVE_MARKDOWN,
-    processed,
-  ].filter(Boolean);
+  const sections = [page.data.description, AGENT_DOCS_DIRECTIVE_MARKDOWN, processed].filter(
+    Boolean,
+  );
 
   return `# ${page.data.title}
 

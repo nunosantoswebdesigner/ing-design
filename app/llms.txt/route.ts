@@ -14,7 +14,7 @@ const documentationIndex = (base: string) =>
     .replace(/^#\s+(.+)$/m, "## $1")
     .replaceAll(
       /\]\((\/docs(?:\/[^)#\s]+)?)(#[^)]+)?\)/g,
-      (_, pathname, hash = "") => `](${base}${pathname}.md${hash})`
+      (_, pathname, hash = "") => `](${base}${pathname}.md${hash})`,
     )
     .trim();
 

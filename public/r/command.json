@@ -3,13 +3,8 @@
   "name": "command",
   "title": "Command",
   "description": "A fast, composable command palette for searching, navigating, and triggering actions.",
-  "dependencies": [
-    "cmdk",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "dialog"
-  ],
+  "dependencies": ["cmdk", "lucide-react"],
+  "registryDependencies": ["dialog"],
   "files": [
     {
       "path": "registry/new-york/command.tsx",

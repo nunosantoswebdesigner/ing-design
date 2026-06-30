@@ -1,11 +1,4 @@
-import {
-  Bell,
-  ChevronRight,
-  CreditCard,
-  Lock,
-  Mail,
-  User,
-} from "lucide-react";
+import { Bell, ChevronRight, CreditCard, Lock, Mail, User } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {

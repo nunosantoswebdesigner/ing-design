@@ -29,7 +29,7 @@ export const getStargazers = unstable_cache(
       while (page <= 5) {
         const response = await fetch(
           `https://api.github.com/repos/${GITHUB.org}/${GITHUB.repo}/stargazers?per_page=100&page=${page}`,
-          { headers: githubHeaders() }
+          { headers: githubHeaders() },
         );
 
         if (!response.ok) {
@@ -54,16 +54,15 @@ export const getStargazers = unstable_cache(
     }
   },
   [`github-stargazers-${REPO_CACHE_KEY}`],
-  { revalidate: 86_400 }
+  { revalidate: 86_400 },
 );
 
 export const getStargazerCount = unstable_cache(
   async () => {
     try {
-      const response = await fetch(
-        `https://api.github.com/repos/${GITHUB.org}/${GITHUB.repo}`,
-        { headers: githubHeaders() }
-      );
+      const response = await fetch(`https://api.github.com/repos/${GITHUB.org}/${GITHUB.repo}`, {
+        headers: githubHeaders(),
+      });
 
       if (!response.ok) {
         return 0;
@@ -76,5 +75,5 @@ export const getStargazerCount = unstable_cache(
     }
   },
   [`github-stargazer-count-${REPO_CACHE_KEY}`],
-  { revalidate: 86_400 }
+  { revalidate: 86_400 },
 );

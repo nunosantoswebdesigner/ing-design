@@ -3,9 +3,7 @@
   "name": "spinner",
   "title": "Spinner",
   "description": "An animated SVG loading indicator with size variants and inheritable color.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/spinner.tsx",

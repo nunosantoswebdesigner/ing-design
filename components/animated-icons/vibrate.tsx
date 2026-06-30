@@ -51,7 +51,7 @@ const VibrateIcon = forwardRef<VibrateIconHandle, VibrateIconProps>(
           controls.start("animate");
         }
       },
-      [controls, onMouseEnter]
+      [controls, onMouseEnter],
     );
 
     const handleMouseLeave = useCallback(
@@ -62,7 +62,7 @@ const VibrateIcon = forwardRef<VibrateIconHandle, VibrateIconProps>(
           controls.start("normal");
         }
       },
-      [controls, onMouseLeave]
+      [controls, onMouseLeave],
     );
 
     return (
@@ -98,7 +98,7 @@ const VibrateIcon = forwardRef<VibrateIconHandle, VibrateIconProps>(
         </svg>
       </div>
     );
-  }
+  },
 );
 
 VibrateIcon.displayName = "VibrateIcon";

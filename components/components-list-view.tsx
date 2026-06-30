@@ -2,7 +2,8 @@
 
 import { LayoutGrid, LayoutList } from "lucide-react";
 import Link from "next/link";
-import { type ReactNode, useState } from "react";
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -64,10 +65,7 @@ export const ComponentsListView = ({
           <Button
             variant="ghost"
             size="icon"
-            className={cn(
-              "size-7",
-              view === "grid" && "bg-muted text-foreground"
-            )}
+            className={cn("size-7", view === "grid" && "bg-muted text-foreground")}
             onClick={() => setView("grid")}
             aria-label="Grid view"
           >
@@ -76,10 +74,7 @@ export const ComponentsListView = ({
           <Button
             variant="ghost"
             size="icon"
-            className={cn(
-              "size-7",
-              view === "list" && "bg-muted text-foreground"
-            )}
+            className={cn("size-7", view === "list" && "bg-muted text-foreground")}
             onClick={() => setView("list")}
             aria-label="List view"
           >
@@ -87,11 +82,7 @@ export const ComponentsListView = ({
           </Button>
         </div>
       </div>
-      {view === "grid" ? (
-        <GridView pages={pages} />
-      ) : (
-        <ListView pages={pages} />
-      )}
+      {view === "grid" ? <GridView pages={pages} /> : <ListView pages={pages} />}
     </div>
   );
 };

@@ -3,10 +3,7 @@ import { FileIcon, TerminalSquareIcon } from "lucide-react";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { cn } from "@/lib/utils";
 
-export const ThemeIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const ThemeIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -23,10 +20,7 @@ export const ThemeIcon = ({
   </svg>
 );
 
-export const GithubIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const GithubIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -50,10 +44,7 @@ export const XIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   </svg>
 );
 
-export const DiscordIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const DiscordIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +58,7 @@ export const DiscordIcon = ({
   </svg>
 );
 
-export const LlmsIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const LlmsIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -82,10 +70,7 @@ export const LlmsIcon = ({
   </svg>
 );
 
-export const NpmIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const NpmIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -99,10 +84,7 @@ export const NpmIcon = ({
   </svg>
 );
 
-export const YarnIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const YarnIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -116,10 +98,7 @@ export const YarnIcon = ({
   </svg>
 );
 
-export const PnpmIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const PnpmIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -133,10 +112,7 @@ export const PnpmIcon = ({
   </svg>
 );
 
-export const ViteIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const ViteIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -150,10 +126,7 @@ export const ViteIcon = ({
   </svg>
 );
 
-export const ChatGptIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const ChatGptIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -167,10 +140,7 @@ export const ChatGptIcon = ({
   </svg>
 );
 
-export const ClaudeIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const ClaudeIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -184,10 +154,7 @@ export const ClaudeIcon = ({
   </svg>
 );
 
-export const MarkdownDocIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const MarkdownDocIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     strokeLinejoin="round"
     viewBox="0 0 22 16"
@@ -203,15 +170,8 @@ export const MarkdownDocIcon = ({
   </svg>
 );
 
-export const GrokIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
-  <svg
-    viewBox="0 0 24 24"
-    className={cn("size-4 shrink-0", className)}
-    {...props}
-  >
+export const GrokIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
+  <svg viewBox="0 0 24 24" className={cn("size-4 shrink-0", className)} {...props}>
     <path
       d="m9.269 14.855 7.979-5.923c.39-.29.95-.177 1.136.274.981 2.379.543 5.237-1.409 7.2s-4.667 2.393-7.15 1.413l-2.71 1.262c3.888 2.674 8.61 2.013 11.562-.957 2.34-2.354 3.066-5.563 2.388-8.457l.006.007c-.983-4.251.242-5.95 2.75-9.425Q23.912.126 24 0l-3.302 3.32v-.01L9.267 14.857M7.622 16.295c-2.79-2.682-2.31-6.832.072-9.225C9.455 5.3 12.341 4.576 14.86 5.64l2.705-1.256a7.8 7.8 0 0 0-1.829-1.003 8.95 8.95 0 0 0-9.752 1.973C3.451 7.9 2.654 11.817 4.022 15.16c1.022 2.498-.653 4.265-2.34 6.049C1.082 21.84.482 22.473 0 23.143l7.62-6.846"
       fill="currentColor"
@@ -219,15 +179,8 @@ export const GrokIcon = ({
   </svg>
 );
 
-export const CursorIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
-  <svg
-    viewBox="0 0 24 24"
-    className={cn("size-4 shrink-0", className)}
-    {...props}
-  >
+export const CursorIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
+  <svg viewBox="0 0 24 24" className={cn("size-4 shrink-0", className)} {...props}>
     <path
       d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"
       fill="currentColor"
@@ -235,10 +188,7 @@ export const CursorIcon = ({
   </svg>
 );
 
-export const GeminiIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const GeminiIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
@@ -252,10 +202,7 @@ export const GeminiIcon = ({
   </svg>
 );
 
-export const PerplexityIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const PerplexityIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
@@ -269,10 +216,7 @@ export const PerplexityIcon = ({
   </svg>
 );
 
-export const SciraIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const SciraIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -330,43 +274,22 @@ export const SciraIcon = ({
   </svg>
 );
 
-export const FigmaIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const FigmaIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 38 57"
     className={cn("size-4", className)}
     {...props}
   >
-    <path
-      fill="currentColor"
-      d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z"
-    />
-    <path
-      fill="currentColor"
-      d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 0 1-19 0Z"
-    />
-    <path
-      fill="currentColor"
-      d="M19 0v19h9.5a9.5 9.5 0 0 0 0-19H19Z"
-    />
-    <path
-      fill="currentColor"
-      d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z"
-    />
-    <path
-      fill="currentColor"
-      d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z"
-    />
+    <path fill="currentColor" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" />
+    <path fill="currentColor" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 0 1-19 0Z" />
+    <path fill="currentColor" d="M19 0v19h9.5a9.5 9.5 0 0 0 0-19H19Z" />
+    <path fill="currentColor" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" />
+    <path fill="currentColor" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" />
   </svg>
 );
 
-export const V0Icon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const V0Icon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -379,20 +302,12 @@ export const V0Icon = ({
 );
 
 export const LinkedInIcon = ({ ...props }: React.ComponentProps<"svg">) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    {...props}
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
   </svg>
 );
 
-export const JsonIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const JsonIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -406,10 +321,7 @@ export const JsonIcon = ({
   </svg>
 );
 
-export const TsIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const TsIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -423,10 +335,7 @@ export const TsIcon = ({
   </svg>
 );
 
-export const CssIcon = ({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) => (
+export const CssIcon = ({ className, ...props }: React.ComponentProps<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"

@@ -5,13 +5,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  AuthHeader,
-  AuthDivider,
-  AuthSocial,
-  AuthFooter,
-  type AuthProvider,
-} from "@/components/ui/e-auth";
+import { AuthHeader, AuthDivider, AuthSocial, AuthFooter } from '@/components/ui/e-auth';
+import type { AuthProvider } from '@/components/ui/e-auth';
 
 interface SignupBlockProps {
   layout?: "card" | "split" | "centered";
@@ -26,7 +21,12 @@ interface SignupBlockProps {
   emailHelperText?: string;
   passwordHelperText?: string;
   confirmPasswordHelperText?: string;
-  onSignup?: (data: { name?: string; email: string; password: string; confirmPassword?: string }) => void;
+  onSignup?: (data: {
+    name?: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
+  }) => void;
   onSocialLogin?: (provider: AuthProvider) => void;
   onLogin?: () => void;
   loginHref?: string;
@@ -58,10 +58,10 @@ function SignupForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSignup?.({
-      name: showName ? name : undefined,
-      email,
-      password,
       confirmPassword: showConfirmPassword ? confirmPassword : undefined,
+      email,
+      name: showName ? name : undefined,
+      password,
     });
   };
 
@@ -106,9 +106,7 @@ function SignupForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {emailHelperText && (
-            <p className="text-xs text-muted-foreground">{emailHelperText}</p>
-          )}
+          {emailHelperText && <p className="text-xs text-muted-foreground">{emailHelperText}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -153,12 +151,7 @@ function SignupForm({
         </>
       )}
 
-      <AuthFooter
-        mode="register"
-        onSwitch={onLogin}
-        switchHref={loginHref}
-        showTerms={showTerms}
-      />
+      <AuthFooter mode="register" onSwitch={onLogin} switchHref={loginHref} showTerms={showTerms} />
     </div>
   );
 }
@@ -183,20 +176,20 @@ function SignupBlock({
   className,
 }: SignupBlockProps) {
   const formProps = {
-    logo,
-    social,
-    socialStyle,
-    socialPosition,
-    showTerms,
-    showName,
-    showConfirmPassword,
-    emailHelperText,
-    passwordHelperText,
     confirmPasswordHelperText,
+    emailHelperText,
+    loginHref,
+    logo,
+    onLogin,
     onSignup,
     onSocialLogin,
-    onLogin,
-    loginHref,
+    passwordHelperText,
+    showConfirmPassword,
+    showName,
+    showTerms,
+    social,
+    socialPosition,
+    socialStyle,
   };
 
   if (layout === "split") {
@@ -226,7 +219,10 @@ function SignupBlock({
       <div
         data-slot="signup-block"
         data-layout="centered"
-        className={cn("bg-background flex min-h-svh flex-col items-center justify-center p-8", className)}
+        className={cn(
+          "bg-background flex min-h-svh flex-col items-center justify-center p-8",
+          className,
+        )}
       >
         <div className="w-full max-w-sm">
           <SignupForm {...formProps} centered />
@@ -239,7 +235,10 @@ function SignupBlock({
     <div
       data-slot="signup-block"
       data-layout="card"
-      className={cn("bg-background flex min-h-svh items-center justify-center p-6 md:p-10", className)}
+      className={cn(
+        "bg-background flex min-h-svh items-center justify-center p-6 md:p-10",
+        className,
+      )}
     >
       <div className="w-full max-w-sm">
         <div className="rounded-xl border bg-card p-8 shadow-sm">

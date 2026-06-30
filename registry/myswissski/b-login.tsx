@@ -5,13 +5,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  AuthHeader,
-  AuthDivider,
-  AuthSocial,
-  AuthFooter,
-  type AuthProvider,
-} from "@/components/ui/e-auth";
+import { AuthHeader, AuthDivider, AuthSocial, AuthFooter } from '@/components/ui/e-auth';
+import type { AuthProvider } from '@/components/ui/e-auth';
 
 interface LoginBlockProps {
   layout?: "card" | "split" | "centered";
@@ -153,17 +148,17 @@ function LoginBlock({
   className,
 }: LoginBlockProps) {
   const formProps = {
-    logo,
-    social,
-    socialStyle,
-    socialPosition,
-    showTerms,
-    onLogin,
-    onSocialLogin,
-    onForgotPassword,
-    onRegister,
-    registerHref,
     forgotPasswordHref,
+    logo,
+    onForgotPassword,
+    onLogin,
+    onRegister,
+    onSocialLogin,
+    registerHref,
+    showTerms,
+    social,
+    socialPosition,
+    socialStyle,
   };
 
   if (layout === "split") {
@@ -182,11 +177,7 @@ function LoginBlock({
           </div>
         </div>
         <div className="bg-muted relative hidden lg:block">
-          {image && (
-            <div className="absolute inset-0 overflow-hidden">
-              {image}
-            </div>
-          )}
+          {image && <div className="absolute inset-0 overflow-hidden">{image}</div>}
         </div>
       </div>
     );
@@ -199,7 +190,7 @@ function LoginBlock({
         data-layout="centered"
         className={cn(
           "bg-background flex min-h-svh flex-col items-center justify-center p-8",
-          className
+          className,
         )}
       >
         <div className="w-full max-w-md">
@@ -216,7 +207,7 @@ function LoginBlock({
       data-layout="card"
       className={cn(
         "bg-background flex min-h-svh items-center justify-center p-6 md:p-10",
-        className
+        className,
       )}
     >
       <div className="w-full max-w-sm">

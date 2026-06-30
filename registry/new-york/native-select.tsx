@@ -34,7 +34,7 @@ const NativeSelect = ({
           "data-[size=sm]:h-8 data-[size=sm]:rounded-sm data-[size=sm]:px-2.5 data-[size=sm]:py-1 data-[size=sm]:pr-7 data-[size=sm]:text-xs",
           "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
-          className
+          className,
         )}
         onChange={handleChange}
         {...props}
@@ -48,10 +48,7 @@ const NativeSelect = ({
   );
 };
 
-const NativeSelectOption = ({
-  className,
-  ...props
-}: React.ComponentProps<"option">) => (
+const NativeSelectOption = ({ className, ...props }: React.ComponentProps<"option">) => (
   <option
     data-slot="native-select-option"
     className={cn("bg-[Canvas] text-[CanvasText]", className)}
@@ -59,10 +56,7 @@ const NativeSelectOption = ({
   />
 );
 
-const NativeSelectOptGroup = ({
-  className,
-  ...props
-}: React.ComponentProps<"optgroup">) => (
+const NativeSelectOptGroup = ({ className, ...props }: React.ComponentProps<"optgroup">) => (
   <optgroup
     data-slot="native-select-optgroup"
     className={cn("bg-[Canvas] text-[CanvasText]", className)}

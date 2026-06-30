@@ -89,8 +89,12 @@ function oklchToHex(l: number, c: number, h: number): string {
 
 export function cssVarToHex(value: string): string | null {
   const m = value.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)/);
-  if (m) {return oklchToHex(parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]));}
-  if (/^#[0-9a-f]{6}$/i.test(value)) {return value.toLowerCase();}
+  if (m) {
+    return oklchToHex(Number.parseFloat(m[1]), Number.parseFloat(m[2]), Number.parseFloat(m[3]));
+  }
+  if (/^#[0-9a-f]{6}$/i.test(value)) {
+    return value.toLowerCase();
+  }
   return null;
 }
 
@@ -157,23 +161,25 @@ export async function fetchFigmaNodes(
 // ─── Token name normalisation ─────────────────────────────────────────────────
 
 function normalizeFigmaName(name: string): string {
-  if (name.startsWith("--")) {return name;}
+  if (name.startsWith("--")) {
+    return name;
+  }
   const parts = name.split("/");
   const leaf = parts.at(-1) ?? name;
-  return (
-    `--${
-    leaf
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "")}`
-  );
+  return `--${leaf
+    .trim()
+    .toLowerCase()
+    .replaceAll(/\s+/g, "-")
+    .replaceAll(/[^a-z0-9-]/g, "")}`;
 }
 
 function guessCategory(cssVar: string): TokenCategory {
-  if (cssVar.includes("radius")) {return "radius";}
-  if (cssVar.includes("font") || cssVar.includes("text") || cssVar.includes("leading"))
-    {return "typography";}
+  if (cssVar.includes("radius")) {
+    return "radius";
+  }
+  if (cssVar.includes("font") || cssVar.includes("text") || cssVar.includes("leading")) {
+    return "typography";
+  }
   if (
     cssVar.includes("background") ||
     cssVar.includes("foreground") ||
@@ -188,8 +194,9 @@ function guessCategory(cssVar: string): TokenCategory {
     cssVar.includes("card") ||
     cssVar.includes("popover") ||
     cssVar.includes("color")
-  )
-    {return "colors";}
+  ) {
+    return "colors";
+  }
   return "other";
 }
 
@@ -204,7 +211,9 @@ export function extractTokensFromStyles(
   for (const style of stylesResponse.meta.styles) {
     const cssVar = normalizeFigmaName(style.name);
     const nodeEntry = nodesResponse.nodes[style.node_id];
-    if (!nodeEntry) {continue;}
+    if (!nodeEntry) {
+      continue;
+    }
     const doc = nodeEntry.document;
 
     if (style.style_type === "FILL") {
@@ -278,7 +287,9 @@ export function computeDiff(
   tokens.sort((a, b) => {
     const oa = order.indexOf(a.status);
     const ob = order.indexOf(b.status);
-    if (oa !== ob) {return oa - ob;}
+    if (oa !== ob) {
+      return oa - ob;
+    }
     return a.cssVar.localeCompare(b.cssVar);
   });
 

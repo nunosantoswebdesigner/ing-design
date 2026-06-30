@@ -3,10 +3,7 @@
   "name": "marker",
   "title": "Marker",
   "description": "An inline status note, system event, or labeled separator for conversation threads.",
-  "dependencies": [
-    "radix-ui",
-    "class-variance-authority"
-  ],
+  "dependencies": ["radix-ui", "class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/marker.tsx",

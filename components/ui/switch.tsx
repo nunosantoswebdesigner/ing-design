@@ -32,7 +32,7 @@ const Switch = ({
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         "disabled:cursor-not-allowed disabled:opacity-50",
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className
+        className,
       )}
       {...props}
     >
@@ -41,7 +41,7 @@ const Switch = ({
         className={cn(
           "bg-background pointer-events-none block size-4 rounded-full shadow-sm ring-0 transition-transform",
           "data-[state=checked]:translate-x-4",
-          "data-[state=unchecked]:translate-x-0"
+          "data-[state=unchecked]:translate-x-0",
         )}
       />
     </SwitchPrimitive.Root>

@@ -10,9 +10,7 @@ export const CodeTabs = ({ children }: React.ComponentProps<typeof Tabs>) => {
   return (
     <Tabs
       value={config.installationType}
-      onValueChange={(value: string) =>
-        setConfig({ installationType: value as InstallationType })
-      }
+      onValueChange={(value: string) => setConfig({ installationType: value as InstallationType })}
       className="relative mt-6 w-full"
     >
       {children}

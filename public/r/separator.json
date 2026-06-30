@@ -3,9 +3,7 @@
   "name": "separator",
   "title": "Separator",
   "description": "A thin visual divider between sections or inline content, supporting horizontal and vertical orientations.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/separator.tsx",

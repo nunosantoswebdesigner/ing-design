@@ -3,10 +3,7 @@
   "name": "badge",
   "title": "Badge",
   "description": "Small status indicators and labels for categorizing, tagging, or highlighting content.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "files": [
     {
       "path": "registry/new-york/badge.tsx",

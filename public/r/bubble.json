@@ -3,10 +3,7 @@
   "name": "bubble",
   "title": "Bubble",
   "description": "A chat message bubble with 7 variants, alignment, grouping, and reactions.",
-  "dependencies": [
-    "radix-ui",
-    "class-variance-authority"
-  ],
+  "dependencies": ["radix-ui", "class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/bubble.tsx",

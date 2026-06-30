@@ -9,9 +9,9 @@ const spinnerVariants = cva("animate-spin text-current", {
   },
   variants: {
     size: {
-      sm: "size-4",
       default: "size-5",
       lg: "size-6",
+      sm: "size-4",
       xl: "size-8",
     },
   },
@@ -35,14 +35,7 @@ const Spinner = ({
     className={cn(spinnerVariants({ size }), className)}
     {...props}
   >
-    <circle
-      className="opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      strokeWidth="3"
-    />
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
     <path
       className="opacity-75"
       fill="currentColor"

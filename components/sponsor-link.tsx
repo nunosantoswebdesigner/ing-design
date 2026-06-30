@@ -31,10 +31,12 @@ export const SponsorLink = () => {
     >
       <Link href={ROUTES.HOME}>
         <div className="flex items-center gap-1">
-          <img className="w-25px" src={'/favicon.svg'} />
+          <img className="w-25px" src={"/favicon.svg"} />
           {/* <HeartHandshakeIcon className="text-pink-500" ref={heartRef} /> */}
           <div className="pt-1">
-            <div className="max-sm:sr-only text-[x-small]" style={{ lineHeight: "8px" }}>ING</div>
+            <div className="max-sm:sr-only text-[x-small]" style={{ lineHeight: "8px" }}>
+              ING
+            </div>
             <div className="text-[xx-small]">design</div>
           </div>
         </div>

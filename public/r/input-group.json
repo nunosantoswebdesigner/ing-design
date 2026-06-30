@@ -3,10 +3,7 @@
   "name": "input-group",
   "title": "Input Group",
   "description": "Composes an input with prefix and suffix addons — text, icons, or action buttons — with seamlessly shared borders.",
-  "registryDependencies": [
-    "input",
-    "button"
-  ],
+  "registryDependencies": ["input", "button"],
   "files": [
     {
       "path": "registry/new-york/input-group.tsx",

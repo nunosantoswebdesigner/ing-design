@@ -3,9 +3,7 @@
   "name": "collapsible",
   "title": "Collapsible",
   "description": "An interactive section that expands and collapses to show or hide content.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/collapsible.tsx",

@@ -3,10 +3,7 @@
   "name": "checkbox",
   "title": "Checkbox",
   "description": "A control that allows users to toggle between checked, unchecked, and indeterminate states.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/checkbox.tsx",

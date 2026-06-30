@@ -20,11 +20,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Kbd } from "@/components/ui/kbd";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Toggle } from "@/components/ui/toggle";
 import { useHapticsEnabled } from "@/hooks/use-haptic-toggle";
 import { useIsMac } from "@/hooks/use-is-mac";
@@ -45,7 +41,7 @@ export const SiteSettings = () => {
     () => {
       setSoundEnabled((prev) => !prev);
     },
-    { preventDefault: true }
+    { preventDefault: true },
   );
 
   useHotkeys(
@@ -53,7 +49,7 @@ export const SiteSettings = () => {
     () => {
       setHapticsEnabled((prev) => !prev);
     },
-    { preventDefault: true }
+    { preventDefault: true },
   );
 
   const handleSoundMouseEnter = () => {

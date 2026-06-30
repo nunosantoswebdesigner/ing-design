@@ -32,8 +32,7 @@ export function SheetDemo() {
               <SheetHeader>
                 <SheetTitle>Sheet — {side}</SheetTitle>
                 <SheetDescription>
-                  Slides in from the {side}. Click outside or press Esc to
-                  close.
+                  Slides in from the {side}. Click outside or press Esc to close.
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>

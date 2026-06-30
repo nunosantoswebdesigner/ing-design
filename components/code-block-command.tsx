@@ -31,34 +31,27 @@ export const CodeBlockCommand = ({
     () => ({
       npm: __npm__,
       pnpm: __pnpm__,
-      yarn: __yarn__,
       vite: __vite__,
+      yarn: __yarn__,
     }),
-    [__npm__, __pnpm__, __yarn__, __vite__]
+    [__npm__, __pnpm__, __yarn__, __vite__],
   );
 
   const handlePackageManagerChange = useCallback(
     (value: string) => setPackageManager(value as PackageManager),
-    [setPackageManager]
+    [setPackageManager],
   );
 
-  const copyValue = useMemo(
-    () => commandTabs[packageManager] || "",
-    [commandTabs, packageManager]
-  );
+  const copyValue = useMemo(() => commandTabs[packageManager] || "", [commandTabs, packageManager]);
 
   return (
     <div
       className={cn(
         "bg-code text-code-foreground relative overflow-hidden rounded-lg text-sm",
-        className
+        className,
       )}
     >
-      <Tabs
-        className="gap-0"
-        onValueChange={handlePackageManagerChange}
-        value={packageManager}
-      >
+      <Tabs className="gap-0" onValueChange={handlePackageManagerChange} value={packageManager}>
         <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
           <TabsList className="rounded-none bg-transparent p-0 [&_svg]:me-2 [&_svg]:size-4 [&_svg]:text-muted-foreground">
             {getIconForPackageManager(packageManager)}

@@ -4,14 +4,14 @@ import { Separator } from "@/components/ui/separator";
 const tags = Array.from({ length: 50 }, (_, i) => `Component ${i + 1}`);
 
 const artworks = [
-  { title: "Ornithology", artist: "Charlie Parker" },
-  { title: "So What", artist: "Miles Davis" },
-  { title: "Waltz for Debby", artist: "Bill Evans" },
-  { title: "A Love Supreme", artist: "John Coltrane" },
-  { title: "Take Five", artist: "Dave Brubeck" },
-  { title: "Kind of Blue", artist: "Miles Davis" },
-  { title: "Giant Steps", artist: "John Coltrane" },
-  { title: "Maiden Voyage", artist: "Herbie Hancock" },
+  { artist: "Charlie Parker", title: "Ornithology" },
+  { artist: "Miles Davis", title: "So What" },
+  { artist: "Bill Evans", title: "Waltz for Debby" },
+  { artist: "John Coltrane", title: "A Love Supreme" },
+  { artist: "Dave Brubeck", title: "Take Five" },
+  { artist: "Miles Davis", title: "Kind of Blue" },
+  { artist: "John Coltrane", title: "Giant Steps" },
+  { artist: "Herbie Hancock", title: "Maiden Voyage" },
 ];
 
 export function ScrollAreaDemo() {

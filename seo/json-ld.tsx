@@ -3,10 +3,7 @@ import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 
 const JsonLdScript = ({ data }: { data: Record<string, unknown> }) => (
-  <script
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    type="application/ld+json"
-  />
+  <script dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} type="application/ld+json" />
 );
 
 export const WebsiteJsonLd = () => (
@@ -75,11 +72,7 @@ export const OrganizationJsonLd = () => (
   />
 );
 
-export const BreadcrumbJsonLd = ({
-  items,
-}: {
-  items: { name: string; path: string }[];
-}) => (
+export const BreadcrumbJsonLd = ({ items }: { items: { name: string; path: string }[] }) => (
   <JsonLdScript
     data={{
       "@context": "https://schema.org",

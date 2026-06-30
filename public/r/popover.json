@@ -3,9 +3,7 @@
   "name": "popover",
   "title": "Popover",
   "description": "A floating panel anchored to a trigger — for non-modal overlays, forms, and contextual detail.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/popover.tsx",

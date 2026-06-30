@@ -5,10 +5,7 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const Checkbox = ({
-  className,
-  ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) => (
+const Checkbox = ({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) => (
   <CheckboxPrimitive.Root
     data-slot="checkbox"
     className={cn(
@@ -19,7 +16,7 @@ const Checkbox = ({
       "disabled:cursor-not-allowed disabled:opacity-50",
       "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
       "transition-shadow",
-      className
+      className,
     )}
     {...props}
   >

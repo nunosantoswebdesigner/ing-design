@@ -3,9 +3,7 @@
   "name": "label",
   "title": "Label",
   "description": "An accessible form label that associates with its input and responds to disabled state.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/label.tsx",

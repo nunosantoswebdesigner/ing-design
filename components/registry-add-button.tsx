@@ -73,10 +73,10 @@ export const RegistryAddButton = ({
     () => ({
       npm: `npx shadcn@latest registry add ${registryName}`,
       pnpm: `pnpm dlx shadcn@latest registry add ${registryName}`,
-      yarn: `yarn dlx shadcn@latest registry add ${registryName}`,
       vite: `npx shadcn@latest registry add ${registryName}`,
+      yarn: `yarn dlx shadcn@latest registry add ${registryName}`,
     }),
-    [registryName]
+    [registryName],
   );
 
   const handleTriggerClick = (e: React.MouseEvent<HTMLButtonElement>) => {

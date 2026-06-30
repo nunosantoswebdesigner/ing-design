@@ -21,7 +21,9 @@ export function CardDemo() {
         </p>
       </CardContent>
       <CardFooter className="gap-2">
-        <Button variant="outline" size="sm">Cancel</Button>
+        <Button variant="outline" size="sm">
+          Cancel
+        </Button>
         <Button size="sm">Save</Button>
       </CardFooter>
     </Card>

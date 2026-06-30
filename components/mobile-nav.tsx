@@ -7,11 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
 import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
@@ -94,7 +90,7 @@ export const MobileNav = ({
           variant="ghost"
           className={cn(
             "extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent",
-            className
+            className,
           )}
         >
           <div className="relative flex h-8 w-4 items-center justify-center">
@@ -102,21 +98,19 @@ export const MobileNav = ({
               <span
                 className={cn(
                   "bg-foreground absolute left-0 block h-0.5 w-4 transition-all duration-100",
-                  open ? "top-[0.4rem] -rotate-45" : "top-1"
+                  open ? "top-[0.4rem] -rotate-45" : "top-1",
                 )}
               />
               <span
                 className={cn(
                   "bg-foreground absolute left-0 block h-0.5 w-4 transition-all duration-100",
-                  open ? "top-[0.4rem] rotate-45" : "top-2.5"
+                  open ? "top-[0.4rem] rotate-45" : "top-2.5",
                 )}
               />
             </div>
             <span className="sr-only">Toggle Menu</span>
           </div>
-          <span className="flex h-8 items-center text-lg leading-none font-medium">
-            Menu
-          </span>
+          <span className="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -128,19 +122,13 @@ export const MobileNav = ({
       >
         <div className="flex flex-col gap-12 overflow-auto px-6 py-6">
           <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground text-sm font-medium">
-              Menu
-            </div>
+            <div className="text-muted-foreground text-sm font-medium">Menu</div>
             <div className="flex flex-col gap-3">
               <MobileLink href={ROUTES.HOME} onOpenChange={setOpen}>
                 Home
               </MobileLink>
               {items.map((item) => (
-                <MobileLink
-                  key={item.href}
-                  href={item.href}
-                  onOpenChange={setOpen}
-                >
+                <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
                   {item.label}
                 </MobileLink>
               ))}
@@ -155,18 +143,11 @@ export const MobileNav = ({
             }
 
             const pages = isComponentsFolder(item)
-              ? getAllPagesFromFolder(item).filter(
-                  (page) => page.url !== ROUTES.DOCS_COMPONENTS
-                )
+              ? getAllPagesFromFolder(item).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS)
               : getPagesFromFolder(item);
 
             return (
-              <MobileNavGroup
-                key={item.$id}
-                label={item.name}
-                pages={pages}
-                setOpen={setOpen}
-              />
+              <MobileNavGroup key={item.$id} label={item.name} pages={pages} setOpen={setOpen} />
             );
           })}
         </div>

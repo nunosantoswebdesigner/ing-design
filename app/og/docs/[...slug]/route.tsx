@@ -6,10 +6,7 @@ import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;
 
-export const GET = async (
-  _req: Request,
-  { params }: RouteContext<"/og/docs/[...slug]">
-) => {
+export const GET = async (_req: Request, { params }: RouteContext<"/og/docs/[...slug]">) => {
   const { slug } = await params;
   const page = source.getPage(slug.slice(0, -1));
   if (!page) {
@@ -53,7 +50,7 @@ export const GET = async (
     {
       height: 630,
       width: 1200,
-    }
+    },
   );
 };
 

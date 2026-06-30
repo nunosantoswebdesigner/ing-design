@@ -13,8 +13,7 @@ import {
 import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
-const headingById = (id: string): Element | null =>
-  document.querySelector(`#${CSS.escape(id)}`);
+const headingById = (id: string): Element | null => document.querySelector(`#${CSS.escape(id)}`);
 
 const useActiveItem = (itemIds: string[]) => {
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -28,7 +27,7 @@ const useActiveItem = (itemIds: string[]) => {
           }
         }
       },
-      { rootMargin: "0% 0% -80% 0%" }
+      { rootMargin: "0% 0% -80% 0%" },
     );
 
     for (const id of itemIds ?? []) {
@@ -72,10 +71,7 @@ export const DocsTableOfContents = ({
 }) => {
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), []);
-  const itemIds = useMemo(
-    () => toc.map((item) => item.url.replace("#", "")),
-    [toc]
-  );
+  const itemIds = useMemo(() => toc.map((item) => item.url.replace("#", "")), [toc]);
   const activeHeading = useActiveItem(itemIds);
   const playTick = useFeedback({ sound: "tick" });
 
@@ -87,18 +83,11 @@ export const DocsTableOfContents = ({
     return (
       <DropdownMenu open={open} onOpenChange={setOpen} sounds>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn("h-8 md:h-7", className)}
-          >
+          <Button variant="outline" size="sm" className={cn("h-8 md:h-7", className)}>
             <MenuIcon /> On This Page
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="start"
-          className="no-scrollbar max-h-[70svh]"
-        >
+        <DropdownMenuContent align="start" className="no-scrollbar max-h-[70svh]">
           {toc.map((item) => (
             <DropdownMenuItem
               key={item.url}
@@ -118,9 +107,7 @@ export const DocsTableOfContents = ({
 
   return (
     <div className={cn("flex flex-col gap-2 p-4 pt-0 text-sm", className)}>
-      <p className="text-muted-foreground bg-background sticky top-0 h-6 text-xs">
-        On This Page
-      </p>
+      <p className="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
       {toc.map((item) => (
         <a
           key={item.url}

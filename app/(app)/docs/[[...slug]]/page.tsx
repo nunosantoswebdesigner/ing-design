@@ -26,9 +26,7 @@ export const dynamicParams = false;
 
 export const generateStaticParams = () => source.generateParams();
 
-export const generateMetadata = async (props: {
-  params: Promise<{ slug?: string[] }>;
-}) => {
+export const generateMetadata = async (props: { params: Promise<{ slug?: string[] }> }) => {
   const params = await props.params;
   const page = source.getPage(params.slug);
 
@@ -48,11 +46,7 @@ export const generateMetadata = async (props: {
   });
 };
 
-const buildBreadcrumbs = (
-  slugs: string[],
-  pageTitle: string,
-  pageUrl: string
-) => {
+const buildBreadcrumbs = (slugs: string[], pageTitle: string, pageUrl: string) => {
   const items: { name: string; path: string }[] = [{ name: "Home", path: "/" }];
 
   if (slugs.length === 0) {
@@ -108,7 +102,9 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
         >
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="h-(--top-spacing) shrink-0" />
-            <div className={`mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 py-6 text-neutral-800 lg:py-8 dark:text-neutral-300 ${isFluid ? "max-w-full px-4 md:px-6" : "max-w-2xl px-4 md:px-0"}`}>
+            <div
+              className={`mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 py-6 text-neutral-800 lg:py-8 dark:text-neutral-300 ${isFluid ? "max-w-full px-4 md:px-6" : "max-w-2xl px-4 md:px-0"}`}
+            >
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
@@ -197,7 +193,9 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                 <MdxContent components={mdxComponents} />
               </div>
             </div>
-            <div className={`mx-auto hidden h-16 w-full items-center gap-2 sm:flex ${isFluid ? "max-w-full px-4 md:px-6" : "max-w-2xl px-4 md:px-0"}`}>
+            <div
+              className={`mx-auto hidden h-16 w-full items-center gap-2 sm:flex ${isFluid ? "max-w-full px-4 md:px-6" : "max-w-2xl px-4 md:px-0"}`}
+            >
               {neighbours.previous && (
                 <DocsNavLink
                   href={neighbours.previous.url}

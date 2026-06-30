@@ -3,16 +3,8 @@
   "name": "b-featured",
   "title": "Featured",
   "description": "Dashboard block with stat cards, area chart, and data table with tabs and pagination.",
-  "dependencies": [
-    "recharts"
-  ],
-  "registryDependencies": [
-    "button",
-    "card",
-    "chart",
-    "tabs",
-    "e-data-table"
-  ],
+  "dependencies": ["recharts"],
+  "registryDependencies": ["button", "card", "chart", "tabs", "e-data-table"],
   "files": [
     {
       "path": "registry/new-york/b-featured.tsx",

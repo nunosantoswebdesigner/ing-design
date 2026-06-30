@@ -18,8 +18,8 @@ import registry from "@/registry.json";
 const pmCommands: Record<PackageManager, string> = {
   npm: "npx",
   pnpm: "pnpm dlx",
-  yarn: "yarn dlx",
   vite: "npx",
+  yarn: "yarn dlx",
 };
 
 const registryItemNames = registry.items
@@ -27,7 +27,7 @@ const registryItemNames = registry.items
   .toSorted((a, b) =>
     a.localeCompare(b, "en", {
       sensitivity: "base",
-    })
+    }),
   );
 
 export const CommandBox = ({
@@ -42,12 +42,7 @@ export const CommandBox = ({
   const currentItemRef = useRef(registryItemNames[0]);
 
   return (
-    <div
-      className={cn(
-        "bg-code text-code-foreground relative rounded-lg text-sm",
-        className
-      )}
-    >
+    <div className={cn("bg-code text-code-foreground relative rounded-lg text-sm", className)}>
       <Tabs
         className="gap-0"
         onValueChange={(value: string) => {
@@ -136,7 +131,6 @@ export const CommandBox = ({
           </code>
         </pre>
       </Tabs>
-
     </div>
   );
 };

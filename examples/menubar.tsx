@@ -81,16 +81,10 @@ export function MenubarDemo() {
       <MenubarMenu>
         <MenubarTrigger>View</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}
-          >
+          <MenubarCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
             Status Bar
           </MenubarCheckboxItem>
-          <MenubarCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-          >
+          <MenubarCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar}>
             Activity Bar
           </MenubarCheckboxItem>
           <MenubarSeparator />

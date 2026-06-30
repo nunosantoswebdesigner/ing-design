@@ -10,7 +10,7 @@ const DEFAULT_MUTATION_OBSERVER_OPTIONS: MutationObserverInit = {
 export const useMutationObserver = (
   ref: React.RefObject<HTMLElement | null>,
   callback: MutationCallback,
-  options: MutationObserverInit = DEFAULT_MUTATION_OBSERVER_OPTIONS
+  options: MutationObserverInit = DEFAULT_MUTATION_OBSERVER_OPTIONS,
 ) => {
   useEffect(() => {
     if (ref.current) {

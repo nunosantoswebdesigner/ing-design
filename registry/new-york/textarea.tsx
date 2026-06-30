@@ -9,7 +9,7 @@ const Textarea = ({ className, ...props }: React.ComponentProps<"textarea">) => 
       "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "md:text-sm",
-      className
+      className,
     )}
     {...props}
   />

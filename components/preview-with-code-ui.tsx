@@ -21,17 +21,10 @@ export const PreviewWithCodeUI = ({
 
   return (
     <div className={cn("mt-4 overflow-hidden rounded-xl border", className)}>
-      <div className="flex min-h-87.5 items-center justify-center p-8">
-        {children}
-      </div>
+      <div className="flex min-h-87.5 items-center justify-center p-8">{children}</div>
 
       <div className="border-t">
-        <div
-          className={cn(
-            "relative",
-            !isOpen && "max-h-50 overflow-hidden"
-          )}
-        >
+        <div className={cn("relative", !isOpen && "max-h-50 overflow-hidden")}>
           <div className="relative [&_pre]:max-h-none [&_pre]:rounded-none [&_pre]:rounded-b-xl">
             <CopyButton value={code} event="copy_primitive_code" />
             <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
@@ -39,11 +32,7 @@ export const PreviewWithCodeUI = ({
 
           {!isOpen && (
             <div className="from-code/0 to-code absolute inset-x-0 bottom-0 flex h-28 items-end justify-center bg-linear-to-b pb-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsOpen(true)}
-              >
+              <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>
                 View Code
               </Button>
             </div>
