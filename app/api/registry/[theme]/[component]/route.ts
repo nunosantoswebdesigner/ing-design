@@ -102,6 +102,61 @@ const buildDemoPage = (component: string, title: string): string => {
   // Generic demo: renders the component name as a heading with a note.
   // For known components we provide a richer demo.
   const demos: Record<string, string> = {
+    alert: `import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { InfoIcon, TriangleAlertIcon } from "lucide-react";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center gap-4 bg-background p-8">
+      <div className="w-full max-w-lg space-y-4">
+        <Alert>
+          <InfoIcon />
+          <AlertTitle>Heads up</AlertTitle>
+          <AlertDescription>You can add components to your app using the cli.</AlertDescription>
+        </Alert>
+        <Alert variant="destructive">
+          <TriangleAlertIcon />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+        </Alert>
+      </div>
+    </div>
+  );
+}`,
+    avatar: `import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center gap-8 bg-background p-8">
+      <div className="flex items-center gap-4">
+        <Avatar className="size-10">
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>SC</AvatarFallback>
+        </Avatar>
+        <Avatar className="size-10">
+          <AvatarFallback>JC</AvatarFallback>
+        </Avatar>
+        <Avatar className="size-10">
+          <AvatarFallback>ML</AvatarFallback>
+        </Avatar>
+      </div>
+    </div>
+  );
+}`,
+    badge: `import { Badge } from "@/components/ui/badge";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center gap-4 bg-background p-8">
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Badge>Default</Badge>
+        <Badge variant="secondary">Secondary</Badge>
+        <Badge variant="outline">Outline</Badge>
+        <Badge variant="destructive">Destructive</Badge>
+      </div>
+    </div>
+  );
+}`,
     button: `import { ${importName} } from "@/components/ui/${component}";
 
 export default function Page() {
@@ -123,6 +178,37 @@ export default function Page() {
         <${importName}>Default</${importName}>
         <${importName} size="lg">Large</${importName}>
       </div>
+    </div>
+  );
+}`,
+    card: `import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh items-center justify-center bg-background p-8">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Create project</CardTitle>
+          <CardDescription>Deploy your new project in one-click.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            Add your project details to get started.
+          </p>
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Button variant="outline">Cancel</Button>
+          <Button>Deploy</Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }`,
