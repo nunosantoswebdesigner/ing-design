@@ -74,7 +74,9 @@ const extractRadixPackages = (source: string): string[] => {
   const re = /from\s+["'](@radix-ui\/[^"']+)["']/g;
   const seen = new Set<string>();
   let m: RegExpExecArray | null;
-  while ((m = re.exec(source)) !== null) {seen.add(m[1]);}
+  while ((m = re.exec(source)) !== null) {
+    seen.add(m[1]);
+  }
   return [...seen];
 };
 
@@ -121,6 +123,28 @@ export default function Page() {
         <${importName}>Default</${importName}>
         <${importName} size="lg">Large</${importName}>
       </div>
+    </div>
+  );
+}`,
+    "e-data-table": `import { DataTable } from "@/components/ui/e-data-table";
+import type { DataTableRow } from "@/components/ui/e-data-table";
+
+const rows: DataTableRow[] = [
+  { id: "1", header: "Homepage redesign", sectionType: "Design", status: "done",       target: 10, limit: 10, reviewer: "Ana Silva"   },
+  { id: "2", header: "API integration",   sectionType: "Dev",    status: "in-process", target: 8,  limit: 10, reviewer: "João Costa"   },
+  { id: "3", header: "Write unit tests",  sectionType: "Dev",    status: "pending",    target: 0,  limit: 5,  reviewer: null           },
+  { id: "4", header: "QA review",         sectionType: "QA",     status: "cancelled",  target: 3,  limit: 6,  reviewer: "Marta Lopes"  },
+  { id: "5", header: "Deploy to staging", sectionType: "Dev",    status: "in-process", target: 5,  limit: 8,  reviewer: "João Costa"   },
+];
+
+export default function Page() {
+  return (
+    <div className="min-h-svh bg-background p-8">
+      <DataTable
+        rows={rows}
+        title="Sprint Tasks"
+        description="Current sprint — 5 tasks"
+      />
     </div>
   );
 }`,
@@ -180,13 +204,17 @@ export const GET = async (
     const entry = getRegistryItem(name);
     const deps = (entry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
     for (const d of deps) {
-      if (d !== "radix-ui") {allNpmDeps.add(d);}
+      if (d !== "radix-ui") {
+        allNpmDeps.add(d);
+      }
     }
   }
 
   // Extract actual @radix-ui/* packages from rewritten file contents
   for (const src of [content, ...depFiles.map((f) => f.content)]) {
-    for (const pkg of extractRadixPackages(src)) {allNpmDeps.add(pkg);}
+    for (const pkg of extractRadixPackages(src)) {
+      allNpmDeps.add(pkg);
+    }
   }
 
   const dependencies = [...allNpmDeps];
