@@ -21,38 +21,108 @@ const readRegistryFile = async (name: string): Promise<string | null> => {
   }
 };
 
+// Rewrite unified `radix-ui` imports to specific @radix-ui/* packages for v0 compatibility.
+// v0 expects the older per-package imports (e.g. @radix-ui/react-slot).
+const rewriteRadixImports = (source: string): string =>
+  source.replaceAll(/import\s*\{([^}]+)\}\s*from\s*["']radix-ui["']/g, (_, named: string) => {
+    const names = named
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    return names
+      .map((n) => {
+        // Slot → @radix-ui/react-slot; strip namespace suffix before mapping
+        const pkg = n.replace(/\..+$/, "");
+        return `import { ${n} } from "@radix-ui/react-${pkg.toLowerCase()}"`;
+      })
+      .join("\n");
+  });
+
 // Recursively resolve custom registry dependencies (skips shadcn base components
-// that don't exist in registry/new-york — V0 knows how to resolve those itself).
+// that don't live in registry/new-york — v0 resolves those itself).
 const resolveCustomDeps = async (
   name: string,
   visited: Set<string>,
 ): Promise<{ name: string; content: string }[]> => {
   const item = getRegistryItem(name);
-  if (!item) {return [];}
+  if (!item) {
+    return [];
+  }
 
   const deps = (item as { registryDependencies?: string[] }).registryDependencies ?? [];
   const results: { name: string; content: string }[] = [];
 
   for (const dep of deps) {
-    if (visited.has(dep)) {continue;}
-
+    if (visited.has(dep)) {
+      continue;
+    }
     const content = await readRegistryFile(dep);
-    if (!content) {continue;} // shadcn base component — skip
-
+    // shadcn base component — skip
+    if (!content) {
+      continue;
+    }
     visited.add(dep);
-    results.push({ content, name: dep });
-
-    const nested = await resolveCustomDeps(dep, visited);
-    results.push(...nested);
+    results.push({ content: rewriteRadixImports(content), name: dep });
+    results.push(...(await resolveCustomDeps(dep, visited)));
   }
 
   return results;
 };
 
-export async function GET(
+// Simple demo page so v0 has something to render immediately.
+const buildDemoPage = (component: string, title: string): string => {
+  const importName = title
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+
+  // Generic demo: renders the component name as a heading with a note.
+  // For known components we provide a richer demo.
+  const demos: Record<string, string> = {
+    button: `import { ${importName} } from "@/components/ui/${component}";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center gap-8 bg-background p-8">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">${title}</h1>
+        <p className="text-sm text-muted-foreground">Component preview</p>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <${importName}>Default</${importName}>
+        <${importName} variant="secondary">Secondary</${importName}>
+        <${importName} variant="outline">Outline</${importName}>
+        <${importName} variant="ghost">Ghost</${importName}>
+        <${importName} variant="destructive">Destructive</${importName}>
+      </div>
+      <div className="flex items-center gap-3">
+        <${importName} size="sm">Small</${importName}>
+        <${importName}>Default</${importName}>
+        <${importName} size="lg">Large</${importName}>
+      </div>
+    </div>
+  );
+}`,
+  };
+
+  return (
+    demos[component] ??
+    `import { ${importName} } from "@/components/ui/${component}";
+
+export default function Page() {
+  return (
+    <div className="flex min-h-svh items-center justify-center bg-background p-8">
+      <${importName} />
+    </div>
+  );
+}`
+  );
+};
+
+export const GET = async (
   _req: Request,
   { params }: { params: Promise<{ theme: string; component: string }> },
-) {
+) => {
   const { theme, component } = await params;
 
   const themeConfig = REGISTRY_THEMES.find((t) => t.id === theme);
@@ -60,10 +130,12 @@ export async function GET(
     return NextResponse.json({ error: "Theme not found" }, { status: 404 });
   }
 
-  const content = await readRegistryFile(component);
-  if (!content) {
+  const raw = await readRegistryFile(component);
+  if (!raw) {
     return NextResponse.json({ error: "Component not found" }, { status: 404 });
   }
+
+  const content = rewriteRadixImports(raw);
 
   const title =
     component.charAt(0).toUpperCase() +
@@ -72,26 +144,44 @@ export async function GET(
   const cssVars =
     themeConfig.cssVars ?? REGISTRY_THEMES.find((t) => t.id === DEFAULT_REGISTRY_THEME_ID)?.cssVars;
 
-  // Resolve custom deps — start visited with the component itself to prevent cycles
+  // Pull npm dependencies from registry.json entry for this component
+  const registryEntry = getRegistryItem(component);
+  const npmDeps: string[] =
+    (registryEntry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
+
+  // Rewrite "radix-ui" (unified) → specific @radix-ui/* packages for v0
+  const dependencies = npmDeps.flatMap((d) => (d === "radix-ui" ? ["@radix-ui/react-slot"] : [d]));
+
+  // Resolve custom registry deps (other local components)
   const depFiles = await resolveCustomDeps(component, new Set([component]));
 
   const files = [
+    // Component itself
     {
       content,
       path: `components/ui/${component}.tsx`,
       target: `components/ui/${component}.tsx`,
       type: "registry:ui",
     },
+    // Resolved custom sub-components
     ...depFiles.map(({ name, content: depContent }) => ({
       content: depContent,
       path: `components/ui/${name}.tsx`,
       target: `components/ui/${name}.tsx`,
       type: "registry:ui",
     })),
+    // Demo page so v0 renders a preview immediately
+    {
+      content: buildDemoPage(component, title),
+      path: "app/page.tsx",
+      target: "app/page.tsx",
+      type: "registry:page",
+    },
   ];
 
   const registryItem = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    dependencies,
     description: `${title} component — ${themeConfig.label} theme`,
     files,
     name: component,
@@ -106,4 +196,4 @@ export async function GET(
       "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
-}
+};
