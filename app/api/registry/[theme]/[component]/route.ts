@@ -69,12 +69,23 @@ const resolveCustomDeps = async (
   return results;
 };
 
+// Extract actual @radix-ui/* package names from source after import rewriting.
+const extractRadixPackages = (source: string): string[] => {
+  const re = /from\s+["'](@radix-ui\/[^"']+)["']/g;
+  const seen = new Set<string>();
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(source)) !== null) {seen.add(m[1]);}
+  return [...seen];
+};
+
 // Include both key formats: "--primary" (modern oklch) and "primary" (v0 legacy).
 const expandCssVars = (vars: Record<string, string>): Record<string, string> => {
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(vars)) {
     out[k] = v;
-    if (k.startsWith("--")) {out[k.slice(2)] = v;}
+    if (k.startsWith("--")) {
+      out[k.slice(2)] = v;
+    }
   }
   return out;
 };
@@ -161,20 +172,24 @@ export const GET = async (
   // Resolve custom registry deps (other local components)
   const depFiles = await resolveCustomDeps(component, new Set([component]));
 
-  // Collect npm deps from main component + all resolved sub-components
+  // Collect npm deps from main component + all resolved sub-components.
+  // Exclude the generic "radix-ui" entry — we resolve the specific @radix-ui/*
+  // packages directly from the rewritten source imports instead.
   const allNpmDeps = new Set<string>();
   for (const name of [component, ...depFiles.map((f) => f.name)]) {
     const entry = getRegistryItem(name);
     const deps = (entry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
     for (const d of deps) {
-      allNpmDeps.add(d);
+      if (d !== "radix-ui") {allNpmDeps.add(d);}
     }
   }
 
-  // Rewrite "radix-ui" (unified) → specific @radix-ui/* packages for v0
-  const dependencies = [...allNpmDeps].flatMap((d) =>
-    d === "radix-ui" ? ["@radix-ui/react-slot"] : [d],
-  );
+  // Extract actual @radix-ui/* packages from rewritten file contents
+  for (const src of [content, ...depFiles.map((f) => f.content)]) {
+    for (const pkg of extractRadixPackages(src)) {allNpmDeps.add(pkg);}
+  }
+
+  const dependencies = [...allNpmDeps];
 
   const files = [
     // Component itself
