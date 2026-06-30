@@ -144,16 +144,21 @@ export const GET = async (
   const cssVars =
     themeConfig.cssVars ?? REGISTRY_THEMES.find((t) => t.id === DEFAULT_REGISTRY_THEME_ID)?.cssVars;
 
-  // Pull npm dependencies from registry.json entry for this component
-  const registryEntry = getRegistryItem(component);
-  const npmDeps: string[] =
-    (registryEntry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
-
-  // Rewrite "radix-ui" (unified) → specific @radix-ui/* packages for v0
-  const dependencies = npmDeps.flatMap((d) => (d === "radix-ui" ? ["@radix-ui/react-slot"] : [d]));
-
   // Resolve custom registry deps (other local components)
   const depFiles = await resolveCustomDeps(component, new Set([component]));
+
+  // Collect npm deps from main component + all resolved sub-components
+  const allNpmDeps = new Set<string>();
+  for (const name of [component, ...depFiles.map((f) => f.name)]) {
+    const entry = getRegistryItem(name);
+    const deps = (entry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
+    for (const d of deps) {allNpmDeps.add(d);}
+  }
+
+  // Rewrite "radix-ui" (unified) → specific @radix-ui/* packages for v0
+  const dependencies = [...allNpmDeps].flatMap((d) =>
+    d === "radix-ui" ? ["@radix-ui/react-slot"] : [d],
+  );
 
   const files = [
     // Component itself
