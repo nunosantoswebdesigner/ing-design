@@ -2,7 +2,6 @@
 
 import * as SliderPrimitive from "@radix-ui/react-slider";
 
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
 const Slider = ({
@@ -11,19 +10,9 @@ const Slider = ({
   value,
   min = 0,
   max = 100,
-  sounds,
   onValueChange,
   ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root> & {
-  sounds?: boolean;
-}) => {
-  const play = useFeedback({ sound: sounds ? "tick" : undefined });
-
-  const handleValueChange = (val: number[]) => {
-    play();
-    onValueChange?.(val);
-  };
-
+}: React.ComponentProps<typeof SliderPrimitive.Root>) => {
   const thumbCount = (value ?? defaultValue ?? [0]).length;
 
   return (
@@ -33,7 +22,7 @@ const Slider = ({
       value={value}
       min={min}
       max={max}
-      onValueChange={handleValueChange}
+      onValueChange={onValueChange}
       className={cn(
         "relative flex w-full touch-none items-center select-none",
         "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",

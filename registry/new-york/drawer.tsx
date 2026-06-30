@@ -1,64 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { useCallback, useEffect, useRef } from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
-import { drawerClose, drawerOpen } from "@/audio/core";
-import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";
 
-const Drawer = ({
-  onOpenChange,
-  sounds = false,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root> & {
-  sounds?: boolean;
-}) => {
-  const playOpen = useFeedback({ soundDef: drawerOpen });
-  const playClose = useFeedback({ soundDef: drawerClose });
-  const isControlled = props.open !== undefined;
-  const lastOpen = useRef(props.open ?? props.defaultOpen ?? false);
-
-  const playStateSound = useCallback(
-    (open: boolean) => {
-      if (!sounds || open === lastOpen.current) {
-        return;
-      }
-
-      if (open) {
-        playOpen();
-      } else {
-        playClose();
-      }
-
-      lastOpen.current = open;
-    },
-    [playClose, playOpen, sounds],
-  );
-
-  useEffect(() => {
-    if (!isControlled) {
-      return;
-    }
-
-    playStateSound(props.open ?? false);
-  }, [isControlled, playStateSound, props.open]);
-
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      playStateSound(open);
-      onOpenChange?.(open);
-    },
-    [onOpenChange, playStateSound],
-  );
-
-  if (!sounds) {
-    return <DrawerPrimitive.Root data-slot="drawer" onOpenChange={onOpenChange} {...props} />;
-  }
-
-  return <DrawerPrimitive.Root data-slot="drawer" onOpenChange={handleOpenChange} {...props} />;
-};
+const Drawer = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+  <DrawerPrimitive.Root data-slot="drawer" {...props} />
+);
 
 const DrawerTrigger = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) => (
   <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
@@ -105,7 +54,7 @@ const DrawerContent = ({
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+      <div className="mx-auto mt-4 hidden h-2 w-25 shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

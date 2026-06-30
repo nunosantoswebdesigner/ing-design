@@ -18,8 +18,6 @@ import {
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type { FeedbackType } from "@/hooks/use-feedback";
-import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -471,25 +469,13 @@ const SidebarMenuButton = ({
   size = "default",
   tooltip,
   className,
-  sound,
-  haptic,
-  onClick,
   ...props
 }: React.ComponentProps<"button"> & {
   asChild?: boolean;
   isActive?: boolean;
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
-  sound?: FeedbackType;
-  haptic?: boolean;
 } & VariantProps<typeof sidebarMenuButtonVariants>) => {
   const { isMobile, state } = useSidebar();
-
-  const play = useFeedback({ haptic, sound });
-
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    play();
-    onClick?.(e);
-  };
 
   const Comp = asChild ? Slot : "button";
 
@@ -500,7 +486,6 @@ const SidebarMenuButton = ({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ size, variant }), className)}
-      onClick={handleClick}
       {...props}
     />
   );
