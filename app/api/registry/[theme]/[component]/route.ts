@@ -69,6 +69,16 @@ const resolveCustomDeps = async (
   return results;
 };
 
+// Include both key formats: "--primary" (modern oklch) and "primary" (v0 legacy).
+const expandCssVars = (vars: Record<string, string>): Record<string, string> => {
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(vars)) {
+    out[k] = v;
+    if (k.startsWith("--")) {out[k.slice(2)] = v;}
+  }
+  return out;
+};
+
 // Simple demo page so v0 has something to render immediately.
 const buildDemoPage = (component: string, title: string): string => {
   const importName = title
@@ -141,8 +151,12 @@ export const GET = async (
     component.charAt(0).toUpperCase() +
     component.slice(1).replaceAll(/-([a-z])/g, (_, c: string) => ` ${c.toUpperCase()}`);
 
-  const cssVars =
+  const rawCssVars =
     themeConfig.cssVars ?? REGISTRY_THEMES.find((t) => t.id === DEFAULT_REGISTRY_THEME_ID)?.cssVars;
+
+  const cssVars = rawCssVars
+    ? { dark: expandCssVars(rawCssVars.dark), light: expandCssVars(rawCssVars.light) }
+    : undefined;
 
   // Resolve custom registry deps (other local components)
   const depFiles = await resolveCustomDeps(component, new Set([component]));
@@ -152,7 +166,9 @@ export const GET = async (
   for (const name of [component, ...depFiles.map((f) => f.name)]) {
     const entry = getRegistryItem(name);
     const deps = (entry as { dependencies?: string[] } | undefined)?.dependencies ?? [];
-    for (const d of deps) {allNpmDeps.add(d);}
+    for (const d of deps) {
+      allNpmDeps.add(d);
+    }
   }
 
   // Rewrite "radix-ui" (unified) → specific @radix-ui/* packages for v0
