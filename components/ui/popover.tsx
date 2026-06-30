@@ -88,3 +88,4 @@ const PopoverAnchor = ({ ...props }: React.ComponentProps<typeof PopoverPrimitiv
 );
 
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger };
+export default Popover;

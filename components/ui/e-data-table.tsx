@@ -643,3 +643,4 @@ function DataTable({
 }
 
 export { DataTable };
+export default DataTable;

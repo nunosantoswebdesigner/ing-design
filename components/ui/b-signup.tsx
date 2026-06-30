@@ -251,3 +251,4 @@ function SignupBlock({
 
 export { SignupBlock };
 export type { SignupBlockProps };
+export default SignupBlock;

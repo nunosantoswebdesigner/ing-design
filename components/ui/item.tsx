@@ -61,3 +61,4 @@ const ItemAction = ({ className, ...props }: React.ComponentProps<"div">) => (
 );
 
 export { Item, ItemIcon, ItemContent, ItemLabel, ItemDescription, ItemAction };
+export default Item;

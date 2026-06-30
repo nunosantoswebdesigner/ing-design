@@ -73,3 +73,4 @@ const AccordionContent = ({
 );
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };
+export default Accordion;

@@ -66,3 +66,4 @@ const Toggle = ({
 };
 
 export { Toggle, toggleVariants };
+export default Toggle;

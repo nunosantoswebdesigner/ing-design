@@ -49,3 +49,4 @@ const ScrollBar = ({
 );
 
 export { ScrollArea, ScrollBar };
+export default ScrollArea;

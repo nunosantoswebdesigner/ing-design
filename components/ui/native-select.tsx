@@ -65,3 +65,4 @@ const NativeSelectOptGroup = ({ className, ...props }: React.ComponentProps<"opt
 );
 
 export { NativeSelect, NativeSelectOptGroup, NativeSelectOption };
+export default NativeSelect;

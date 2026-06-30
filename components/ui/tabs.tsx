@@ -67,3 +67,4 @@ const TabsContent = ({
 );
 
 export { Tabs, TabsContent, TabsList, TabsTrigger };
+export default Tabs;

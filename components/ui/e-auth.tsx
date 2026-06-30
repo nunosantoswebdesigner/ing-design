@@ -207,3 +207,4 @@ function AuthFooter({ mode, onSwitch, switchHref, showTerms, className }: AuthFo
 }
 
 export { AuthHeader, AuthDivider, AuthSocial, AuthFooter, GoogleIcon, AppleIcon, GithubIcon };
+export default AuthHeader;

@@ -98,3 +98,4 @@ const FieldError = ({ className, children, ...props }: React.ComponentProps<"p">
 };
 
 export { Field, FieldLabel, FieldDescription, FieldError, useField };
+export default Field;

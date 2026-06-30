@@ -22,3 +22,4 @@ const KbdGroup = ({ className, ...props }: React.ComponentProps<"div">) => (
 );
 
 export { Kbd, KbdGroup };
+export default Kbd;

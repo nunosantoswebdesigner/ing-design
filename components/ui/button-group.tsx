@@ -35,3 +35,4 @@ const ButtonGroup = ({ className, orientation = "horizontal", ...props }: Button
 
 export { ButtonGroup };
 export type { ButtonGroupProps };
+export default ButtonGroup;

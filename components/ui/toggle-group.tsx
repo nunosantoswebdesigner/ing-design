@@ -57,3 +57,4 @@ const ToggleGroupItem = ({
 };
 
 export { ToggleGroup, ToggleGroupItem };
+export default ToggleGroup;

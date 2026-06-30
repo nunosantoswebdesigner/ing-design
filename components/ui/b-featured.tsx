@@ -357,3 +357,4 @@ function FeaturedBlock({
 }
 
 export { FeaturedBlock };
+export default FeaturedBlock;

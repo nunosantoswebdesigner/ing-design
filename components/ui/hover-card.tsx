@@ -35,3 +35,4 @@ const HoverCardContent = ({
 );
 
 export { HoverCard, HoverCardTrigger, HoverCardContent };
+export default HoverCard;
