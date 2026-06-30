@@ -1,0 +1,227 @@
+---
+title: Native Select
+description: A styled native <select> element with a custom chevron, size variants, and sound feedback.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8618&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { NativeSelectDemo } from "@/examples/native-select";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="native-select">
+      <NativeSelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="native-select">
+      <NativeSelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="native-select">
+      <NativeSelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="native-select">
+      <NativeSelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Option groups
+
+Use `NativeSelectOptGroup` to group related options with a visible `label` heading.
+
+```tsx
+<NativeSelect>
+  <NativeSelectOptGroup label="Europe">
+    <NativeSelectOption value="pt">Portugal</NativeSelectOption>
+    <NativeSelectOption value="de">Germany</NativeSelectOption>
+  </NativeSelectOptGroup>
+  <NativeSelectOptGroup label="Americas">
+    <NativeSelectOption value="us">United States</NativeSelectOption>
+  </NativeSelectOptGroup>
+</NativeSelect>
+```
+
+## Small size
+
+Use `size="sm"` for compact contexts such as toolbars, table cells, or filter rows.
+
+```tsx
+<NativeSelect size="sm">
+  <NativeSelectOption value="asc">A → Z</NativeSelectOption>
+  <NativeSelectOption value="desc">Z → A</NativeSelectOption>
+</NativeSelect>
+```
+
+## Disabled
+
+```tsx
+<NativeSelect disabled>
+  <NativeSelectOption value="next">Next.js</NativeSelectOption>
+</NativeSelect>
+```
+
+## Invalid
+
+Set `aria-invalid` to apply the destructive ring and border. Pair with `Field` and `FieldError` for an accessible error message.
+
+```tsx
+<NativeSelect aria-invalid>
+  <NativeSelectOption value="" disabled>Select a value</NativeSelectOption>
+</NativeSelect>
+```
+
+## Controlled
+
+```tsx
+const [value, setValue] = useState("next");
+
+<NativeSelect value={value} onChange={(e) => setValue(e.target.value)}>
+  <NativeSelectOption value="next">Next.js</NativeSelectOption>
+  <NativeSelectOption value="remix">Remix</NativeSelectOption>
+</NativeSelect>
+```
+
+## With Field
+
+```tsx
+import { Field, FieldDescription, FieldError, FieldLabel, useField } from "@/components/ui/field";
+
+function FieldSelect(props: React.ComponentProps<typeof NativeSelect>) {
+  const { id, error } = useField();
+  return (
+    <NativeSelect
+      id={id}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : `${id}-description`}
+      {...props}
+    />
+  );
+}
+
+<Field error="Please select a country.">
+  <FieldLabel>Country</FieldLabel>
+  <FieldSelect>
+    <NativeSelectOption value="" disabled>Select a country</NativeSelectOption>
+    <NativeSelectOption value="pt">Portugal</NativeSelectOption>
+  </FieldSelect>
+  <FieldError />
+</Field>
+```
+
+## NativeSelect vs Select
+
+| | NativeSelect | Select |
+|---|---|---|
+| Rendering | OS-native dropdown | Custom Radix popover |
+| Mobile | Full native UX | Custom overlay |
+| Searchable | No | Via Command (Combobox) |
+| Custom option styling | Limited | Full |
+| Form submission | Native | Needs hidden input |
+
+<span className="block">Use `NativeSelect` when native mobile UX, form submission semantics, or simplicity matters. Use `Select` when you need custom option rendering or search.</span>
+
+## Props
+
+### NativeSelect
+
+<span className="block">Extends all native `<select>` props except `size` (replaced by ING's own size variant).</span>
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"default" \| "sm"` | `"default"` | Controls height, padding and text size |
+| `aria-invalid` | `boolean` | — | Applies destructive border and ring |
+| `disabled` | `boolean` | `false` | Disables the select and reduces wrapper opacity |
+
+### NativeSelectOption
+
+<span className="block">Extends all native `<option>` props. Use `value`, `disabled`, and text content.</span>
+
+### NativeSelectOptGroup
+
+<span className="block">Extends all native `<optgroup>` props. Use `label` for the group heading.</span>
+
+## Usage
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select";
+
+<NativeSelect defaultValue="">
+  <NativeSelectOption value="" disabled>
+    Select a framework
+  </NativeSelectOption>
+  <NativeSelectOption value="next">Next.js</NativeSelectOption>
+  <NativeSelectOption value="remix">Remix</NativeSelectOption>
+</NativeSelect>
+```
+
+## Specs
+
+```md
+# New York — Native Select Specs
+
+## Component
+- name: native-select
+- file: registry/new-york/native-select.tsx
+- installs to: components/ui/native-select.tsx
+- dependencies: lucide-react
+- registryDependencies: none
+
+## What is it
+A styled wrapper around the native `<select>` element. It strips OS chrome
+(appearance-none) and applies design-system tokens for border, focus ring,
+error state, and disabled state, while a custom ChevronDown icon replaces
+the OS dropdown arrow. Prefer NativeSelect over Select when native mobile
+UX, form submission semantics, or minimal complexity matters most.
+
+## Visual identity
+Clean input aesthetic with a transparent background and a single border-input
+border. The rounded-md radius (default) and rounded-sm (sm) match other form
+controls. A muted, half-opacity chevron sits flush right and resizes with the
+size variant.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)     — border colour (border-input)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)          — focus border and ring (focus-visible:border-ring, ring-ring/50)
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — error border and ring (aria-invalid)
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)       — text selection background (selection:bg-primary)
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0) — text selection foreground
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — chevron icon colour
+
+## Sub-components
+- NativeSelect         → wrapper div + `<select>` + ChevronDown icon; accepts size, onChange, and all native select props
+- NativeSelectOption   → `<option>` with system-color fallbacks (bg-[Canvas] text-[CanvasText])
+- NativeSelectOptGroup → `<optgroup>` with system-color fallbacks; use label prop for the group heading
+
+## External dependencies
+- lucide-react: provides ChevronDownIcon for the custom dropdown arrow
+
+## Variants
+- default → h-9 px-3 pr-9 text-sm rounded-md. Standard form field height.
+- sm      → h-8 px-2.5 pr-7 text-xs rounded-sm. Compact contexts: toolbars, table cells, filter rows.
+
+## States
+- focus-visible: border changes to --ring, 3px ring at ring/50 opacity
+- aria-invalid:  border-destructive + ring-destructive/20 (dark: /40) — apply when field has a validation error
+- disabled:      pointer-events-none cursor-not-allowed on the select; has-[select:disabled]:opacity-50 dims the entire wrapper
+- dark idle:     bg-input/30 base + bg-input/50 on hover for subtle surface depth
+
+## Conventions
+- The wrapper div is sized w-fit by default; apply w-full on the wrapper or use a layout container to stretch the field
+- sounds: ING Design exclusive — onChange plays the "select" audio feedback via useFeedback
+- Sub-components expose data-slot="native-select-wrapper", data-slot="native-select", data-slot="native-select-icon", data-slot="native-select-option", and data-slot="native-select-optgroup" for CSS targeting
+- Always pair with Field + FieldLabel + FieldError for accessible labelling and error messaging
+- Pass aria-invalid={!!error} and aria-describedby wired to the FieldError id to surface validation state accessibly
+- Do not override the pr-9 / pr-7 right padding on the select without also repositioning the chevron icon
+```
+
+## Installation
+
+<CommandBox componentName="native-select" className="mt-2" />

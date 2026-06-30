@@ -1,0 +1,234 @@
+---
+title: Calendar
+description: A date picker calendar built on react-day-picker with support for single, multiple, and range selection.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-3711&t=PC39eDJ4DRaws5UP-1
+---
+
+import { CalendarDemo } from "@/examples/calendar";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="calendar">
+      <CalendarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="calendar">
+      <CalendarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="calendar">
+      <CalendarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="calendar">
+      <CalendarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Single
+
+Select one date at a time. This is the default and most common mode.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
+
+export function CalendarSingle() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-lg border"
+    />
+  );
+}
+```
+
+## Range
+
+Select a start and end date. The days between are highlighted.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import type { DateRange } from "react-day-picker";
+import { Calendar } from "@/components/ui/calendar";
+
+export function CalendarRange() {
+  const [range, setRange] = useState<DateRange | undefined>();
+
+  return (
+    <Calendar
+      mode="range"
+      selected={range}
+      onSelect={setRange}
+      numberOfMonths={2}
+      className="rounded-lg border"
+    />
+  );
+}
+```
+
+## Multiple
+
+Select several individual dates.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
+
+export function CalendarMultiple() {
+  const [dates, setDates] = useState<Date[] | undefined>();
+
+  return (
+    <Calendar
+      mode="multiple"
+      selected={dates}
+      onSelect={setDates}
+      className="rounded-lg border"
+    />
+  );
+}
+```
+
+## Disabled Dates
+
+Pass a `disabled` matcher to block specific dates from selection.
+
+```tsx
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  disabled={(day) => day < new Date()}
+/>
+```
+
+## Multiple Months
+
+Show more than one month at once with `numberOfMonths`.
+
+```tsx
+<Calendar
+  mode="range"
+  selected={range}
+  onSelect={setRange}
+  numberOfMonths={2}
+/>
+```
+
+<Callout type="info">
+  **External dependency** — Calendar requires `react-day-picker@^10.0.0`. Install it before adding this component.
+
+  ```bash
+  pnpm add react-day-picker
+  ```
+</Callout>
+
+## Props
+
+Calendar forwards all props to `DayPicker`. The most common:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `mode` | `"single" \| "multiple" \| "range"` | — | Selection mode |
+| `selected` | `Date \| Date[] \| DateRange` | — | Controlled selected value |
+| `onSelect` | `(value) => void` | — | Callback when selection changes |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `numberOfMonths` | `number` | `1` | Number of months to display |
+| `disabled` | `Matcher \| Matcher[]` | — | Dates to disable |
+| `defaultMonth` | `Date` | — | Initial month to display |
+| `className` | `string` | — | Additional CSS classes |
+| `classNames` | `ClassNames` | — | Override internal class names |
+
+See the full [react-day-picker docs](https://daypicker.dev) for all available props.
+
+## Usage
+
+```tsx
+import { Calendar } from "@/components/ui/calendar";
+
+// Single selection
+<Calendar mode="single" selected={date} onSelect={setDate} />
+
+// Range selection
+<Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={2} />
+
+// Disabled past dates
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  disabled={(day) => day < new Date()}
+/>
+```
+
+## Specs
+
+```md
+# New York — Calendar Specs
+
+## Component
+- name: calendar
+- file: registry/new-york/calendar.tsx
+- installs to: components/ui/calendar.tsx
+- dependencies: react-day-picker, lucide-react
+- registryDependencies: button
+
+## External dependency
+react-day-picker@^10.0.0 — must be installed separately:
+  pnpm add react-day-picker
+
+## What is it
+A fully styled date-picker calendar wrapping react-day-picker. Supports
+single date, multiple date, and date range selection. Navigation buttons
+use the existing Button component (outline variant, size-7). All styling
+is applied via DayPicker's classNames prop — no CSS overrides needed.
+
+## Visual identity
+Clean grid layout. Days are ghost buttons (size-8). Selected days get
+primary background. Today gets accent background. Range selections fill
+accent between start/end, with primary on the endpoints. Navigation
+chevrons are opacity-50, rising to full opacity on hover.
+
+## Design tokens
+--primary: bg + text for selected days
+--accent: bg + text for today and range-middle
+--muted-foreground: weekday headers, outside days, disabled days
+--border: calendar border (applied via className on root)
+
+## Modes
+- single: one date selected at a time
+- multiple: several independent dates
+- range: start + end + highlighted middle
+
+## Class name keys (react-day-picker v9+)
+months, month, month_caption, caption_label, nav, button_previous,
+button_next, month_grid, weekdays, weekday, weeks, week, day,
+day_button, range_start, range_end, selected, today, outside,
+disabled, range_middle, hidden
+
+## Conventions
+- Always wrap in a controlled component with useState for selected/onSelect
+- Add className="rounded-lg border" on the Calendar for a contained look
+- Use numberOfMonths={2} with mode="range" for UX clarity
+- Pass disabled={(day) => day < new Date()} to block past dates
+- Do not use Calendar alone as a form input — pair with a Popover + Input
+  (that pattern is the DatePicker component)
+```
+
+## Installation
+
+<CommandBox componentName="calendar" className="mt-2" />

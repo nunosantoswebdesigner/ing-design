@@ -1,0 +1,184 @@
+---
+title: Collapsible
+description: An interactive section that expands and collapses to show or hide content.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-4665&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { CollapsibleDemo } from "@/examples/collapsible";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="collapsible">
+      <CollapsibleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="collapsible">
+      <CollapsibleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="collapsible">
+      <CollapsibleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="collapsible">
+      <CollapsibleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Sound
+
+Pass `sounds` to enable audio feedback on expand and collapse.
+
+```tsx
+<Collapsible sounds open={isOpen} onOpenChange={setIsOpen}>
+  <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+  <CollapsibleContent>Content</CollapsibleContent>
+</Collapsible>
+```
+
+## Controlled
+
+Manage open state externally with `open` and `onOpenChange`.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+export function CollapsibleControlled() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger>
+        {isOpen ? "Hide" : "Show"} details
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <p>Hidden content revealed on toggle.</p>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+```
+
+## Uncontrolled
+
+Use `defaultOpen` for uncontrolled state — no `useState` needed.
+
+```tsx
+<Collapsible defaultOpen>
+  <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+  <CollapsibleContent>Open by default.</CollapsibleContent>
+</Collapsible>
+```
+
+## Props
+
+### Collapsible
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes |
+| `disabled` | `boolean` | `false` | Prevents toggling |
+| `sounds` | `boolean` | `false` | Plays audio feedback on expand/collapse |
+| `className` | `string` | — | Additional CSS classes |
+
+### CollapsibleTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as child element |
+| `className` | `string` | — | Additional CSS classes |
+
+### CollapsibleContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+// Basic
+<Collapsible>
+  <CollapsibleTrigger>Show more</CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Hidden content</p>
+  </CollapsibleContent>
+</Collapsible>
+
+// Controlled with sound
+const [open, setOpen] = useState(false);
+<Collapsible sounds open={open} onOpenChange={setOpen}>
+  <CollapsibleTrigger asChild>
+    <Button variant="ghost">Toggle</Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Content</p>
+  </CollapsibleContent>
+</Collapsible>
+```
+
+## Specs
+
+```md
+# New York — Collapsible Specs
+
+## Component
+- name: collapsible
+- file: registry/new-york/collapsible.tsx
+- installs to: components/ui/collapsible.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A low-level primitive for toggling a single content section open or closed.
+Use it when you need a standalone show/hide toggle without group coordination.
+Prefer Accordion when you have multiple related collapsible sections; use
+Collapsible for isolated, independent toggles.
+
+## Visual identity
+Collapsible applies no visual styling of its own — it is a behaviour-only
+wrapper. All colour, radius, and density comes from whatever elements you
+place inside it.
+
+## Sub-components
+- Collapsible          → root; manages open/closed state and sounds
+- CollapsibleTrigger   → button element that toggles the open state; supports asChild
+- CollapsibleContent   → region shown when open, hidden when closed
+
+## States
+- data-[state=open]:   content is visible; trigger reflects open state
+- data-[state=closed]: content is hidden; trigger reflects closed state
+- data-[disabled]:     toggling is prevented; set via disabled prop on root
+
+## Conventions
+- Use asChild on CollapsibleTrigger to render a Button or any custom element as the trigger
+- CollapsibleContent has no default padding or animation — add className as needed
+- For animated expand/collapse: apply overflow-hidden with a CSS max-height or height transition on CollapsibleContent
+- Do not nest Collapsible inside Accordion — they conflict on state management
+- sounds / haptic: ING Design exclusive — pass sounds to play audio feedback (expand/collapse) on interaction; powered by useFeedback hook and @/audio/core sound definitions
+- Sub-components expose data-slot="collapsible", data-slot="collapsible-trigger", and data-slot="collapsible-content" for CSS targeting
+- Controlled mode: pass open + onOpenChange; uncontrolled mode: use defaultOpen and let Radix manage state internally
+```
+
+## Installation
+
+<CommandBox componentName="collapsible" className="mt-2" />

@@ -1,0 +1,189 @@
+---
+title: Sonner
+description: Toast notifications powered by Sonner, themed to match your design system.
+---
+
+import { SonnerDemo } from "@/examples/sonner";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="sonner">
+      <SonnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="sonner">
+      <SonnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="sonner">
+      <SonnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="sonner">
+      <SonnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Setup
+
+Add `<Toaster />` once in your root layout. It reads the active theme automatically via `useTheme`.
+
+```tsx
+// app/layout.tsx
+import { Toaster } from "@/components/ui/sonner";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+## Toast types
+
+Trigger toasts from anywhere in your app by importing `toast` from `sonner`.
+
+```tsx
+import { toast } from "sonner";
+
+toast("File saved");
+toast.success("Changes published");
+toast.error("Something went wrong");
+toast.warning("Connection unstable");
+toast.info("New version available");
+toast.loading("Uploading…");
+```
+
+## With action
+
+Pass an `action` object to add a labelled button inside the toast.
+
+```tsx
+toast("Message deleted", {
+  action: {
+    label: "Undo",
+    onClick: () => restoreMessage(),
+  },
+});
+```
+
+## With description
+
+Add a `description` string for secondary context below the title.
+
+```tsx
+toast.error("Upload failed", {
+  description: "The file exceeds the 10 MB limit.",
+});
+```
+
+## Dismiss
+
+Call `toast.dismiss` with the returned ID to close a toast programmatically.
+
+```tsx
+const id = toast.loading("Saving…");
+
+await save();
+
+toast.dismiss(id);
+toast.success("Saved!");
+```
+
+## Props
+
+### Toaster
+
+`Toaster` forwards all [Sonner `ToasterProps`](https://sonner.emilkowal.ski/getting-started) and adds theme awareness.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `position` | Sonner `ToastPosition` | `"bottom-right"` | Screen position of the toast stack |
+| `richColors` | `boolean` | `false` | Use semantic colours for success/error/warning/info |
+| `expand` | `boolean` | `false` | Expand all toasts instead of stacking |
+| `duration` | `number` | `4000` | Auto-dismiss delay in milliseconds |
+| `visibleToasts` | `number` | `3` | Maximum number of visible toasts |
+| `closeButton` | `boolean` | `false` | Show a close button on each toast |
+
+## Usage
+
+```tsx
+// 1. Mount once in root layout
+import { Toaster } from "@/components/ui/sonner";
+<Toaster />
+
+// 2. Call toast() anywhere
+import { toast } from "sonner";
+
+toast.success("Profile updated");
+
+toast.error("Save failed", {
+  description: "Please try again.",
+  action: { label: "Retry", onClick: retryFn },
+});
+```
+
+## Specs
+
+```md
+# New York — Sonner Specs
+
+## Component
+- name: sonner
+- file: registry/new-york/sonner.tsx
+- installs to: components/ui/sonner.tsx
+- dependencies: sonner, next-themes, lucide-react
+- registryDependencies: none
+
+## What is it
+A thin wrapper around the Sonner toast library that provides ephemeral
+notification toasts. It synchronises the active next-themes theme with
+Sonner, injects design-system icons per toast type, and maps CSS tokens
+onto Sonner's custom property slots. Prefer it over custom alert components
+for transient, non-blocking feedback; do not use it for persistent messages
+that require user acknowledgement.
+
+## Visual identity
+Toasts use the popover surface (--popover / --popover-foreground) and the
+shared border token, giving them the same floating-layer feel as dropdowns and
+popovers. Corner radius inherits --radius (0.625rem), keeping the look
+consistent with the rest of the new-york design system.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)                — toast background (light / dark)
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — toast text (light / dark)
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)           — toast border (light / dark)
+--radius: 0.625rem                                         — corner radius
+
+## External dependencies
+- sonner: provides Toaster component and toast() imperative API
+- next-themes: provides useTheme() for light/dark synchronisation
+
+## States
+- loading: Loader2Icon with animate-spin; dismiss programmatically with toast.dismiss(id)
+- success: CircleCheckIcon (size-4)
+- error: OctagonXIcon (size-4)
+- warning: TriangleAlertIcon (size-4)
+- info: InfoIcon (size-4)
+
+## Conventions
+- Mount Toaster once in the root layout — never per-page or per-component
+- Import toast from "sonner" directly — do not re-export it from the wrapper
+- Use toast.loading + toast.dismiss(id) for async operation feedback
+- Avoid stacking more than 3 toasts; use visibleToasts prop to enforce this
+- Pass richColors to activate semantic fill colours for success/error/warning/info types
+- For actions, pass an action object with label and onClick; do not build custom toast children for simple confirmations
+```
+
+## Installation
+
+<CommandBox componentName="sonner" className="mt-2" />

@@ -1,0 +1,178 @@
+---
+title: Toggle Group
+description: A set of toggle buttons with shared variant and size, supporting single or multiple selection.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=79-11264
+---
+
+import { ToggleGroupDemo } from "@/examples/toggle-group";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="toggle-group">
+      <ToggleGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="toggle-group">
+      <ToggleGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="toggle-group">
+      <ToggleGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="toggle-group">
+      <ToggleGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Single vs multiple
+
+`type="single"` allows at most one item pressed at a time. `type="multiple"` allows any combination.
+
+```tsx
+<ToggleGroup type="single" defaultValue="center">…</ToggleGroup>
+<ToggleGroup type="multiple" defaultValue={["bold", "italic"]}>…</ToggleGroup>
+```
+
+## Variants
+
+Set `variant` on `ToggleGroup` — all items inherit it via context. Override per-item if needed.
+
+```tsx
+<ToggleGroup type="single" variant="outline">
+  <ToggleGroupItem value="a">A</ToggleGroupItem>
+  <ToggleGroupItem value="b">B</ToggleGroupItem>
+</ToggleGroup>
+```
+
+Available variants: `default` · `outline` · `ghost` · `secondary`
+
+## Sizes
+
+```tsx
+<ToggleGroup type="single" size="sm">…</ToggleGroup>
+<ToggleGroup type="single" size="lg">…</ToggleGroup>
+```
+
+Available sizes: `sm` · `default` · `lg` · `icon` · `icon-sm`
+
+## Controlled
+
+```tsx
+const [value, setValue] = useState("left");
+
+<ToggleGroup type="single" value={value} onValueChange={setValue}>
+  <ToggleGroupItem value="left"><AlignLeftIcon /></ToggleGroupItem>
+  <ToggleGroupItem value="right"><AlignRightIcon /></ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Props
+
+### ToggleGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `"single" \| "multiple"` | — | Selection mode (required) |
+| `value` | `string \| string[]` | — | Controlled pressed value(s) |
+| `defaultValue` | `string \| string[]` | — | Uncontrolled initial value(s) |
+| `onValueChange` | `(value) => void` | — | Callback on change |
+| `variant` | `"default" \| "outline" \| "ghost" \| "secondary"` | `"default"` | Passed to all items via context |
+| `size` | `"sm" \| "default" \| "lg" \| "icon" \| "icon-sm"` | `"default"` | Passed to all items via context |
+| `disabled` | `boolean` | `false` | Disables all items |
+
+### ToggleGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Item identifier (required) |
+| `variant` | `VariantProps` | — | Per-item override of group variant |
+| `size` | `VariantProps` | — | Per-item override of group size |
+| `disabled` | `boolean` | `false` | Disables this item only |
+
+## Usage
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
+<ToggleGroup type="single" defaultValue="left">
+  <ToggleGroupItem value="left" aria-label="Align left">
+    <AlignLeftIcon />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center">
+    <AlignCenterIcon />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right">
+    <AlignRightIcon />
+  </ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Specs
+
+```md
+# New York — Toggle Group Specs
+
+## Component
+- name: toggle-group
+- file: registry/new-york/toggle-group.tsx
+- installs to: components/ui/toggle-group.tsx
+- dependencies: radix-ui, class-variance-authority
+- registryDependencies: toggle
+
+## What is it
+A compound component that renders a Radix ToggleGroup root with one or more
+toggle items sharing the same variant and size. Use it for mutually-exclusive
+or multi-select toolbar controls such as alignment, formatting, or view mode.
+Prefer ToggleGroup over a set of independent Toggles when items belong to a
+single logical choice set.
+
+## Visual identity
+Items sit flush in a horizontal flex row with a 4px gap. Each item inherits
+the new-york rounded-md radius and matches the Toggle's neutral, low-chrome
+look — transparent by default, accented only when pressed.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)               — hover background (default variant)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — hover text (default variant)
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)               — pressed background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)   — pressed text
+--secondary: oklch(0.97 0 0) / oklch(0.269 0 0)            — secondary variant fill
+--secondary-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)             — outline variant border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                — focus ring
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — aria-invalid ring
+
+## Sub-components
+- ToggleGroup     → Radix ToggleGroup.Root; renders flex items-center gap-1; publishes ToggleGroupContext with { variant, size }
+- ToggleGroupItem → Radix ToggleGroup.Item; consumes context; applies toggleVariants(); per-item variant/size overrides context values
+
+## Variants
+- default   → transparent background; accent fill when pressed. Primary toolbar button style.
+- outline   → transparent with border-input border and shadow-xs; accent on hover/press. Structured, form-adjacent toggles.
+- ghost     → no border; accent/50 on hover (dark); accent/80 when pressed. Minimal, unobtrusive toolbar items.
+- secondary → secondary fill at rest; secondary/80 on hover; secondary/60 when pressed. Softer prominence than default.
+
+## States
+- hover:             bg-muted + text-muted-foreground (default/outline); bg-accent + text-accent-foreground (ghost/outline hover)
+- data-[state=on]:   bg-accent + text-accent-foreground; ghost uses bg-accent/80
+- focus-visible:     border-ring + ring-[3px] ring-ring/50
+- disabled:          opacity-50 + pointer-events-none; set on ToggleGroup to disable all items, or on ToggleGroupItem for a single item
+- aria-invalid:      border-destructive + ring-destructive/20 (ring-destructive/40 dark)
+
+## Conventions
+- Set variant and size on ToggleGroup once — all items inherit via context; override per-item only when intentional
+- Icon-only items require aria-label on each ToggleGroupItem for accessibility
+- Use type="single" for mutually exclusive selections (alignment, view mode); type="multiple" for independent toggles (bold + italic)
+- Items render with min-w-0 to allow text truncation in constrained layouts
+- Sub-components expose data-slot="toggle-group" and data-slot="toggle-group-item" for CSS targeting
+- sounds / haptic: ToggleGroup itself does not call useFeedback; sound feedback is handled by the underlying Toggle component (toggleOn / toggleOff) when Toggle is used standalone — ToggleGroupItem does not fire sounds
+```
+
+## Installation
+
+<CommandBox componentName="toggle-group" className="mt-2" />

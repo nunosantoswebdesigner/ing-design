@@ -1,0 +1,197 @@
+---
+title: Kbd
+description: Renders keyboard keys and shortcuts with a consistent pressed-key appearance.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1196-1098&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { KbdDemo } from "@/examples/kbd";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="kbd">
+      <KbdDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="kbd">
+      <KbdDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="kbd">
+      <KbdDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="kbd">
+      <KbdDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Single key
+
+```tsx
+<Kbd>⌘</Kbd>
+<Kbd>Esc</Kbd>
+<Kbd>Tab</Kbd>
+```
+
+## Key combination
+
+Use `KbdGroup` to group keys in a shortcut. It renders as a `<kbd>` element with `role="group"` semantics.
+
+```tsx
+<KbdGroup>
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>
+
+<KbdGroup>
+  <Kbd>⌘</Kbd>
+  <Kbd>⇧</Kbd>
+  <Kbd>P</Kbd>
+</KbdGroup>
+```
+
+## With icon
+
+Lucide icons are automatically sized to `size-3` inside `Kbd`.
+
+```tsx
+import { Command } from "lucide-react";
+
+<Kbd>
+  <Command />
+</Kbd>
+```
+
+## Inline in text
+
+`Kbd` is `inline-flex` and fits naturally inside paragraphs.
+
+```tsx
+<p className="text-sm">
+  Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open the command menu.
+</p>
+```
+
+## Inside a tooltip
+
+`Kbd` detects when it is inside a `TooltipContent` via the `in-data-[slot=tooltip-content]:` selector and automatically inverts its colors to remain legible.
+
+```tsx
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="ghost" size="icon">
+      <Search />
+    </Button>
+  </TooltipTrigger>
+  <TooltipContent>
+    Search
+    <KbdGroup>
+      <Kbd>⌘</Kbd>
+      <Kbd>K</Kbd>
+    </KbdGroup>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Common key symbols
+
+| Key | Symbol | Unicode |
+|-----|--------|---------|
+| Command | `⌘` | U+2318 |
+| Option / Alt | `⌥` | U+2325 |
+| Shift | `⇧` | U+21E7 |
+| Control | `⌃` | U+2303 |
+| Return / Enter | `↵` | U+21B5 |
+| Delete / Backspace | `⌫` | U+232B |
+| Escape | `Esc` | — |
+| Tab | `Tab` | — |
+| Arrow up | `↑` | U+2191 |
+| Arrow down | `↓` | U+2193 |
+| Arrow left | `←` | U+2190 |
+| Arrow right | `→` | U+2192 |
+
+## Props
+
+### Kbd
+
+<span className="block">Extends all `<kbd>` props. Accepts text, symbols, or a single Lucide icon as children.</span>
+
+### KbdGroup
+
+<span className="block">Extends all `<div>` props. Wraps multiple `Kbd` components for a multi-key shortcut.</span>
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+
+<KbdGroup>
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>
+```
+
+## Specs
+
+```md
+# New York — Kbd Specs
+
+## Component
+- name: kbd
+- file: registry/new-york/kbd.tsx
+- installs to: components/ui/kbd.tsx
+- dependencies: none (only @/lib/utils)
+- registryDependencies: none
+- ING Design exclusive (not in shadcn/ui)
+
+## What is it
+A styled `<kbd>` element for rendering individual keyboard keys and multi-key
+shortcuts with a pressed-key appearance. Use `Kbd` for a single key and wrap
+multiple `Kbd` elements in `KbdGroup` for shortcuts. Do not use it as an
+interactive control — it is purely decorative and non-focusable.
+
+## Visual identity
+Compact monochrome pill with a subtle inset shadow that mimics a physical
+keycap. Light mode uses a translucent black tint; dark mode flips to a
+translucent white tint. Rounded-sm corners and tight x-padding give a
+dense, inline feel that sits comfortably inside body text or tooltips.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)  — key label text
+bg-black/5 (light) / bg-white/10 (dark)                  — keycap fill (raw alpha, not a CSS var)
+shadow-black/10 (light) / shadow-white/10 (dark)          — inset keycap shadow (raw alpha)
+
+Tooltip context overrides (in-data-[slot=tooltip-content]:):
+bg-white/20 (light) / bg-black/10 (dark)                  — inverted fill inside tooltip
+--background (via text-background, light)                  — inverted label colour inside tooltip
+shadow-white/20 (light) / shadow-black/10 (dark)           — inverted shadow inside tooltip
+
+## Sub-components
+- Kbd      → renders a single `<kbd>` keycap; accepts text, symbols, or one Lucide icon
+- KbdGroup → renders a `<kbd>` wrapper with `inline-flex items-center gap-1`; groups multiple Kbd elements for a shortcut
+
+## States
+- tooltip-context: automatically inverts fill, text, and shadow when nested inside a `TooltipContent` (detected via `in-data-[slot=tooltip-content]:` ancestor selector) — no extra props required
+
+## Conventions
+- Kbd is `pointer-events-none` and `select-none` — it is decorative, never interactive
+- Icons inside Kbd auto-size to `size-3` (12 px) unless the icon already has a `size-*` class
+- For screen-reader accessibility, add an `aria-label` or visually-hidden description on the containing element to convey the shortcut semantically
+- Sub-components expose `data-slot="kbd"` and `data-slot="kbd-group"` for CSS targeting
+- KbdGroup renders as a `<kbd>` element with its children as `inline-flex`, giving correct HTML semantics for grouped shortcuts
+- Prefer `KbdGroup` over placing bare `Kbd` elements side-by-side when conveying a multi-key shortcut
+```
+
+## Installation
+
+<CommandBox componentName="kbd" className="mt-2" />

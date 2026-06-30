@@ -1,0 +1,194 @@
+---
+title: Radio Group
+description: A set of mutually exclusive options where only one can be selected at a time.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8893&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { RadioGroupDemo } from "@/examples/radio-group";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="radio-group">
+      <RadioGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="radio-group">
+      <RadioGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="radio-group">
+      <RadioGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="radio-group">
+      <RadioGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With label
+
+Pair each `RadioGroupItem` with a `<Label>` using matching `id` / `htmlFor`. Clicking the label selects the item.
+
+```tsx
+<RadioGroup defaultValue="comfortable">
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="default" id="r1" />
+    <Label htmlFor="r1">Default</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="comfortable" id="r2" />
+    <Label htmlFor="r2">Comfortable</Label>
+  </div>
+</RadioGroup>
+```
+
+## Horizontal
+
+Override the default `grid gap-3` with a flex row.
+
+```tsx
+<RadioGroup defaultValue="card" className="flex gap-6">
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="card" id="pay-card" />
+    <Label htmlFor="pay-card">Card</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="paypal" id="pay-paypal" />
+    <Label htmlFor="pay-paypal">PayPal</Label>
+  </div>
+</RadioGroup>
+```
+
+## Disabled item
+
+Disable a single option with the `disabled` prop on `RadioGroupItem`.
+
+```tsx
+<RadioGroupItem value="enterprise" id="r-enterprise" disabled />
+<Label htmlFor="r-enterprise">Enterprise (coming soon)</Label>
+```
+
+## Controlled
+
+```tsx
+const [value, setValue] = useState("comfortable");
+
+<RadioGroup value={value} onValueChange={setValue}>
+  ...
+</RadioGroup>
+```
+
+## With Field
+
+```tsx
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+
+<Field error="Please select a plan.">
+  <FieldLabel>Plan</FieldLabel>
+  <RadioGroup defaultValue="">
+    <div className="flex items-center gap-2">
+      <RadioGroupItem value="free" id="plan-free" />
+      <Label htmlFor="plan-free">Free</Label>
+    </div>
+    <div className="flex items-center gap-2">
+      <RadioGroupItem value="pro" id="plan-pro" />
+      <Label htmlFor="plan-pro">Pro</Label>
+    </div>
+  </RadioGroup>
+  <FieldError />
+</Field>
+```
+
+## Props
+
+### RadioGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Uncontrolled initial value |
+| `onValueChange` | `(value: string) => void` | — | Callback when selection changes |
+| `disabled` | `boolean` | `false` | Disables all items |
+| `required` | `boolean` | `false` | Marks the group as required |
+| `className` | `string` | — | Default layout is `grid gap-3` |
+
+### RadioGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | The value this item represents (required) |
+| `disabled` | `boolean` | `false` | Disables this specific item |
+| `aria-invalid` | `boolean` | — | Applies destructive ring |
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+<RadioGroup defaultValue="option-1">
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="option-1" id="opt-1" />
+    <Label htmlFor="opt-1">Option 1</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <RadioGroupItem value="option-2" id="opt-2" />
+    <Label htmlFor="opt-2">Option 2</Label>
+  </div>
+</RadioGroup>
+```
+
+## Specs
+
+```md
+# New York — Radio Group Specs
+
+## Component
+- name: radio-group
+- file: registry/new-york/radio-group.tsx
+- installs to: components/ui/radio-group.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A set of mutually exclusive radio buttons built on Radix UI RadioGroup. Use it
+whenever a user must pick exactly one option from a short list (2–6 items).
+Prefer a Select when the list is long or space is constrained.
+
+## Visual identity
+Minimal circular indicator: a 16px rounded-full border ring that collapses
+into a filled inner circle (8px) when selected. The neutral --input border and
+--primary fill keep it on-brand across all themes without colour overrides.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)   — item border (resting)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)       — focus ring colour
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)    — selected indicator fill and text colour
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — error border and ring
+
+## Sub-components
+- RadioGroup          → Root container; default layout is grid gap-3 (vertical stack)
+- RadioGroupItem      → Individual radio button; 16px rounded-full with border and shadow-xs
+- RadioGroupIndicator → Internal; renders CircleIcon (fill-primary, size-2) when item is checked
+
+## States
+- focus-visible: border changes to --ring, 3px ring in --ring/50 colour
+- aria-invalid:  border changes to --destructive, ring in --destructive/20 (light) / --destructive/40 (dark)
+- disabled:      cursor-not-allowed, opacity-50; also applies when disabled prop is set on RadioGroup root
+- checked:       RadioGroupIndicator becomes visible, CircleIcon fills with --primary
+
+## Conventions
+- Always pair each RadioGroupItem with a <Label> using matching id / htmlFor — clicking the label selects the item
+- Default layout is grid gap-3 (vertical); use className="flex gap-6" on RadioGroup for horizontal layout
+- The group navigates with arrow keys natively (Radix); Tab moves focus into/out of the group as a unit
+- Wrap in a Field component when validation error messaging is required (Field exposes aria-invalid to children)
+- Sub-components expose data-slot="radio-group", data-slot="radio-group-item", and data-slot="radio-group-indicator" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="radio-group" className="mt-2" />

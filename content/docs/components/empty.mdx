@@ -1,0 +1,267 @@
+---
+title: Empty
+description: A placeholder state for when content is absent — communicates context and guides the user toward the next action.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1186-3810&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { EmptyDemo } from "@/examples/empty";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="empty">
+      <EmptyDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="empty">
+      <EmptyDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="empty">
+      <EmptyDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="empty">
+      <EmptyDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With multiple actions
+
+Use `EmptyAction` with multiple buttons when there are two clear paths forward.
+
+```tsx
+import { FolderOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyAction,
+  EmptyDescription,
+  EmptyIcon,
+  EmptyTitle,
+} from "@/components/ui/empty";
+
+<Empty>
+  <EmptyIcon>
+    <FolderOpen />
+  </EmptyIcon>
+  <EmptyTitle>No projects found</EmptyTitle>
+  <EmptyDescription>
+    Create a project to organise your work, or import an existing one.
+  </EmptyDescription>
+  <EmptyAction>
+    <Button>Create project</Button>
+    <Button variant="outline">Import</Button>
+  </EmptyAction>
+</Empty>
+```
+
+## Without icon
+
+Skip `EmptyIcon` when the context is already clear — for example inside a table or list where a large icon would feel heavy.
+
+```tsx
+import {
+  Empty,
+  EmptyAction,
+  EmptyDescription,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+
+<Empty className="py-8">
+  <EmptyTitle>No results</EmptyTitle>
+  <EmptyDescription>
+    Try adjusting your filters or search terms.
+  </EmptyDescription>
+  <EmptyAction>
+    <Button variant="outline" size="sm">Clear filters</Button>
+  </EmptyAction>
+</Empty>
+```
+
+## In a table
+
+Drop `Empty` directly inside a `TableCell` spanning all columns.
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { SearchX } from "lucide-react";
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell colSpan={3}>
+        <Empty className="py-8">
+          <EmptyIcon>
+            <SearchX />
+          </EmptyIcon>
+          <EmptyTitle>No results</EmptyTitle>
+          <EmptyDescription>Try a different search term.</EmptyDescription>
+        </Empty>
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Full page
+
+For page-level empty states, let `Empty` fill the available space with `className="min-h-[60vh]"`.
+
+```tsx
+import { PackageOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyAction,
+  EmptyDescription,
+  EmptyIcon,
+  EmptyTitle,
+} from "@/components/ui/empty";
+
+export default function OrdersPage() {
+  return (
+    <main className="container">
+      <h1 className="text-2xl font-semibold">Orders</h1>
+      <Empty className="min-h-[60vh]">
+        <EmptyIcon>
+          <PackageOpen />
+        </EmptyIcon>
+        <EmptyTitle>No orders yet</EmptyTitle>
+        <EmptyDescription>
+          Orders placed by your customers will appear here.
+        </EmptyDescription>
+        <EmptyAction>
+          <Button>Share your store</Button>
+        </EmptyAction>
+      </Empty>
+    </main>
+  );
+}
+```
+
+## Props
+
+### Empty
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Override `py-12` for tighter/looser contexts, or add `min-h-*` for full-page states |
+
+### EmptyIcon
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Override `size-14` or the background colour |
+
+Accepts any icon or image element as children. Icons without an explicit `size-*` class are auto-sized to `size-6`.
+
+### EmptyTitle
+
+Renders as `<h3>`. Accepts all native `h3` props.
+
+### EmptyDescription
+
+Renders as `<p>` with `max-w-xs text-muted-foreground`. Accepts all native `p` props.
+
+### EmptyAction
+
+A flex row wrapper for buttons. Pass one or two `Button` elements. Accepts all native `div` props.
+
+## Usage
+
+```tsx
+import {
+  Empty,
+  EmptyAction,
+  EmptyDescription,
+  EmptyIcon,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import { Inbox } from "lucide-react";
+
+<Empty>
+  <EmptyIcon>
+    <Inbox />
+  </EmptyIcon>
+  <EmptyTitle>No messages yet</EmptyTitle>
+  <EmptyDescription>
+    Start a conversation to get going.
+  </EmptyDescription>
+  <EmptyAction>
+    <Button>New message</Button>
+  </EmptyAction>
+</Empty>
+```
+
+## Specs
+
+```md
+# New York — Empty Specs
+
+## Component
+- name: empty
+- file: registry/new-york/empty.tsx
+- installs to: components/ui/empty.tsx
+- dependencies: none
+- registryDependencies: none
+- ING Design exclusive (not in shadcn/ui)
+
+## What is it
+A compound component for communicating the absence of content — used when a
+list, table, or page has nothing to show. It structures an icon, title,
+description, and action into a centred, vertically stacked layout. Use it
+instead of a blank area whenever users need context and a clear next step.
+Do not use it for loading or error states; prefer a Spinner or an alert for
+those cases.
+
+## Visual identity
+Minimal and neutral. The icon sits in a rounded muted circle that softens the
+emptiness without drawing excessive attention. Typography is tight — semibold
+title with small muted description — keeping the message focused. No colour
+accent, so it adapts cleanly across all brand themes.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)           — EmptyIcon background
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — EmptyIcon icon colour and EmptyDescription text
+
+## Sub-components
+- Empty            → root container; flex-col, items-center, justify-center, gap-3, py-12, text-center
+- EmptyIcon        → muted circle (size-14, rounded-full, bg-muted, text-muted-foreground); auto-sizes child SVGs to size-6
+- EmptyTitle       → h3; text-base font-semibold leading-none tracking-tight
+- EmptyDescription → p; text-sm text-muted-foreground max-w-xs
+- EmptyAction      → div; mt-1 flex flex-wrap items-center justify-center gap-2; holds 1–2 Button elements
+
+## Conventions
+- Default vertical padding is py-12; override with className for tighter contexts (py-8 in tables) or full-page states (min-h-[60vh])
+- Skip EmptyIcon in dense contexts such as table rows where a large icon adds visual noise
+- EmptyTitle should be a noun phrase naming what is missing ("No messages yet")
+- EmptyDescription should be 1–2 sentences explaining why and what to do next
+- EmptyAction action labels should use an action verb matching the creation flow ("New message", "Create project")
+- Avoid vague filler copy ("Oops! Nothing here.") — be specific and helpful
+- Sub-components expose data-slot="empty", data-slot="empty-icon", data-slot="empty-title", data-slot="empty-description", and data-slot="empty-action" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="empty" className="mt-2" />

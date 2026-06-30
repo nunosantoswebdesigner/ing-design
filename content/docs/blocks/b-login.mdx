@@ -1,0 +1,173 @@
+---
+title: Login
+description: A full-page login block with card, split, and centered layout variants.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1097-2023&t=SGuloiMFD7r5jFI6-1
+---
+
+import { BLoginDemo } from "@/examples/b-login";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="b-login">
+      <BLoginDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="b-login">
+      <BLoginDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="b-login">
+      <BLoginDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="b-login">
+      <BLoginDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Layouts
+
+### Card
+
+A centered form inside a rounded card. Good default for most apps.
+
+```tsx
+<LoginBlock layout="card" />
+```
+
+### Split
+
+Two-column — form on the left, image slot on the right. Hidden on mobile.
+
+```tsx
+<LoginBlock
+  layout="split"
+  image={<img src="/hero.jpg" className="h-full w-full object-cover" alt="" />}
+/>
+```
+
+### Centered
+
+Full-page without a card. Clean for marketing-style pages.
+
+```tsx
+<LoginBlock layout="centered" />
+```
+
+## Social login
+
+Pass an array of providers. Order is respected.
+
+```tsx
+<LoginBlock social={["apple", "google", "github"]} />
+```
+
+### Icon-only style
+
+```tsx
+<LoginBlock social={["apple", "google", "github"]} socialStyle="icons" />
+```
+
+### Social above the form
+
+```tsx
+<LoginBlock social={["google"]} socialPosition="top" />
+```
+
+## With logo
+
+```tsx
+import { Logo } from "@/components/logo";
+
+<LoginBlock logo={<Logo />} />
+```
+
+## Terms of service
+
+```tsx
+<LoginBlock showTerms />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `layout` | `"card" \| "split" \| "centered"` | `"card"` | Page layout variant |
+| `logo` | `ReactNode` | — | Logo rendered at the top |
+| `social` | `AuthProvider[]` | `["google"]` | Social login providers to show |
+| `socialStyle` | `"buttons" \| "icons"` | `"buttons"` | Full buttons or icon-only |
+| `socialPosition` | `"top" \| "bottom"` | `"bottom"` | Position relative to form |
+| `image` | `ReactNode` | — | Image slot for split layout |
+| `showTerms` | `boolean` | `false` | Show terms of service text |
+| `onLogin` | `(data) => void` | — | Form submit handler |
+| `onSocialLogin` | `(provider) => void` | — | Social button handler |
+| `onForgotPassword` | `() => void` | — | Forgot password handler |
+| `onRegister` | `() => void` | — | Switch to register handler |
+| `registerHref` | `string` | — | Link href for register switch |
+| `forgotPasswordHref` | `string` | — | Link href for forgot password |
+
+## Specs
+
+```md
+# New York — Login Block Specs
+
+## Component
+- name: b-login
+- file: registry/new-york/b-login.tsx
+- installs to: components/ui/b-login.tsx
+- dependencies: none
+- registryDependencies: button, input, label, e-auth
+
+## What is it
+A full-page authentication block for email + password login. Handles 3 layout
+variants (card, split, centered) and composes shared auth elements from e-auth.
+Use b-login for authentication screens; use individual form components for
+inline or embedded login flows.
+
+## Visual identity
+Neutral new-york palette throughout. Card layout has a subtle rounded-xl border
+on --card background. Split layout uses --muted for the image panel. All
+interactive elements inherit their theme via composed components (Button, Input).
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)    — page background
+--card: oklch(1 0 0) / oklch(0.205 0 0)           — card surface (card layout)
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)       — image panel (split layout)
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)   — card border
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — helper text
+
+## Sub-components
+- LoginBlock     → root; drives layout switching; data-slot="login-block" data-layout="[layout]"
+- LoginForm      → internal form with email + password fields; not exported
+- AuthHeader     → from e-auth: logo + heading + description
+- AuthSocial     → from e-auth: social provider buttons or icons
+- AuthDivider    → from e-auth: "or continue with" separator
+- AuthFooter     → from e-auth: switch link + optional terms
+
+## Variants
+- card      → centered max-w-sm card with rounded-xl border and shadow-sm
+- split     → two-column grid; form left, image right (hidden on mobile)
+- centered  → full-page flex, no card wrapper; logo floats top-center
+
+## States
+- submit: calls onLogin with { email, password }; no built-in loading state — handle externally
+- social button click: calls onSocialLogin(provider)
+- forgot password: calls onForgotPassword or navigates to forgotPasswordHref
+- switch: calls onRegister or navigates to registerHref
+
+## Conventions
+- Blocks use the b- prefix to distinguish from regular components
+- Pair with b-register for a complete auth flow
+- Provide either onX callbacks (SPA) or xHref props (multi-page) — not both
+- For loading/error states, wrap the onLogin handler with your own state management
+- The image slot in split layout is optional — panel shows bg-muted when empty
+- social prop order determines render order
+```
+
+## Installation
+
+<CommandBox componentName="b-login" className="mt-2" />

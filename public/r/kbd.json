@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "Renders keyboard keys and shortcuts with a consistent pressed-key appearance.",
+  "files": [
+    {
+      "path": "registry/new-york/kbd.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\n\nconst Kbd = ({ className, ...props }: React.ComponentProps<\"kbd\">) => (\n  <kbd\n    data-slot=\"kbd\"\n    className={cn(\n      \"pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm px-1 font-sans text-xs/none font-normal text-muted-foreground select-none [&_svg:not([class*='size-'])]:size-3\",\n      \"bg-black/5 shadow-[inset_0_-1px_2px] shadow-black/10 dark:bg-white/10 dark:shadow-white/10\",\n      \"in-data-[slot=tooltip-content]:bg-white/20 in-data-[slot=tooltip-content]:text-background in-data-[slot=tooltip-content]:shadow-white/20 dark:in-data-[slot=tooltip-content]:bg-black/10 dark:in-data-[slot=tooltip-content]:shadow-black/10\",\n      className\n    )}\n    {...props}\n  />\n);\n\nconst KbdGroup = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <kbd\n    data-slot=\"kbd-group\"\n    className={cn(\"inline-flex items-center gap-1\", className)}\n    {...props}\n  />\n);\n\nexport { Kbd, KbdGroup };\n",
+      "type": "registry:ui",
+      "target": "components/ui/kbd.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

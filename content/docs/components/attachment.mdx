@@ -1,0 +1,229 @@
+---
+title: Attachment
+description: A file or image attachment card with media, metadata, upload states, and actions.
+---
+
+import { AttachmentDemo } from "@/examples/attachment";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="attachment">
+      <AttachmentDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="attachment">
+      <AttachmentDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="attachment">
+      <AttachmentDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="attachment">
+      <AttachmentDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## States
+
+Use `state` to reflect the upload lifecycle. `uploading` and `processing` shimmer the title; `error` applies destructive colours.
+
+```tsx
+<Attachment state="idle">…</Attachment>
+<Attachment state="uploading">…</Attachment>
+<Attachment state="processing">…</Attachment>
+<Attachment state="error">…</Attachment>
+<Attachment state="done">…</Attachment>  {/* default */}
+```
+
+## Sizes
+
+```tsx
+<Attachment size="default">…</Attachment>
+<Attachment size="sm">…</Attachment>
+<Attachment size="xs">…</Attachment>
+```
+
+## Orientation
+
+```tsx
+<Attachment orientation="horizontal">…</Attachment>  {/* default */}
+<Attachment orientation="vertical">…</Attachment>
+```
+
+## Image media
+
+Set `variant="image"` on `AttachmentMedia` to apply image-fitting styles.
+
+```tsx
+<AttachmentMedia variant="image">
+  <img src="/photo.jpg" alt="photo" />
+</AttachmentMedia>
+```
+
+## Clickable card
+
+`AttachmentTrigger` renders an absolute overlay button/link over the card. Use `asChild` for a link.
+
+```tsx
+<Attachment>
+  <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Remove"><XIcon /></AttachmentAction>
+  </AttachmentActions>
+  <AttachmentTrigger asChild>
+    <a href="/files/report.pdf" />
+  </AttachmentTrigger>
+</Attachment>
+```
+
+## Group
+
+`AttachmentGroup` wraps multiple attachments in a horizontally scrollable snap row.
+
+```tsx
+<AttachmentGroup>
+  <Attachment>…</Attachment>
+  <Attachment>…</Attachment>
+</AttachmentGroup>
+```
+
+## Props
+
+### Attachment
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `state` | `"idle" \| "uploading" \| "processing" \| "error" \| "done"` | `"done"` | Upload lifecycle state |
+| `size` | `"default" \| "sm" \| "xs"` | `"default"` | Card density |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
+
+### AttachmentMedia
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"icon" \| "image"` | `"icon"` | Icon or image treatment |
+
+### AttachmentAction
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | Button variant | `"ghost"` | Button style |
+| `size` | Button size | `"icon-xs"` | Button size |
+
+### AttachmentTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as child element (e.g. `<a>`) |
+
+## Usage
+
+```tsx
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+  AttachmentTrigger,
+} from "@/components/ui/attachment";
+
+<Attachment state="done">
+  <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+</Attachment>
+```
+
+## Specs
+
+```md
+# New York — Attachment Specs
+
+## Component
+- name: attachment
+- file: registry/new-york/attachment.tsx
+- installs to: components/ui/attachment.tsx
+- dependencies: radix-ui, class-variance-authority
+- registryDependencies: button
+
+## What is it
+A card that represents a single file or image attachment throughout its upload lifecycle.
+Use it to display file metadata (name, size, type), a thumbnail or icon, and contextual actions such as remove or retry.
+Prefer Attachment over a plain list item when the file's upload state needs to be communicated visually; do not use it as a generic media card unrelated to file handling.
+
+## Visual identity
+Rounded card (rounded-xl) with a subtle border on --card background.
+A muted square media slot sits alongside concise metadata text.
+Dashed border signals idle/pending state; destructive tint signals error — both changes are driven by data-state without layout shift.
+
+## Design tokens
+--card: oklch(1 0 0) / oklch(0.205 0 0)                              — card surface
+--card-foreground: oklch(0.145 0 0) / oklch(0.985 0 0)               — default text on card
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)                          — media slot background; hover tint
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)              — description text
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — error border, media tint, description text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)                      — card border (solid done/error; dashed idle)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                          — focus-within ring (ring/50 opacity)
+
+## Sub-components
+- Attachment            → root card div; drives all group-data-* context via data-state, data-size, data-orientation
+- AttachmentMedia       → square icon or image slot; destructive tint on error state
+- AttachmentContent     → flex text column; min-w-0 to allow truncation
+- AttachmentTitle       → truncated filename; shimmer animation on uploading and processing states
+- AttachmentDescription → secondary metadata (type, size); destructive/80 on error state
+- AttachmentActions     → action button row; positioned absolute top-right in vertical orientation
+- AttachmentAction      → ghost icon-xs Button by default; accepts any Button variant/size
+- AttachmentTrigger     → invisible absolute overlay (inset-0 z-10) making the whole card clickable; supports asChild for links
+- AttachmentGroup       → horizontally scrollable snap row with scroll-fade-x for multiple attachments
+
+## Variants
+
+### Attachment — size
+- default  → standard density; 10×10 media slot, text-sm
+- sm       → compact; 8×8 media slot, text-xs
+- xs       → extra-compact; 7×7 media slot, text-xs, rounded-lg
+
+### Attachment — orientation
+- horizontal → min-w-40 row layout; media left, content centre, actions right
+- vertical   → w-24 column layout; media fills width, actions positioned absolute top-right
+
+### AttachmentMedia — variant
+- icon  → icon-only treatment; foreground colour inherits from card
+- image → image-fitting treatment (object-cover); reduced opacity during non-terminal states, full opacity on done/idle
+
+## States
+- idle:       dashed border (border-dashed); signals awaiting upload
+- uploading:  AttachmentTitle shimmer animation; media opacity reduced on image variant
+- processing: AttachmentTitle shimmer animation; media opacity reduced on image variant
+- error:      border-destructive/30; media bg-destructive/10 with destructive icon colour; description text-destructive/80
+- done:       default solid border; full opacity; no shimmer
+- focus-within: ring-1 ring-ring/50 on the root card when any child receives keyboard focus
+- hover:      bg-muted/50 on root card when card contains a focusable trigger or button
+
+## Conventions
+- Always set a meaningful state prop to communicate upload progress to users
+- AttachmentTrigger must be the last child so it sits above content in the stacking order without blocking action buttons (z-10 vs z-20)
+- AttachmentAction buttons require aria-label when icon-only (default usage)
+- Do not nest AttachmentTrigger and AttachmentAction without ensuring AttachmentActions has z-20 — the trigger sits at z-10
+- Use AttachmentGroup for lists of attachments to get accessible horizontal scrolling with snap behaviour
+- Sub-components expose data-slot attributes for CSS targeting: "attachment", "attachment-media", "attachment-content", "attachment-title", "attachment-description", "attachment-actions", "attachment-action", "attachment-trigger", "attachment-group"
+- Pair with a Spinner (data-slot="spinner") inside AttachmentMedia during uploading/processing — vertical orientation auto-sizes the spinner to size-6
+```
+
+## Installation
+
+<CommandBox componentName="attachment" className="mt-2" />

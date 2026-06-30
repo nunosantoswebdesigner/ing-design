@@ -1,0 +1,180 @@
+---
+title: Hover Card
+description: A floating card that appears when hovering over a trigger — for previewing content without navigating away.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8466&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { HoverCardDemo } from "@/examples/hover-card";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="hover-card">
+      <HoverCardDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="hover-card">
+      <HoverCardDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="hover-card">
+      <HoverCardDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="hover-card">
+      <HoverCardDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Custom delay
+
+Control how quickly the card opens and closes with `openDelay` and `closeDelay` (milliseconds). The default is 700ms open / 300ms close.
+
+```tsx
+{/* Opens faster, stays open longer */}
+<HoverCard openDelay={200} closeDelay={500}>
+  <HoverCardTrigger asChild>
+    <Button variant="link">@username</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>...</HoverCardContent>
+</HoverCard>
+```
+
+## Placement
+
+Use `side` and `align` on `HoverCardContent` to control positioning relative to the trigger.
+
+```tsx
+{/* Above the trigger, right-aligned */}
+<HoverCardContent side="top" align="end">
+  ...
+</HoverCardContent>
+```
+
+## With image preview
+
+```tsx
+import { ExternalLink } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <a href="#" className="text-sm font-medium underline underline-offset-4">
+      ING Design
+    </a>
+  </HoverCardTrigger>
+  <HoverCardContent side="top" className="w-72">
+    <div className="space-y-2">
+      <div className="h-32 rounded-md bg-muted" />
+      <div className="space-y-1">
+        <p className="text-sm font-semibold">ING Design System</p>
+        <p className="text-xs text-muted-foreground">
+          A custom component registry built on shadcn/ui.
+        </p>
+      </div>
+      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+        <ExternalLink className="size-3" />
+        ing-design.vercel.app
+      </div>
+    </div>
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Props
+
+### HoverCard
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `openDelay` | `number` | `700` | Milliseconds before the card opens |
+| `closeDelay` | `number` | `300` | Milliseconds before the card closes after hover leaves |
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when state changes |
+
+### HoverCardContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side to render |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the trigger |
+| `sideOffset` | `number` | `4` | Gap between trigger and card |
+| `className` | `string` | — | Default width is `w-64` — override with `w-80` etc. |
+
+## Usage
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="link">Hover me</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <p className="text-sm">Card content here.</p>
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Specs
+
+```md
+# New York — Hover Card Specs
+
+## Component
+- name: hover-card
+- file: registry/new-york/hover-card.tsx
+- installs to: components/ui/hover-card.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A floating panel that opens on pointer hover or keyboard focus of a trigger element
+and closes when the pointer leaves both the trigger and the content area. Use it to
+preview richer content — profiles, links, images — without requiring a click or
+navigation. Prefer Popover over HoverCard for touch surfaces or interactive actions.
+
+## Visual identity
+Popover-surface background with a subtle border and medium drop shadow (shadow-md),
+giving a clean elevated card feel. Standard border radius (rounded-md) and 16px
+padding create a balanced, readable container. Animates in/out with a combined
+fade + zoom + directional slide keyed to the open side.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)             — card surface (light/dark)
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — text on card
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)        — card border
+
+## Sub-components
+- HoverCard         → root provider; accepts openDelay (default 700ms) and closeDelay (default 300ms)
+- HoverCardTrigger  → wraps the hover target; use asChild to preserve element semantics
+- HoverCardContent  → floating panel rendered in a Portal; w-64 p-4 rounded-md border shadow-md
+
+## States
+- data-[state=open]:   fade-in-0 + zoom-in-95 + slide-in-from-{side}-2 (enter animation)
+- data-[state=closed]: fade-out-0 + zoom-out-95 (exit animation)
+- data-[side=bottom]:  slide-in-from-top-2
+- data-[side=top]:     slide-in-from-bottom-2
+- data-[side=left]:    slide-in-from-right-2
+- data-[side=right]:   slide-in-from-left-2
+
+## Conventions
+- Use asChild on HoverCardTrigger to avoid adding an extra DOM element and preserve semantics
+- HoverCardContent renders in a Portal (z-50) — add a z-* override if it clips behind other layers
+- Default width is w-64 (256px); override with className="w-72" or "w-80" on HoverCardContent
+- Tune openDelay for context: shorter (200–300ms) for dense scan UIs, longer (700ms default) for reading surfaces
+- Do not place critical or irreversible actions inside HoverCard — hover is not reliably accessible on touch devices; use Popover with a click trigger instead
+- Sub-components expose data-slot="hover-card", data-slot="hover-card-trigger", and data-slot="hover-card-content" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="hover-card" className="mt-2" />

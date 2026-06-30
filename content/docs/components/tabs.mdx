@@ -1,0 +1,166 @@
+---
+title: Tabs
+description: A tabbed interface that displays one content panel at a time, with keyboard navigation and optional audio feedback.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10755
+---
+
+import { TabsDemo } from "@/examples/tabs";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="tabs">
+      <TabsDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="tabs">
+      <TabsDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="tabs">
+      <TabsDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="tabs">
+      <TabsDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Full-width list
+
+Pass `className="w-full"` to `TabsList` and `className="flex-1"` to each `TabsTrigger` to stretch across the container.
+
+```tsx
+<TabsList className="w-full">
+  <TabsTrigger value="account" className="flex-1">Account</TabsTrigger>
+  <TabsTrigger value="settings" className="flex-1">Settings</TabsTrigger>
+</TabsList>
+```
+
+## Controlled
+
+```tsx
+const [tab, setTab] = useState("preview");
+
+<Tabs value={tab} onValueChange={setTab}>
+  ...
+</Tabs>
+```
+
+## With sound
+
+Pass `sound` to each `TabsTrigger`. Use `"tabSwitch"` for a subtle transition cue.
+
+```tsx
+<TabsTrigger value="preview" sound="tabSwitch">Preview</TabsTrigger>
+```
+
+## Vertical orientation
+
+```tsx
+<Tabs orientation="vertical" className="flex-row">
+  <TabsList className="h-auto flex-col">
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="security">Security</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">…</TabsContent>
+  <TabsContent value="security">…</TabsContent>
+</Tabs>
+```
+
+## Props
+
+### Tabs
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultValue` | `string` | — | Uncontrolled active tab |
+| `value` | `string` | — | Controlled active tab |
+| `onValueChange` | `(value: string) => void` | — | Callback on tab change |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Keyboard navigation axis |
+
+### TabsTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Matches a `TabsContent` value |
+| `disabled` | `boolean` | `false` | Prevents selection |
+| `sound` | `FeedbackType` | — | Audio feedback on click |
+| `haptic` | `boolean` | `false` | Haptic feedback on click |
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">…</TabsContent>
+  <TabsContent value="code">…</TabsContent>
+</Tabs>
+```
+
+## Specs
+
+```md
+# New York — Tabs Specs
+
+## Component
+- name: tabs
+- file: registry/new-york/tabs.tsx
+- installs to: components/ui/tabs.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A compound tabbed interface that reveals one content panel at a time. Use it to
+separate related content into discrete views within the same screen area. Prefer
+Tabs over an accordion when all sections are equally likely to be visited and
+vertical stacking would create excessive scroll. Do not use when only one panel
+will ever exist.
+
+## Visual identity
+Pill-shaped list container on a muted background with a floating active trigger
+rendered in card-surface white. Rounded corners (rounded-lg list, rounded-md
+triggers) give a soft, contained feel. Compact height (h-9 list, h-[calc(100%-1px)]
+trigger) keeps the chrome minimal.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)             — TabsList background
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)  — inactive trigger text
+--background: oklch(1 0 0) / oklch(0.145 0 0)            — active trigger fill (light)
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)        — active trigger text (light)
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)           — active trigger fill (dark: bg-input/30) and border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)              — focus ring and outline
+
+## Sub-components
+- Tabs          → Radix Tabs.Root; wraps the full compound; flex flex-col gap-2
+- TabsList      → Radix Tabs.List; pill container; bg-muted inline-flex h-9 rounded-lg p-[3px]
+- TabsTrigger   → Radix Tabs.Trigger; individual tab button; integrates sound + haptic via useFeedback
+- TabsContent   → Radix Tabs.Content; panel shown when its trigger is active; flex-1 outline-none
+
+## States
+- data-[state=active]:  trigger gets bg-background shadow-sm; dark: bg-input/30 border-input text-foreground
+- data-[state=inactive]: trigger text uses text-foreground (light) / text-muted-foreground (dark), no fill
+- focus-visible:        3px ring in --ring/50, 1px outline-ring, border-ring on trigger
+- disabled:             pointer-events-none opacity-50 on trigger
+
+## Conventions
+- sounds / haptic: ING Design exclusive — plays audio or triggers haptic feedback on interaction (TabsTrigger `sound` and `haptic` props via useFeedback hook); recommended sound: "tabSwitch"
+- Sub-components expose data-slot="tabs", data-slot="tabs-list", data-slot="tabs-trigger", data-slot="tabs-content" for CSS targeting
+- Full-width layout: add className="w-full" to TabsList and className="flex-1" to each TabsTrigger
+- Vertical orientation: set orientation="vertical" on Tabs, add flex-col to TabsList, wrap Tabs in flex-row
+- Every TabsTrigger value must have a matching TabsContent value
+- SVG icons inside TabsTrigger auto-size to 16px; pointer-events are disabled on them
+- Controlled usage: pass value + onValueChange to Tabs; uncontrolled: use defaultValue only
+```
+
+## Installation
+
+<CommandBox componentName="tabs" className="mt-2" />

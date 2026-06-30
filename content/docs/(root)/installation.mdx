@@ -1,0 +1,38 @@
+---
+title: Installation
+description: How to install ING Design components into your project.
+---
+
+## Prerequisites
+
+Your project needs to have shadcn configured. If you haven't done it yet:
+
+```bash
+npx shadcn@latest init
+```
+
+Supports Next.js, Vite, Remix, Astro, and any other React framework.
+
+## Install a Component
+
+Pick a component and run the install command:
+
+<CommandBox className="mt-2" />
+
+The component files are copied directly into your project — you own them completely and can customize as needed.
+
+## Manual Installation
+
+If you prefer to copy the code manually, every component page has a **Manual** tab with the source code ready to paste.
+
+## After Installing
+
+Components are added to `components/ui/` by default. Import and use them directly:
+
+```tsx
+import { NewComponent } from "@/components/ui/new-component";
+
+export function Example() {
+  return <NewComponent />;
+}
+```

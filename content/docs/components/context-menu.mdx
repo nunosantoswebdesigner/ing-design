@@ -1,0 +1,268 @@
+---
+title: Context Menu
+description: A menu that appears on right-click, providing contextual actions for the target element.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-5633&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { ContextMenuDemo } from "@/examples/context-menu";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="context-menu">
+      <ContextMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="context-menu">
+      <ContextMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="context-menu">
+      <ContextMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="context-menu">
+      <ContextMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Checkboxes
+
+Use `ContextMenuCheckboxItem` for toggleable items that show a check when active.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+export function ContextMenuCheckboxDemo() {
+  const [showBookmarks, setShowBookmarks] = useState(true);
+  const [showURLs, setShowURLs] = useState(false);
+
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-32 w-64 items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuLabel>View</ContextMenuLabel>
+        <ContextMenuSeparator />
+        <ContextMenuCheckboxItem
+          checked={showBookmarks}
+          onCheckedChange={setShowBookmarks}
+        >
+          Show Bookmarks Bar
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem
+          checked={showURLs}
+          onCheckedChange={setShowURLs}
+        >
+          Show Full URLs
+        </ContextMenuCheckboxItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+```
+
+## With Radio Items
+
+Use `ContextMenuRadioGroup` + `ContextMenuRadioItem` for mutually exclusive options.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+export function ContextMenuRadioDemo() {
+  const [position, setPosition] = useState("top");
+
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-32 w-64 items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuLabel>Panel Position</ContextMenuLabel>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup value={position} onValueChange={setPosition}>
+          <ContextMenuRadioItem value="top">Top</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="right">Right</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="bottom">Bottom</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+```
+
+## Props
+
+### ContextMenuItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "destructive"` | `"default"` | Destructive styles for dangerous actions |
+| `inset` | `boolean` | `false` | Adds left padding to align with icon items |
+| `disabled` | `boolean` | `false` | Prevents selection |
+| `onSelect` | `(event: Event) => void` | — | Callback when item is selected |
+| `className` | `string` | — | Additional CSS classes |
+
+### ContextMenuSubTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `inset` | `boolean` | `false` | Adds left padding to align with icon items |
+
+### ContextMenuCheckboxItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean \| "indeterminate"` | — | Controlled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when state changes |
+
+### ContextMenuRadioItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Value for the radio group |
+
+### ContextMenuLabel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `inset` | `boolean` | `false` | Adds left padding |
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+<ContextMenu>
+  <ContextMenuTrigger>Right-click me</ContextMenuTrigger>
+  <ContextMenuContent className="w-48">
+    <ContextMenuItem>
+      Copy
+      <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      Paste
+      <ContextMenuShortcut>⌘V</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>More</ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <ContextMenuItem>Select All</ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
+    <ContextMenuSeparator />
+    <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Specs
+
+```md
+# New York — Context Menu Specs
+
+## Component
+- name: context-menu
+- file: registry/new-york/context-menu.tsx
+- installs to: components/ui/context-menu.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A floating menu triggered by the browser's right-click (contextmenu) event on
+a wrapped element. Use it for file/item actions, editor operations, or any
+surface where right-click is a natural interaction pattern. Do not use it for
+primary navigation — prefer DropdownMenu for pointer-initiated menus.
+
+## Visual identity
+Popover-surfaced panel with rounded-md corners and a 1px border. Compact item
+rows (py-1.5, text-sm) with accent-coloured hover/focus states. Matches the
+new-york neutral palette — no colour until focus or destructive variant.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)             — menu panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — default item text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)            — hover/focus item bg
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0) — hover/focus item text
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)  — shortcut + icon colour
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — danger item text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)          — panel border + separator
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)        — label text
+
+## Sub-components
+- ContextMenu             → root provider, no visual output
+- ContextMenuTrigger      → wraps the right-clickable area
+- ContextMenuPortal       → renders content into a portal
+- ContextMenuContent      → floating menu panel (rendered via Portal automatically)
+- ContextMenuGroup        → semantic grouping wrapper, no visual output
+- ContextMenuItem         → action row; accepts variant and inset props
+- ContextMenuCheckboxItem → toggleable item with CheckIcon indicator
+- ContextMenuRadioGroup   → wraps radio items, holds value + onValueChange
+- ContextMenuRadioItem    → mutually exclusive option with CircleIcon indicator
+- ContextMenuLabel        → non-interactive section heading (font-medium)
+- ContextMenuSeparator    → 1px horizontal rule between groups
+- ContextMenuShortcut     → right-aligned keyboard hint (ml-auto, display only)
+- ContextMenuSub          → sub-menu root
+- ContextMenuSubTrigger   → item that opens a sub-menu (ChevronRightIcon auto-appended)
+- ContextMenuSubContent   → floating panel for sub-menu items
+
+## Variants
+- default     → standard item style; accent bg + text on focus
+- destructive → text-destructive at rest; destructive/10 (light) or destructive/20 (dark) bg on focus
+
+## States
+- focus:      bg-accent + text-accent-foreground on all interactive items
+- data-[state=open]: SubTrigger shows accent bg + text while sub-menu is open
+- data-[disabled]: pointer-events-none + opacity-50 on items and checkbox/radio items
+- data-[checked]: ItemIndicator renders CheckIcon (checkbox) or CircleIcon (radio) when active
+
+## Conventions
+- Set a fixed width on ContextMenuContent: className="w-48" or "w-56"
+- ContextMenuContent already renders inside a Portal — do not wrap it in ContextMenuPortal manually
+- Use inset={true} on ContextMenuItem, ContextMenuLabel, or ContextMenuSubTrigger to add pl-8 and align text with icon-prefixed siblings
+- ContextMenuShortcut is display-only — wire actual keyboard shortcuts separately (e.g. useEffect + keydown)
+- ContextMenuTrigger wraps any element; no interactive element required
+- Always nest ContextMenuSubContent inside a ContextMenuSub root
+- Sub-components expose data-slot="[name]" attributes for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="context-menu" className="mt-2" />

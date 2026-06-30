@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty",
+  "title": "Empty",
+  "description": "A placeholder state for when content is absent — communicates context and guides the user toward the next action.",
+  "files": [
+    {
+      "path": "registry/new-york/empty.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Empty = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty\"\n    className={cn(\n      \"flex flex-col items-center justify-center gap-3 py-12 text-center\",\n      className\n    )}\n    {...props}\n  />\n);\n\nconst EmptyIcon = ({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty-icon\"\n    className={cn(\n      \"flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg:not([class*='size-'])]:size-6\",\n      className\n    )}\n    {...props}\n  />\n);\n\nconst EmptyTitle = ({\n  className,\n  ...props\n}: React.ComponentProps<\"h3\">) => (\n  <h3\n    data-slot=\"empty-title\"\n    className={cn(\"text-base font-semibold leading-none tracking-tight\", className)}\n    {...props}\n  />\n);\n\nconst EmptyDescription = ({\n  className,\n  ...props\n}: React.ComponentProps<\"p\">) => (\n  <p\n    data-slot=\"empty-description\"\n    className={cn(\"max-w-xs text-sm text-muted-foreground\", className)}\n    {...props}\n  />\n);\n\nconst EmptyAction = ({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty-action\"\n    className={cn(\"mt-1 flex flex-wrap items-center justify-center gap-2\", className)}\n    {...props}\n  />\n);\n\nexport { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyAction };\n",
+      "type": "registry:ui",
+      "target": "components/ui/empty.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

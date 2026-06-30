@@ -1,0 +1,174 @@
+---
+title: Tooltip
+description: A floating label that appears on hover or focus, with directional slide animations and an arrow pointer.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=79-11350
+---
+
+import { TooltipDemo } from "@/examples/tooltip";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="tooltip">
+      <TooltipDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="tooltip">
+      <TooltipDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="tooltip">
+      <TooltipDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="tooltip">
+      <TooltipDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With asChild
+
+Wrap any element in `TooltipTrigger asChild` to attach the tooltip without an extra DOM node. Always use `asChild` on interactive elements like `Button`.
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="ghost" size="icon" aria-label="Settings">
+      <SettingsIcon />
+    </Button>
+  </TooltipTrigger>
+  <TooltipContent>Settings</TooltipContent>
+</Tooltip>
+```
+
+## Side
+
+```tsx
+<TooltipContent side="top" />    {/* default */}
+<TooltipContent side="right" />
+<TooltipContent side="bottom" />
+<TooltipContent side="left" />
+```
+
+## With keyboard shortcut
+
+Combine with `Kbd` inside `TooltipContent` for a shortcut hint.
+
+```tsx
+<TooltipContent className="flex items-center gap-2">
+  New item
+  <Kbd>⌘K</Kbd>
+</TooltipContent>
+```
+
+## Delay
+
+The default `delayDuration` is `0`. Wrap in `TooltipProvider` to set a custom delay for a group.
+
+```tsx
+<TooltipProvider delayDuration={300}>
+  <Tooltip>…</Tooltip>
+  <Tooltip>…</Tooltip>
+</TooltipProvider>
+```
+
+## Controlled
+
+```tsx
+<Tooltip open={open} onOpenChange={setOpen}>
+  …
+</Tooltip>
+```
+
+## Props
+
+### TooltipContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"top"` | Preferred side |
+| `sideOffset` | `number` | `0` | Gap between trigger and tooltip |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the side |
+| `hidden` | `boolean` | `false` | Hides the content while keeping mount |
+
+### Tooltip (Root)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback on state change |
+| `delayDuration` | `number` | `0` | Override provider delay for this tooltip |
+
+## Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="ghost" size="icon" aria-label="Add">
+      <PlusIcon />
+    </Button>
+  </TooltipTrigger>
+  <TooltipContent>Add item</TooltipContent>
+</Tooltip>
+```
+
+## Specs
+
+```md
+# New York — Tooltip Specs
+
+## Component
+- name: tooltip
+- file: registry/new-york/tooltip.tsx
+- installs to: components/ui/tooltip.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A floating label that appears on hover or focus to provide supplemental context
+for an element. Use it to clarify icon-only buttons, truncated text, or
+non-obvious controls. Do not use it to convey information required to complete
+a task — that content belongs in the UI, not a tooltip.
+
+## Visual identity
+Solid near-black fill (--primary) with near-white text gives a high-contrast,
+unambiguous callout. Slightly rounded corners (rounded-md) and compact padding
+(px-3 py-1.5) keep it dense and lightweight. A small rotated square arrow
+anchors the tooltip to its trigger.
+
+## Design tokens
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)           — tooltip background
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0) — tooltip text
+
+## Sub-components
+- TooltipProvider  → Radix Provider; sets delayDuration (default 0) for a group
+- Tooltip          → wraps TooltipProvider + Radix Root; self-contained by default
+- TooltipTrigger   → Radix Trigger; use asChild for interactive elements
+- TooltipContent   → Radix Portal + Content; renders the floating label and arrow
+
+## States
+- open:   animate-in fade-in-0 zoom-in-95 + directional slide-in-from-opposite-side-2
+- closed: animate-out fade-out-0 zoom-out-95 + directional slide-out-to-opposite-side-2
+
+## Conventions
+- Each Tooltip auto-wraps in TooltipProvider (delayDuration=0); no manual provider needed for single tooltips
+- Wrap multiple Tooltip instances in a shared TooltipProvider to set a common delayDuration or skipDelayDuration
+- Always use TooltipTrigger asChild on interactive elements (Button, anchor) to avoid a nested focusable element
+- Icon-only buttons must have an aria-label; the tooltip text may duplicate it for visual users
+- Kbd inside TooltipContent adapts automatically via data-[slot=tooltip-content]: inverted colour classes
+- Sub-components expose data-slot="tooltip-provider", "tooltip", "tooltip-trigger", "tooltip-content" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="tooltip" className="mt-2" />

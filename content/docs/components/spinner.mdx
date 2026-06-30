@@ -1,0 +1,135 @@
+---
+title: Spinner
+description: An animated SVG loading indicator with size variants and inheritable color.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1196-1175
+---
+
+import { SpinnerDemo } from "@/examples/spinner";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="spinner">
+      <SpinnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="spinner">
+      <SpinnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="spinner">
+      <SpinnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="spinner">
+      <SpinnerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Sizes
+
+```tsx
+<Spinner size="sm" />      {/* 16px */}
+<Spinner size="default" /> {/* 20px */}
+<Spinner size="lg" />      {/* 24px */}
+<Spinner size="xl" />      {/* 32px */}
+```
+
+## Color
+
+Spinner inherits `currentColor` — control it with any Tailwind text color class.
+
+```tsx
+<Spinner className="text-primary" />
+<Spinner className="text-destructive" />
+<Spinner className="text-muted-foreground" />
+```
+
+## In a button
+
+Place `Spinner` before the label in a `disabled` button while an action is in progress.
+
+```tsx
+<Button disabled>
+  <Spinner size="sm" />
+  Saving…
+</Button>
+```
+
+## Accessibility
+
+`Spinner` renders as `role="status"` with `aria-label`. Override the label to describe the specific operation.
+
+```tsx
+<Spinner label="Uploading file…" />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"sm" \| "default" \| "lg" \| "xl"` | `"default"` | Controls SVG dimensions |
+| `label` | `string` | `"Loading…"` | Accessible label (`aria-label`) |
+| `className` | `string` | — | Pass text color or additional overrides |
+
+## Usage
+
+```tsx
+import { Spinner } from "@/components/ui/spinner";
+
+<Spinner />
+<Spinner size="lg" className="text-primary" />
+```
+
+## Specs
+
+```md
+# New York — Spinner Specs
+
+## Component
+- name: spinner
+- file: registry/new-york/spinner.tsx
+- installs to: components/ui/spinner.tsx
+- dependencies: class-variance-authority
+- registryDependencies: none
+
+## What is it
+An animated SVG loading indicator that conveys an in-progress state. Use it
+inside buttons, overlays, or inline next to text when an async operation is
+running. Prefer Spinner over a skeleton when the wait is short and layout is
+already established; do not use it as a page-level progress indicator for
+long operations where a progress bar would give better feedback.
+
+## Visual identity
+Colorless by design — inherits currentColor so it adapts to any palette.
+Two-layer SVG: a full-circle track at opacity-25 and a ~75° arc at opacity-75
+spin continuously. The result is clean and unobtrusive on any background.
+
+## Design tokens
+No design tokens consumed directly. Color is resolved at runtime via
+currentColor — set it with any Tailwind text-* utility (e.g. text-primary,
+text-muted-foreground, text-destructive).
+
+## Variants
+- sm      → size-4 (16px). Use inside compact controls or tight layouts.
+- default → size-5 (20px). General-purpose inline loading indicator.
+- lg      → size-6 (24px). Standalone indicators with more breathing room.
+- xl      → size-8 (32px). Prominent standalone states, e.g. card loading.
+
+## States
+- spinning: always active — animate-spin runs unconditionally on mount
+
+## Conventions
+- Color: pass a Tailwind text-* class via className to tint the spinner
+- In buttons: place Spinner before the label inside a disabled Button while an action is pending
+- Accessible label: aria-label defaults to "Loading…" — override with the label prop to describe the specific operation (e.g. label="Uploading file…")
+- Sub-components expose data-slot="spinner" for CSS targeting
+- No sounds / haptic: this component does not accept a sounds or haptic prop
+```
+
+## Installation
+
+<CommandBox componentName="spinner" className="mt-2" />

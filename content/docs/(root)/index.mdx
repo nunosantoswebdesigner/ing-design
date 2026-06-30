@@ -1,0 +1,106 @@
+---
+title: Introduction
+description: A multi-brand component library. One codebase, multiple visual identities — each brand gets its own theme without duplicating components.
+---
+
+**ING Design** is a multi-brand design system built by [ING Infinitive](https://github.com/nunosantoswebdesigner).
+
+It solves a specific problem: when you build products for multiple brands, you don't want to rebuild the same Button, Input, or Modal ten times. You want one solid implementation that each brand can make its own — different colours, different corner radius, different typography — without touching the component logic.
+
+## How It Works
+
+Components are built once against the **New York** base theme. Each brand then gets its own theme — a set of CSS variable overrides that change how every component looks without changing how it works.
+
+```
+Base component (New York)
+├── force8      → orange, sharp corners, bold uppercase
+├── myswissski  → red, rounded, clean outdoor feel
+└── myicehockey → blue, pill-shaped, modern and fast
+```
+
+When you install a component, you get the code — not a package. The shadcn registry model means you own it fully and can customize it per project.
+
+## What's Inside
+
+### Components
+
+Foundational UI primitives — buttons, inputs, dialogs, selects, and more. Each one is:
+
+- Built on **Radix UI** for accessibility out of the box
+- Styled with **Tailwind CSS 4** using CSS variables for theme switching
+- Documented with live previews, per-brand theme tabs, and one-click code view
+
+### Blocks
+
+Pre-assembled UI sections built from the component library — cards, modals, stat panels, and other patterns you'd otherwise build from scratch on every project.
+
+### Elements
+
+Complex, data-driven components — data tables, charts, calendars, and dashboard widgets. These go beyond simple primitives and are designed to drop into real product pages.
+
+## How to Install a Component
+
+Pick a component from the sidebar and run the install command in your project:
+
+<CommandBox className="mt-2" />
+
+The component files are copied directly into your codebase — no dependency, no lock-in.
+
+## AI-Ready Docs
+
+Every component page is built for use with AI tools:
+
+- **Specs block** — each page ends with a structured spec: shadcn config, design tokens, Tailwind conventions, and variant reference. Paste it into any AI prompt for accurate, on-brand output.
+- **Copy Page** — opens the full page context directly in Claude, ChatGPT, v0, Cursor, or Gemini
+- **Markdown URL** — every page is available at its `.md` URL for programmatic access
+- **LLM index** — `/llms.txt` lists all pages; `/llms-full.txt` includes the full content of each
+
+## FAQ
+
+<Accordion type="multiple">
+
+<AccordionItem value="faq-1">
+<AccordionTrigger>
+Why copy/paste instead of an npm package?
+</AccordionTrigger>
+<AccordionContent>
+
+Packages version-lock you and make customization a fight. The shadcn approach copies the source directly into your project — you own it, you control it, and you can change anything without waiting for an upstream update or opening a PR.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="faq-2">
+<AccordionTrigger>
+How do brand themes work?
+</AccordionTrigger>
+<AccordionContent>
+
+Each brand theme is a CSS variable override. The base component (e.g. Button in New York) uses variables like `--primary` and `--radius`. A brand theme redefines those variables — sharp orange for Force8, pill-shaped blue for My Ice Hockey — and the component adapts automatically. No code duplication.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="faq-3">
+<AccordionTrigger>
+Can I use this in multiple projects?
+</AccordionTrigger>
+<AccordionContent>
+
+Yes — that's the point. Install the same component across every project under your brand umbrella. Each project gets its own copy that inherits the brand theme and can be customized further from there.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="faq-4">
+<AccordionTrigger>
+Which frameworks are supported?
+</AccordionTrigger>
+<AccordionContent>
+
+Any React framework: Next.js, Vite, Remix, Astro, and others. The components are plain React + Tailwind — no framework-specific assumptions.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>

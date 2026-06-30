@@ -1,0 +1,123 @@
+---
+title: Separator
+description: A thin visual divider between sections or inline content, supporting horizontal and vertical orientations.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10176&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { SeparatorDemo } from "@/examples/separator";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="separator">
+      <SeparatorDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="separator">
+      <SeparatorDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="separator">
+      <SeparatorDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="separator">
+      <SeparatorDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Vertical
+
+Set `orientation="vertical"` for an inline divider. The parent must have a fixed height — the separator fills `h-full`.
+
+```tsx
+<div className="flex h-5 items-center gap-4 text-sm">
+  <span>Blog</span>
+  <Separator orientation="vertical" />
+  <span>Docs</span>
+  <Separator orientation="vertical" />
+  <span>Source</span>
+</div>
+```
+
+## Semantic
+
+Set `decorative={false}` when the separator represents a meaningful section boundary — Radix will render `role="separator"` so screen readers announce it.
+
+```tsx
+<Separator decorative={false} />
+```
+
+## Spacing
+
+Apply margin utilities directly on `Separator`.
+
+```tsx
+<Separator className="my-4" />       {/* vertical gap */}
+<Separator className="my-2" />       {/* tighter */}
+<Separator className="mx-4 w-auto" /> {/* inset horizontal */}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Axis of the divider |
+| `decorative` | `boolean` | `true` | `true` = `aria-hidden`; `false` = `role="separator"` |
+| `className` | `string` | — | Merged with base classes |
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator";
+
+<Separator />
+
+<Separator orientation="vertical" />
+```
+
+## Specs
+
+```md
+# New York — Separator Specs
+
+## Component
+- name: separator
+- file: registry/new-york/separator.tsx
+- installs to: components/ui/separator.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A thin 1px dividing line built on Radix UI's Separator primitive. Use it to
+create clear visual breaks between sections of content or inline elements.
+Prefer Tailwind's `divide-y` / `divide-x` utilities when dividing a long list
+of flex or grid children — it is simpler and more performant than inserting a
+Separator between every item.
+
+## Visual identity
+A hairline rule using the neutral `--border` colour. Fully minimal — no
+radius, no shadow, no weight — making it unobtrusive and theme-agnostic across
+all ING Design brand contexts.
+
+## Design tokens
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)   — divider colour (light / dark)
+
+## States
+- data-[orientation=horizontal]: h-px w-full — full-width horizontal rule
+- data-[orientation=vertical]:   h-full w-px — full-height vertical rule
+
+## Conventions
+- `shrink-0` is applied by default to prevent flex compression
+- `decorative={true}` (default) adds `aria-hidden`; set `decorative={false}` for a meaningful section boundary — Radix renders `role="separator"` so screen readers announce it
+- Apply spacing with margin utilities directly on `<Separator>` (e.g. `my-4`)
+- For vertical orientation the parent container must have an explicit height — the separator fills `h-full`
+- Sub-components expose `data-slot="separator"` for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="separator" className="mt-2" />

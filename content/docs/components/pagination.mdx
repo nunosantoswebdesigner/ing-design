@@ -1,0 +1,211 @@
+---
+title: Pagination
+description: Navigation controls for moving between pages with numbered links, previous/next, and ellipsis.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8794&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { PaginationDemo } from "@/examples/pagination";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="pagination">
+      <PaginationDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="pagination">
+      <PaginationDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="pagination">
+      <PaginationDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="pagination">
+      <PaginationDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With ellipsis
+
+Use `PaginationEllipsis` between groups when the total page count is large. It renders a `…` icon and a screen-reader-only "More pages" label.
+
+```tsx
+<PaginationContent>
+  <PaginationItem>
+    <PaginationPrevious href="#" />
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationLink href="#">1</PaginationLink>
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationEllipsis />
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationLink href="#" isActive>5</PaginationLink>
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationEllipsis />
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationLink href="#">10</PaginationLink>
+  </PaginationItem>
+  <PaginationItem>
+    <PaginationNext href="#" />
+  </PaginationItem>
+</PaginationContent>
+```
+
+## With router
+
+Replace `href` with an `onClick` handler (or use Next.js `<Link>` via `asChild`) to integrate with client-side routing.
+
+```tsx
+"use client";
+
+import { useRouter } from "next/navigation";
+
+function PaginationWithRouter({ page, total }: { page: number; total: number }) {
+  const router = useRouter();
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page > 1) router.push(`?page=${page - 1}`);
+            }}
+          />
+        </PaginationItem>
+        {Array.from({ length: total }, (_, i) => i + 1).map((p) => (
+          <PaginationItem key={p}>
+            <PaginationLink
+              href={`?page=${p}`}
+              isActive={p === page}
+            >
+              {p}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem>
+          <PaginationNext
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page < total) router.push(`?page=${page + 1}`);
+            }}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+}
+```
+
+## Props
+
+### PaginationLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isActive` | `boolean` | `false` | Marks the current page — applies `outline` variant and `aria-current="page"` |
+| `size` | `"default" \| "sm" \| "lg" \| "icon"` | `"icon"` | Button size; number links default to `icon` (square) |
+| `href` | `string` | — | Navigation target |
+
+### PaginationPrevious / PaginationNext
+
+<span className="block">Extends `PaginationLink` with a fixed `size="default"`, a chevron icon, and a responsive label ("Previous" / "Next") hidden on mobile.</span>
+
+## Usage
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="/posts?page=1" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/posts?page=1">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/posts?page=2" isActive>2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/posts?page=3">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="/posts?page=3" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+## Specs
+
+```md
+# New York — Pagination Specs
+
+## Component
+- name: pagination
+- file: registry/new-york/pagination.tsx
+- installs to: components/ui/pagination.tsx
+- dependencies: lucide-react
+- registryDependencies: button
+
+## What is it
+A pure HTML pagination nav (no Radix dependency) for moving between numbered pages. It composes anchor elements styled via `buttonVariants` from the Button component, keeping page links visually consistent with the rest of the UI. Use it for any list or data set split across multiple pages; prefer a simpler Previous/Next pair when exact page numbers are not meaningful to the user.
+
+## Visual identity
+Page links inherit the Button component's ghost and outline variants — neutral tones with subtle hover backgrounds and a clear outline on the active page. Compact icon-size squares (size-9) for numbered links give a dense, tidy row that scales well in tight layouts.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — ellipsis icon colour
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)           — outline on active link (via buttonVariants outline)
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)              — ghost hover background (via buttonVariants ghost)
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)  — ghost hover text
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)               — focus ring on links
+
+## Sub-components
+- Pagination          → `<nav role="navigation" aria-label="pagination">` — centred full-width wrapper
+- PaginationContent   → `<ul>` — flex row, gap-1, items centred
+- PaginationItem      → `<li>` — no visual output, structural wrapper
+- PaginationLink      → `<a>` styled via buttonVariants; ghost by default, outline when isActive
+- PaginationPrevious  → PaginationLink size="default" + ChevronLeftIcon + responsive "Previous" label
+- PaginationNext      → PaginationLink size="default" + ChevronRightIcon + responsive "Next" label
+- PaginationEllipsis  → `<span aria-hidden>` + MoreHorizontalIcon + sr-only "More pages"
+
+## States
+- isActive:    applies variant="outline" and aria-current="page" to the link
+- data-active: set to true/undefined on PaginationLink for CSS targeting
+- hover:       ghost links show accent background; outline link retains border
+- focus:       3px ring in --ring colour on all links
+
+## Conventions
+- Sub-components expose data-slot="pagination", "pagination-content", "pagination-item", "pagination-link", "pagination-ellipsis" for CSS targeting
+- PaginationLink defaults to size="icon" (size-9 square) — suitable for numbered pages
+- PaginationPrevious and PaginationNext use size="default" and hide their text label below the sm breakpoint (hidden sm:block) — only icons on mobile
+- Always wrap each PaginationLink, PaginationPrevious, PaginationNext, and PaginationEllipsis in a PaginationItem
+- Use PaginationEllipsis between page groups when total pages exceed what can be shown; never use it at the start or end of the list
+- For client-side routing, use asChild with a framework Link component or attach an onClick handler with e.preventDefault()
+- PaginationPrevious carries aria-label="Go to previous page"; PaginationNext carries aria-label="Go to next page" — do not override without a suitable replacement
+```
+
+## Installation
+
+<CommandBox componentName="pagination" className="mt-2" />

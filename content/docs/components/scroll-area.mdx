@@ -1,0 +1,147 @@
+---
+title: Scroll Area
+description: A custom-styled scrollable container with a thin overlay scrollbar for both vertical and horizontal overflow.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8955&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { ScrollAreaDemo } from "@/examples/scroll-area";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="scroll-area">
+      <ScrollAreaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="scroll-area">
+      <ScrollAreaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="scroll-area">
+      <ScrollAreaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="scroll-area">
+      <ScrollAreaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Horizontal
+
+Add a `<ScrollBar orientation="horizontal" />` inside `ScrollArea` to enable horizontal scrolling. Both scrollbars can coexist.
+
+```tsx
+<ScrollArea className="w-96 rounded-md border whitespace-nowrap">
+  <div className="flex gap-4 p-4">
+    {items.map((item) => (
+      <div key={item} className="shrink-0 w-40 h-20 rounded-md bg-muted" />
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+## Fixed height
+
+Always set a fixed height (or max-height) on the `ScrollArea` — without a constraint the container expands to fit its content and nothing scrolls.
+
+```tsx
+<ScrollArea className="h-64 w-full rounded-md border">
+  {/* long content */}
+</ScrollArea>
+```
+
+## Both axes
+
+Include both `ScrollBar` components for a two-dimensional scroll area.
+
+```tsx
+<ScrollArea className="h-72 w-96 rounded-md border">
+  <div className="w-[600px]">{/* wide + tall content */}</div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+## Props
+
+### ScrollArea
+
+<span className="block">Extends all Radix `ScrollArea.Root` props. Always set a height via `className` or `style` — the root is `position: relative` and the viewport fills it with `size-full`.</span>
+
+### ScrollBar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Which axis this scrollbar controls |
+| `className` | `string` | — | Merged with the scrollbar track classes |
+
+## Usage
+
+```tsx
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+<ScrollArea className="h-72 w-48 rounded-md border">
+  <div className="p-4">
+    {items.map((item) => (
+      <p key={item} className="text-sm py-1">{item}</p>
+    ))}
+  </div>
+</ScrollArea>
+```
+
+## Specs
+
+```md
+# New York — Scroll Area Specs
+
+## Component
+- name: scroll-area
+- file: registry/new-york/scroll-area.tsx
+- installs to: components/ui/scroll-area.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A scrollable container that replaces native OS scrollbars with a consistent,
+minimal custom design. Use it whenever overflowing content needs to be
+scrollable with a predictable scrollbar appearance across platforms. Prefer
+it over overflow-auto when visual consistency of the scrollbar track matters.
+
+## Visual identity
+Thin 2.5-unit (10px) scrollbar track with a transparent border that acts as
+padding, giving the thumb a floating feel. The thumb uses --border for a
+subtle, neutral appearance that works across light and dark themes without
+drawing attention.
+
+## Design tokens
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)   — scrollbar thumb colour
+--ring:   oklch(0.708 0 0) / oklch(0.556 0 0)      — viewport focus ring
+
+## Sub-components
+- ScrollArea   → Root wrapper; position relative; auto-includes a vertical ScrollBar and Corner
+- ScrollBar    → Scrollbar track; 2.5-unit wide (vertical) or tall (horizontal); transparent border acts as inset padding
+- (Viewport)   → Internal; fills root with size-full; inherits border-radius; receives focus ring on keyboard scroll
+- (Thumb)      → Internal; bg-border, rounded-full; sized by Radix proportional to content ratio
+- (Corner)     → Internal; fills the gap when both vertical and horizontal scrollbars are present
+
+## States
+- focus-visible: viewport receives a 3px ring in --ring colour with ring/50 opacity on keyboard navigation
+- data-[state=visible]: Radix shows the scrollbar when content overflows; hidden otherwise
+- data-[orientation=vertical]: scrollbar is h-full w-2.5 with border-l
+- data-[orientation=horizontal]: scrollbar is h-2.5 flex-col with border-t
+
+## Conventions
+- ScrollArea must have a constrained height (h-*, max-h-*) or the container expands to fit content and nothing scrolls
+- A vertical ScrollBar is auto-rendered inside ScrollArea — do not add a second one
+- For horizontal scrolling, add <ScrollBar orientation="horizontal" /> explicitly inside ScrollArea
+- For two-axis scrolling, include both orientations; the Corner fills the overlap gap automatically
+- Sub-components expose data-slot attributes for CSS targeting: "scroll-area", "scroll-area-viewport", "scroll-area-scrollbar", "scroll-area-thumb"
+- Add whitespace-nowrap on the inner container to prevent line wrapping when using horizontal scroll
+```
+
+## Installation
+
+<CommandBox componentName="scroll-area" className="mt-2" />

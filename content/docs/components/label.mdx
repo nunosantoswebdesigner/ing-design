@@ -1,0 +1,165 @@
+---
+title: Label
+description: An accessible form label that associates with its input and responds to disabled state.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8597&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { LabelDemo } from "@/examples/label";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="label">
+      <LabelDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="label">
+      <LabelDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="label">
+      <LabelDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="label">
+      <LabelDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With input
+
+Associate a label to a field with a matching `htmlFor` / `id` pair. Clicking the label focuses the input.
+
+```tsx
+<div className="flex flex-col gap-1.5">
+  <Label htmlFor="email">Email address</Label>
+  <Input id="email" type="email" placeholder="you@example.com" />
+</div>
+```
+
+## Required indicator
+
+Append a `<span className="text-destructive">*</span>` as a child to mark a required field. `Label` is `flex` so it aligns children naturally.
+
+```tsx
+<Label htmlFor="username">
+  Username
+  <span className="text-destructive">*</span>
+</Label>
+```
+
+## Disabled
+
+When the associated input is `disabled`, `Label` uses the `peer-disabled:` selectors to reduce opacity and show `cursor-not-allowed`. Place the input **before** the label in the DOM, or use the `Field` component which handles this automatically.
+
+```tsx
+<div className="flex flex-col gap-1.5">
+  <Label htmlFor="api-key">API key</Label>
+  <Input id="api-key" disabled />
+</div>
+```
+
+## With Field
+
+`Field` auto-generates the `id`, wires `htmlFor`, and propagates `error` / `required` state — no manual `htmlFor` / `id` needed.
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field";
+
+<Field required error="Email is required.">
+  <FieldLabel>Email</FieldLabel>
+  <Input type="email" placeholder="you@example.com" />
+  <FieldError />
+</Field>
+```
+
+## With icon
+
+`Label` is a flex row — prefix it with any inline element.
+
+```tsx
+<Label htmlFor="name" className="cursor-pointer">
+  <UserIcon className="size-4" />
+  Full name
+</Label>
+<Input id="name" placeholder="Nuno Santos" />
+```
+
+## Props
+
+<span className="block">Extends all props from `LabelPrimitive.Root` (Radix UI Label).</span>
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `htmlFor` | `string` | — | ID of the associated form control |
+| `className` | `string` | — | Merged after base classes |
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label";
+
+<Label htmlFor="email">Email address</Label>
+```
+
+## Specs
+
+```md
+# New York — Label Specs
+
+## Component
+- name: label
+- file: registry/new-york/label.tsx
+- installs to: components/ui/label.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A styled wrapper around Radix UI Label.Root that renders a native `<label>`
+element. Its primary use case is associating a visible text label with a form
+control via `htmlFor` / `id`. Prefer the `Field` compound component when the
+field also needs a description or error message — `Field` handles ID generation
+and aria wiring automatically.
+
+## Visual identity
+Plain text treatment in new-york: 14px medium-weight type, tight leading, and
+`select-none` to prevent accidental text selection. Rendered as a flex row so
+icons or required-field markers align without extra layout work.
+
+## Design tokens
+No explicit colour tokens — inherits `--foreground` from the page. Disabled
+states rely on opacity reduction rather than a dedicated token.
+
+## States
+- peer-disabled:cursor-not-allowed: shows `not-allowed` cursor when the
+  preceding sibling input is disabled; input must appear before label in DOM
+- peer-disabled:opacity-70: reduces label opacity when the peer input is
+  disabled
+- group-data-[disabled=true]:pointer-events-none: disables pointer events when
+  a parent group (e.g. Field / fieldset) carries `data-disabled=true`
+- group-data-[disabled=true]:opacity-50: reduces opacity when the parent group
+  is disabled
+
+## Conventions
+- Always pair with a form control via `htmlFor` + matching `id`; Radix
+  Label.Root clicks forward to the associated control automatically
+- Required-field indicator: add `<span className="text-destructive">*</span>`
+  as a child — the flex layout aligns it inline
+- Icon prefix: prepend any `size-4` inline element as a child; gap-2 handles
+  spacing automatically
+- For full form fields (description, error), use the `Field` compound
+  component instead of wiring `htmlFor` / `id` manually
+- Sub-components expose `data-slot="label"` for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="label" className="mt-2" />

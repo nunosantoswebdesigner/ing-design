@@ -1,0 +1,125 @@
+---
+title: New Block
+description: Replace this description with a one-line summary of what the block does.
+---
+
+import { NewBlockDemo } from "@/examples/new-block";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="new-block">
+      <NewBlockDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="new-block">
+      <NewBlockDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="new-block">
+      <NewBlockDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="new-block">
+      <NewBlockDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `React.ReactNode` | — | Content inside the block |
+
+## Usage
+
+```tsx
+import { NewBlock } from "@/components/ui/new-block";
+
+<NewBlock>Content</NewBlock>
+```
+
+## Specs
+
+```md
+# b-new-block — Block Specs
+
+## Component
+- name: new-block
+- file: registry/new-york/new-block.tsx
+- installs to: components/ui/new-block.tsx
+- dependencies: (none — add if needed, e.g. recharts, @tanstack/react-table)
+- registryDependencies: (none — add if needed)
+
+## What is it
+Replace this with a description of what the block does, when to use it,
+and what problem it solves. Blocks are full-page sections or major layout
+compositions — distinct from elements (mid-level) and components (atomic).
+
+## Visual identity
+Describe the visual character of this block in this theme.
+- Layout: (e.g. flex flex-col gap-6 p-6, grid, full-width)
+- Surface: (e.g. transparent, --card, --background)
+- Weight: (e.g. dominant, full-bleed, contained)
+- Key trait: (the one thing that makes it recognisable)
+
+## Design tokens
+--background: oklch(1 0 0)
+--foreground: oklch(0.145 0 0)
+--card: oklch(1 0 0)
+--card-foreground: oklch(0.145 0 0)
+--primary: oklch(0.205 0 0)
+--primary-foreground: oklch(0.985 0 0)
+--secondary: oklch(0.97 0 0)
+--secondary-foreground: oklch(0.205 0 0)
+--muted: oklch(0.97 0 0)
+--muted-foreground: oklch(0.556 0 0)
+--accent: oklch(0.97 0 0)
+--accent-foreground: oklch(0.205 0 0)
+--destructive: oklch(0.577 0.245 27.325)
+--border: oklch(0.922 0 0)
+--input: oklch(0.922 0 0)
+--ring: oklch(0.708 0 0)
+--radius: 0.625rem
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: false  (blocks use "use client" by default)
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Sub-components
+- NewBlock → root layout wrapper; data-slot="new-block"
+- (add sub-components as the block grows)
+
+## States
+- default:  (describe the resting appearance)
+- loading:  (if applicable — skeleton or spinner pattern)
+- empty:    (if the block has an empty/zero-data state)
+- error:    (if the block handles fetch or validation errors)
+
+## Conventions
+- Use cn() from @/lib/utils for all conditional classNames
+- Blocks use the b- prefix to distinguish from elements (e-) and base components
+- "use client" directive required for any interactive state
+- Tailwind CSS 4 utility classes only — no inline styles
+- No external dependencies unless declared in registry.json
+- Compose from elements (e-) and base components (shadcn/ui) — don't duplicate primitives
+- data-slot attribute on the root for targeted CSS overrides
+```
+
+## Installation
+
+<CommandBox componentName="new-block" className="mt-2" />

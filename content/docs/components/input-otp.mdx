@@ -1,0 +1,233 @@
+---
+title: Input OTP
+description: An accessible one-time password input with individual character slots, grouping, and separator support.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=101-745&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { InputOTPDemo } from "@/examples/input-otp";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="input-otp">
+      <InputOTPDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="input-otp">
+      <InputOTPDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="input-otp">
+      <InputOTPDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="input-otp">
+      <InputOTPDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With separator
+
+Use `InputOTPSeparator` between groups to split slots visually — common for 6-digit codes split into two groups of three.
+
+```tsx
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Controlled
+
+Manage the value externally with `value` and `onChange`.
+
+```tsx
+const [value, setValue] = React.useState("");
+
+<InputOTP maxLength={6} value={value} onChange={setValue}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+
+{value.length === 6 && (
+  <p className="text-sm text-muted-foreground">Code entered: {value}</p>
+)}
+```
+
+## Pattern validation
+
+Restrict input to digits only with `pattern={REGEXP_ONLY_DIGITS}`, or digits and chars with `REGEXP_ONLY_DIGITS_AND_CHARS`.
+
+```tsx
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+
+<InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Submit on complete
+
+Use `onComplete` to automatically submit when all slots are filled.
+
+```tsx
+<InputOTP
+  maxLength={6}
+  onComplete={(code) => verifyCode(code)}
+>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Disabled state
+
+```tsx
+<InputOTP maxLength={6} disabled>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Props
+
+### InputOTP
+
+<span className="block">Extends all props from `OTPInput` (the `input-otp` package).</span>
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `maxLength` | `number` | — | Total number of OTP characters (required) |
+| `value` | `string` | — | Controlled value |
+| `onChange` | `(value: string) => void` | — | Called on every keystroke |
+| `onComplete` | `(value: string) => void` | — | Called when all slots are filled |
+| `pattern` | `string` | — | Regex to restrict allowed characters |
+| `disabled` | `boolean` | `false` | Disables the entire input |
+| `containerClassName` | `string` | — | Applied to the outer flex container |
+
+### InputOTPSlot
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `index` | `number` | — | Position in the OTP sequence (required) |
+
+## Usage
+
+```tsx
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Specs
+
+```md
+# New York — Input OTP Specs
+
+## Component
+- name: input-otp
+- file: registry/new-york/input-otp.tsx
+- installs to: components/ui/input-otp.tsx
+- dependencies: input-otp, lucide-react
+- registryDependencies: none
+
+## What is it
+A one-time password input built on the `input-otp` library. It renders individual
+character slots backed by a single hidden `<input>` — keyboard navigation, clipboard
+paste, and screen-reader announcements are handled by the library. Use it for
+verification codes, PINs, and any fixed-length character entry. Do not use it for
+variable-length or freeform text input.
+
+## Visual identity
+Compact square slots (36 × 36 px) share a continuous border to form a pill-like
+group. The new-york radius (0.625 rem) is applied only to the outer corners of each
+group. A 3 px ring in --ring highlights the active slot against the neutral border.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)     — slot border (border-input)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)         — active-slot focus ring (ring-ring/50)
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)   — blinking caret bar (bg-foreground)
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — invalid border (aria-invalid:border-destructive)
+--radius: 0.625rem                                  — group corner rounding
+
+## Sub-components
+- InputOTP          → wraps OTPInput; accepts containerClassName for the outer flex container
+- InputOTPGroup     → flex row that groups consecutive slots into a single visual block
+- InputOTPSlot      → single character cell; reads char/isActive/hasFakeCaret from OTPInputContext; index prop required
+- InputOTPSeparator → role="separator" div rendering MinusIcon; purely decorative
+
+## External dependencies
+- input-otp: provides OTPInput, OTPInputContext, and pattern constants (REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS)
+
+## States
+- isActive:     border-ring ring-ring/50 z-10 ring-[3px] — 3 px ring highlights the focused slot
+- hasFakeCaret: animate-caret-blink blinking bar centred in the slot when no char is entered yet
+- aria-invalid:  border-destructive — red border on invalid slots
+- disabled:     has-disabled:opacity-50 on the container; disabled:cursor-not-allowed on the hidden input
+
+## Conventions
+- Always index slots globally from 0 across all groups, not per-group
+- Use a single InputOTPGroup for a compact block; add InputOTPSeparator between groups to split codes visually (e.g. 3-3 or 4-4)
+- Restrict input via the pattern prop: import REGEXP_ONLY_DIGITS from "input-otp" for numeric codes
+- Use onComplete to auto-submit when all slots are filled — pair with a loading state to prevent double-submission
+- The hidden input manages all focus and paste behaviour; do not add click handlers to individual slots
+- containerClassName on InputOTP is the correct prop for layout overrides; className targets the hidden input only
+```
+
+## Installation
+
+<CommandBox componentName="input-otp" className="mt-2" />

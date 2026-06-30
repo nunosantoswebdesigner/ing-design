@@ -1,0 +1,294 @@
+---
+title: Dropdown Menu
+description: A floating menu triggered by a button — for actions, navigation, and contextual options.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=74-8113&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { DropdownMenuDemo } from "@/examples/dropdown-menu";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="dropdown-menu">
+      <DropdownMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="dropdown-menu">
+      <DropdownMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="dropdown-menu">
+      <DropdownMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="dropdown-menu">
+      <DropdownMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Checkboxes
+
+Use `DropdownMenuCheckboxItem` for toggleable settings that persist their state.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export function DropdownMenuCheckboxes() {
+  const [showStatusBar, setShowStatusBar] = useState(true);
+  const [showActivityBar, setShowActivityBar] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">View</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem
+          checked={showStatusBar}
+          onCheckedChange={setShowStatusBar}
+        >
+          Status Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showActivityBar}
+          onCheckedChange={setShowActivityBar}
+          disabled
+        >
+          Activity Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showPanel}
+          onCheckedChange={setShowPanel}
+        >
+          Panel
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## With Radio Items
+
+Use `DropdownMenuRadioGroup` for mutually exclusive selections.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export function DropdownMenuRadioGroupDemo() {
+  const [position, setPosition] = useState("bottom");
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Position</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## Item sounds and haptics
+
+Each `DropdownMenuItem` accepts `sound` and `haptic` props for per-item feedback. The `sounds` prop on `DropdownMenu` adds open/close audio.
+
+```tsx
+import { Bell, Trash } from "lucide-react";
+
+<DropdownMenu sounds>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Actions</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem sound="click" haptic>
+      <Bell />
+      <span>Notify</span>
+    </DropdownMenuItem>
+    <DropdownMenuItem variant="destructive" sound="error" haptic>
+      <Trash />
+      <span>Delete</span>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Props
+
+### DropdownMenu
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial open |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when state changes |
+| `sounds` | `boolean` | `false` | Play open/close audio feedback |
+| `modal` | `boolean` | `true` | Whether to trap focus inside the menu |
+
+### DropdownMenuContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred placement |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the trigger |
+| `sideOffset` | `number` | `4` | Gap between trigger and menu |
+| `className` | `string` | — | Use `"w-56"` to set a fixed width |
+
+### DropdownMenuItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "destructive"` | `"default"` | Destructive styles for dangerous actions |
+| `inset` | `boolean` | `false` | Adds left padding to align with icon items |
+| `disabled` | `boolean` | `false` | Prevents selection |
+| `sound` | `FeedbackType` | — | Play a sound on click |
+| `haptic` | `boolean` | `false` | Trigger haptic feedback on click |
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="w-56">
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuItem>
+        Profile
+        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        Settings
+        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Specs
+
+```md
+# New York — Dropdown Menu Specs
+
+## Component
+- name: dropdown-menu
+- file: registry/new-york/dropdown-menu.tsx
+- installs to: components/ui/dropdown-menu.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A Radix-powered floating action menu triggered by a button. Keyboard-navigable,
+focus-trapped, and dismissable via Escape or click-outside. Use for actions,
+navigation links, and contextual settings. Prefer ContextMenu for right-click
+patterns; use Select for form value selection.
+
+## Visual identity
+Popover surface (--popover) with a subtle border and medium drop-shadow gives
+the panel a floating, layered feel. Rounded-md corners (0.375rem) and compact
+1.5/2 padding create a dense, tidy list. Accent-tinted hover states keep item
+interactions consistent with the rest of the new-york palette.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)                            — panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0)             — panel text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)                          — item hover/focus background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)              — item hover/focus text
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)               — icon and shortcut text
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216)  — destructive item text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)                       — panel border and separator
+
+## Sub-components
+- DropdownMenu             → root; accepts sounds prop for open/close audio
+- DropdownMenuTrigger      → trigger element; use asChild to wrap a Button
+- DropdownMenuPortal       → renders outside DOM tree; required for SubContent to avoid clipping
+- DropdownMenuContent      → floating panel; sideOffset=4, min-w-[8rem], scrollable
+- DropdownMenuGroup        → semantic grouping of items (no visual output; pair with DropdownMenuLabel)
+- DropdownMenuItem         → action row; variant and sound/haptic props
+- DropdownMenuCheckboxItem → toggleable item with CheckIcon indicator
+- DropdownMenuRadioGroup   → container for mutually exclusive radio items; holds value + onValueChange
+- DropdownMenuRadioItem    → single radio option with CircleIcon dot indicator
+- DropdownMenuLabel        → non-interactive section heading; inset prop for alignment
+- DropdownMenuSeparator    → horizontal rule (bg-border, h-px)
+- DropdownMenuShortcut     → right-aligned keyboard hint (display only, muted text)
+- DropdownMenuSub          → sub-menu root
+- DropdownMenuSubTrigger   → opens sub-menu; ChevronRightIcon auto-appended; inset prop
+- DropdownMenuSubContent   → floating panel for nested sub-menu
+
+## Variants
+- default      → standard item; accent background on focus
+- destructive  → text-destructive; destructive/10 (light) or destructive/20 (dark) bg on focus
+
+## States
+- focus:        items show bg-accent + text-accent-foreground (keyboard and pointer)
+- data-[state=open]: SubTrigger shows bg-accent + text-accent-foreground while sub-menu is open
+- data-[disabled]: pointer-events-none + opacity-50 on any item
+- data-[state=open/closed]: Content and SubContent animate in/out with fade + zoom + slide
+
+## Conventions
+- Set a fixed width on DropdownMenuContent: className="w-56"
+- Group related items with DropdownMenuGroup + DropdownMenuLabel for labelled sections
+- DropdownMenuShortcut is display-only — bind actual keyboard shortcuts separately via useEffect
+- Wrap DropdownMenuSubContent in DropdownMenuPortal to prevent clipping inside overflow containers
+- inset prop on DropdownMenuItem, DropdownMenuLabel, and DropdownMenuSubTrigger adds pl-8 to align text with icon-prefixed siblings
+- sounds / haptic: ING Design exclusive — sounds prop on DropdownMenu plays dropdownOpen/dropdownClose audio; sound and haptic props on DropdownMenuItem trigger per-item audio or haptic feedback on click
+- Sub-components expose data-slot="[name]" for CSS targeting (e.g. data-slot="dropdown-menu-item")
+- Do not use DropdownMenu for form value selection — use Select instead
+```
+
+## Installation
+
+<CommandBox componentName="dropdown-menu" className="mt-2" />

@@ -1,0 +1,159 @@
+---
+title: Toggle
+description: A two-state button that can be pressed on or off, with sound feedback and multiple visual variants.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=79-10987
+---
+
+import { ToggleDemo } from "@/examples/toggle";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="toggle">
+      <ToggleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="toggle">
+      <ToggleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="toggle">
+      <ToggleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="toggle">
+      <ToggleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+```tsx
+<Toggle>Default</Toggle>
+<Toggle variant="outline">Outline</Toggle>
+<Toggle variant="ghost">Ghost</Toggle>
+<Toggle variant="secondary">Secondary</Toggle>
+```
+
+## Sizes
+
+```tsx
+<Toggle size="sm"><BoldIcon /></Toggle>
+<Toggle size="default"><BoldIcon /></Toggle>
+<Toggle size="lg"><BoldIcon /></Toggle>
+<Toggle size="icon"><BoldIcon /></Toggle>
+```
+
+## With icon and label
+
+```tsx
+<Toggle variant="outline">
+  <BoldIcon />
+  Bold
+</Toggle>
+```
+
+## Controlled
+
+```tsx
+const [pressed, setPressed] = useState(false);
+
+<Toggle pressed={pressed} onPressedChange={setPressed}>
+  {pressed ? "On" : "Off"}
+</Toggle>
+```
+
+## Sound
+
+Toggle always plays `toggleOn` when pressed and `toggleOff` when released — no extra prop required.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `pressed` | `boolean` | — | Controlled pressed state |
+| `defaultPressed` | `boolean` | `false` | Uncontrolled initial state |
+| `onPressedChange` | `(pressed: boolean) => void` | — | Callback on state change |
+| `variant` | `"default" \| "outline" \| "ghost" \| "secondary"` | `"default"` | Visual style |
+| `size` | `"sm" \| "default" \| "lg" \| "icon" \| "icon-sm"` | `"default"` | Button size |
+| `disabled` | `boolean` | `false` | Disables interaction |
+
+## Usage
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+
+<Toggle defaultPressed aria-label="Bold">
+  <BoldIcon />
+</Toggle>
+```
+
+## Specs
+
+```md
+# New York — Toggle Specs
+
+## Component
+- name: toggle
+- file: registry/new-york/toggle.tsx
+- installs to: components/ui/toggle.tsx
+- dependencies: radix-ui, class-variance-authority
+- registryDependencies: none
+
+## What is it
+A two-state button built on Radix Toggle.Root that can be pressed on or off.
+Use it for formatting controls, filters, or any binary option that benefits
+from a persistent pressed state. Prefer Toggle over a checkbox when the
+action is immediate and visual feedback matters more than form semantics.
+
+## Visual identity
+Transparent base with accent-coloured pressed state keeps the toggle
+unobtrusive until activated. Standard border radius (rounded-md) and
+medium font weight match the new-york density and seriousness.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)              — hover background (default variant)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — hover text colour
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)              — pressed background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)  — pressed text
+--secondary: oklch(0.97 0 0) / oklch(0.269 0 0)           — secondary variant background
+--secondary-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)            — outline variant border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)               — focus ring
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — aria-invalid ring
+
+## Variants
+- default    → transparent base, accent fill when pressed. General-purpose toolbar or standalone toggle.
+- outline    → grey border, transparent fill. Use when the toggle must be visually distinct at rest.
+- ghost      → no border, no fill; softer accent/80 when pressed. Low-emphasis toggle in dense UIs.
+- secondary  → secondary background at rest, dimmed when pressed. Use for filters or chip-style toggles.
+
+## Sizes
+- sm       → h-8 min-w-8 px-1.5. Compact toolbars or inline controls.
+- default  → h-9 min-w-9 px-2. Standard size; use unless space is constrained.
+- lg       → h-10 min-w-10 px-2.5. Prominent or touch-friendly targets.
+- icon     → size-9. Square icon-only toggle at default height.
+- icon-sm  → size-8. Square icon-only toggle at sm height.
+
+## States
+- hover:        bg-muted + text-muted-foreground (all variants); ghost uses bg-accent (light) / bg-accent/50 (dark)
+- data-[state=on]: bg-accent + text-accent-foreground (default/ghost); bg-secondary/60 (secondary)
+- focus-visible: border-ring + ring-[3px] ring-ring/50
+- disabled:     opacity-50, pointer-events-none
+- aria-invalid:  border-destructive + ring-destructive/20 (ring-destructive/40 dark)
+
+## Conventions
+- sounds: ING Design exclusive — always plays toggleOn when pressed and toggleOff when released via useFeedback; no prop required
+- Sub-components expose data-slot="toggle" for CSS targeting
+- Icon-only toggles require aria-label
+- SVG icons auto-size to 16px — do not override unless intentional
+- toggleVariants is exported for use by ToggleGroup
+- gap-2 spacing between adjacent toggles minimum
+```
+
+## Installation
+
+<CommandBox componentName="toggle" className="mt-2" />

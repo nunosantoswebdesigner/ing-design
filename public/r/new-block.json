@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "new-block",
+  "title": "New Block",
+  "description": "Template — replace with your block name and description.",
+  "files": [
+    {
+      "path": "registry/new-york/new-block.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport interface NewBlockProps extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewBlock = ({ className, children, ...props }: NewBlockProps) => (\n  <div\n    data-slot=\"new-block\"\n    className={cn(\"flex flex-col gap-6 p-6\", className)}\n    {...props}\n  >\n    {children}\n  </div>\n);\n\nNewBlock.displayName = \"NewBlock\";\n\nexport { NewBlock };\n",
+      "type": "registry:ui",
+      "target": "components/ui/new-block.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

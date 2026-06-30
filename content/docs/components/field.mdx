@@ -1,0 +1,274 @@
+---
+title: Field
+description: A form field wrapper that connects a label, control, description, and error message — eliminating manual id wiring.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1188-4206&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { FieldDemo } from "@/examples/field";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="field">
+      <FieldDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="field">
+      <FieldDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="field">
+      <FieldDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="field">
+      <FieldDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Connecting inputs with `useField`
+
+`Field` generates an `id` automatically and shares it via context. Use the `useField` hook to connect any input — it gives you the field `id` and current `error` so you can set the right `aria-*` attributes.
+
+```tsx
+"use client";
+
+import { Input } from "@/components/ui/input";
+import { Field, FieldLabel, useField } from "@/components/ui/field";
+
+function FieldInput(props: React.ComponentProps<typeof Input>) {
+  const { id, error } = useField();
+  return (
+    <Input
+      id={id}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : `${id}-description`}
+      {...props}
+    />
+  );
+}
+
+<Field required>
+  <FieldLabel>Username</FieldLabel>
+  <FieldInput placeholder="@handle" />
+</Field>
+```
+
+Define `FieldInput` (or similar wrappers for `Textarea`, `Select`, etc.) once in a shared file and reuse them across all forms.
+
+## With description
+
+```tsx
+<Field>
+  <FieldLabel>Password</FieldLabel>
+  <FieldInput type="password" />
+  <FieldDescription>
+    At least 8 characters, one uppercase, one number.
+  </FieldDescription>
+</Field>
+```
+
+## With error
+
+Pass `error` to `Field` — it cascades to `FieldLabel` (turns destructive) and `FieldError` (renders the message automatically).
+
+```tsx
+<Field error="Password must be at least 8 characters.">
+  <FieldLabel>Password</FieldLabel>
+  <FieldInput type="password" defaultValue="abc" />
+  <FieldError />
+</Field>
+```
+
+`FieldError` with no children reads the error from context. You can also pass children to override:
+
+```tsx
+<FieldError>Custom message here.</FieldError>
+```
+
+## Required
+
+Add `required` to `Field` — `FieldLabel` will append a `*` automatically.
+
+```tsx
+<Field required>
+  <FieldLabel>Full name</FieldLabel>
+  <FieldInput placeholder="Pedro Duarte" />
+</Field>
+```
+
+## With Textarea
+
+```tsx
+"use client";
+
+import { Textarea } from "@/components/ui/textarea";
+import { Field, FieldDescription, FieldLabel, useField } from "@/components/ui/field";
+
+function FieldTextarea(props: React.ComponentProps<typeof Textarea>) {
+  const { id, error } = useField();
+  return (
+    <Textarea
+      id={id}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : `${id}-description`}
+      {...props}
+    />
+  );
+}
+
+<Field>
+  <FieldLabel>Bio</FieldLabel>
+  <FieldTextarea placeholder="Tell us about yourself." rows={4} />
+  <FieldDescription>Max 160 characters.</FieldDescription>
+</Field>
+```
+
+## In a form
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  useField,
+} from "@/components/ui/field";
+
+function FieldInput(props: React.ComponentProps<typeof Input>) {
+  const { id, error } = useField();
+  return (
+    <Input
+      id={id}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : `${id}-description`}
+      {...props}
+    />
+  );
+}
+
+export function SignUpForm() {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const email = data.get("email") as string;
+    const errs: Record<string, string> = {};
+    if (!email.includes("@")) errs.email = "Enter a valid email address.";
+    setErrors(errs);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="grid gap-4 max-w-sm">
+      <Field required error={errors.email}>
+        <FieldLabel>Email</FieldLabel>
+        <FieldInput name="email" type="email" placeholder="you@example.com" />
+        <FieldDescription>We'll send a confirmation link.</FieldDescription>
+        <FieldError />
+      </Field>
+      <Button type="submit">Sign up</Button>
+    </form>
+  );
+}
+```
+
+## Props
+
+### Field
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `error` | `string` | — | Error message — cascades to `FieldLabel` and `FieldError` |
+| `required` | `boolean` | `false` | Cascades to `FieldLabel` which appends `*` |
+| `id` | `string` | auto | Override the auto-generated id used for label association |
+| `className` | `string` | — | Additional CSS classes |
+
+### FieldLabel
+
+Renders `<label>` with `htmlFor` and required `*` set automatically from context. Accepts all native `label` props.
+
+### FieldDescription
+
+Renders `<p>` with `id="{fieldId}-description"` for `aria-describedby`. Accepts all native `p` props.
+
+### FieldError
+
+Renders `<p role="alert">` with `id="{fieldId}-error"`. Returns `null` when there is no error and no children.
+
+| Prop | Description |
+|------|-------------|
+| `children` | Override the error text from context |
+
+### `useField()`
+
+```ts
+const { id, error, required } = useField();
+```
+
+Use inside any component rendered within a `Field` to access the field state.
+
+## Specs
+
+```md
+# New York — Field Specs
+
+## Component
+- name: field
+- file: registry/new-york/field.tsx
+- installs to: components/ui/field.tsx
+- dependencies: none
+- registryDependencies: none
+- ING Design exclusive (not in shadcn/ui)
+
+## What is it
+A context-based form field wrapper that eliminates manual id wiring between
+labels, inputs, descriptions, and error messages. Field generates a stable id
+via React.useId() and shares it through context so all sub-components wire up
+automatically. Use it for every labelled form control; do not use it as a
+replacement for the shadcn Form component when using react-hook-form.
+
+## Visual identity
+Minimal structural component — no background or border of its own. Sub-components
+use small text (text-sm), medium font weight for labels, and the --destructive
+token for error and required-indicator states. Vertical rhythm is controlled by
+gap-1.5 (6px) between children.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — FieldDescription text
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216)   — FieldLabel error state, required *, FieldError text
+
+## Sub-components
+- Field             → div; provides FieldContext (id, error, required); flex-col gap-1.5 layout
+- FieldLabel        → label; auto htmlFor from context; appends * when required; turns text-destructive on error
+- FieldDescription  → p; id="{fieldId}-description"; text-sm text-muted-foreground; for aria-describedby hints
+- FieldError        → p[role=alert]; id="{fieldId}-error"; text-sm font-medium text-destructive; returns null when no error and no children
+- useField          → hook; returns { id, error, required } from FieldContext; use inside input wrappers
+
+## States
+- data-invalid:     set to "" on Field div when error prop is present; use for CSS targeting
+- error (label):    FieldLabel switches to text-destructive when error is in context
+- peer-disabled:    FieldLabel applies cursor-not-allowed and opacity-70 when a sibling input is disabled
+
+## Conventions
+- Define FieldInput, FieldTextarea etc. once and reuse across all forms — do not repeat useField wiring inline
+- Always add FieldError when the field can have a validation error; it returns null when there is no error
+- FieldDescription is optional — use for hints or format rules, not for content that duplicates the label
+- FieldError children override the context error message; omit children to render the context error automatically
+- id prop on Field overrides the auto-generated id — use when the id must be predictable for external aria-labelledby references
+- required on Field cascades to FieldLabel's visual * only — add the HTML required attribute to the input manually
+- Do not use Field with react-hook-form — use the shadcn Form component instead
+- Sub-components expose data-slot="field", data-slot="field-label", data-slot="field-description", data-slot="field-error" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="field" className="mt-2" />

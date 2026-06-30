@@ -1,0 +1,283 @@
+---
+title: Documentation
+description: A technical overview of how ING Design works — registry, architecture, component authoring, docs tooling, and AI integration.
+---
+
+ING Design is a component registry built on top of the [shadcn registry system](https://ui.shadcn.com/docs/registry). It is not an npm package — components are distributed as source files that are copied directly into the consuming project via the shadcn CLI. This page documents how the repository is structured, how components are authored and registered, and how the documentation site works.
+
+## Architecture
+
+The repository is a Next.js 16 App Router application that serves two purposes simultaneously: it hosts the documentation site and exposes the component registry as a public JSON API.
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16, App Router, React 19 |
+| Docs engine | Fumadocs (MDX-based) |
+| Styling | Tailwind CSS 4, CSS variables |
+| Component primitives | Radix UI |
+| State management | Jotai (`atomWithStorage`) |
+| Animations | Motion (Framer Motion) |
+| Syntax highlighting | Shiki + rehype-pretty-code |
+| Notifications | Sonner |
+| Audio / haptics | `@web-kits/audio`, `web-haptics` |
+| Analytics | Vercel Analytics |
+| Deployment | Vercel |
+
+## Registry System
+
+The registry is defined in `registry.json` at the root of the repository. Each entry declares a component, its source file, its type, and its dependencies.
+
+```json
+{
+  "name": "ing-design",
+  "homepage": "https://ing-design.vercel.app",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "...",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        {
+          "path": "registry/new-york/button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/button.tsx"
+        }
+      ]
+    }
+  ]
+}
+```
+
+When a user runs `npx shadcn add https://ing-design.vercel.app/r/button`, the CLI fetches the registry entry, resolves the file, and copies it to the `target` path inside their project. They own the file completely from that point.
+
+The registry endpoint is served at `/r/[name].json` via `app/r/[name]/route.ts`, which reads `registry.json` and transforms the entries into the format the shadcn CLI expects.
+
+## Component Authoring
+
+All registry components live in `registry/new-york/`. The `new-york` directory is the shadcn style identifier — components authored here follow the new-york design style.
+
+A registry component is a plain TypeScript/React file with no `"use client"` directive unless it genuinely requires browser APIs or hooks. Components that only compose JSX render as Server Components and avoid hydration issues.
+
+**Standard component structure:**
+
+```tsx
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+import { cn } from "@/lib/utils";
+
+const componentVariants = cva("base-classes", {
+  variants: { variant: { default: "..." } },
+  defaultVariants: { variant: "default" },
+});
+
+export interface ComponentProps
+  extends React.ComponentProps<"element">,
+    VariantProps<typeof componentVariants> {
+  asChild?: boolean;
+}
+
+const Component = ({ className, variant, asChild = false, ...props }: ComponentProps) => {
+  const Comp = asChild ? Slot.Root : "element";
+  return <Comp className={cn(componentVariants({ className, variant }))} {...props} />;
+};
+
+export { Component, componentVariants };
+```
+
+**Conventions:**
+- `cn()` from `@/lib/utils` — merges Tailwind classes via `clsx` + `tailwind-merge`
+- `cva()` from `class-variance-authority` — variant logic
+- `Slot.Root` from `radix-ui` — enables the `asChild` pattern (renders as any element)
+- `data-slot`, `data-size`, `data-variant` — data attributes for external targeting via CSS
+
+## shadcn Configuration
+
+The repository uses the `new-york` style with the following defaults:
+
+```json
+{
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "cssVariables": true,
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "ui": "@/components/ui",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+CSS design tokens are defined as CSS variables in `styles/globals.css`, following the shadcn token convention. All tokens have light and dark mode values:
+
+```css
+:root {
+  --background: ...;
+  --foreground: ...;
+  --primary: ...;
+  --primary-foreground: ...;
+  --secondary: ...;
+  --secondary-foreground: ...;
+  --accent: ...;
+  --accent-foreground: ...;
+  --destructive: ...;
+  --border: ...;
+  --input: ...;
+  --ring: ...;
+  --radius: ...;
+}
+```
+
+## Documentation Site
+
+Documentation pages are MDX files in `content/docs/`. The Fumadocs engine (`fumadocs-mdx`) processes them and exposes them via the `source` loader in `lib/source.ts`.
+
+The sidebar structure is controlled by `meta.json` files alongside the MDX files:
+
+```json
+{ "title": "Get Started", "pages": ["index", "installation", "documentation"] }
+```
+
+Each MDX file has a YAML frontmatter block that declares `title`, `description`, and optionally `figma` (a Figma link for the component's design reference).
+
+**MDX components** are registered in `mdx-components.tsx` and are available globally in every page without explicit imports — `ComponentPreview`, `ComponentSource`, `CommandBox`, `Accordion`, etc.
+
+### ComponentPreview
+
+```mdx
+<ComponentPreview name="button">
+  <Button>Button</Button>
+</ComponentPreview>
+```
+
+The `name` prop resolves to `registry/new-york/{name}.tsx`. The component renders the live preview alongside a source code tab that shows the registry file contents.
+
+### CommandBox
+
+```mdx
+<CommandBox componentName="button" className="mt-2" />
+```
+
+Renders the install command card with npm / pnpm / yarn / vite tabs. On the home and installation pages, `componentName` is omitted and the card animates through all registered component names. On component pages, `componentName` is passed explicitly and the name is shown statically.
+
+## Markdown Endpoints
+
+Every documentation page is available as machine-readable markdown at its `.md` URL:
+
+```
+/docs/components/button    → HTML page
+/docs/components/button.md → Raw markdown
+```
+
+The markdown route is served by `app/llms.md/docs/[[...slug]]/route.ts`. It uses `getLLMText()` from `lib/source.ts`, which extracts the processed markdown content from the MDX page data. This endpoint is used internally by the Copy Page and Open in AI features.
+
+## AI Tooling
+
+Each component page has a **Copy Page** button that exposes the following actions:
+
+### Open in AI tool
+
+Opens the page in Claude, ChatGPT, v0, Cursor, Gemini, Perplexity, Grok, or Scira AI. The prompt sent to the AI tool is constructed in `components/docs-copy-page.tsx` via `getPromptUrl()`:
+
+```
+I'm building with ING Design — a custom component library (https://ing-design.vercel.app).
+
+Read the full component documentation here: {markdownUrl}
+
+Pay special attention to the **Specs** section at the end of the page. It contains:
+- shadcn config: style new-york, cssVariables, tsx, iconLibrary lucide
+- All CSS design tokens (light and dark mode)
+- Tailwind and component conventions
+- Variant and size reference
+
+Based on that, help me use this component correctly.
+```
+
+The AI is directed to the `.md` URL of the page, which includes the full content — usage examples, variants, props, and the Specs block.
+
+### Copy as Markdown
+
+The **Copy Page** button fetches the `.md` endpoint and copies the raw markdown to the clipboard. This is useful for pasting into AI tools that don't support URL prompts (Cursor chat, local LLMs, etc.).
+
+### View as Markdown
+
+The **View as Markdown** menu item opens the `.md` URL directly in a new tab.
+
+## Specs Block
+
+Every component page ends with a `## Specs` section — a fenced markdown code block designed to be copied and pasted into any AI tool as a structured context document.
+
+It contains:
+- Component name, file path, install target, dependencies
+- shadcn config (style, rsc, tsx, cssVariables, iconLibrary, aliases)
+- All CSS design tokens used (with light/dark values)
+- Tailwind CSS conventions (border-radius, spacing, font scale)
+- Variant and size reference with their Tailwind classes
+- Prop definitions with types and defaults
+- Code conventions (cn, cva, Slot, focus ring, disabled state)
+
+## Figma Integration
+
+Component pages can declare a Figma reference URL in their frontmatter:
+
+```mdx
+---
+title: Button
+figma: https://www.figma.com/design/{fileId}/{name}?node-id={nodeId}
+---
+```
+
+When a `figma` URL is present, a **View in Figma** item appears in the Copy Page dropdown, linking directly to the component's Figma frame or section. Pages without a `figma` field do not show the item.
+
+The `figma` field is typed in `source.config.ts` as an optional URL via Zod:
+
+```ts
+schema: frontmatterSchema.extend({
+  figma: z.string().url().optional(),
+})
+```
+
+## Sharing
+
+The share button (top right of each page) provides:
+
+- **Copy link** — copies the absolute URL to clipboard
+- **Share on X** — opens the X share intent (shown when `LINK.X` is set)
+- **Share on Discord** — opens the configured Discord thread (shown when `LINK.DISCORD` is set)
+
+Social links are configured in `constants/links.ts`. Items only appear in the UI when their corresponding link value is non-empty.
+
+## Package Manager Support
+
+The docs support four package managers: **npm**, **pnpm**, **yarn**, and **vite**. The selected manager is persisted in `localStorage` via a Jotai atom (`atomWithStorage`) in `hooks/use-package-manager.ts`.
+
+All code block commands render tabs for each manager. The `__npm__`, `__pnpm__`, `__yarn__`, and `__vite__` props on `CodeBlockCommand` control the per-tab content. The `CommandBox` component reads the active manager to build the correct install command.
+
+## File Structure
+
+```
+├── app/
+│   ├── (app)/docs/[[...slug]]/   # Docs page renderer
+│   ├── r/[name]/                 # Registry API endpoint
+│   └── llms.md/docs/[[...slug]]/ # Markdown endpoint
+├── components/
+│   ├── command-box.tsx           # Install command card
+│   ├── docs-copy-page.tsx        # Copy Page / Open in AI button
+│   ├── docs-share-menu.tsx       # Share button
+│   ├── docs-toc-footer.tsx       # TOC sidebar footer links
+│   └── ui/                       # App UI components (not registry)
+├── content/docs/                 # MDX documentation pages
+├── registry/new-york/            # Registry component source files
+├── constants/
+│   ├── links.ts                  # External URLs (GitHub, Discord, X)
+│   └── site.ts                   # Site metadata, registry URL, tokens
+├── lib/
+│   ├── source.ts                 # Fumadocs source loader
+│   └── events.ts                 # Analytics event schema
+├── registry.json                 # Registry manifest
+└── source.config.ts              # Fumadocs MDX config + frontmatter schema
+```

@@ -1,0 +1,248 @@
+---
+title: Navigation Menu
+description: A horizontal navigation bar with animated flyout panels, link groups, and a shared viewport.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=665-1728&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { NavigationMenuDemo } from "@/examples/navigation-menu";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="navigation-menu">
+      <NavigationMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="navigation-menu">
+      <NavigationMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="navigation-menu">
+      <NavigationMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="navigation-menu">
+      <NavigationMenuDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Plain link
+
+A `NavigationMenuItem` can hold a plain `NavigationMenuLink` instead of a trigger. Apply `navigationMenuTriggerStyle()` to match the trigger appearance.
+
+```tsx
+import {
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+
+<NavigationMenuItem>
+  <NavigationMenuLink href="/docs" className={navigationMenuTriggerStyle()}>
+    Documentation
+  </NavigationMenuLink>
+</NavigationMenuItem>
+```
+
+## With content panel
+
+Use `NavigationMenuTrigger` + `NavigationMenuContent` for a flyout panel. Content is rendered inside the shared `NavigationMenuViewport` at the bottom of the menu.
+
+```tsx
+<NavigationMenuItem>
+  <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+  <NavigationMenuContent>
+    <ul className="grid w-[400px] gap-2 p-4 md:grid-cols-2">
+      <ListItem href="/docs/components/button" title="Button">
+        Trigger actions and navigation.
+      </ListItem>
+      <ListItem href="/docs/components/dialog" title="Dialog">
+        Overlay for focused tasks.
+      </ListItem>
+    </ul>
+  </NavigationMenuContent>
+</NavigationMenuItem>
+```
+
+## Featured panel
+
+Combine a full-height `NavigationMenuLink` with a grid of list items for a featured link layout.
+
+```tsx
+<NavigationMenuContent>
+  <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+    <li className="row-span-3">
+      <NavigationMenuLink asChild>
+        <a
+          className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b p-6 no-underline outline-none focus:shadow-md"
+          href="/"
+        >
+          <div className="mt-4 mb-2 text-lg font-semibold">ING Design</div>
+          <p className="text-muted-foreground text-sm leading-tight">
+            A custom component registry built on shadcn/ui.
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+    <ListItem href="/docs/installation" title="Installation">
+      How to install and configure ING Design.
+    </ListItem>
+  </ul>
+</NavigationMenuContent>
+```
+
+## Without viewport
+
+Pass `viewport={false}` to opt out of the animated viewport container and render content inline. Useful when you need full control over positioning.
+
+```tsx
+<NavigationMenu viewport={false}>
+  <NavigationMenuList>...</NavigationMenuList>
+</NavigationMenu>
+```
+
+## `navigationMenuTriggerStyle`
+
+An exported `cva` helper that applies the standard trigger appearance to any element — useful for wrapping `<Link>` from Next.js.
+
+```tsx
+import Link from "next/link";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+
+<NavigationMenuLink asChild>
+  <Link href="/docs" className={navigationMenuTriggerStyle()}>
+    Documentation
+  </Link>
+</NavigationMenuLink>
+```
+
+## Props
+
+### NavigationMenu
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `viewport` | `boolean` | `true` | Whether to render the shared `NavigationMenuViewport` |
+
+### NavigationMenuTrigger
+
+<span className="block">Extends `NavigationMenuPrimitive.Trigger`. Renders a `<button>` with an auto-rotating chevron. `data-[state=open]` applies when the panel is visible.</span>
+
+### NavigationMenuContent
+
+<span className="block">The flyout panel. Slides in from the direction of the previously active item (`data-motion` animations). `md:absolute` so it renders inline on mobile.</span>
+
+### NavigationMenuLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Merge onto child element (e.g. `<a>`, `<Link>`) |
+| `active` | `boolean` | `false` | Marks the link as the current page (`data-active`) |
+
+## Usage
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul className="grid w-[300px] gap-2 p-4">
+          <ListItem href="/products/design" title="Design">
+            Tools for building design systems.
+          </ListItem>
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/pricing" className={navigationMenuTriggerStyle()}>
+        Pricing
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Specs
+
+```md
+# New York — Navigation Menu Specs
+
+## Component
+- name: navigation-menu
+- file: registry/new-york/navigation-menu.tsx
+- installs to: components/ui/navigation-menu.tsx
+- dependencies: radix-ui, class-variance-authority, lucide-react
+- registryDependencies: none
+
+## What is it
+A horizontal navigation bar where each item is either a plain link or a trigger
+that opens a rich flyout panel. All open panels share a single animated viewport
+container so transitions between items are smooth and directional. Use it for
+site-level navigation; do not use it for in-page tab switching — prefer Tabs for that.
+
+## Visual identity
+Clean, borderless trigger buttons sit flush on --background; accent tint on hover
+and open state gives subtle feedback without heavy chrome. The shared viewport
+floats on --popover with a thin --border and shadow-lg, creating clear elevation
+without strong colour bias.
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)         — trigger resting surface
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)           — hover / focus / open tint on triggers and links
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0) — text on accent tint
+--popover: oklch(1 0 0) / oklch(0.269 0 0)             — viewport panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — text inside viewport
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)        — viewport border + indicator diamond border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)            — focus-visible ring on triggers and links
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — SVG icons inside links (non-text class)
+
+## Sub-components
+- NavigationMenu            → Root wrapper; max-w-max flex; conditionally appends NavigationMenuViewport; accepts viewport prop
+- NavigationMenuList        → flex gap-1 list-none row; holds all NavigationMenuItems
+- NavigationMenuItem        → relative container; no visual output; wraps Trigger+Content or Link
+- NavigationMenuTrigger     → h-9 px-4 text-sm font-medium button; appends rotating ChevronDown; uses navigationMenuTriggerStyle
+- NavigationMenuContent     → flyout panel; directional slide+fade animations driven by data-motion; md:absolute positioning
+- NavigationMenuLink        → flex-col gap-1 rounded-sm p-3 text-sm anchor; supports asChild and active prop
+- NavigationMenuViewport    → shared animated container; animates h/w via Radix CSS vars; rounded-md border shadow-lg
+- NavigationMenuIndicator   → optional animated arrow pointing at active item; bg-border diamond shape
+- navigationMenuTriggerStyle → exported cva helper; apply to NavigationMenuLink for plain-link trigger appearance
+
+## States
+- hover:              bg-accent + text-accent-foreground on triggers and links
+- focus:              bg-accent + text-accent-foreground on triggers and links
+- focus-visible:      ring-[3px] ring-ring/50 on triggers and links
+- data-[state=open]:  bg-accent/50 on trigger (panel is open)
+- data-[active]:      bg-accent/50 on trigger or link (current page)
+- data-[state=open] (viewport):  zoom-in-90 + animate-in
+- data-[state=closed] (viewport): zoom-out-95 + animate-out
+- data-[state=visible] (indicator): fade-in + animate-in
+- data-[state=hidden] (indicator):  fade-out + animate-out
+- disabled:           pointer-events-none opacity-50 on triggers
+
+## Conventions
+- Use NavigationMenuTrigger + NavigationMenuContent for items with flyout panels; use NavigationMenuLink + navigationMenuTriggerStyle() for plain links
+- Wrap Next.js <Link> or <a> via asChild on NavigationMenuLink to preserve router integration
+- Pass viewport={false} to NavigationMenu when you need full manual control over panel positioning (bypasses the shared viewport)
+- The shared NavigationMenuViewport must remain a direct child of NavigationMenu — do not move it
+- Mark the active page link with active={true} on NavigationMenuLink (sets data-[active] styling)
+- Keyboard navigation: Tab moves between items, Enter/Space opens trigger, ArrowLeft/Right moves within open content, Escape closes, Home/End jump to first/last item
+- Sub-components expose data-slot="navigation-menu", "navigation-menu-list", "navigation-menu-item", "navigation-menu-trigger", "navigation-menu-content", "navigation-menu-link", "navigation-menu-viewport", "navigation-menu-indicator" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="navigation-menu" className="mt-2" />

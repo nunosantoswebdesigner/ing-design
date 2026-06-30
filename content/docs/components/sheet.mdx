@@ -1,0 +1,225 @@
+---
+title: Sheet
+description: A modal panel that slides in from any edge of the screen — for navigation, settings, and focused tasks.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10203&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { SheetDemo } from "@/examples/sheet";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="sheet">
+      <SheetDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="sheet">
+      <SheetDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="sheet">
+      <SheetDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="sheet">
+      <SheetDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Side
+
+Use the `side` prop on `SheetContent` to control which edge the panel slides from. Defaults to `"right"`.
+
+```tsx
+<SheetContent side="left">...</SheetContent>
+<SheetContent side="bottom">...</SheetContent>
+<SheetContent side="top">...</SheetContent>
+```
+
+## With form
+
+Combine `SheetHeader`, `SheetFooter`, `SheetClose`, and form fields for an edit panel pattern.
+
+```tsx
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Edit profile</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>
+        Make changes to your profile here. Click save when done.
+      </SheetDescription>
+    </SheetHeader>
+    <div className="flex flex-col gap-4 px-4">
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" defaultValue="Nuno Santos" />
+      </div>
+    </div>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button variant="outline">Cancel</Button>
+      </SheetClose>
+      <SheetClose asChild>
+        <Button>Save changes</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+## Controlled
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Sheet open={open} onOpenChange={setOpen}>
+  <SheetTrigger asChild>
+    <Button>Open</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Controlled sheet</SheetTitle>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+## With sounds
+
+Pass `sounds` to play open/close audio feedback using `drawerOpen` / `drawerClose`.
+
+```tsx
+<Sheet sounds>
+  ...
+</Sheet>
+```
+
+## Sheet vs Drawer
+
+| | Sheet | Drawer |
+|---|---|---|
+| Primitive | Radix Dialog | vaul |
+| Drag to dismiss | No | Yes (bottom) |
+| All 4 sides | Yes | Yes |
+| Keyboard focus trap | Yes | Yes |
+| Use for | Forms, settings, nav | Mobile-style bottom sheets |
+
+## Props
+
+### Sheet
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when state changes |
+| `sounds` | `boolean` | `false` | Plays `drawerOpen` / `drawerClose` audio |
+
+### SheetContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"right"` | Which edge the panel slides from |
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Open sheet</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Title</SheetTitle>
+      <SheetDescription>Description here.</SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+## Specs
+
+```md
+# New York — Sheet Specs
+
+## Component
+- name: sheet
+- file: registry/new-york/sheet.tsx
+- installs to: components/ui/sheet.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A Radix Dialog primitive re-skinned as a slide-in side panel. Use it for
+focused tasks that need dedicated screen space — settings panels, edit forms,
+navigation drawers. Prefer Sheet over a Dialog when content is too long for a
+centred modal. Do not use it for non-modal flows; reach for a Drawer for
+mobile-style swipe-to-dismiss patterns.
+
+## Visual identity
+Flat white (light) / near-black (dark) panel surface with a single border on
+the attached edge. Shadow-lg gives depth. Transitions are asymmetric:
+500 ms ease-in on open, 300 ms ease-in-out on close, giving a confident entry
+and a quick exit.
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)     — panel surface (bg-background)
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)  — SheetTitle text (text-foreground)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — SheetDescription text
+--secondary: oklch(0.97 0 0) / oklch(0.269 0 0)    — close button hover bg (data-[state=open]:bg-secondary)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)        — close button focus ring
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)    — panel edge border (border-l, border-r, border-b, border-t)
+
+## Sub-components
+- Sheet            → Radix Dialog.Root; accepts sounds prop (drawerOpen / drawerClose)
+- SheetTrigger     → Dialog.Trigger; use asChild to wrap any element
+- SheetClose       → Dialog.Close; use asChild with a Button for styled dismiss
+- SheetPortal      → Dialog.Portal; renders children outside the DOM tree
+- SheetOverlay     → fixed inset-0 z-50 bg-black/50; fades in/out with panel
+- SheetContent     → panel container; side prop controls which edge; includes built-in close button
+- SheetHeader      → flex flex-col gap-1.5 p-4; wraps title and description
+- SheetFooter      → mt-auto flex flex-col gap-2 p-4; anchored to bottom of panel
+- SheetTitle       → Dialog.Title; font-semibold text-foreground; required for a11y
+- SheetDescription → Dialog.Description; text-sm text-muted-foreground
+
+## External dependencies
+- lucide-react: XIcon for the built-in close button
+
+## States
+- data-[state=open]:    panel and overlay animate in; close button bg activates (bg-secondary)
+- data-[state=closed]:  panel and overlay animate out
+- focus (close button): 2px ring in --ring colour with 2px offset; outline-hidden
+- hover (close button): opacity-100 (from opacity-70 default)
+- disabled (close button): pointer-events-none
+
+## Conventions
+- SheetTitle is required — it is the accessible name for the dialog; never omit it
+- SheetDescription is optional but recommended when the purpose is not self-evident
+- Use SheetClose asChild with Button variant="outline" for a Cancel action in SheetFooter
+- Place primary actions last in SheetFooter (visual left-to-right: Cancel → Save)
+- side defaults to "right"; use "left" for navigation drawers, "bottom" for mobile-style panels
+- sounds / haptic: ING Design exclusive — pass sounds to Sheet to play drawerOpen / drawerClose audio on open and close
+- Sub-components expose data-slot attributes for CSS targeting:
+  sheet, sheet-trigger, sheet-close, sheet-portal, sheet-overlay,
+  sheet-content, sheet-header, sheet-footer, sheet-title, sheet-description
+```
+
+## Installation
+
+<CommandBox componentName="sheet" className="mt-2" />

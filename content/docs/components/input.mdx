@@ -1,0 +1,156 @@
+---
+title: Input
+description: A single-line text field for collecting user input, with support for all HTML input types.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8518&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { InputDemo } from "@/examples/input";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="input">
+      <InputDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="input">
+      <InputDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="input">
+      <InputDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="input">
+      <InputDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Disabled
+
+```tsx
+<Input disabled placeholder="Not available" />
+```
+
+## Invalid
+
+Set `aria-invalid` to apply the destructive ring and border. Pair with `Field` and `FieldError` for accessible error messages.
+
+```tsx
+<Input aria-invalid placeholder="Invalid value" />
+```
+
+## File
+
+```tsx
+<Input type="file" />
+```
+
+## With label
+
+Use an HTML `<label>` or the `Field` compound component for accessible labelling.
+
+```tsx
+<div className="flex flex-col gap-1.5">
+  <label htmlFor="email" className="text-sm font-medium">
+    Email
+  </label>
+  <Input id="email" type="email" placeholder="you@example.com" />
+</div>
+```
+
+## With Field
+
+`Field` auto-wires the `htmlFor`/`id` association and surfaces error state.
+
+```tsx
+import { Field, FieldDescription, FieldError, FieldLabel, useField } from "@/components/ui/field";
+
+function FieldInput(props: React.ComponentProps<typeof Input>) {
+  const { id, error } = useField();
+  return (
+    <Input
+      id={id}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : `${id}-description`}
+      {...props}
+    />
+  );
+}
+
+<Field error="Please enter a valid email.">
+  <FieldLabel>Email</FieldLabel>
+  <FieldInput type="email" placeholder="you@example.com" />
+  <FieldError />
+</Field>
+```
+
+## Props
+
+<span className="block">All native `<input>` props are accepted — `type`, `value`, `defaultValue`, `onChange`, `disabled`, `readOnly`, `required`, `placeholder`, `autoComplete`, etc.</span>
+
+| Prop | Notes |
+|------|-------|
+| `type` | Any valid HTML input type: `text`, `email`, `password`, `number`, `file`, `search`, `tel`, `url`, etc. |
+| `aria-invalid` | Applies destructive border and ring styling |
+| `disabled` | Reduces opacity and blocks pointer events |
+| `className` | Merged after the component's own classes |
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+
+<Input type="email" placeholder="you@example.com" />
+```
+
+## Specs
+
+```md
+# New York — Input Specs
+
+## Component
+- name: input
+- file: registry/new-york/input.tsx
+- installs to: components/ui/input.tsx
+- dependencies: none (uses only @/lib/utils)
+- registryDependencies: none
+
+## What is it
+A styled single-line text field wrapping the native `<input>` element. Use it to collect any freeform or structured text from users (email, password, search, number, etc.). Prefer pairing it with the `Field` compound component for accessible label and error wiring. Do not use for multi-line input — use a `<textarea>` instead.
+
+## Visual identity
+Transparent background with a light grey border (`--input`) gives the field a clean, minimal presence. A soft drop shadow (`shadow-xs`) adds subtle depth without visual weight. The standard border radius (`rounded-md`, 0.375rem) matches the new-york suite. In dark mode the field surface picks up a faint tint (`bg-input/30`) to remain legible against dark backgrounds.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)       — field border (light / dark)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)           — focus ring colour
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — invalid border and ring
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — placeholder text
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)     — file input label text
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)        — text selection background
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0) — text selection foreground
+
+## States
+- focus-visible: border switches to --ring, 3px ring at 50% opacity (ring-ring/50)
+- disabled: opacity-50, pointer-events-none, cursor-not-allowed
+- aria-invalid: border switches to --destructive; ring becomes destructive/20 (light) or destructive/40 (dark)
+- placeholder: styled via placeholder:text-muted-foreground
+- file type: file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium — removes default browser chrome and sizes the file button to match the field height
+
+## Conventions
+- Always pair with a visible `<label>` (htmlFor) or provide aria-label for accessibility
+- Use the `Field` compound component to auto-wire id, aria-invalid, and aria-describedby
+- Set aria-invalid={true} to trigger destructive border and ring — do not rely on CSS alone
+- For prefix/suffix addons (icons, currency symbols, buttons), wrap in InputGroup with InputGroupText
+- Sub-components expose data-slot="input" for CSS targeting by InputGroup selectors
+- Height is fixed at h-9 (36px); padding is px-3 py-1 — do not override without design approval
+- Text size is text-base on mobile, md:text-sm on md+ breakpoints
+```
+
+## Installation
+
+<CommandBox componentName="input" className="mt-2" />

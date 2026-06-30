@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "title": "Field",
+  "description": "A form field wrapper that connects a label, control, description, and error message — eliminating manual id wiring.",
+  "files": [
+    {
+      "path": "registry/new-york/field.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\ntype FieldContextValue = {\n  id: string;\n  error?: string;\n  required?: boolean;\n};\n\nconst FieldContext = React.createContext<FieldContextValue>({ id: \"\" });\n\nfunction useField() {\n  return React.useContext(FieldContext);\n}\n\nconst Field = ({\n  id: idProp,\n  error,\n  required,\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & {\n  error?: string;\n  required?: boolean;\n}) => {\n  const generatedId = React.useId();\n  const id = idProp ?? generatedId;\n\n  return (\n    <FieldContext.Provider value={{ id, error, required }}>\n      <div\n        data-slot=\"field\"\n        data-invalid={error ? \"\" : undefined}\n        className={cn(\"flex flex-col gap-1.5\", className)}\n        {...props}\n      />\n    </FieldContext.Provider>\n  );\n};\n\nconst FieldLabel = ({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"label\">) => {\n  const { id, error, required } = React.useContext(FieldContext);\n\n  return (\n    <label\n      data-slot=\"field-label\"\n      htmlFor={id}\n      className={cn(\n        \"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n        error && \"text-destructive\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n      {required && (\n        <span aria-hidden=\"true\" className=\"ml-0.5 text-destructive\">\n          *\n        </span>\n      )}\n    </label>\n  );\n};\n\nconst FieldDescription = ({\n  className,\n  ...props\n}: React.ComponentProps<\"p\">) => {\n  const { id } = React.useContext(FieldContext);\n\n  return (\n    <p\n      data-slot=\"field-description\"\n      id={`${id}-description`}\n      className={cn(\"text-sm text-muted-foreground\", className)}\n      {...props}\n    />\n  );\n};\n\nconst FieldError = ({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"p\">) => {\n  const { id, error } = React.useContext(FieldContext);\n  const message = children ?? error;\n\n  if (!message) return null;\n\n  return (\n    <p\n      data-slot=\"field-error\"\n      id={`${id}-error`}\n      role=\"alert\"\n      className={cn(\"text-sm font-medium text-destructive\", className)}\n      {...props}\n    >\n      {message}\n    </p>\n  );\n};\n\nexport { Field, FieldLabel, FieldDescription, FieldError, useField };\n",
+      "type": "registry:ui",
+      "target": "components/ui/field.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

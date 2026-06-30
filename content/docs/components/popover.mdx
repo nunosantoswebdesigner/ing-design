@@ -1,0 +1,186 @@
+---
+title: Popover
+description: A floating panel anchored to a trigger — for non-modal overlays, forms, and contextual detail.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8822&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { PopoverDemo } from "@/examples/popover";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="popover">
+      <PopoverDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="popover">
+      <PopoverDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="popover">
+      <PopoverDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="popover">
+      <PopoverDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Placement
+
+Control placement with `side` and `align` on `PopoverContent`. Defaults to `side="bottom" align="center"`.
+
+```tsx
+<PopoverContent side="right" align="start">
+  ...
+</PopoverContent>
+```
+
+## Controlled
+
+Manage open state externally with `open` and `onOpenChange`.
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Popover open={open} onOpenChange={setOpen}>
+  <PopoverTrigger asChild>
+    <Button onClick={() => setOpen(true)}>Open</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <Button variant="ghost" onClick={() => setOpen(false)}>Close</Button>
+  </PopoverContent>
+</Popover>
+```
+
+## With sounds
+
+Pass `sounds` to play open/close audio feedback (uses `dropdownOpen` / `dropdownClose`).
+
+```tsx
+<Popover sounds>
+  ...
+</Popover>
+```
+
+## Custom anchor
+
+Use `PopoverAnchor` when the popover should be positioned relative to a different element than the trigger.
+
+```tsx
+<Popover>
+  <PopoverAnchor asChild>
+    <div className="border rounded-md p-4">Anchor element</div>
+  </PopoverAnchor>
+  <PopoverTrigger asChild>
+    <Button>Open</Button>
+  </PopoverTrigger>
+  <PopoverContent>Content positioned relative to the anchor.</PopoverContent>
+</Popover>
+```
+
+## Popover vs Dialog
+
+| | Popover | Dialog |
+|---|---|---|
+| Interaction | Non-modal — background stays interactive | Modal — background blocked |
+| Dismiss | Click outside or Escape | Explicit close button or Escape |
+| Use for | Contextual forms, filters, detail | Confirmations, focused tasks |
+
+## Props
+
+### Popover
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when state changes |
+| `sounds` | `boolean` | `false` | Plays open/close audio feedback |
+
+### PopoverContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred side |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to trigger |
+| `sideOffset` | `number` | `4` | Gap between trigger and panel |
+| `className` | `string` | — | Default width is `w-72` — override as needed |
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <p className="text-sm">Popover content here.</p>
+  </PopoverContent>
+</Popover>
+```
+
+## Specs
+
+```md
+# New York — Popover Specs
+
+## Component
+- name: popover
+- file: registry/new-york/popover.tsx
+- installs to: components/ui/popover.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A non-modal floating panel anchored to a trigger element, rendered in a Portal
+via Radix UI Popover. Use it for contextual forms, filters, and detail overlays
+that must not block the rest of the UI. Prefer Dialog when the task requires
+full user attention or a modal backdrop.
+
+## Visual identity
+Floating surface uses --popover (white in light, dark grey in dark) with a
+subtle shadow-md and 0.625rem border radius, giving a clean and contained feel.
+Default width is w-72 with p-4 padding — compact but readable.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)           — panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — panel text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)      — panel border
+
+## Sub-components
+- Popover        → Root; accepts sounds prop for open/close audio feedback
+- PopoverTrigger → wraps the trigger element; use asChild to forward to a Button
+- PopoverContent → floating panel rendered in Portal; default w-72, p-4, sideOffset=4
+- PopoverAnchor  → optional alternative positioning anchor, independent of trigger
+
+## States
+- data-[state=open]:   fade-in-0 + zoom-in-95 + slide-in-from-{side}-2
+- data-[state=closed]: fade-out-0 + zoom-out-95
+- data-[side=bottom]:  slides in from top-2
+- data-[side=top]:     slides in from bottom-2
+- data-[side=left]:    slides in from right-2
+- data-[side=right]:   slides in from left-2
+
+## Conventions
+- Default placement is side="bottom" align="center" — override via PopoverContent props
+- sideOffset defaults to 4px; increase for more visual separation from the trigger
+- PopoverContent default width is w-72 — pass className to override
+- Use PopoverAnchor when the panel should be positioned relative to a different element than the trigger
+- Sub-components expose data-slot="popover", data-slot="popover-trigger", data-slot="popover-content", data-slot="popover-anchor" for CSS targeting
+- sounds / haptic: ING Design exclusive — plays audio (dropdownOpen / dropdownClose) on open and close via useFeedback hook
+```
+
+## Installation
+
+<CommandBox componentName="popover" className="mt-2" />

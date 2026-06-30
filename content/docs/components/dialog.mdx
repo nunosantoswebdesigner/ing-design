@@ -1,0 +1,230 @@
+---
+title: Dialog
+description: A modal overlay that focuses user attention on a task or message, blocking interaction with the rest of the page until dismissed.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=74-7828&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { DialogDemo } from "@/examples/dialog";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="dialog">
+      <DialogDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="dialog">
+      <DialogDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="dialog">
+      <DialogDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="dialog">
+      <DialogDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Without close button
+
+Set `showCloseButton={false}` on `DialogContent` to remove the top-right ✕ — useful when the footer has explicit Cancel/Close actions.
+
+```tsx
+<DialogContent showCloseButton={false}>
+  <DialogHeader>
+    <DialogTitle>Confirm action</DialogTitle>
+    <DialogDescription>
+      This action cannot be undone. Are you sure?
+    </DialogDescription>
+  </DialogHeader>
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="outline">Cancel</Button>
+    </DialogClose>
+    <Button variant="destructive">Delete</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+## With sounds
+
+Pass `sounds` to enable open/close audio feedback — useful in interactive or game-like interfaces.
+
+```tsx
+<Dialog sounds>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>...</DialogContent>
+</Dialog>
+```
+
+## Scrollable content
+
+For long content, let the inner area scroll while keeping the header and footer fixed.
+
+```tsx
+<DialogContent className="flex max-h-[80vh] flex-col">
+  <DialogHeader>
+    <DialogTitle>Terms of Service</DialogTitle>
+    <DialogDescription>Please read carefully before continuing.</DialogDescription>
+  </DialogHeader>
+  <div className="flex-1 overflow-y-auto py-4 text-sm text-muted-foreground">
+    {/* long content */}
+  </div>
+  <DialogFooter>
+    <Button>Accept</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+## Controlled
+
+Control open state externally to trigger the dialog programmatically.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+export function ControlledDialog() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open</Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Controlled dialog</DialogTitle>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+```
+
+## Props
+
+### Dialog
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes |
+| `sounds` | `boolean` | `false` | Play open/close audio feedback |
+
+### DialogContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showCloseButton` | `boolean` | `true` | Show the ✕ button in the top-right corner |
+| `className` | `string` | — | Override max width or add padding |
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Title</DialogTitle>
+      <DialogDescription>Description text.</DialogDescription>
+    </DialogHeader>
+    {/* body content */}
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="outline">Cancel</Button>
+      </DialogClose>
+      <Button>Confirm</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Specs
+
+```md
+# New York — Dialog Specs
+
+## Component
+- name: dialog
+- file: registry/new-york/dialog.tsx
+- installs to: components/ui/dialog.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A modal overlay that centres a content panel over a semi-transparent backdrop,
+blocking interaction with the rest of the page until dismissed. Use it for
+confirmations, forms, and focused tasks that require a decision before the user
+can continue. Avoid it for non-blocking notifications — prefer Toast instead.
+
+## Visual identity
+White/dark panel on a black/50 scrim. Rounded corners (rounded-lg) and a
+shadow-lg give the panel clear elevation. Compact grid layout (gap-4 p-6)
+keeps content dense and professional across all brand themes.
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)      — panel fill (bg-background)
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)    — panel border
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — description text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)        — close button bg when dialog open (data-[state=open]:bg-accent)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)         — close button focus ring
+
+## Sub-components
+- Dialog             → root; accepts sounds prop (ING Design exclusive)
+- DialogTrigger      → element that opens the dialog (use asChild)
+- DialogPortal       → renders content outside the current DOM subtree
+- DialogOverlay      → fixed full-screen scrim (bg-black/50) with fade animation
+- DialogContent      → centred panel; grid gap-4 p-6; sm:max-w-lg; showCloseButton prop
+- DialogHeader       → flex-col gap-2; text centred on mobile, left-aligned on sm+
+- DialogTitle        → text-lg font-semibold; required for accessibility
+- DialogDescription  → text-sm text-muted-foreground; recommended for context
+- DialogFooter       → flex-col-reverse on mobile, sm:flex-row sm:justify-end
+- DialogClose        → element that closes the dialog (use asChild with Button)
+
+## States
+- data-[state=open]:   overlay and panel animate in (fade-in-0, zoom-in-95)
+- data-[state=closed]: overlay and panel animate out (fade-out-0, zoom-out-95)
+- close button hover:  opacity-70 → opacity-100
+- close button focus:  focus:ring-2 focus:ring-ring focus:ring-offset-2
+- close button disabled: pointer-events-none
+
+## Conventions
+- DialogTitle is required — Radix UI throws in development if it is missing
+- DialogDescription is strongly recommended; provide it for screen reader context
+- Use showCloseButton={false} on DialogContent when the footer already contains a Cancel/Close action to avoid duplicate close affordances
+- sounds / haptic: ING Design exclusive — pass sounds={true} on Dialog to play modalOpen/modalClose audio on open and close
+- Sub-components expose data-slot="[name]" for CSS targeting: dialog, dialog-trigger, dialog-portal, dialog-overlay, dialog-content, dialog-header, dialog-footer, dialog-title, dialog-description, dialog-close
+- Default panel width: sm:max-w-lg (512px); override with className on DialogContent
+- Scrollable long content: add className="flex max-h-[80vh] flex-col" to DialogContent and overflow-y-auto to the inner body div
+- Focus is trapped inside the dialog while open; Escape closes it
+- Use DialogClose asChild with Button variant="outline" for cancel actions in the footer
+```
+
+## Installation
+
+<CommandBox componentName="dialog" className="mt-2" />

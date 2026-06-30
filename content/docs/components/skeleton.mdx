@@ -1,0 +1,112 @@
+---
+title: Skeleton
+description: An animated placeholder that mimics content layout while data is loading.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10492
+---
+
+import { SkeletonDemo } from "@/examples/skeleton";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="skeleton">
+      <SkeletonDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="skeleton">
+      <SkeletonDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="skeleton">
+      <SkeletonDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="skeleton">
+      <SkeletonDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Usage
+
+Match the skeleton shape to the content it replaces. Use `rounded-full` for avatars, `rounded-xl` for cards, and default `rounded-md` for text lines and thumbnails.
+
+```tsx
+{/* Avatar + text row */}
+<div className="flex items-center gap-3">
+  <Skeleton className="size-10 rounded-full" />
+  <div className="flex flex-1 flex-col gap-2">
+    <Skeleton className="h-4 w-3/4" />
+    <Skeleton className="h-3 w-1/2" />
+  </div>
+</div>
+```
+
+## In a list
+
+```tsx
+{isLoading
+  ? Array.from({ length: 5 }).map((_, i) => (
+      <div key={i} className="flex items-center gap-3">
+        <Skeleton className="size-9 rounded-md" />
+        <div className="flex flex-1 flex-col gap-1.5">
+          <Skeleton className="h-3.5 w-2/5" />
+          <Skeleton className="h-3 w-3/5" />
+        </div>
+      </div>
+    ))
+  : items.map((item) => <ListItem key={item.id} {...item} />)}
+```
+
+## Props
+
+`Skeleton` is a plain `<div>` — pass any `className` to control size and shape.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Width, height, border-radius overrides |
+
+## Specs
+
+```md
+# New York — Skeleton Specs
+
+## Component
+- name: skeleton
+- file: registry/new-york/skeleton.tsx
+- installs to: components/ui/skeleton.tsx
+- dependencies: none
+- registryDependencies: none
+
+## What is it
+An animated placeholder that mimics the shape and layout of real content while
+data is loading. It renders as a single styled `<div>` — size and shape are
+always controlled by the caller via `className`. Prefer Skeleton over spinners
+when the content structure is known in advance; do not use it for actions or
+interactive states.
+
+## Visual identity
+Renders as a muted, softly rounded block (0.375rem radius via `rounded-md`)
+with an `animate-pulse` fade cycle. Uses the `--accent` surface colour, giving
+a neutral, low-contrast shimmer that works across all themes without drawing
+attention away from real content.
+
+## Design tokens
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)   — pulse surface (light / dark)
+
+## States
+- animate-pulse: continuous opacity fade; always active while the skeleton is mounted
+
+## Conventions
+- Set width and height on the caller: e.g. `className="h-4 w-3/4"`
+- Use `rounded-full` for circular avatars, `rounded-xl` for card shapes, default `rounded-md` for text lines and thumbnails
+- Repeat in a list with `Array.from({ length: n })` — use index as key only while loading
+- Replace the entire skeleton tree with real content in a single render; avoid partial swaps
+- Sub-components expose `data-slot="skeleton"` for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="skeleton" className="mt-2" />

@@ -1,0 +1,226 @@
+---
+title: Alert
+description: Displays a callout for user attention with support for icons, titles, and descriptions.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-3398&t=xlOiOH1D95EZZFea-1
+---
+
+import { Alert, AlertDescription, AlertTitle } from "@/registry/new-york/alert";
+import { Terminal, CircleAlert, Info, CircleCheck } from "lucide-react";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="alert">
+      <Alert className="w-full max-w-sm">
+        <Terminal className="size-4" />
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+      </Alert>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="alert">
+      <Alert className="w-full max-w-sm">
+        <Terminal className="size-4" />
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+      </Alert>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="alert">
+      <Alert className="w-full max-w-sm">
+        <Terminal className="size-4" />
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+      </Alert>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="alert">
+      <Alert className="w-full max-w-sm">
+        <Terminal className="size-4" />
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+      </Alert>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+### Default
+
+Used for informational or neutral messages.
+
+<div className="my-6 w-full max-w-sm">
+  <Alert>
+    <Info className="size-4" />
+    <AlertTitle>Information</AlertTitle>
+    <AlertDescription>Your session will expire in 30 minutes.</AlertDescription>
+  </Alert>
+</div>
+
+### Destructive
+
+Used for errors, warnings, or irreversible actions.
+
+<div className="my-6 w-full max-w-sm">
+  <Alert variant="destructive">
+    <CircleAlert className="size-4" />
+    <AlertTitle>Error</AlertTitle>
+    <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+  </Alert>
+</div>
+
+## Without Icon
+
+The layout adapts when no icon is provided — content spans the full width.
+
+<div className="my-6 flex flex-col gap-3 w-full max-w-sm">
+  <Alert>
+    <AlertTitle>Note</AlertTitle>
+    <AlertDescription>This component copies code directly into your project.</AlertDescription>
+  </Alert>
+  <Alert variant="destructive">
+    <AlertTitle>Deployment failed</AlertTitle>
+    <AlertDescription>Check the build logs for more details.</AlertDescription>
+  </Alert>
+</div>
+
+## Description Only
+
+`AlertTitle` is optional — use description alone for short inline messages.
+
+<div className="my-6 w-full max-w-sm">
+  <Alert>
+    <CircleCheck className="size-4" />
+    <AlertDescription>Changes saved successfully.</AlertDescription>
+  </Alert>
+</div>
+
+## Props
+
+### Alert
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "destructive"` | `"default"` | Visual style of the alert |
+| `className` | `string` | — | Additional CSS classes |
+
+### AlertTitle
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### AlertDescription
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CircleAlert, Info } from "lucide-react";
+
+// Default
+<Alert>
+  <Info className="size-4" />
+  <AlertTitle>Information</AlertTitle>
+  <AlertDescription>Your session expires in 30 minutes.</AlertDescription>
+</Alert>
+
+// Destructive
+<Alert variant="destructive">
+  <CircleAlert className="size-4" />
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+</Alert>
+
+// Without title
+<Alert>
+  <AlertDescription>Changes saved successfully.</AlertDescription>
+</Alert>
+```
+
+## Specs
+
+```md
+# New York — Alert Specs
+
+## Component
+- name: alert
+- file: registry/new-york/alert.tsx
+- installs to: components/ui/alert.tsx
+- dependencies: class-variance-authority
+
+## What is it
+A static, non-interactive callout for surfacing important information to users.
+Use it for form errors, system status, confirmations, and warnings. Not to be
+confused with a Toast (transient) or Dialog (requires action) — Alert is
+persistent and inline within the page flow.
+
+## Visual identity
+Minimal and contained. Rounded corners, a single border, and card background
+give it a subtle frame without visual weight. The icon anchors the content and
+communicates intent at a glance. Destructive variant uses --destructive for text
+and icon while keeping the same card background — restrained, not alarming.
+
+## Design tokens
+--card: oklch(1 0 0)                     — alert background
+--card-foreground: oklch(0.145 0 0)      — default text
+--destructive: oklch(0.577 0.245 27.325) — destructive text and icon
+--border: oklch(0.922 0 0)               — alert border
+--muted-foreground: oklch(0.556 0 0)     — description text
+--radius: 0.625rem                       — rounded-lg
+
+## Dark theme
+--card: oklch(0.205 0 0)
+--card-foreground: oklch(0.985 0 0)
+--border: oklch(1 0 0 / 10%)
+--muted-foreground: oklch(0.708 0 0)
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: true
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Variants
+- default     → card background, foreground text. Neutral info, tip, or notice.
+- destructive → destructive-colored text and icon. Errors and warnings only.
+
+## Layout
+- Uses CSS grid: icon column (16px) + content column (1fr)
+- has-[>svg] selector activates the icon column automatically
+- Without icon: grid-cols-[0_1fr] — icon column collapses, content fills width
+- SVG icons: size-4 (16px), translate-y-0.5 for optical alignment with title
+
+## States
+- No interactive states — Alert is a static display component
+- role="alert" for screen readers
+
+## Conventions
+- Use for persistent, inline messages — not for transient feedback (use Toast)
+- AlertTitle is optional — skip it for single-line confirmation messages
+- Always pair destructive variant with a descriptive message, not just a title
+- Icon size must be size-4 — do not override, grid alignment depends on it
+- Avoid using Alert inside a Dialog — use the Dialog description instead
+```
+
+## Installation
+
+<CommandBox componentName="alert" className="mt-2" />

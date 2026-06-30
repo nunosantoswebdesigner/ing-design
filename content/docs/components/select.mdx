@@ -1,0 +1,241 @@
+---
+title: Select
+description: A custom dropdown for selecting a single value — with groups, labels, separators, and keyboard navigation.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-9053&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { SelectDemo } from "@/examples/select";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="select">
+      <SelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="select">
+      <SelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="select">
+      <SelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="select">
+      <SelectDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With groups
+
+Use `SelectGroup` + `SelectLabel` to organise long option lists into named sections. Add `SelectSeparator` between groups.
+
+```tsx
+<SelectContent>
+  <SelectGroup>
+    <SelectLabel>North America</SelectLabel>
+    <SelectItem value="est">Eastern (EST)</SelectItem>
+    <SelectItem value="pst">Pacific (PST)</SelectItem>
+  </SelectGroup>
+  <SelectSeparator />
+  <SelectGroup>
+    <SelectLabel>Europe</SelectLabel>
+    <SelectItem value="gmt">Greenwich (GMT)</SelectItem>
+  </SelectGroup>
+</SelectContent>
+```
+
+## Small size
+
+```tsx
+<SelectTrigger size="sm" className="w-40">
+  <SelectValue placeholder="Sort by" />
+</SelectTrigger>
+```
+
+## Controlled
+
+```tsx
+const [value, setValue] = useState("");
+
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger className="w-56">
+    <SelectValue placeholder="Select…" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="option-a">Option A</SelectItem>
+    <SelectItem value="option-b">Option B</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Disabled item
+
+```tsx
+<SelectItem value="enterprise" disabled>
+  Enterprise (coming soon)
+</SelectItem>
+```
+
+## With Field
+
+```tsx
+import { Field, FieldError, FieldLabel, useField } from "@/components/ui/field";
+
+function FieldSelect(props: React.ComponentProps<typeof Select>) {
+  const { id, error } = useField();
+  return (
+    <Select {...props}>
+      <SelectTrigger id={id} aria-invalid={!!error} className="w-full">
+        <SelectValue placeholder="Select a role" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="admin">Admin</SelectItem>
+        <SelectItem value="editor">Editor</SelectItem>
+        <SelectItem value="viewer">Viewer</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+
+<Field error="Please select a role.">
+  <FieldLabel>Role</FieldLabel>
+  <FieldSelect />
+  <FieldError />
+</Field>
+```
+
+## Select vs NativeSelect
+
+| | Select | NativeSelect |
+|---|---|---|
+| Rendering | Custom Radix popover | OS-native `<select>` |
+| Custom option styling | Yes | Limited |
+| Searchable | Via Command (Combobox) | No |
+| Mobile UX | Custom overlay | Full native |
+| Form submission | Needs hidden input | Native |
+
+## Props
+
+### SelectTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"default" \| "sm"` | `"default"` | `h-9` or `h-8` |
+| `aria-invalid` | `boolean` | — | Applies destructive ring and border |
+| `disabled` | `boolean` | `false` | Passed via `Select` root |
+
+### SelectContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `position` | `"popper" \| "item-aligned"` | `"popper"` | `popper` anchors below trigger; `item-aligned` aligns to selected item |
+
+### SelectItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | The value this item represents (required) |
+| `disabled` | `boolean` | `false` | Disables this specific option |
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+<Select>
+  <SelectTrigger className="w-56">
+    <SelectValue placeholder="Select an option" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="option-a">Option A</SelectItem>
+    <SelectItem value="option-b">Option B</SelectItem>
+    <SelectItem value="option-c">Option C</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Specs
+
+```md
+# New York — Select Specs
+
+## Component
+- name: select
+- file: registry/new-york/select.tsx
+- installs to: components/ui/select.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A fully accessible custom dropdown for single-value selection, built on Radix
+Select. Renders in a Portal with animated open/close transitions and supports
+groups, labels, and separators for long option lists. Prefer Select over
+NativeSelect when custom option styling or keyboard-first UX matters; use
+NativeSelect for mobile-first forms where OS-native behaviour is preferred.
+
+## Visual identity
+Clean, minimal trigger — transparent background with a subtle border and
+rounded corners (0.625 rem). The popover surface uses --popover with a soft
+shadow. Selected state is marked by a CheckIcon rather than background
+highlight, keeping the list visually light.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)          — trigger border (border-input)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)              — focus ring (focus-visible:ring-ring/50)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)  — placeholder text, chevron icon, label text
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — aria-invalid border and ring
+--popover: oklch(1 0 0) / oklch(0.269 0 0)               — content panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — content panel text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)             — focused item background (focus:bg-accent)
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0) — focused item text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)          — content border, separator (bg-border)
+
+## Sub-components
+- Select                   → Root wrapper; sets data-slot="select", no visual output
+- SelectGroup              → Groups items; sets data-slot="select-group", no visual output
+- SelectValue              → Placeholder/value text slot; sets data-slot="select-value"
+- SelectTrigger            → Interactive trigger button; h-9 (default) or h-8 (sm); ChevronDown icon appended automatically
+- SelectContent            → Portal-rendered popover panel; z-50, max-h-96, animated open/close
+- SelectItem               → Individual option row; CheckIcon indicator on the right when selected
+- SelectLabel              → Section heading within a group; text-xs, muted foreground
+- SelectSeparator          → 1px horizontal rule between groups; -mx-1 my-1
+- SelectScrollUpButton     → Scroll affordance shown at top of long lists; ChevronUp icon
+- SelectScrollDownButton   → Scroll affordance shown at bottom of long lists; ChevronDown icon
+
+## States
+- focus-visible:  3px ring in --ring/50, border switches to --ring — keyboard focus on trigger
+- hover (dark):   trigger background shifts to --input/50 (dark:hover:bg-input/50)
+- disabled:       cursor-not-allowed, opacity-50 on trigger; data-disabled items get pointer-events-none opacity-50
+- aria-invalid:   trigger border becomes --destructive; ring becomes --destructive/20 (light) or --destructive/40 (dark)
+- data-[state=open] / data-[state=closed]: fade + zoom animation on SelectContent
+- data-[side=*]:  slide-in direction matches popover placement (bottom/top/left/right)
+- focus (item):   bg-accent + text-accent-foreground on the focused SelectItem
+
+## Variants
+- size="default"  → h-9 trigger — standard form fields
+- size="sm"       → h-8 trigger — compact toolbars, dense layouts
+
+## Conventions
+- Always wrap SelectTrigger + SelectContent inside a Select root
+- SelectValue must be a direct child of SelectTrigger; set placeholder for empty state
+- For groups use SelectGroup + SelectLabel; add SelectSeparator between groups
+- Pair with Field + FieldLabel + FieldError from the field component for form validation — pass aria-invalid={!!error} to SelectTrigger
+- SelectContent position="popper" (default) anchors below the trigger with a 1px gap; use "item-aligned" to align to the selected item
+- SelectItem value prop is required; duplicate values within one Select are not allowed
+- Sub-components expose data-slot attributes for CSS targeting: "select", "select-group", "select-value", "select-trigger", "select-content", "select-item", "select-label", "select-separator", "select-scroll-up-button", "select-scroll-down-button"
+- Keyboard: Space/Enter opens and selects; ArrowUp/Down navigates; typing triggers first-match navigation; Escape closes
+```
+
+## Installation
+
+<CommandBox componentName="select" className="mt-2" />

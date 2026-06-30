@@ -1,0 +1,139 @@
+---
+title: Textarea
+description: A multi-line text input with the same border, focus ring, and invalid state as Input.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10807
+---
+
+import { TextareaDemo } from "@/examples/textarea";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="textarea">
+      <TextareaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="textarea">
+      <TextareaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="textarea">
+      <TextareaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="textarea">
+      <TextareaDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With label
+
+```tsx
+<div className="flex flex-col gap-1.5">
+  <Label htmlFor="bio">Bio</Label>
+  <Textarea id="bio" placeholder="Tell us about yourself" />
+</div>
+```
+
+## Custom height
+
+Override the default `min-h-16` via `className`.
+
+```tsx
+<Textarea className="min-h-32" placeholder="Long form content…" />
+```
+
+## Auto-resize
+
+Use the native `rows` attribute or a library like `react-textarea-autosize` for dynamic height.
+
+```tsx
+<Textarea rows={3} />
+```
+
+## Disabled
+
+```tsx
+<Textarea disabled defaultValue="Read-only content." />
+```
+
+## Invalid
+
+Set `aria-invalid` to trigger the destructive ring.
+
+```tsx
+<Textarea aria-invalid placeholder="Describe the issue…" />
+```
+
+## Props
+
+`Textarea` accepts all native `<textarea>` props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `placeholder` | `string` | — | Placeholder text |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `aria-invalid` | `boolean` | `false` | Applies destructive ring |
+| `rows` | `number` | — | Fixed row count |
+| `className` | `string` | — | Override `min-h` or add utilities |
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea";
+
+<Textarea placeholder="Write something…" />
+```
+
+## Specs
+
+```md
+# New York — Textarea Specs
+
+## Component
+- name: textarea
+- file: registry/new-york/textarea.tsx
+- installs to: components/ui/textarea.tsx
+- dependencies: none
+- registryDependencies: none
+
+## What is it
+A multi-line text input that shares the same visual language as Input: identical
+border, focus ring, invalid state, and disabled treatment. Use it whenever a
+single-line Input is insufficient — forms, comments, descriptions, or any free-
+form text entry. Prefer Input when content is expected to stay on one line.
+
+## Visual identity
+Transparent background with a subtle border gives it a lightweight, flat feel
+consistent with Input. The 0.625rem radius and 3px focus ring match all other
+form fields in new-york, ensuring visual consistency across form layouts.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)                        — border colour (border-input)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                            — focus ring (focus-visible:border-ring, focus-visible:ring-ring/50)
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216)   — invalid border + ring (aria-invalid:border-destructive, aria-invalid:ring-destructive/20)
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)                         — text selection background (selection:bg-primary)
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0)              — text selection foreground (selection:text-primary-foreground)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)                — placeholder text (placeholder:text-muted-foreground)
+
+## States
+- focus-visible: border switches to --ring, 3px ring at ring/50 opacity
+- aria-invalid:  border switches to --destructive, ring uses destructive/20 (light) or destructive/40 (dark)
+- disabled:      opacity-50, cursor-not-allowed, interaction blocked
+- dark bg:       dark:bg-input/30 — subtle tinted surface in dark mode
+
+## Conventions
+- Default minimum height is min-h-16 (64px) — override via className (e.g. className="min-h-32")
+- Takes full width (w-full) by default; constrain via a wrapping element
+- For dynamic height use the native rows attribute or react-textarea-autosize
+- Pair with Label using htmlFor/id — Textarea has no built-in label
+- Set aria-invalid to trigger the destructive ring on validation error
+- Sub-components expose data-slot="textarea" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="textarea" className="mt-2" />

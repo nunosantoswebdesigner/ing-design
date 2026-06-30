@@ -1,0 +1,223 @@
+---
+title: Menubar
+description: A persistent horizontal menu bar with dropdown menus — checkboxes, radio groups, sub-menus, and keyboard shortcuts.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8618&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { MenubarDemo } from "@/examples/menubar";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="menubar">
+      <MenubarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="menubar">
+      <MenubarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="menubar">
+      <MenubarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="menubar">
+      <MenubarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Keyboard shortcut
+
+Use `MenubarShortcut` at the end of a `MenubarItem` to show the associated key combination right-aligned.
+
+```tsx
+<MenubarItem>
+  New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+</MenubarItem>
+```
+
+## Checkbox item
+
+Toggle state with `MenubarCheckboxItem`. Manage the value with controlled `checked` + `onCheckedChange`.
+
+```tsx
+const [show, setShow] = useState(true);
+
+<MenubarCheckboxItem checked={show} onCheckedChange={setShow}>
+  Status Bar
+</MenubarCheckboxItem>
+```
+
+## Radio group
+
+Use `MenubarRadioGroup` + `MenubarRadioItem` for mutually exclusive options. Pair with `MenubarLabel` for the group heading.
+
+```tsx
+<MenubarLabel>Theme</MenubarLabel>
+<MenubarRadioGroup value={theme} onValueChange={setTheme}>
+  <MenubarRadioItem value="light">Light</MenubarRadioItem>
+  <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
+  <MenubarRadioItem value="system">System</MenubarRadioItem>
+</MenubarRadioGroup>
+```
+
+## Sub-menu
+
+Nest a `MenubarSub` inside any `MenubarContent`. `MenubarSubTrigger` auto-appends a chevron.
+
+```tsx
+<MenubarSub>
+  <MenubarSubTrigger>Share</MenubarSubTrigger>
+  <MenubarSubContent>
+    <MenubarItem>Email Link</MenubarItem>
+    <MenubarItem>Messages</MenubarItem>
+  </MenubarSubContent>
+</MenubarSub>
+```
+
+## Destructive item
+
+```tsx
+<MenubarItem variant="destructive">Reset Layout</MenubarItem>
+```
+
+## Disabled item
+
+```tsx
+<MenubarItem disabled>New Incognito Window</MenubarItem>
+```
+
+## Props
+
+### Menubar
+
+<span className="block">The root container. Renders as a flex row with border and shadow. Extends all Radix `Menubar.Root` props.</span>
+
+### MenubarMenu
+
+<span className="block">Groups a trigger and its content. Accepts a `value` prop for controlled open state.</span>
+
+### MenubarTrigger
+
+<span className="block">The clickable label in the bar. Highlights on hover/focus and when its menu is open (`data-[state=open]`).</span>
+
+### MenubarContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment relative to trigger |
+| `alignOffset` | `number` | `-4` | Horizontal offset from trigger edge |
+| `sideOffset` | `number` | `8` | Gap between bar and content |
+
+### MenubarItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "destructive"` | `"default"` | Destructive variant applies red text |
+| `inset` | `boolean` | `false` | Adds `pl-8` to align with checked/radio items |
+| `disabled` | `boolean` | `false` | Disables interaction and reduces opacity |
+
+## Usage
+
+```tsx
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>
+        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>
+        Print <MenubarShortcut>⌘P</MenubarShortcut>
+      </MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+```
+
+## Specs
+
+```md
+# New York — Menubar Specs
+
+## Component
+- name: menubar
+- file: registry/new-york/menubar.tsx
+- installs to: components/ui/menubar.tsx
+- dependencies: radix-ui, lucide-react
+- registryDependencies: none
+
+## What is it
+A persistent horizontal bar where each trigger opens a dropdown panel of
+actions, checkboxes, radio groups, and sub-menus. Built on Radix Menubar for
+full keyboard navigation. Use it for app-level toolbars (File, Edit, View);
+do not use it for primary site navigation — prefer a nav element instead.
+
+## Visual identity
+Compact and understated in new-york: the bar sits on --background with a
+single-pixel border and a subtle shadow-xs. Triggers and items highlight with
+--accent on hover/focus, keeping the palette neutral and content-forward.
+Standard 0.625rem radius on the bar, panels, and item rows gives a
+professional, slightly rounded feel.
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)               — menubar root surface
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)              — bar border and separator
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)                 — trigger/item hover+focus background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)     — trigger/item hover+focus text
+--popover: oklch(1 0 0) / oklch(0.269 0 0)                   — content panel surface
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0)    — content panel text
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)      — shortcut text and icon default colour
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — destructive item text
+
+## Sub-components
+- Menubar              → Root bar; h-9 flex row rounded-md border px-1 gap-1 shadow-xs bg-background
+- MenubarMenu          → Groups one trigger with its content; no visual output
+- MenubarTrigger       → Bar button; px-3 py-1 text-sm font-medium rounded-sm; focus/open → bg-accent
+- MenubarPortal        → Renders content outside DOM hierarchy; no visual output
+- MenubarContent       → Dropdown panel; min-w-48 rounded-md border p-1 shadow-md bg-popover; defaults align=start, alignOffset=-4, sideOffset=8
+- MenubarGroup         → Logical grouping of items; no visual output
+- MenubarItem          → Action row; px-2 py-1.5 text-sm rounded-sm gap-2; variants: default | destructive; inset prop adds pl-8
+- MenubarCheckboxItem  → Toggle item; pl-8 with absolute CheckIcon indicator
+- MenubarRadioGroup    → Wraps mutually exclusive radio items; no visual output
+- MenubarRadioItem     → Radio choice; pl-8 with absolute CircleIcon (size-2 fill-current) indicator
+- MenubarLabel         → Section heading; px-2 py-1.5 text-sm font-medium; inset prop adds pl-8
+- MenubarSeparator     → Horizontal rule; -mx-1 my-1 h-px bg-border
+- MenubarShortcut      → Key hint span; ml-auto text-xs tracking-widest text-muted-foreground
+- MenubarSub           → Sub-menu root; no visual output
+- MenubarSubTrigger    → Item that opens a sub-menu; appends ChevronRightIcon ml-auto automatically; inset prop adds pl-8
+- MenubarSubContent    → Sub-menu panel; min-w-32 rounded-md border p-1 shadow-lg bg-popover
+
+## States
+- focus / data-[state=open]: trigger and sub-trigger gain bg-accent + text-accent-foreground
+- focus (items): MenubarItem, CheckboxItem, RadioItem, SubTrigger gain bg-accent + text-accent-foreground on focus
+- data-[variant=destructive]: item text becomes --destructive; focus background is destructive/10 (light) or destructive/20 (dark)
+- data-disabled: pointer-events-none + opacity-50 on items, checkbox items, and radio items
+- open/close animation: content and sub-content use fade + zoom entrance/exit keyed on data-[state]
+
+## Conventions
+- Place MenubarShortcut at the end of a MenubarItem — it auto-aligns right via ml-auto
+- Use inset={true} on MenubarItem or MenubarLabel to align text with CheckboxItem/RadioItem indicators (adds pl-8)
+- Wrap mutually exclusive options in MenubarRadioGroup + MenubarRadioItem; add a MenubarLabel above the group for context
+- Keyboard navigation is built-in: ArrowLeft/Right moves between top-level triggers; ArrowDown opens the focused trigger's menu; ArrowUp/Down moves between items; ArrowRight opens a sub-menu; Escape closes
+- Sub-components expose data-slot attributes for CSS targeting: "menubar", "menubar-menu", "menubar-trigger", "menubar-portal", "menubar-content", "menubar-group", "menubar-item", "menubar-checkbox-item", "menubar-radio-group", "menubar-radio-item", "menubar-label", "menubar-separator", "menubar-shortcut", "menubar-sub", "menubar-sub-trigger", "menubar-sub-content"
+- SVG icons inside items default to size-4 and text-muted-foreground unless overridden with a text-* class
+```
+
+## Installation
+
+<CommandBox componentName="menubar" className="mt-2" />

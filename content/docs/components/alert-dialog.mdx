@@ -1,0 +1,261 @@
+---
+title: Alert Dialog
+description: A modal dialog that interrupts the user with important content and requires a response before continuing.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=402-419&t=xlOiOH1D95EZZFea-1
+---
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/registry/new-york/alert-dialog";
+import { Button } from "@/registry/new-york/button";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="alert-dialog">
+      <AlertDialog>
+        <AlertDialogTrigger asChild><Button variant="outline">Delete account</Button></AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="alert-dialog">
+      <AlertDialog>
+        <AlertDialogTrigger asChild><Button variant="outline">Delete account</Button></AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="alert-dialog">
+      <AlertDialog>
+        <AlertDialogTrigger asChild><Button variant="outline">Delete account</Button></AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="alert-dialog">
+      <AlertDialog>
+        <AlertDialogTrigger asChild><Button variant="outline">Delete account</Button></AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Destructive Action
+
+Use `AlertDialogAction` with `variant="destructive"` when confirming an irreversible operation.
+
+<div className="my-6">
+  <AlertDialog>
+    <AlertDialogTrigger asChild>
+      <Button variant="destructive">Delete project</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Delete project?</AlertDialogTitle>
+        <AlertDialogDescription>
+          All files, deployments, and settings will be permanently removed.
+          This action cannot be undone.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction className="bg-destructive text-white hover:bg-destructive/90">
+          Delete
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</div>
+
+## Props
+
+### AlertDialog
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes |
+
+### AlertDialogContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### AlertDialogAction / AlertDialogCancel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Override default button styles |
+| `asChild` | `boolean` | `false` | Render as child element |
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Specs
+
+```md
+# New York — Alert Dialog Specs
+
+## Component
+- name: alert-dialog
+- file: registry/new-york/alert-dialog.tsx
+- installs to: components/ui/alert-dialog.tsx
+- dependencies: radix-ui
+- registryDependencies: button
+
+## What is it
+A blocking modal dialog that requires the user to make an explicit choice before
+continuing. Unlike Dialog, it cannot be dismissed by clicking the overlay or
+pressing Escape — the user must click Cancel or Confirm. Use it exclusively for
+destructive or irreversible actions: deleting data, leaving unsaved changes,
+revoking access. Do not use it for informational content — use Dialog instead.
+
+## Visual identity
+Identical frame to Dialog: white background, rounded-lg, border, shadow-lg,
+centered on screen with a semi-transparent overlay. Two-button footer with
+Cancel (outline) on the left and Action (primary) on the right. The visual
+weight of the Action button signals the severity of the confirmation.
+
+## Design tokens
+--background: oklch(1 0 0)               — dialog background
+--foreground: oklch(0.145 0 0)           — title text
+--muted-foreground: oklch(0.556 0 0)     — description text
+--border: oklch(0.922 0 0)               — dialog border
+--primary: oklch(0.205 0 0)              — action button background
+--primary-foreground: oklch(0.985 0 0)   — action button text
+--destructive: oklch(0.577 0.245 27.325) — destructive action override
+--radius: 0.625rem                       — rounded-lg
+
+## Dark theme
+--background: oklch(0.145 0 0)
+--foreground: oklch(0.985 0 0)
+--muted-foreground: oklch(0.708 0 0)
+--border: oklch(1 0 0 / 10%)
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: true
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Sub-components
+- AlertDialogTrigger  → opens the dialog
+- AlertDialogContent  → the modal panel (includes portal + overlay)
+- AlertDialogHeader   → wraps title + description
+- AlertDialogFooter   → wraps Cancel + Action buttons
+- AlertDialogTitle    → required — describes what is being confirmed
+- AlertDialogDescription → required — explains the consequences
+- AlertDialogAction   → confirm button, styled as primary by default
+- AlertDialogCancel   → dismiss button, styled as outline by default
+
+## States
+- closed:   dialog not mounted in DOM
+- open:     fade-in + zoom-in-95 animation, overlay fades in
+- closing:  fade-out + zoom-out-95 animation
+- overlay:  bg-black/50, blocks interaction with page content
+
+## Conventions
+- Always include both AlertDialogTitle and AlertDialogDescription
+- AlertDialogDescription must explain the consequences, not just ask for confirmation
+- For destructive confirms: add className="bg-destructive text-white hover:bg-destructive/90" to AlertDialogAction
+- Never use Alert Dialog for non-destructive confirmations — use Dialog instead
+- Always use AlertDialogTrigger asChild with your own Button component
+- Footer order: Cancel left, Action right (matches platform conventions)
+```
+
+## Installation
+
+<CommandBox componentName="alert-dialog" className="mt-2" />

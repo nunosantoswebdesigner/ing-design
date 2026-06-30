@@ -1,0 +1,292 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-3341&t=xlOiOH1D95EZZFea-1
+---
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/registry/new-york/accordion";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="accordion">
+      <Accordion type="single" collapsible className="w-full max-w-sm">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Is it styled?</AccordionTrigger>
+          <AccordionContent>Yes. It comes with default styles that match the other components.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>Is it animated?</AccordionTrigger>
+          <AccordionContent>Yes. It's animated by default with a smooth expand and collapse.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="accordion">
+      <Accordion type="single" collapsible className="w-full max-w-sm">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Is it styled?</AccordionTrigger>
+          <AccordionContent>Yes. It comes with default styles that match the other components.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>Is it animated?</AccordionTrigger>
+          <AccordionContent>Yes. It's animated by default with a smooth expand and collapse.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="accordion">
+      <Accordion type="single" collapsible className="w-full max-w-sm">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Is it styled?</AccordionTrigger>
+          <AccordionContent>Yes. It comes with default styles that match the other components.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>Is it animated?</AccordionTrigger>
+          <AccordionContent>Yes. It's animated by default with a smooth expand and collapse.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="accordion">
+      <Accordion type="single" collapsible className="w-full max-w-sm">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Is it styled?</AccordionTrigger>
+          <AccordionContent>Yes. It comes with default styles that match the other components.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>Is it animated?</AccordionTrigger>
+          <AccordionContent>Yes. It's animated by default with a smooth expand and collapse.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Single
+
+Only one item can be open at a time. Add `collapsible` to allow closing the active item.
+
+<div className="my-6 w-full max-w-sm">
+  <Accordion type="single" collapsible>
+    <AccordionItem value="item-1">
+      <AccordionTrigger>What is ING Design?</AccordionTrigger>
+      <AccordionContent>A custom component library built to be reused across projects.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2">
+      <AccordionTrigger>How do I install a component?</AccordionTrigger>
+      <AccordionContent>Run <code>npx shadcn add</code> with the component URL from the registry.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-3">
+      <AccordionTrigger>Can I customize it?</AccordionTrigger>
+      <AccordionContent>Yes — you own the code. Customize anything after install.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</div>
+
+## Multiple
+
+Multiple items can be open simultaneously using `type="multiple"`.
+
+<div className="my-6 w-full max-w-sm">
+  <Accordion type="multiple">
+    <AccordionItem value="item-1">
+      <AccordionTrigger>First item</AccordionTrigger>
+      <AccordionContent>This item can stay open while others open.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2">
+      <AccordionTrigger>Second item</AccordionTrigger>
+      <AccordionContent>All items are independent of each other.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-3">
+      <AccordionTrigger>Third item</AccordionTrigger>
+      <AccordionContent>Open as many as you need at the same time.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</div>
+
+## Disabled
+
+Disable individual items with the `disabled` prop on `AccordionItem`.
+
+<div className="my-6 w-full max-w-sm">
+  <Accordion type="single" collapsible>
+    <AccordionItem value="item-1">
+      <AccordionTrigger>Available item</AccordionTrigger>
+      <AccordionContent>This item can be opened normally.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2" disabled>
+      <AccordionTrigger>Disabled item</AccordionTrigger>
+      <AccordionContent>This content is not reachable.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-3">
+      <AccordionTrigger>Another available item</AccordionTrigger>
+      <AccordionContent>This item works as normal.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</div>
+
+## Props
+
+### Accordion
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `"single" \| "multiple"` | — | Whether one or multiple items can be open |
+| `collapsible` | `boolean` | `false` | Allow closing the active item (`type="single"` only) |
+| `defaultValue` | `string \| string[]` | — | Initially open item(s) |
+| `value` | `string \| string[]` | — | Controlled open item(s) |
+| `onValueChange` | `(value) => void` | — | Callback when open items change |
+
+### AccordionItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Unique identifier for this item |
+| `disabled` | `boolean` | `false` | Prevents the item from being opened |
+| `className` | `string` | — | Additional CSS classes |
+
+### AccordionTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `sound` | `FeedbackType` | — | Audio feedback on interaction |
+| `haptic` | `boolean` | — | Haptic feedback on interaction |
+
+### AccordionContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Applied to the inner content wrapper |
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+// Single — only one open at a time
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Question</AccordionTrigger>
+    <AccordionContent>Answer</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Multiple — several open simultaneously
+<Accordion type="multiple">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>First</AccordionTrigger>
+    <AccordionContent>Content</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Specs
+
+```md
+# New York — Accordion Specs
+
+## Component
+- name: accordion
+- file: registry/new-york/accordion.tsx
+- installs to: components/ui/accordion.tsx
+- dependencies: radix-ui
+
+## What is it
+A vertically stacked set of collapsible sections. Use it for FAQs, settings
+panels, or any content where progressive disclosure reduces cognitive load.
+Prefer Accordion over Tabs when items are independent and users may want to
+compare content across multiple open sections.
+
+## Visual identity
+Minimal and editorial. Items are separated by a single border-b line — no
+background fill, no shadow. The chevron rotates 180° on open, signalling
+state through motion rather than colour. Low visual weight by design.
+
+## Design tokens
+--border: oklch(0.922 0 0)               — item divider lines
+--foreground: oklch(0.145 0 0)           — trigger label text
+--muted-foreground: oklch(0.556 0 0)     — chevron icon colour
+--ring: oklch(0.708 0 0)                 — focus ring on trigger
+--radius: 0.625rem                       — trigger border-radius on focus
+
+## Dark theme
+--border: oklch(1 0 0 / 10%)
+--foreground: oklch(0.985 0 0)
+--muted-foreground: oklch(0.708 0 0)
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: true
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Variants
+- type="single"   → one item open at a time. Add collapsible to allow full close.
+- type="multiple" → any number of items open simultaneously.
+
+## States
+- default:  trigger text in --foreground, chevron in --muted-foreground
+- hover:    trigger text underlines (hover:underline)
+- focus:    3px ring in --ring, rounded-md
+- open:     chevron rotates 180°, content animates down (animate-accordion-down)
+- closed:   content animates up (animate-accordion-up)
+- disabled: opacity-50, pointer-events-none on the item
+
+## Animations
+- animate-accordion-down: content expands from height 0 to auto
+- animate-accordion-up: content collapses from auto to height 0
+- Chevron: transition-transform duration-200
+
+## Conventions
+- Always provide a unique `value` prop on each AccordionItem
+- Use type="single" + collapsible for FAQ patterns
+- Use type="multiple" when content comparison between items is expected
+- Do not nest Accordions — use indented AccordionItems instead
+- AccordionContent inner div uses pb-4 pt-0 — do not remove the padding
+- Icons inside triggers: place before the label, size-4, text-muted-foreground
+```
+
+## Installation
+
+<CommandBox componentName="accordion" className="mt-2" />

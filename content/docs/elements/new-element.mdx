@@ -1,0 +1,134 @@
+---
+title: New Element
+description: Replace this description with a one-line summary of what the element does.
+---
+
+import { NewElementDemo } from "@/examples/new-element";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="new-element">
+      <NewElementDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="new-element">
+      <NewElementDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="new-element">
+      <NewElementDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="new-element">
+      <NewElementDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+Add a description of each variant here.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `React.ReactNode` | — | Content inside the element |
+
+## Usage
+
+```tsx
+import { NewElement } from "@/components/ui/new-element";
+
+<NewElement>Content</NewElement>
+```
+
+## Specs
+
+```md
+# e-new-element — Element Specs
+
+## Component
+- name: new-element
+- file: registry/new-york/new-element.tsx
+- installs to: components/ui/new-element.tsx
+- dependencies: (none — add if needed, e.g. class-variance-authority, radix-ui)
+- registryDependencies: (none — add if needed)
+
+## What is it
+Replace this with a description of what the element does, when to use it,
+and what problem it solves. Include any usage rules — e.g. "use X instead of Y
+when the action changes state", "avoid using more than one per page", etc.
+
+## Visual identity
+Describe the visual character of this element in this theme.
+- Shape/radius: (e.g. rounded-md, pill, square)
+- Color role: (e.g. uses --card as surface)
+- Weight: (e.g. medium presence, low visual noise)
+- Key trait: (the one thing that makes it recognisable)
+
+## Design tokens
+--background: oklch(1 0 0)
+--foreground: oklch(0.145 0 0)
+--card: oklch(1 0 0)
+--card-foreground: oklch(0.145 0 0)
+--primary: oklch(0.205 0 0)
+--primary-foreground: oklch(0.985 0 0)
+--secondary: oklch(0.97 0 0)
+--secondary-foreground: oklch(0.205 0 0)
+--muted: oklch(0.97 0 0)
+--muted-foreground: oklch(0.556 0 0)
+--accent: oklch(0.97 0 0)
+--accent-foreground: oklch(0.205 0 0)
+--destructive: oklch(0.577 0.245 27.325)
+--border: oklch(0.922 0 0)
+--input: oklch(0.922 0 0)
+--ring: oklch(0.708 0 0)
+--radius: 0.625rem
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: true
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Variants
+- default → (describe the default appearance and use case)
+- (add more variants as needed)
+
+## States
+- default:  (describe the resting appearance)
+- hover:    (what changes on hover)
+- focus:    (focus ring color and offset — always use --ring)
+- active:   (pressed/active state if applicable)
+- disabled: opacity-50, pointer-events-none
+- loading:  (if applicable — Loader2Icon + animate-spin)
+- empty:    (if the element has an empty state)
+- error:    (if the element has an error state)
+
+## Conventions
+- Use cn() from @/lib/utils for all conditional classNames
+- Elements use the e- prefix to distinguish from blocks (b-) and base components
+- Props extend the native HTML element (e.g. HTMLDivElement)
+- Tailwind CSS 4 utility classes only — no inline styles
+- No external dependencies unless declared in registry.json
+- One default variant per visual group maximum
+- Spacing between adjacent instances: gap-2 (8px) minimum
+- Interactive elements require aria-label when text is absent
+```
+
+## Installation
+
+<CommandBox componentName="new-element" className="mt-2" />

@@ -1,0 +1,207 @@
+---
+title: Resizable
+description: Draggable split panels for horizontal and vertical layouts, built on react-resizable-panels.
+---
+
+import { ResizableDemo } from "@/examples/resizable";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="resizable">
+      <ResizableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="resizable">
+      <ResizableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="resizable">
+      <ResizableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="resizable">
+      <ResizableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Horizontal
+
+Two side-by-side panels separated by a draggable handle.
+
+```tsx
+<ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+  <ResizablePanel defaultSize={50}>
+    <div className="p-4">Left panel</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={50}>
+    <div className="p-4">Right panel</div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Vertical
+
+Stack panels top-to-bottom with `direction="vertical"`.
+
+```tsx
+<ResizablePanelGroup direction="vertical" className="rounded-lg border">
+  <ResizablePanel defaultSize={50}>
+    <div className="p-4">Top panel</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={50}>
+    <div className="p-4">Bottom panel</div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Three panels
+
+Add more panels and handles for multi-pane layouts.
+
+```tsx
+<ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+  <ResizablePanel defaultSize={25} minSize={15}>
+    <div className="p-4">Sidebar</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={50}>
+    <div className="p-4">Main</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={25} minSize={15}>
+    <div className="p-4">Inspector</div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## With handle grip
+
+Add `withHandle` to the `ResizableHandle` to show a visible drag grip icon.
+
+```tsx
+<ResizableHandle withHandle />
+```
+
+## Controlled size
+
+Use `defaultSize`, `minSize`, and `maxSize` (all in percent) to constrain each panel.
+
+```tsx
+<ResizablePanel
+  defaultSize={30}
+  minSize={20}
+  maxSize={60}
+  collapsible
+  collapsedSize={5}
+>
+  ...
+</ResizablePanel>
+```
+
+## Props
+
+### ResizablePanelGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `"horizontal" \| "vertical"` | — | Required. Split direction |
+| `onLayout` | `(sizes: number[]) => void` | — | Called whenever panel sizes change |
+| `className` | `string` | — | Additional CSS classes |
+
+### ResizablePanel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultSize` | `number` | — | Initial size as a percentage of the group |
+| `minSize` | `number` | — | Minimum size percentage |
+| `maxSize` | `number` | — | Maximum size percentage |
+| `collapsible` | `boolean` | `false` | Allow the panel to collapse to `collapsedSize` |
+| `collapsedSize` | `number` | `0` | Size percentage when collapsed |
+| `className` | `string` | — | Additional CSS classes |
+
+### ResizableHandle
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `withHandle` | `boolean` | `false` | Show a drag grip icon on the handle |
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
+<ResizablePanelGroup direction="horizontal" className="h-full rounded-lg border">
+  <ResizablePanel defaultSize={20} minSize={15} collapsible>
+    <nav className="p-2">Sidebar nav</nav>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={80}>
+    <main className="p-4">Page content</main>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Specs
+
+```md
+# New York — Resizable Specs
+
+## Component
+- name: resizable
+- file: registry/new-york/resizable.tsx
+- installs to: components/ui/resizable.tsx
+- dependencies: react-resizable-panels, lucide-react
+- registryDependencies: none
+
+## What is it
+Thin styled wrappers around react-resizable-panels that add consistent handle
+styling to draggable split-panel layouts. Use it for IDE-style workspaces,
+sidebar/content splits, and multi-pane dashboards. Do not use when panels have
+fixed sizes — a simple CSS grid or flex layout is more appropriate.
+
+## Visual identity
+Minimal and unobtrusive: the separator is a 1px --border line that expands its
+hit area via a pseudo-element without visual noise. The optional grip pill (border
++ --border fill, rounded-xs) signals draggability while staying compact and neutral.
+
+## Design tokens
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)   — separator line and grip pill fill/border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)         — focus ring on the handle
+
+## Sub-components
+- ResizablePanelGroup  → flex container that wraps all panels; sets orientation via aria-[orientation]
+- ResizablePanel       → individual resizable pane; accepts size constraints and collapsible behaviour
+- ResizableHandle      → 1px separator with extended hit area; withHandle renders a visible grip pill
+
+## External dependencies
+- react-resizable-panels: keyboard-accessible drag-resize engine (Panel, PanelGroup, PanelResizeHandle)
+- lucide-react: provides GripVerticalIcon for the withHandle grip pill
+
+## States
+- focus-visible: 1px --ring ring with 1px offset on the handle separator
+- aria-[orientation=horizontal]: handle rotates to horizontal layout (h-px, full-width after pseudo-element, grip div rotates 90deg)
+
+## Conventions
+- All size values (defaultSize, minSize, maxSize, collapsedSize) are percentages (0–100), not pixels
+- Always set minSize to prevent a panel from collapsing to zero unintentionally
+- Use collapsible + collapsedSize for sidebar patterns that can be fully hidden
+- Persist layout across sessions with onLayout + localStorage
+- withHandle improves discoverability; omit it for minimal or data-dense UIs
+- Sub-components expose data-slot="resizable-panel-group", data-slot="resizable-panel", and data-slot="resizable-handle" for CSS targeting
+- Keyboard resize (from react-resizable-panels): Arrow keys = 1%, Shift+Arrow = 10%, Home/End = min/max
+```
+
+## Installation
+
+<CommandBox componentName="resizable" className="mt-2" />

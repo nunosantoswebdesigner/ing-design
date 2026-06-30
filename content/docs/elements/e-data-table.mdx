@@ -1,0 +1,150 @@
+---
+title: Data Table
+description: Sortable, filterable document table with status/section-type facets, column visibility, and pagination — built on @tanstack/react-table.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=153-7623&t=rlzgIiS9L5WQ6EwC-1
+---
+
+import { DataTableDemo } from "@/examples/e-data-table";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="e-data-table">
+      <DataTableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="e-data-table">
+      <DataTableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="e-data-table">
+      <DataTableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="e-data-table">
+      <DataTableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Usage
+
+```tsx
+import { DataTable } from "@/components/ui/e-data-table";
+
+<DataTable
+  rows={rows}
+  title="Welcome back!"
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+/>
+```
+
+## Row data shape
+
+```ts
+import type { DataTableRow } from "@/components/ui/e-data-table";
+
+const rows: DataTableRow[] = [
+  {
+    id: "1",
+    header: "Executive summary",
+    sectionType: "Narrative",       // any string — drives the Section Type facet
+    status: "done",                 // "done" | "in-process" | "pending" | "cancelled"
+    target: 10,
+    limit: 13,
+    reviewer: "Eddie Lake",         // string or null (renders an assign Select when null)
+  },
+];
+```
+
+## Status
+
+| Value | Color | Appearance |
+|-------|-------|-----------|
+| `done` | Emerald | `CheckCircle2` + "Done" |
+| `in-process` | Muted | `Loader2` (spinning) + "In Process" |
+| `pending` | Amber | `AlertTriangle` + "Pending" |
+| `cancelled` | Destructive | `CircleX` + "Cancelled" |
+
+## Filtering
+
+- **Text filter** — matches the Header column (case-insensitive)
+- **Status facet** — multi-select with coloured icons per status
+- **Section Type facet** — auto-populated from unique `sectionType` values in `rows`
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `rows` | `DataTableRow[]` | — | **Required.** Row data |
+| `title` | `string` | `"Welcome back!"` | Card heading |
+| `description` | `string` | `"Lorem ipsum..."` | Card subheading |
+| `rowsPerPageOptions` | `number[]` | `[10, 20, 50]` | Rows-per-page options |
+
+## Specs
+
+```md
+# e-data-table — Element Specs
+
+## Component
+- name: e-data-table
+- file: registry/new-york/e-data-table.tsx
+- installs to: components/ui/e-data-table.tsx
+- dependencies: @tanstack/react-table
+- registryDependencies: badge, button, card, checkbox, dropdown-menu, input, select, separator, table
+
+## What is it
+A full-featured data table element for document/section tracking. Renders inside
+a Card with a text filter, Status and Section Type facet filters, sortable columns,
+column visibility toggle, and paginated rows. Built on @tanstack/react-table v8.
+Use e-data-table for structured list views with status tracking; for simpler lists
+use the plain Table component.
+
+## Visual identity
+Neutral card surface. Status values each carry a distinct semantic colour:
+emerald (done), muted (in-process), amber (pending), destructive/red (cancelled).
+Status icons are reused in both the table rows and the filter dropdown for
+visual consistency. The Loader2 icon animates with animate-spin for in-process rows.
+
+## Design tokens
+--card: page-level card surface
+--muted-foreground: filter button text, drag handle
+--emerald-600 / dark:emerald-400: done status
+--amber-500 / dark:amber-400: pending status
+--destructive: cancelled status
+--primary/10: filter badge background
+
+## Sub-components
+- DataTable       → root; Card wrapper with toolbar, table, pagination; data-slot="data-table"
+- FacetFilter     → internal; reusable multi-select dropdown with coloured icons
+- StatusCell      → internal; renders colour + icon + label for each status value
+- ReviewerCell    → internal; shows reviewer name or an assign Select when null
+
+## Columns
+select | drag-handle | Header (sortable, truncated) | Section Type (badge) |
+Status (sortable, coloured icon) | Target (right-aligned) | Limit (right-aligned) |
+Reviewer (text or Select) | actions (dropdown)
+
+## States
+- Filter: text filter updates Header column; facet filters narrow by Status / Section Type
+- Sort: Header and Status columns are sortable (asc / desc toggle)
+- Select: per-row and select-all checkboxes; footer shows "N of M row(s) selected"
+- Pagination: rows-per-page Select + first/prev/next/last buttons
+- Reviewer unassigned: renders inline Select with Eddie Lake / Jamik Tashpulatov options
+- Empty: full-width "No results." cell when all rows are filtered out
+
+## Conventions
+- Elements use the e- prefix to distinguish from blocks (b-) and base components
+- Pass reviewer: null to render the assign Select inline in the cell
+- sectionType is a free string — the facet options are derived from the data
+- Status filter icons match row cell icons exactly (same component, same colour)
+```
+
+## Installation
+
+```bash
+pnpm add @tanstack/react-table
+npx shadcn@latest add https://ing-design.vercel.app/r/e-data-table.json
+```

@@ -1,0 +1,179 @@
+---
+title: Marker
+description: An inline status note, system event, or labeled separator for conversation threads.
+---
+
+import { MarkerDemo } from "@/examples/marker";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="marker">
+      <MarkerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="marker">
+      <MarkerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="marker">
+      <MarkerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="marker">
+      <MarkerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+Three layout variants cover inline notes, visual separators, and bordered events.
+
+```tsx
+{/* default — inline note, no lines */}
+<Marker>User joined</Marker>
+
+{/* separator — centered label with rules on both sides */}
+<Marker variant="separator">Today</Marker>
+
+{/* border — label with a bottom border */}
+<Marker variant="border">New messages</Marker>
+```
+
+## With icon
+
+Pair `MarkerIcon` and `MarkerContent` to add a leading icon.
+
+```tsx
+<Marker>
+  <MarkerIcon><InfoIcon /></MarkerIcon>
+  <MarkerContent>Conversation started</MarkerContent>
+</Marker>
+```
+
+## Streaming / shimmer
+
+Apply the `shimmer` utility class to `MarkerContent` while content is being generated. Add `role="status"` for accessibility.
+
+```tsx
+<Marker>
+  <MarkerContent className="shimmer" role="status">
+    Thinking…
+  </MarkerContent>
+</Marker>
+```
+
+## As child
+
+Use `asChild` to render a Marker as a `<button>` or `<a>` for interactive system events.
+
+```tsx
+<Marker asChild>
+  <button onClick={handleJump}>Jump to pinned message</button>
+</Marker>
+```
+
+## Props
+
+### Marker
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "separator" \| "border"` | `"default"` | Layout and visual treatment |
+| `asChild` | `boolean` | `false` | Render as the child element |
+| `className` | `string` | — | Additional CSS classes |
+
+### MarkerIcon
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### MarkerContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. Use `shimmer` for streaming state. |
+
+## Usage
+
+```tsx
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
+import { BellIcon } from "lucide-react";
+
+// Simple separator
+<Marker variant="separator">Monday</Marker>
+
+// System event with icon
+<Marker>
+  <MarkerIcon><BellIcon /></MarkerIcon>
+  <MarkerContent>Reminder set for 3:00 PM</MarkerContent>
+</Marker>
+
+// Streaming shimmer
+<Marker>
+  <MarkerContent className="shimmer" role="status">
+    Thinking…
+  </MarkerContent>
+</Marker>
+```
+
+## Specs
+
+```md
+# New York — Marker Specs
+
+## Component
+- name: marker
+- file: registry/new-york/marker.tsx
+- installs to: components/ui/marker.tsx
+- dependencies: radix-ui, class-variance-authority
+- registryDependencies: none
+
+## What is it
+An inline status annotation rendered between rows in a conversation thread or
+feed. Use it for system events ("User joined"), date separators ("Today"), or
+AI status messages ("Thinking…"). Do not use it as a primary navigation
+element or interactive CTA — use a Button for actions that change state.
+
+## Visual identity
+Compact and unobtrusive. Inherits --muted-foreground for text and icon tints,
+keeping annotations visually subordinate to message content. The separator
+variant adds thin 1px rules (--border) that span available width, giving a
+clean horizontal divider feel with no added visual weight.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)  — text and icon tint
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)          — separator lines and border-b
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)        — link hover colour ([a]:hover:text-foreground)
+
+## Sub-components
+- Marker         → root container (div or Slot when asChild); applies markerVariants; sets data-slot="marker" and data-variant
+- MarkerIcon     → icon wrapper span; size-4 shrink-0; aria-hidden="true"; sets data-slot="marker-icon"
+- MarkerContent  → text span; min-w-0 wrap-break-word; centres text in separator variant via group-data-[variant=separator]; sets data-slot="marker-content"
+
+## Variants
+- default    → no decoration; short inline system note floating in the thread
+- separator  → before/after pseudo-elements as 1px horizontal rules (--border); use for date or section dividers
+- border     → bottom border (border-b border-border pb-2); use for section start markers
+
+## States
+- link inside content: underline + underline-offset-3; hover transitions to --foreground
+- shimmer (className): apply to MarkerContent while streaming; remove when complete; pair with role="status"
+
+## Conventions
+- Keep MarkerContent to a single line — the layout does not accommodate wrapping well in separator variant
+- MarkerIcon renders at size-4 (16px); do not override unless intentional — larger icons break the compact line height
+- Add role="status" to MarkerContent when used for live/streaming updates
+- Use asChild to render Marker as a <button> or <a> for interactive system events (e.g. jump to pinned message)
+- Separator variant works best inside a flex-col message list with consistent py-1 row spacing
+- Sub-components expose data-slot="marker", data-slot="marker-icon", and data-slot="marker-content" for CSS targeting
+- data-variant is set on the root element — use group-data-[variant=…]/marker selectors for child styling (already used by MarkerContent)
+```
+
+## Installation
+
+<CommandBox componentName="marker" className="mt-2" />

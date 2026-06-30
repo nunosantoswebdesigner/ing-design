@@ -1,0 +1,257 @@
+---
+title: Message Scroller
+description: A chat transcript scroller with auto-scroll, scroll anchoring, and performance-optimised item rendering.
+---
+
+import { MessageScrollerDemo } from "@/examples/message-scroller";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="message-scroller">
+      <MessageScrollerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="message-scroller">
+      <MessageScrollerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="message-scroller">
+      <MessageScrollerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="message-scroller">
+      <MessageScrollerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Structure
+
+The scroller is a compound component. Wrap the full tree in `MessageScrollerProvider` to share scroll state across all sub-components and hooks.
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        {messages.map((msg) => (
+          <MessageScrollerItem key={msg.id} messageId={msg.id}>
+            <Message>...</Message>
+          </MessageScrollerItem>
+        ))}
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton direction="end" />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+## Auto-scroll
+
+When `autoScroll` is enabled (default), the viewport follows new content only when the user is already at the bottom. Scrolling up pauses auto-scroll; returning to the bottom re-enables it.
+
+```tsx
+<MessageScrollerProvider autoScroll>
+  ...
+</MessageScrollerProvider>
+
+// Disable auto-scroll entirely
+<MessageScrollerProvider autoScroll={false}>
+  ...
+</MessageScrollerProvider>
+```
+
+## Scroll button
+
+`MessageScrollerButton` renders a floating button that appears when off-screen content exists in either direction.
+
+```tsx
+{/* Scroll to newest message */}
+<MessageScrollerButton direction="end" />
+
+{/* Scroll to oldest / top */}
+<MessageScrollerButton direction="start" />
+```
+
+## Scroll anchor
+
+Mark a `MessageScrollerItem` with `scrollAnchor` to declare a turn boundary. `scrollToMessage` will scroll to the nearest anchor above the target.
+
+```tsx
+<MessageScrollerItem messageId={msg.id} scrollAnchor>
+  <Message>...</Message>
+</MessageScrollerItem>
+```
+
+## Hooks
+
+Access scroll controls and state via the provided hooks. All hooks require `MessageScrollerProvider` in the tree.
+
+```tsx
+"use client";
+
+import {
+  useMessageScroller,
+  useMessageScrollerScrollable,
+  useMessageScrollerVisibility,
+} from "@/components/ui/message-scroller";
+
+function ScrollControls() {
+  const { scrollToMessage, scrollToEnd } = useMessageScroller();
+  const isScrollable = useMessageScrollerScrollable();
+  const { isVisible } = useMessageScrollerVisibility("msg-42");
+
+  return (
+    <button
+      onClick={() => scrollToMessage("msg-42")}
+      disabled={!isScrollable}
+    >
+      Jump to message
+    </button>
+  );
+}
+```
+
+## Performance
+
+Each `MessageScrollerItem` applies `content-visibility: auto` and `contain-intrinsic-size` so off-screen items are skipped during paint. Long transcripts remain smooth without virtualisation.
+
+```tsx
+{/* Pass an estimated height hint to improve layout stability */}
+<MessageScrollerItem messageId={msg.id} estimatedHeight={80}>
+  <Message>...</Message>
+</MessageScrollerItem>
+```
+
+## Props
+
+### MessageScrollerProvider
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `autoScroll` | `boolean` | `true` | Follow streamed content when at the bottom |
+| `defaultScrollPosition` | `"start" \| "end"` | `"end"` | Initial scroll position on mount |
+
+### MessageScrollerItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `messageId` | `string` | — | Unique ID used by `scrollToMessage` |
+| `scrollAnchor` | `boolean` | `false` | Marks a turn boundary for anchor-based scrolling |
+| `estimatedHeight` | `number` | — | Height hint (px) for `contain-intrinsic-size` |
+
+### MessageScrollerButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `"start" \| "end"` | `"end"` | Scrolls toward the top or bottom of the transcript |
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller";
+
+<MessageScrollerProvider autoScroll>
+  <MessageScroller className="h-[600px]">
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        {messages.map((msg) => (
+          <MessageScrollerItem
+            key={msg.id}
+            messageId={msg.id}
+            scrollAnchor={msg.isFirstInTurn}
+          >
+            <Message align={msg.role === "user" ? "end" : "start"}>
+              <MessageContent>
+                <Bubble variant={msg.role === "user" ? "default" : "secondary"}>
+                  <BubbleContent>{msg.text}</BubbleContent>
+                </Bubble>
+              </MessageContent>
+            </Message>
+          </MessageScrollerItem>
+        ))}
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton direction="end" />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+## Specs
+
+```md
+# New York — Message Scroller Specs
+
+## Component
+- name: message-scroller
+- file: registry/new-york/message-scroller.tsx
+- installs to: components/ui/message-scroller.tsx
+- dependencies: @shadcn/react, lucide-react
+- registryDependencies: button
+
+## What is it
+A compound scroll container purpose-built for chat transcripts. It handles
+auto-scroll that pauses when the user scrolls up and resumes at the bottom,
+anchor-based turn navigation, a floating jump button, and paint-skipping for
+off-screen items via `content-visibility: auto`. Prefer it over a plain
+overflow container whenever the list is live-updating or exceeds ~50 items.
+
+## Visual identity
+Neutral surface tones with a thin styled scrollbar. The floating jump button
+uses the secondary Button variant — light grey fill, standard border-radius —
+keeping the chrome unobtrusive against any chat bubble palette. The button
+animates in/out with a scale-and-fade easing.
+
+## Design tokens
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)      — MessageScrollerButton border
+--background: oklch(1 0 0) / oklch(0.145 0 0)         — MessageScrollerButton fill
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)     — MessageScrollerButton icon colour
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)           — MessageScrollerButton hover fill
+--secondary: oklch(0.97 0 0) / oklch(0.269 0 0)       — default Button variant used by button
+
+## Sub-components
+- MessageScrollerProvider   → React context root; owns autoScroll and defaultScrollPosition state
+- MessageScroller           → outer shell; relative flex column, overflow-hidden, data-slot="message-scroller"
+- MessageScrollerViewport   → scrollable area; overflow-y-auto, scroll-fade, thin styled scrollbar, data-slot="message-scroller-viewport"
+- MessageScrollerContent    → inner flex column with gap-8 and min-h-full, data-slot="message-scroller-content"
+- MessageScrollerItem       → per-message wrapper with content-visibility:auto, data-slot="message-scroller-item"
+- MessageScrollerButton     → floating jump button (absolute positioned), data-slot="message-scroller-button"
+
+## External dependencies
+- @shadcn/react: provides the headless MessageScroller primitives (Provider, Root, Viewport, Content, Item, Button)
+
+## States
+- data-[active=true]:  MessageScrollerButton visible — scale-100, opacity-100, ease-out spring curve
+- data-[active=false]: MessageScrollerButton hidden — scale-95, opacity-0, pointer-events-none, ease-in curve
+- data-[direction=end]: button anchored to bottom-4, slides in from below
+- data-[direction=start]: button anchored to top-4, slides in from above, icon rotated 180°
+- data-autoscrolling: scrollbar hidden on MessageScrollerViewport during programmatic scroll
+
+## Hooks
+- useMessageScroller()              → { scrollToMessage(id), scrollToEnd() } — imperative scroll controls
+- useMessageScrollerScrollable()    → boolean — true when content height exceeds viewport height
+- useMessageScrollerVisibility(id)  → { isVisible: boolean } — intersection state for a given messageId
+
+## Conventions
+- Always set an explicit height on MessageScroller (e.g. h-[600px] or h-full inside a flex parent); without it the component cannot scroll
+- Use scrollAnchor on the first MessageScrollerItem of each conversation turn for anchor-based navigation
+- Provide estimatedHeight when item heights are predictable to reduce layout shift on first paint
+- Use defaultScrollPosition="end" (default) for live/streaming chat; "start" for read-only history views
+- MessageScrollerButton accepts variant and size props forwarded to the inner Button — keep the default secondary/icon-sm unless the design explicitly requires otherwise
+- Sub-components expose data-slot attributes for CSS targeting: "message-scroller", "message-scroller-viewport", "message-scroller-content", "message-scroller-item", "message-scroller-button"
+```
+
+## Installation
+
+<CommandBox componentName="message-scroller" className="mt-2" />

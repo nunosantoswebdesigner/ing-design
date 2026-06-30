@@ -1,0 +1,329 @@
+---
+title: Combobox
+description: An autocomplete input combining a trigger button with a searchable dropdown list.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-4708&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { ComboboxDemo } from "@/examples/combobox";
+
+<Callout type="info">
+  Combobox is a **composition pattern** built from [Popover](/docs/components/popover) and [Command](/docs/components/command). There is no standalone component to install — add those two components and compose them as shown below.
+</Callout>
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="combobox">
+      <ComboboxDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="combobox">
+      <ComboboxDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="combobox">
+      <ComboboxDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="combobox">
+      <ComboboxDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Popover + Command
+
+The Combobox pattern wraps `Command` inside a `Popover`. The trigger button shows the selected value and toggles the dropdown. `CommandInput` handles filtering — cmdk does it automatically, no extra state needed.
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+const options = [
+  { value: "next.js", label: "Next.js" },
+  { value: "remix", label: "Remix" },
+  { value: "astro", label: "Astro" },
+];
+
+export function Combobox() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {value
+            ? options.find((o) => o.value === value)?.label
+            : "Select..."}
+          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((option) => (
+                <CommandItem
+                  key={option.value}
+                  value={option.value}
+                  onSelect={(current) => {
+                    setValue(current === value ? "" : current);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "size-4",
+                      value === option.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {option.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+## With Groups
+
+Use `CommandGroup` with a `heading` to organise options into sections.
+
+```tsx
+<Command>
+  <CommandInput placeholder="Search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Frontend">
+      <CommandItem value="react">React</CommandItem>
+      <CommandItem value="vue">Vue</CommandItem>
+    </CommandGroup>
+    <CommandGroup heading="Backend">
+      <CommandItem value="node">Node.js</CommandItem>
+      <CommandItem value="django">Django</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+## Multi-select
+
+For multiple selections, keep the popover open after each selection and store an array of values.
+
+```tsx
+const [values, setValues] = useState<string[]>([]);
+
+const toggle = (current: string) =>
+  setValues((prev) =>
+    prev.includes(current)
+      ? prev.filter((v) => v !== current)
+      : [...prev, current]
+  );
+
+<CommandItem
+  key={option.value}
+  value={option.value}
+  onSelect={toggle}
+>
+  <Check
+    className={cn(
+      "size-4",
+      values.includes(option.value) ? "opacity-100" : "opacity-0"
+    )}
+  />
+  {option.label}
+</CommandItem>
+```
+
+## Async / Server Search
+
+For large datasets, filter server-side by controlling `CommandInput` and fetching on change.
+
+```tsx
+const [query, setQuery] = useState("");
+const [results, setResults] = useState<Option[]>([]);
+
+useEffect(() => {
+  if (!query) return;
+  fetch(`/api/search?q=${query}`)
+    .then((r) => r.json())
+    .then(setResults);
+}, [query]);
+
+<Command shouldFilter={false}>
+  <CommandInput value={query} onValueChange={setQuery} placeholder="Search..." />
+  <CommandList>
+    <CommandEmpty>No results.</CommandEmpty>
+    <CommandGroup>
+      {results.map((r) => (
+        <CommandItem key={r.value} value={r.value} onSelect={...}>
+          {r.label}
+        </CommandItem>
+      ))}
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+## In a Form
+
+Use with React Hook Form via `Controller`.
+
+```tsx
+import { Controller } from "react-hook-form";
+
+<Controller
+  control={form.control}
+  name="framework"
+  render={({ field }) => (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="outline" role="combobox" className="w-full justify-between">
+          {field.value
+            ? options.find((o) => o.value === field.value)?.label
+            : "Select..."}
+          <ChevronsUpDown className="ml-2 size-4 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="p-0">
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results.</CommandEmpty>
+            <CommandGroup>
+              {options.map((o) => (
+                <CommandItem
+                  key={o.value}
+                  value={o.value}
+                  onSelect={(v) => {
+                    field.onChange(v);
+                    setOpen(false);
+                  }}
+                >
+                  <Check className={cn("size-4", field.value === o.value ? "opacity-100" : "opacity-0")} />
+                  {o.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )}
+/>
+```
+
+## Specs
+
+```md
+# New York — Combobox Specs
+
+## Component
+- name: combobox
+- file: composition pattern — no standalone file
+- installs to: composition of components/ui/popover.tsx + components/ui/command.tsx + components/ui/button.tsx
+- dependencies: radix-ui, cmdk, lucide-react, class-variance-authority
+- registryDependencies: popover, command, button
+
+## What is it
+A searchable select field: a trigger button that opens a filtered dropdown list
+built by nesting Command inside a Popover. cmdk handles client-side filtering
+automatically; set shouldFilter={false} for server-side search. Prefer Combobox
+over a native select when the option list is long enough to benefit from search,
+or when options are loaded asynchronously.
+
+## Visual identity
+The trigger uses Button variant="outline" — transparent background with a grey
+border, gaining a tinted accent background on hover. The dropdown surface uses
+--popover (white in light, dark grey in dark), giving a clean floating panel feel
+consistent with new-york's rounded-md, shadow-md aesthetic. Compact row heights
+and a hairline border-b under the search input maintain density without crowding.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)           — dropdown panel background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — dropdown text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)          — selected/hovered item background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)  — selected/hovered item text
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — placeholder, search icon, group headings, shortcut text
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)     — item text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)       — CommandInput bottom border, popover border
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)        — trigger border (outline button in dark)
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)           — trigger focus ring
+--radius: 0.625rem                                    — panel, items, trigger corner radius
+
+## Sub-components
+Popover              → controls open/close state; accepts sounds prop for audio feedback
+PopoverTrigger       → wraps the Button trigger; use asChild
+PopoverContent       → floating panel; set p-0 to let Command fill it edge-to-edge
+Command              → root container for the filtered list; set shouldFilter={false} for server search
+CommandInput         → search field with leading SearchIcon; cmdk wires filtering automatically
+CommandList          → scrollable list container (max-h 300px)
+CommandEmpty         → zero-results message; always include
+CommandGroup         → optional section container; accepts heading prop
+CommandItem          → individual option row; onSelect receives the item value string
+CommandSeparator     → horizontal rule between groups
+CommandShortcut      → right-aligned shortcut label inside a CommandItem
+
+## External dependencies
+- cmdk: headless command-palette / filtered list primitive; powers Command and all its sub-components
+
+## States
+- data-[selected=true]: item highlighted via keyboard or hover — bg-accent text-accent-foreground
+- data-[disabled=true]: item non-interactive — pointer-events-none opacity-50
+- focus-visible (trigger Button): 3px ring in --ring colour at ring/50 opacity
+- open (PopoverContent): fade-in-0 zoom-in-95 entrance animation; fade-out-0 zoom-out-95 exit
+- disabled (CommandInput): cursor-not-allowed opacity-50
+
+## Conventions
+- Always set className="p-0" on PopoverContent so Command fills the panel without double padding
+- Match PopoverContent width to the trigger width (e.g. w-[200px]) to prevent layout shift
+- Always include CommandEmpty — cmdk hides it automatically when results exist
+- Add role="combobox" and aria-expanded={open} to the trigger Button for accessibility
+- Use a Check icon with opacity-100 / opacity-0 (not conditional render) to keep row width stable
+- Deselect: compare onSelect's current value to stored value and reset to "" on match
+- Multi-select: store string[]; keep popover open after selection; use Array.includes for Check opacity
+- Server search: set shouldFilter={false} on Command, control CommandInput value, debounce fetches
+- In forms: wrap with react-hook-form Controller — do not use register for controlled popovers
+- sounds: Popover accepts a sounds prop — ING Design exclusive that plays audio on open/close
+- Sub-components expose data-slot attributes for CSS targeting: "popover", "popover-trigger", "popover-content", "command", "command-input-wrapper", "command-input", "command-list", "command-empty", "command-group", "command-item", "command-separator", "command-shortcut"
+```
+
+## Installation
+
+Install the required components:
+
+```bash
+npx shadcn@latest add https://ing-design.vercel.app/r/popover.json
+npx shadcn@latest add https://ing-design.vercel.app/r/command.json
+```

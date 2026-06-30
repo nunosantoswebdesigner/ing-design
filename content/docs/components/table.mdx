@@ -1,0 +1,150 @@
+---
+title: Table
+description: Semantic HTML table with styled rows, headers, and footer — the primitive for data-heavy layouts.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-5727&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { TableDemo } from "@/examples/table";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="table">
+      <TableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="table">
+      <TableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="table">
+      <TableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="table">
+      <TableDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+For a sortable, filterable table with pagination and row selection, see the [Data Table](/docs/elements/data-table) element built on top of this primitive.
+
+## Props
+
+### Table
+
+Wraps the `<table>` element in a horizontally-scrollable container. All native `<table>` attributes are supported.
+
+### TableHead
+
+| Prop | Description |
+|------|-------------|
+| `className` | Forwarded to `<th>`. Use to set column width (`className="w-[100px]"`) or alignment (`text-right`) |
+
+### TableCell
+
+| Prop | Description |
+|------|-------------|
+| `colSpan` | Merge cells across columns — useful for "No results" empty state rows |
+| `className` | Forwarded to `<td>` |
+
+## Usage
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+<Table>
+  <TableCaption>A list of recent invoices.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[100px]">Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">INV001</TableCell>
+      <TableCell>Paid</TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+  </TableBody>
+  <TableFooter>
+    <TableRow>
+      <TableCell colSpan={3}>Total</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+  </TableFooter>
+</Table>
+```
+
+## Specs
+
+```md
+# New York — Table Specs
+
+## Component
+- name: table
+- file: registry/new-york/table.tsx
+- installs to: components/ui/table.tsx
+- dependencies: none
+- registryDependencies: none
+
+## What is it
+A styled wrapper around native HTML table elements. Provides consistent spacing,
+row hover and selection states, borders, and text sizing. Contains no sorting,
+filtering, or pagination logic — pair with @tanstack/react-table for interactive
+data tables (see the Data Table element).
+
+## Visual identity
+Minimal and data-focused. Thin border lines (--border) divide rows and sections;
+muted backgrounds provide subtle hover and selection feedback without competing
+with cell content. Text is set at sm (14px), keeping dense data legible.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)          — row hover + footer bg + selected row bg
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — TableHead label colour + TableCaption colour
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)       — row dividers, header border-b, footer border-t
+
+## Sub-components
+- Table          → scrollable container (div overflow-x-auto) wrapping <table w-full caption-bottom text-sm>
+- TableHeader    → <thead> — adds border-b to all child rows via [&_tr]:border-b
+- TableBody      → <tbody> — removes border from the last row via [&_tr:last-child]:border-0
+- TableFooter    → <tfoot> — border-t, bg-muted/50, font-medium; suppresses border on its last row
+- TableRow       → <tr> — border-b, transition-colors, hover:bg-muted/50, data-[state=selected]:bg-muted
+- TableHead      → <th> — h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-muted-foreground
+- TableCell      → <td> — p-2 align-middle
+- TableCaption   → <caption> — mt-4 text-sm text-muted-foreground
+
+## States
+- hover:                  TableRow background shifts to bg-muted/50 on pointer-over
+- data-[state=selected]:  TableRow background shifts to bg-muted (full opacity) — use for row selection
+- transition-colors:      TableRow colour changes animate via CSS transition
+
+## Conventions
+- Set column widths on TableHead: className="w-[100px]"
+- Right-align numeric columns: add className="text-right" to both TableHead and TableCell in that column
+- Always include an empty-state row: <TableCell colSpan={n} className="h-24 text-center">No results.</TableCell>
+- TableFooter is optional — use exclusively for summary or totals rows
+- TableCaption is optional — add for screen-reader context when no visible heading accompanies the table
+- Checkbox columns: both TableHead and TableCell auto-remove right padding ([&:has([role=checkbox])]:pr-0) and vertically centre checkboxes ([&>[role=checkbox]]:translate-y-[2px]) — no extra className needed
+- Row selection with @tanstack/react-table: set data-state={row.getIsSelected() && "selected"} on TableRow
+- Sub-components expose data-slot attributes for CSS targeting: "table-container", "table", "table-header", "table-body", "table-footer", "table-row", "table-head", "table-cell", "table-caption"
+```
+
+## Installation
+
+<CommandBox componentName="table" className="mt-2" />

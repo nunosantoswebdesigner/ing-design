@@ -1,0 +1,324 @@
+---
+title: Breadcrumb
+description: Shows the user's current location within a site hierarchy and provides navigation links to parent pages.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=101-424&t=PC39eDJ4DRaws5UP-1
+---
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/registry/new-york/breadcrumb";
+import { Slash } from "lucide-react";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="breadcrumb">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="breadcrumb">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="breadcrumb">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="breadcrumb">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Ellipsis
+
+Use `BreadcrumbEllipsis` to collapse middle items on deep paths.
+
+<div className="my-6">
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbEllipsis />
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</div>
+
+## Custom Separator
+
+Pass any ReactNode to `BreadcrumbSeparator` as a child to replace the default chevron.
+
+<div className="my-6 flex flex-col gap-4">
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator>
+        <Slash />
+      </BreadcrumbSeparator>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator>
+        <Slash />
+      </BreadcrumbSeparator>
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</div>
+
+## As Link (Router)
+
+Use `asChild` on `BreadcrumbLink` to pass a framework router link (e.g. Next.js `Link`).
+
+```tsx
+import Link from "next/link";
+
+<BreadcrumbLink asChild>
+  <Link href="/docs/components">Components</Link>
+</BreadcrumbLink>
+```
+
+## Props
+
+### Breadcrumb
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbList
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as child element (e.g. router `Link`) |
+| `href` | `string` | — | Link destination |
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbPage
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbSeparator
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | `<ChevronRight />` | Custom separator icon |
+| `className` | `string` | — | Additional CSS classes |
+
+### BreadcrumbEllipsis
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
+// Basic
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Current Page</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+
+// With ellipsis for deep paths
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Current Page</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## Specs
+
+```md
+# New York — Breadcrumb Specs
+
+## Component
+- name: breadcrumb
+- file: registry/new-york/breadcrumb.tsx
+- installs to: components/ui/breadcrumb.tsx
+- dependencies: radix-ui, lucide-react
+
+## What is it
+A navigation trail showing the user's current location within the site hierarchy.
+Use it on pages that sit 2+ levels deep — it allows users to jump back to any
+ancestor without pressing Back. Always end the trail with BreadcrumbPage (the
+current item), never a link.
+
+## Visual identity
+Minimal and inline. Muted foreground text for links, full foreground for the
+current page. ChevronRight (size-3.5) as the default separator — clean and
+directional. No borders, no background — the trail disappears into the layout.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0)     — link text
+--foreground: oklch(0.145 0 0)           — current page text
+
+## Dark theme
+--muted-foreground: oklch(0.708 0 0)
+--foreground: oklch(0.985 0 0)
+
+## Anatomy
+<Breadcrumb>           ← <nav aria-label="breadcrumb">
+  <BreadcrumbList>     ← <ol> flex-wrap gap-1.5 sm:gap-2.5
+    <BreadcrumbItem>   ← <li> inline-flex items-center
+      <BreadcrumbLink> ← <a> (or Slot for router links)
+    <BreadcrumbSeparator> ← <li> aria-hidden, [&>svg]:size-3.5
+    <BreadcrumbItem>
+      <BreadcrumbPage> ← <span> aria-current="page"
+    <BreadcrumbEllipsis> ← <span> with MoreHorizontal, for collapsed items
+
+## States
+- BreadcrumbLink hover: text-foreground (transition-colors)
+- BreadcrumbPage: static, aria-disabled="true", aria-current="page"
+- BreadcrumbSeparator: aria-hidden="true", decorative only
+
+## Separator
+- Default: <ChevronRight /> from lucide-react, auto-sized to size-3.5
+- Custom: pass any ReactNode as children of BreadcrumbSeparator
+- Common alternatives: <Slash />, " / " text, "›"
+
+## Ellipsis
+- Use BreadcrumbEllipsis when the path has 4+ items and the middle should collapse
+- Typically linked to a dropdown that reveals hidden items
+- Renders MoreHorizontal icon (size-4) in a 36x36 flex container
+
+## Conventions
+- Always include BreadcrumbPage as the last item — never link the current page
+- Keep labels short — match the page <h1> or document title
+- Always add BreadcrumbSeparator between every pair of items
+- Use asChild on BreadcrumbLink for Next.js Link, React Router Link, etc.
+- Do not use Breadcrumb on top-level pages (Home, root sections)
+```
+
+## Installation
+
+<CommandBox componentName="breadcrumb" className="mt-2" />

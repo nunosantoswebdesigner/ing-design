@@ -1,0 +1,335 @@
+---
+title: Sidebar
+description: A collapsible app sidebar with navigation groups, search, badges, tooltips, and mobile sheet support.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=269-47
+---
+
+import { SidebarDemo } from "@/examples/sidebar";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="sidebar">
+      <SidebarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="sidebar">
+      <SidebarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="sidebar">
+      <SidebarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="sidebar">
+      <SidebarDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Layout
+
+Wrap your page with `SidebarProvider` and place `Sidebar` and `SidebarInset` as siblings. `SidebarProvider` manages open state, keyboard shortcut (`⌘B`), and cookie persistence.
+
+```tsx
+<SidebarProvider>
+  <Sidebar>...</Sidebar>
+  <SidebarInset>
+    <header>
+      <SidebarTrigger />
+    </header>
+    {/* page content */}
+  </SidebarInset>
+</SidebarProvider>
+```
+
+## Collapsible
+
+Set `collapsible` on `Sidebar` to control collapse behaviour.
+
+```tsx
+<Sidebar collapsible="offcanvas"> {/* slides fully off-screen (default) */}
+<Sidebar collapsible="icon">     {/* collapses to icon-only width */}
+<Sidebar collapsible="none">     {/* always visible, never collapses */}
+```
+
+## Variant
+
+```tsx
+<Sidebar variant="sidebar">   {/* default — full bleed to viewport edge */}
+<Sidebar variant="floating">  {/* floating card with rounded corners + shadow */}
+<Sidebar variant="inset">     {/* main content has rounded-xl inset */}
+```
+
+## Side
+
+```tsx
+<Sidebar side="left">   {/* default */}
+<Sidebar side="right">
+```
+
+## Navigation structure
+
+```tsx
+<SidebarContent>
+  <SidebarGroup>
+    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+    <SidebarGroupContent>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton isActive tooltip="Dashboard">
+            <LayoutDashboardIcon />
+            <span>Dashboard</span>
+          </SidebarMenuButton>
+          <SidebarMenuBadge>4</SidebarMenuBadge>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarGroupContent>
+  </SidebarGroup>
+</SidebarContent>
+```
+
+## Tooltips on collapsed icon mode
+
+Pass a `tooltip` string (or `TooltipContent` props) to `SidebarMenuButton`. Tooltips auto-show only when the sidebar is collapsed to icon mode.
+
+```tsx
+<SidebarMenuButton tooltip="Settings">
+  <SettingsIcon />
+  <span>Settings</span>
+</SidebarMenuButton>
+```
+
+## Sub-menu
+
+```tsx
+<SidebarMenuItem>
+  <SidebarMenuButton>
+    <FolderIcon />
+    <span>Projects</span>
+  </SidebarMenuButton>
+  <SidebarMenuSub>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton isActive>Website</SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton>Mobile app</SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+  </SidebarMenuSub>
+</SidebarMenuItem>
+```
+
+## Menu action
+
+Use `SidebarMenuAction` for a secondary icon button that appears on hover.
+
+```tsx
+<SidebarMenuItem>
+  <SidebarMenuButton>
+    <FolderIcon /><span>Projects</span>
+  </SidebarMenuButton>
+  <SidebarMenuAction showOnHover>
+    <PlusIcon />
+  </SidebarMenuAction>
+</SidebarMenuItem>
+```
+
+## Loading skeleton
+
+Use `SidebarMenuSkeleton` while content is loading.
+
+```tsx
+{isLoading ? (
+  Array.from({ length: 5 }).map((_, i) => (
+    <SidebarMenuItem key={i}>
+      <SidebarMenuSkeleton showIcon />
+    </SidebarMenuItem>
+  ))
+) : (
+  navItems.map(...)
+)}
+```
+
+## Controlled
+
+```tsx
+const [open, setOpen] = useState(true);
+
+<SidebarProvider open={open} onOpenChange={setOpen}>
+  ...
+</SidebarProvider>
+```
+
+## useSidebar hook
+
+Access sidebar state from any child component.
+
+```tsx
+const { state, open, toggleSidebar, isMobile } = useSidebar();
+// state: "expanded" | "collapsed"
+```
+
+## Props
+
+### SidebarProvider
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultOpen` | `boolean` | `true` | Uncontrolled initial state |
+| `open` | `boolean` | — | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback on state change |
+
+### Sidebar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"left" \| "right"` | `"left"` | Which side the sidebar is on |
+| `variant` | `"sidebar" \| "floating" \| "inset"` | `"sidebar"` | Visual variant |
+| `collapsible` | `"offcanvas" \| "icon" \| "none"` | `"offcanvas"` | Collapse behaviour |
+
+### SidebarMenuButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isActive` | `boolean` | `false` | Highlights as the active route |
+| `variant` | `"default" \| "outline"` | `"default"` | Visual style |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Button height |
+| `tooltip` | `string \| TooltipContentProps` | — | Tooltip shown in icon-collapsed mode |
+| `asChild` | `boolean` | `false` | Render as child element (e.g. `<Link>`) |
+| `sound` | `FeedbackType` | — | Audio feedback on click |
+
+## Usage
+
+```tsx
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+```
+
+## Specs
+
+```md
+# New York — Sidebar Specs
+
+## Component
+- name: sidebar
+- file: registry/new-york/sidebar.tsx
+- installs to: components/ui/sidebar.tsx
+- dependencies: radix-ui, lucide-react, class-variance-authority
+- registryDependencies: button, input, separator, sheet, skeleton, tooltip
+
+## What is it
+A full app sidebar system composed of 20+ sub-components orchestrated by
+SidebarProvider context. Supports desktop expand/collapse (offcanvas or icon
+mode), mobile Sheet overlay, keyboard shortcut (⌘B), and cookie-persisted
+open state. Prefer this system for app shells with persistent navigation; do
+not use for simple dropdowns or transient menus.
+
+## Visual identity
+Off-white sidebar surface (--sidebar) sits slightly apart from the page
+background, giving it a calm, structural presence. Active items and hover
+states use --sidebar-accent, a subtle tinted fill that avoids heavy contrast.
+The new-york 0.625rem radius carries through every interactive element for a
+consistently rounded, professional look.
+
+## Design tokens
+--sidebar: oklch(0.985 0 0) / oklch(0.205 0 0)                        — sidebar background surface
+--sidebar-foreground: (inherits --foreground chain)                    — default text in sidebar
+--sidebar-primary: oklch(0.205 0 0) / oklch(0.488 0.243 264.376)      — active item fill (blue in dark)
+--sidebar-accent: (close to --accent)                                  — hover / active item background
+--sidebar-accent-foreground: (close to --accent-foreground)            — text on hover / active
+--sidebar-border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)               — internal dividers, rail, sub-menu border-l
+--sidebar-ring: oklch(0.708 0 0) / oklch(0.439 0 0)                   — focus ring on sidebar interactive elements
+--background: oklch(1 0 0) / oklch(0.145 0 0)                         — SidebarInset and SidebarInput surface
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                           — focus ring (non-sidebar elements)
+
+## Sub-components
+- SidebarProvider       → context root; sets --sidebar-width CSS vars, wraps TooltipProvider, persists state to cookie
+- Sidebar               → desktop fixed panel or mobile Sheet depending on viewport
+- SidebarTrigger        → ghost icon Button (PanelLeftIcon) that calls toggleSidebar
+- SidebarRail           → invisible hover strip on sidebar edge; click toggles sidebar
+- SidebarInset          → <main> sibling to Sidebar; gains rounded-xl + shadow in "inset" variant
+- SidebarInput          → Input pre-styled for sidebar (bg-background, h-8, shadow-none)
+- SidebarHeader         → flex-col gap-2 p-2 slot at top of sidebar
+- SidebarFooter         → flex-col gap-2 p-2 slot at bottom of sidebar
+- SidebarSeparator      → Separator with bg-sidebar-border mx-2 for horizontal dividers
+- SidebarContent        → scrollable flex-1 area; overflow hidden in icon-collapse mode
+- SidebarGroup          → p-2 grouping wrapper with relative positioning
+- SidebarGroupLabel     → text-xs label (text-sidebar-foreground/70); collapses to opacity-0 in icon mode
+- SidebarGroupAction    → absolute icon button at group top-right; hidden in icon mode
+- SidebarGroupContent   → w-full text-sm wrapper for group body
+- SidebarMenu           → <ul> flex-col gap-1 nav list
+- SidebarMenuItem       → <li> with group/menu-item context for action/badge peer selectors
+- SidebarMenuButton     → primary interactive nav item; cva with variant + size; supports tooltip, sound, haptic
+- SidebarMenuAction     → absolute secondary icon button (e.g. +); showOnHover fades until hover/focus on md+
+- SidebarMenuBadge      → absolute numeric badge right of menu item; hidden in icon mode
+- SidebarMenuSkeleton   → loading placeholder; showIcon adds a 16px skeleton icon; width is deterministic via useId
+- SidebarMenuSub        → <ul> with border-l (border-sidebar-border) for nested items; hidden in icon mode
+- SidebarMenuSubItem    → <li> wrapper for sub-menu entries
+- SidebarMenuSubButton  → <a> or asChild sub-item; size sm|md; isActive highlights with sidebar-accent
+
+## Variants
+### SidebarMenuButton — variant
+- default   → transparent background; hover fills with --sidebar-accent. Standard nav item.
+- outline   → bg-background with 1px sidebar-border shadow ring; hover shifts ring to sidebar-accent. Use for elevated or call-out items.
+
+### SidebarMenuButton — size
+- sm        → h-7 text-xs. Dense navigation lists.
+- default   → h-8 text-sm. Standard nav items.
+- lg        → h-12 text-sm. Large items such as user profile rows; collapses to p-0 in icon mode.
+
+### Sidebar — variant
+- sidebar   → full-bleed to viewport edge with border-r/border-l divider.
+- floating  → p-2 with rounded-lg, border, and shadow-sm inner panel.
+- inset     → SidebarInset gains rounded-xl + shadow-sm; sidebar has no border.
+
+### Sidebar — collapsible
+- offcanvas → slides fully off-screen (translate by --sidebar-width). Default.
+- icon      → collapses to --sidebar-width-icon (3rem); shows icons only.
+- none      → always visible; no collapse behaviour.
+
+## States
+- hover:           sidebar-accent background + sidebar-accent-foreground text on menu buttons and actions
+- focus-visible:   2px ring in --sidebar-ring, outline-hidden
+- active (click):  sidebar-accent background + sidebar-accent-foreground text
+- data-[active=true]: sidebar-accent fill + font-medium; set via isActive prop on SidebarMenuButton / SidebarMenuSubButton
+- data-[state=open]: hover styles remain on open dropdown trigger
+- disabled:        pointer-events-none opacity-50 (both disabled and aria-disabled)
+- collapsed (icon mode): SidebarGroupLabel, SidebarGroupAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubButton all hidden; SidebarMenuButton forced to size-8 p-2
+
+## Conventions
+- Always wrap the page in SidebarProvider with Sidebar and SidebarInset as siblings
+- SidebarProvider persists open state to a "sidebar_state" cookie (7-day TTL); read it server-side for SSR-consistent initial state
+- ⌘B / Ctrl+B toggles the sidebar globally via a window keydown listener registered in SidebarProvider
+- Pass tooltip to SidebarMenuButton whenever the sidebar may collapse to icon mode — tooltips auto-suppress when expanded
+- Use asChild on SidebarMenuButton / SidebarMenuSubButton to render a Next.js <Link> or <a> without an extra DOM node
+- SidebarMenuAction showOnHover: pair with SidebarMenuButton in the same SidebarMenuItem — the peer selector drives visibility
+- SidebarMenuSkeleton: render inside SidebarMenuItem list items to preserve consistent list structure during loading
+- Sub-components expose data-slot="[name]" for CSS targeting (e.g. data-slot="sidebar-menu-button")
+- sounds / haptic: SidebarMenuButton accepts sound (FeedbackType) and haptic (boolean) — ING Design exclusives that play audio or trigger haptic feedback on click
+- Do not nest SidebarMenuSub more than one level deep — the layout and icon-collapse logic is not designed for deeper nesting
+- SidebarRail is optional but recommended for collapsible sidebars — it provides a drag-target affordance without visible UI chrome
+
+## CSS vars (set by SidebarProvider)
+--sidebar-width: 16rem
+--sidebar-width-icon: 3rem
+--sidebar-width-mobile: 18rem (applied inline on the mobile Sheet)
+```
+
+## Installation
+
+<CommandBox componentName="sidebar" className="mt-2" />

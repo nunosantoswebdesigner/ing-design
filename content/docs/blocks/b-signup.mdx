@@ -1,0 +1,173 @@
+---
+title: Signup
+description: A full-page signup block with split, card, and centered layout variants.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1196-1300&t=SGuloiMFD7r5jFI6-1
+---
+
+import { BSignupDemo } from "@/examples/b-signup";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="b-signup">
+      <BSignupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="b-signup">
+      <BSignupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="b-signup">
+      <BSignupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="b-signup">
+      <BSignupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Layouts
+
+### Split
+
+Two-column — form on the left, image slot on the right. Hidden on mobile. Default layout.
+
+```tsx
+<SignupBlock
+  layout="split"
+  logo={<Logo />}
+  image={<img src="/hero.jpg" className="h-full w-full object-cover" alt="" />}
+/>
+```
+
+### Card
+
+A centered form inside a rounded card.
+
+```tsx
+<SignupBlock layout="card" />
+```
+
+### Centered
+
+Full-page without a card wrapper.
+
+```tsx
+<SignupBlock layout="centered" />
+```
+
+## Social login
+
+```tsx
+<SignupBlock social={["google", "github"]} />
+```
+
+### Icon-only style
+
+```tsx
+<SignupBlock social={["google", "github"]} socialStyle="icons" />
+```
+
+## Fields
+
+All fields are shown by default. Toggle them off as needed:
+
+```tsx
+<SignupBlock showName={false} showConfirmPassword={false} />
+```
+
+## Helper texts
+
+Fields include default helper texts matching the design. Override as needed:
+
+```tsx
+<SignupBlock
+  emailHelperText="We'll never share your email."
+  passwordHelperText="Use 8+ characters with a mix of letters and numbers."
+  confirmPasswordHelperText="Re-enter your password to confirm."
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `layout` | `"split" \| "card" \| "centered"` | `"split"` | Page layout variant |
+| `logo` | `ReactNode` | — | Logo rendered at top-left (split) or top of form |
+| `social` | `AuthProvider[]` | `["github"]` | Social login providers to show |
+| `socialStyle` | `"buttons" \| "icons"` | `"buttons"` | Full buttons or icon-only |
+| `socialPosition` | `"top" \| "bottom"` | `"bottom"` | Position relative to form |
+| `image` | `ReactNode` | — | Image slot for split layout |
+| `showName` | `boolean` | `true` | Show the Full Name field |
+| `showConfirmPassword` | `boolean` | `true` | Show the Confirm Password field |
+| `emailHelperText` | `string` | See defaults | Helper text below the email field |
+| `passwordHelperText` | `string` | See defaults | Helper text below the password field |
+| `confirmPasswordHelperText` | `string` | See defaults | Helper text below the confirm field |
+| `showTerms` | `boolean` | `false` | Show terms of service text |
+| `onSignup` | `(data) => void` | — | Form submit handler |
+| `onSocialLogin` | `(provider) => void` | — | Social button handler |
+| `onLogin` | `() => void` | — | Switch to login handler |
+| `loginHref` | `string` | — | Link href for login switch |
+
+## Specs
+
+```md
+# New York — Signup Block Specs
+
+## Component
+- name: b-signup
+- file: registry/new-york/b-signup.tsx
+- installs to: components/ui/b-signup.tsx
+- dependencies: none
+- registryDependencies: button, input, label, e-auth
+
+## What is it
+A full-page registration block for creating new accounts. Default layout is split
+(form left, image right). Includes name, email, password, and confirm password
+fields with accessible helper texts. Use b-signup for account creation screens;
+pair with b-login for a complete authentication flow.
+
+## Visual identity
+Neutral new-york palette. Split layout uses --muted for the image panel. Form
+is centred within the left column with a maximum width of max-w-sm. Helper texts
+render in --muted-foreground at text-xs for clear visual hierarchy below inputs.
+
+## Design tokens
+--background: oklch(1 0 0) / oklch(0.145 0 0)    — page background
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)       — image panel (split layout)
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — helper text, footer text
+--card: oklch(1 0 0) / oklch(0.205 0 0)           — card surface (card layout)
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)   — card border
+
+## Sub-components
+- SignupBlock  → root; drives layout; data-slot="signup-block" data-layout="[layout]"
+- SignupForm   → internal form; not exported
+- AuthHeader   → from e-auth: logo + "Create an account" heading + description
+- AuthSocial   → from e-auth: social provider buttons or icons
+- AuthDivider  → from e-auth: "OR CONTINUE WITH" separator
+- AuthFooter   → from e-auth: "Already have an account? Sign in" switch link
+
+## Variants
+- split    → two-column grid; form left, image right (hidden on mobile); default
+- card     → centred max-w-sm card with rounded-xl border and shadow-sm
+- centered → full-page flex, no card wrapper
+
+## States
+- submit: calls onSignup with { name?, email, password, confirmPassword? }
+- social button: calls onSocialLogin(provider)
+- login switch: calls onLogin or navigates to loginHref
+
+## Conventions
+- Blocks use the b- prefix; pair b-signup with b-login for a full auth flow
+- Provide either onX callbacks (SPA) or xHref props (multi-page) — not both
+- Helper text defaults match Figma design; pass empty string "" to hide them
+- The image slot in split layout is optional — panel shows bg-muted when empty
+- social prop order determines render order
+```
+
+## Installation
+
+<CommandBox componentName="b-signup" className="mt-2" />

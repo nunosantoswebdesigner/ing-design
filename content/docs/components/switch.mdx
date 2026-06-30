@@ -1,0 +1,142 @@
+---
+title: Switch
+description: A binary toggle control with smooth thumb animation and distinct on/off audio feedback.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10548
+---
+
+import { SwitchDemo } from "@/examples/switch";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="switch">
+      <SwitchDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="switch">
+      <SwitchDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="switch">
+      <SwitchDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="switch">
+      <SwitchDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With label
+
+Pair with `Label` using a shared `id` / `htmlFor` for accessible click target.
+
+```tsx
+<div className="flex items-center gap-2">
+  <Switch id="airplane" defaultChecked />
+  <Label htmlFor="airplane">Airplane mode</Label>
+</div>
+```
+
+## Controlled
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Switch checked={checked} onCheckedChange={setChecked} />
+```
+
+## Settings row pattern
+
+```tsx
+<div className="flex items-center justify-between rounded-lg border p-4">
+  <div className="flex flex-col gap-0.5">
+    <Label htmlFor="notifs" className="font-medium">Push notifications</Label>
+    <span className="text-muted-foreground text-xs">Receive alerts on your device</span>
+  </div>
+  <Switch id="notifs" defaultChecked />
+</div>
+```
+
+## With sounds
+
+Pass `sounds` to play `toggleOn` when switched on and `toggleOff` when switched off.
+
+```tsx
+<Switch sounds />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial state |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback on state change |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `sounds` | `boolean` | `false` | Plays `toggleOn` / `toggleOff` audio |
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+
+<Switch defaultChecked onCheckedChange={(v) => console.log(v)} />
+```
+
+## Specs
+
+```md
+# New York — Switch Specs
+
+## Component
+- name: switch
+- file: registry/new-york/switch.tsx
+- installs to: components/ui/switch.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A binary toggle control built on Radix Switch.Root + Switch.Thumb. Use it to
+represent an on/off setting that takes effect immediately without a form submit.
+Prefer Switch over a Checkbox when the action is instant; do not use it when
+the user must confirm the change before it applies.
+
+## Visual identity
+Pill-shaped track (rounded-full) transitions from a muted input colour when
+unchecked to the theme primary when checked. A small circular thumb slides
+across with a smooth CSS transition, giving clear directional feedback.
+New-york's 0.625rem radius base keeps the track corners proportionate.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)    — track colour when unchecked
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)     — track colour when checked
+--background: oklch(1 0 0) / oklch(0.145 0 0)      — thumb fill
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)        — focus ring colour
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216) — invalid border
+
+## Sub-components
+- Switch        → root toggle (SwitchPrimitive.Root); renders track, handles interaction
+- Switch.Thumb  → sliding circle (SwitchPrimitive.Thumb); moves on state change
+
+## States
+- unchecked:      track is --input (muted grey)
+- checked:        track becomes --primary; thumb translates 1rem (translate-x-4)
+- focus-visible:  3px ring in --ring/50, border switches to --ring
+- disabled:       opacity-50, cursor-not-allowed, pointer-events blocked
+- aria-invalid:   destructive/20 ring (light) / destructive/40 ring (dark) + destructive border
+
+## Conventions
+- Always pair with a Label via matching id / htmlFor for accessible click target
+- Place label after the switch in DOM order (switch left, label right) to match natural reading flow
+- In settings-row layouts use justify-between with the switch on the trailing side
+- sounds / haptic: ING Design exclusive — plays toggleOn audio when switched on and toggleOff when switched off; pass sounds prop to enable
+- Sub-components expose data-slot="switch" and data-slot="switch-thumb" for CSS targeting
+- No variants defined — visual appearance is controlled entirely by theme tokens
+```
+
+## Installation
+
+<CommandBox componentName="switch" className="mt-2" />

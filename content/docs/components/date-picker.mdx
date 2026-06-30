@@ -1,0 +1,337 @@
+---
+title: Date Picker
+description: A date input that combines a popover calendar with a trigger button for selecting single dates, ranges, and presets.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-5866&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { DatePickerDemo } from "@/examples/date-picker";
+
+<Callout type="info">
+  Date Picker is a **composition pattern** built from [Popover](/docs/components/popover) and [Calendar](/docs/components/calendar). There is no standalone component to install — add those two components and compose them as shown below.
+</Callout>
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="date-picker">
+      <DatePickerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="date-picker">
+      <DatePickerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="date-picker">
+      <DatePickerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="date-picker">
+      <DatePickerDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Date Range Picker
+
+Use `mode="range"` on `Calendar` and store a `DateRange` object with `from` and `to`.
+
+```tsx
+"use client";
+
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
+export function DateRangePicker({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = useState<DateRange | undefined>();
+
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant="outline"
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} –{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date range</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            autoFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+```
+
+## With Presets
+
+Add preset buttons beside the calendar to let users jump to common relative dates.
+
+```tsx
+"use client";
+
+import { addDays, format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
+const presets = [
+  { label: "Today", days: 0 },
+  { label: "Tomorrow", days: 1 },
+  { label: "In 3 days", days: 3 },
+  { label: "In a week", days: 7 },
+];
+
+export function DatePickerWithPresets() {
+  const [date, setDate] = useState<Date>();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "w-[240px] justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 size-4" />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="flex w-auto flex-col gap-2 p-2" align="start">
+        <div className="grid grid-cols-2 gap-1">
+          {presets.map((preset) => (
+            <Button
+              key={preset.label}
+              variant="outline"
+              size="sm"
+              className="justify-start text-xs"
+              onClick={() => {
+                setDate(addDays(new Date(), preset.days));
+                setOpen(false);
+              }}
+            >
+              {preset.label}
+            </Button>
+          ))}
+        </div>
+        <div className="rounded-md border">
+          <Calendar mode="single" selected={date} onSelect={(d) => { setDate(d); setOpen(false); }} autoFocus />
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+## In a Form
+
+Use `Controller` from React Hook Form to wire the date picker into a form.
+
+```tsx
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
+const FormSchema = z.object({
+  dob: z.date({ required_error: "A date of birth is required." }),
+});
+
+export function DatePickerForm() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="dob"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date of birth</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto size-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    autoFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>Your date of birth.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
+}
+```
+
+## Specs
+
+```md
+# New York — Date Picker Specs
+
+## Component
+- name: date-picker
+- file: composition pattern — no standalone registry file
+- installs to: composed inline from components/ui/popover, components/ui/calendar, components/ui/button
+- dependencies: date-fns, lucide-react, react-day-picker
+- registryDependencies: popover, calendar, button
+
+## What is it
+A trigger button that opens a floating calendar popover for selecting single dates, date ranges, or presets. The button doubles as the value display, showing the formatted date or a placeholder when empty. Use it whenever a date must be picked from a calendar view; prefer a plain text input only when users need to type arbitrary dates quickly.
+
+## Visual identity
+The trigger uses the outline Button variant — transparent background with a grey border — giving it a form-field feel. The popover surfaces on --popover (white/dark-grey) with no padding, letting the Calendar fill it edge-to-edge. Selected days use the near-black --primary fill, creating a strong contrast anchor within the neutral palette.
+
+## Design tokens
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — placeholder text when no date selected
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)             — selected day fill
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0)  — selected day text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)               — today highlight and range middle background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)   — today text
+--popover: oklch(1 0 0) / oklch(0.269 0 0)                 — calendar popover surface
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0)  — calendar text
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)            — trigger button border
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                — focus ring on trigger and day buttons
+
+## External dependencies
+- date-fns: date formatting (format, addDays) and locale support
+- react-day-picker: DayPicker engine powering Calendar — provides mode, selected, onSelect, disabled, numberOfMonths, autoFocus props
+
+## States
+- empty trigger: text-muted-foreground placeholder ("Pick a date") when no date is selected
+- populated trigger: formatted date string replaces placeholder; full foreground colour
+- focus: 3px ring in --ring colour on the trigger button and on individual day buttons (focus-within on day cell)
+- selected day: bg-primary, text-primary-foreground; persists on hover
+- today: bg-accent, text-accent-foreground (unselected)
+- range middle: aria-selected:bg-accent, aria-selected:text-accent-foreground
+- range start / end: rounded-l-md / rounded-r-md with bg-primary treatment
+- outside days: opacity-50, text-muted-foreground
+- disabled days: opacity-50, text-muted-foreground, not interactive
+- nav arrows: opacity-50 by default, hover:opacity-100
+
+## Conventions
+- Always wrap the trigger Button in PopoverTrigger asChild to avoid an extra DOM node
+- Always set PopoverContent className="w-auto p-0" align="start" — w-auto lets the calendar set its own width; p-0 is required for the edge-to-edge calendar layout
+- Always add autoFocus to Calendar so keyboard focus moves into the calendar on open
+- Always add CalendarIcon to the trigger button (mr-2 size-4 before the label, or ml-auto size-4 opacity-50 for form-field style)
+- Use cn() on the trigger className to conditionally apply text-muted-foreground when the value is undefined or null
+- For controlled open state (presets, close-on-select), manage open + onOpenChange on Popover and call setOpen(false) after selection
+- Range mode: use DateRange { from?: Date; to?: Date } as state; set numberOfMonths={2} for two-month view; render "from – to" with a fallback to just "from" when to is undefined
+- Preset buttons: render inside PopoverContent above or beside the calendar; use addDays(new Date(), n) for relative offsets; always close the popover after a preset is applied
+- In React Hook Form: use FormField + FormControl with field.value as selected and field.onChange as onSelect; pass a disabled predicate to Calendar to enforce valid date ranges
+- Format tokens: "PPP" → "June 29th, 2026"; "LLL dd, y" → "Jun 29, 2026" — pick one format per product context and keep it consistent
+```
+
+## Installation
+
+Install the required components:
+
+```bash
+npx shadcn@latest add https://ing-design.vercel.app/r/popover.json
+npx shadcn@latest add https://ing-design.vercel.app/r/calendar.json
+```

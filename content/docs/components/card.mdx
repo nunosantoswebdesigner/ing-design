@@ -1,0 +1,320 @@
+---
+title: Card
+description: A container that groups related content and actions with a consistent visual frame.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-4333&t=PC39eDJ4DRaws5UP-1
+---
+
+import { Button } from "@/registry/new-york/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/registry/new-york/card";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="card">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card description goes here.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">This is the card content area. Place any content here.</p>
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Button variant="outline" size="sm">Cancel</Button>
+          <Button size="sm">Save</Button>
+        </CardFooter>
+      </Card>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="card">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card description goes here.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">This is the card content area. Place any content here.</p>
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Button variant="outline" size="sm">Cancel</Button>
+          <Button size="sm">Save</Button>
+        </CardFooter>
+      </Card>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="card">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card description goes here.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">This is the card content area. Place any content here.</p>
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Button variant="outline" size="sm">Cancel</Button>
+          <Button size="sm">Save</Button>
+        </CardFooter>
+      </Card>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="card">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card description goes here.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">This is the card content area. Place any content here.</p>
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Button variant="outline" size="sm">Cancel</Button>
+          <Button size="sm">Save</Button>
+        </CardFooter>
+      </Card>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Action
+
+Use `CardAction` inside `CardHeader` to place a button or badge in the top-right corner. It uses CSS grid to stay aligned regardless of title/description length.
+
+<div className="my-6 flex justify-center">
+  <Card className="w-full max-w-sm">
+    <CardHeader>
+      <CardTitle>Notifications</CardTitle>
+      <CardDescription>You have 3 unread messages.</CardDescription>
+      <CardAction>
+        <Button variant="outline" size="sm">Mark all read</Button>
+      </CardAction>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-muted-foreground">No new notifications since your last visit.</p>
+    </CardContent>
+  </Card>
+</div>
+
+## Header Only
+
+A card without footer — use for informational displays that don't require actions.
+
+<div className="my-6 flex justify-center">
+  <Card className="w-full max-w-sm">
+    <CardHeader>
+      <CardTitle>Total Revenue</CardTitle>
+      <CardDescription>Last 30 days</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p className="text-3xl font-bold">€ 24,850</p>
+      <p className="text-sm text-muted-foreground mt-1">+12.5% from last month</p>
+    </CardContent>
+  </Card>
+</div>
+
+## With Dividers
+
+Add `border-b` to `CardHeader` and `border-t` to `CardFooter` for visual separation.
+
+<div className="my-6 flex justify-center">
+  <Card className="w-full max-w-sm">
+    <CardHeader className="border-b">
+      <CardTitle>Settings</CardTitle>
+      <CardDescription>Manage your account preferences.</CardDescription>
+    </CardHeader>
+    <CardContent className="pt-6">
+      <p className="text-sm text-muted-foreground">Your preferences are saved automatically.</p>
+    </CardContent>
+    <CardFooter className="border-t gap-2">
+      <Button variant="outline" size="sm">Reset</Button>
+      <Button size="sm">Save changes</Button>
+    </CardFooter>
+  </Card>
+</div>
+
+## Content Only
+
+Use `Card` with just `CardContent` for minimal containers — images, code blocks, or custom layouts.
+
+<div className="my-6 flex justify-center">
+  <Card className="w-full max-w-sm">
+    <CardContent className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+      Custom content area
+    </CardContent>
+  </Card>
+</div>
+
+## Props
+
+### Card
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `ReactNode` | — | Card sub-components |
+
+### CardHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Add `border-b` for a bottom divider |
+
+### CardTitle
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### CardDescription
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### CardAction
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `ReactNode` | — | Button, Badge, or any action element |
+
+### CardContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### CardFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Add `border-t` for a top divider |
+
+## Usage
+
+```tsx
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+// Basic card
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>Content</CardContent>
+  <CardFooter>
+    <Button>Action</Button>
+  </CardFooter>
+</Card>
+
+// With header action
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+    <CardAction>
+      <Button variant="outline" size="sm">Action</Button>
+    </CardAction>
+  </CardHeader>
+  <CardContent>Content</CardContent>
+</Card>
+
+// With dividers
+<Card>
+  <CardHeader className="border-b">
+    <CardTitle>Title</CardTitle>
+  </CardHeader>
+  <CardContent>Content</CardContent>
+  <CardFooter className="border-t">
+    <Button>Save</Button>
+  </CardFooter>
+</Card>
+```
+
+## Specs
+
+```md
+# New York — Card Specs
+
+## Component
+- name: card
+- file: registry/new-york/card.tsx
+- installs to: components/ui/card.tsx
+- dependencies: none
+
+## What is it
+A structural container for grouping related content and actions. Used as
+the base for dashboards, forms, settings panels, data summaries, and list
+items. Provides consistent padding, border, background, and shadow without
+prescribing internal layout.
+
+## Visual identity
+Rounded-xl corners, single border, card background (--card), subtle shadow-sm.
+Internal layout is a flex-col with gap-6 — sub-components stack naturally.
+No internal decoration — cards read clean and minimal.
+
+## Design tokens
+--card: oklch(1 0 0)                     — card background
+--card-foreground: oklch(0.145 0 0)      — text inside card
+--border: oklch(0.922 0 0)               — card border
+--muted-foreground: oklch(0.556 0 0)     — CardDescription text
+--radius: 0.625rem (xl = 1.5×base)       — card corner radius
+--shadow-sm: subtle drop shadow
+
+## Dark theme
+--card: oklch(0.205 0 0)
+--card-foreground: oklch(0.985 0 0)
+--border: oklch(1 0 0 / 10%)
+
+## Anatomy
+<Card>                    ← flex-col gap-6 rounded-xl border bg-card py-6 shadow-sm
+  <CardHeader>            ← CSS grid: title/description + optional CardAction
+    <CardTitle>           ← font-semibold leading-none
+    <CardDescription>    ← text-sm text-muted-foreground
+    <CardAction>         ← col-start-2 row-span-2, top-right position via grid
+  <CardContent>           ← px-6
+  <CardFooter>            ← flex items-center px-6; border-t activates pt-6
+
+## CardHeader grid
+CardHeader uses @container with CSS grid. Without CardAction:
+  auto single column. With CardAction: [1fr auto] — title/description in
+  column 1, action in column 2 spanning both rows.
+  Trigger: has-data-[slot=card-action]:grid-cols-[1fr_auto]
+
+## Divider pattern
+- Header divider: <CardHeader className="border-b"> — adds bottom border
+- Footer divider: <CardFooter className="border-t"> — adds top border + pt-6
+
+## Conventions
+- Always include at least CardHeader or CardContent — empty Card is invalid
+- CardAction must be a direct child of CardHeader
+- CardFooter gap for buttons: add gap-2 or gap-3 via className
+- Do not add padding directly to Card — use CardContent for inner padding
+- For clickable cards: wrap in <a> or use asChild pattern on a Link
+```
+
+## Installation
+
+<CommandBox componentName="card" className="mt-2" />

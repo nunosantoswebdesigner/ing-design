@@ -1,0 +1,156 @@
+---
+title: Progress
+description: A horizontal bar that visualises completion of a task or process.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-8886&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { ProgressDemo } from "@/examples/progress";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="progress">
+      <ProgressDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="progress">
+      <ProgressDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="progress">
+      <ProgressDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="progress">
+      <ProgressDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With label
+
+Pair with a label row above for a named progress indicator.
+
+```tsx
+<div className="flex flex-col gap-1.5">
+  <div className="flex justify-between text-sm">
+    <span className="text-muted-foreground">Uploading…</span>
+    <span className="font-medium">68%</span>
+  </div>
+  <Progress value={68} />
+</div>
+```
+
+## Animated value
+
+Drive the `value` prop from state. The indicator transitions smoothly via `transition-all`.
+
+```tsx
+"use client";
+
+const [progress, setProgress] = useState(0);
+
+useEffect(() => {
+  const timer = setTimeout(() => setProgress(68), 300);
+  return () => clearTimeout(timer);
+}, []);
+
+<Progress value={progress} />
+```
+
+## Indeterminate
+
+Omit `value` (or pass `null`) to show an indeterminate state — Radix sets `aria-valuenow` to `null` and `data-state="indeterminate"`.
+
+```tsx
+<Progress />
+```
+
+## Custom height
+
+Override `h-2` (default) on the root.
+
+```tsx
+<Progress value={60} className="h-1" />   {/* slim */}
+<Progress value={60} className="h-3" />   {/* thick */}
+```
+
+## Custom colors
+
+Target the root and indicator separately. The indicator inherits `bg-primary` — override on the root's `[&>[data-slot=progress-indicator]]` selector or apply inline style.
+
+```tsx
+{/* Muted track, green fill */}
+<Progress
+  value={80}
+  className="bg-green-100 dark:bg-green-950 [&>[data-slot=progress-indicator]]:bg-green-500"
+/>
+```
+
+## Props
+
+### Progress
+
+<span className="block">Extends all Radix `Progress.Root` props.</span>
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number \| null` | `null` | Current value (0–100). `null` = indeterminate |
+| `max` | `number` | `100` | Maximum value |
+| `className` | `string` | — | Applied to the track. Default height `h-2` |
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+
+<Progress value={60} />
+```
+
+## Specs
+
+```md
+# New York — Progress Specs
+
+## Component
+- name: progress
+- file: registry/new-york/progress.tsx
+- installs to: components/ui/progress.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A horizontal bar that visualises the completion of a task or process. Use it
+for file uploads, multi-step flows, or any operation with a measurable
+percentage. Prefer Progress over a spinner when a numeric value is available;
+omit `value` for indeterminate states where progress cannot be measured.
+
+## Visual identity
+Full-width, pill-shaped track (rounded-full) with a thin 8 px default height.
+The track uses a 20 % opacity tint of --primary, giving a soft contrast
+against the solid --primary indicator — neutral and unobtrusive in new-york.
+
+## Design tokens
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)   — indicator fill and track tint base
+
+## Sub-components
+- Progress    → root track element (h-2, rounded-full, bg-primary/20, overflow-hidden)
+- Indicator   → inner fill bar (h-full, bg-primary, transition-all, translateX transform)
+
+## States
+- determinate:    value 0–100 drives translateX(-${100 - value}%) on the indicator
+- indeterminate:  value=null → Radix sets data-state="indeterminate" and omits aria-valuenow; indicator rests at translateX(-100%) (hidden); no built-in animation — add a custom keyframe if a looping animation is needed
+
+## Conventions
+- Default height is h-2 (8 px); override on the root with h-1 (slim) or h-3 (thick) via className
+- Override the indicator colour with [&>[data-slot=progress-indicator]]:bg-{color} on the root
+- Always pair with a visible label or aria-label when used in isolation (Radix does not add one automatically)
+- Sub-components expose data-slot="progress" and data-slot="progress-indicator" for CSS targeting
+- value accepts 0–100; values outside that range are not clamped by the component — clamp in consuming code
+```
+
+## Installation
+
+<CommandBox componentName="progress" className="mt-2" />

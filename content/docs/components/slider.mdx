@@ -1,0 +1,145 @@
+---
+title: Slider
+description: A draggable input for selecting a numeric value or range, with support for steps, vertical orientation, and audio feedback.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=76-10513
+---
+
+import { SliderDemo } from "@/examples/slider";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="slider">
+      <SliderDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="slider">
+      <SliderDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="slider">
+      <SliderDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="slider">
+      <SliderDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Range slider
+
+Pass two values to `defaultValue` (or `value`) to render a range slider with two thumbs.
+
+```tsx
+<Slider defaultValue={[20, 70]} min={0} max={100} />
+```
+
+## Step
+
+```tsx
+<Slider defaultValue={[50]} step={25} />
+```
+
+## Vertical
+
+```tsx
+<Slider defaultValue={[60]} orientation="vertical" className="h-32" />
+```
+
+## Controlled
+
+```tsx
+const [value, setValue] = useState([40]);
+
+<Slider value={value} onValueChange={setValue} />
+```
+
+## With sounds
+
+Pass `sounds` to play a `tick` on every value change.
+
+```tsx
+<Slider defaultValue={[50]} sounds />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultValue` | `number[]` | `[0]` | Uncontrolled initial value |
+| `value` | `number[]` | — | Controlled value |
+| `onValueChange` | `(value: number[]) => void` | — | Fires on every thumb move |
+| `onValueCommit` | `(value: number[]) => void` | — | Fires on pointer up / key release |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `100` | Maximum value |
+| `step` | `number` | `1` | Step interval |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Slider direction |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `sounds` | `boolean` | `false` | Plays `tick` audio on value change |
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider";
+
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+## Specs
+
+```md
+# New York — Slider Specs
+
+## Component
+- name: slider
+- file: registry/new-york/slider.tsx
+- installs to: components/ui/slider.tsx
+- dependencies: radix-ui
+- registryDependencies: none
+
+## What is it
+A Radix UI Slider wrapper for selecting a numeric value or a range. Thumbs
+are auto-generated from the length of the value/defaultValue array — pass one
+value for a single thumb, two for a range slider with two thumbs. Prefer
+Slider over a plain input[type=range] when you need range selection, step
+snapping, vertical orientation, or audio feedback.
+
+## Visual identity
+Minimal and tactile. A muted track with a primary-coloured fill and a
+circular thumb with a subtle shadow creates clear affordance without visual
+noise. The rounded-full geometry is consistent with the new-york radius
+language. In dark mode the thumb's background inverts to the dark surface
+colour, keeping contrast clean.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)         — track background
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)       — range fill and thumb border
+--background: oklch(1 0 0) / oklch(0.145 0 0)        — thumb fill
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)          — focus ring on thumb (ring-ring/50)
+
+## Sub-components
+- Slider (Root)   → outer positioning container; owns orientation, disabled, and data-slot="slider"
+- SliderTrack     → full-width/height muted bar; data-slot="slider-track"
+- SliderRange     → primary-coloured fill between origin and thumb(s); data-slot="slider-range"
+- SliderThumb     → draggable circular handle, one per value entry; data-slot="slider-thumb"
+
+## States
+- focus-visible: 3px ring in --ring/50 on the thumb; outline-none suppresses default
+- disabled:      data-[disabled]:opacity-50 on root; disabled:pointer-events-none on thumb
+- orientation=vertical: data-[orientation=vertical] swaps flex direction, width, and height classes on root, track, and range
+
+## Conventions
+- Range slider: pass two values to defaultValue/value (e.g. defaultValue={[20, 70]})
+- Vertical sliders require an explicit height on the Slider element (e.g. className="h-32")
+- sounds / haptic: ING Design exclusive — plays a "tick" audio via useFeedback on every onValueChange
+- Sub-components expose data-slot="slider", data-slot="slider-track", data-slot="slider-range", and data-slot="slider-thumb" for CSS targeting
+- Thumbs are rendered dynamically from the value array length — do not render SliderThumb manually
+- Always provide an accessible label via aria-label or an associated <label> element
+```
+
+## Installation
+
+<CommandBox componentName="slider" className="mt-2" />

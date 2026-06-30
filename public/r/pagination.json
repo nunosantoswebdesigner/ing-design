@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination",
+  "title": "Pagination",
+  "description": "Navigation controls for moving between pages with numbered links, previous/next, and ellipsis.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/pagination.tsx",
+      "content": "import {\n  ChevronLeftIcon,\n  ChevronRightIcon,\n  MoreHorizontalIcon,\n} from \"lucide-react\";\n\nimport { buttonVariants } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/utils\";\n\nconst Pagination = ({\n  className,\n  ...props\n}: React.ComponentProps<\"nav\">) => (\n  <nav\n    role=\"navigation\"\n    aria-label=\"pagination\"\n    data-slot=\"pagination\"\n    className={cn(\"mx-auto flex w-full justify-center\", className)}\n    {...props}\n  />\n);\n\nconst PaginationContent = ({\n  className,\n  ...props\n}: React.ComponentProps<\"ul\">) => (\n  <ul\n    data-slot=\"pagination-content\"\n    className={cn(\"flex flex-row items-center gap-1\", className)}\n    {...props}\n  />\n);\n\nconst PaginationItem = ({\n  ...props\n}: React.ComponentProps<\"li\">) => (\n  <li data-slot=\"pagination-item\" {...props} />\n);\n\nconst PaginationLink = ({\n  className,\n  isActive,\n  size = \"icon\",\n  ...props\n}: React.ComponentProps<\"a\"> & {\n  isActive?: boolean;\n  size?: \"default\" | \"sm\" | \"lg\" | \"icon\";\n}) => (\n  <a\n    aria-current={isActive ? \"page\" : undefined}\n    data-slot=\"pagination-link\"\n    data-active={isActive}\n    className={cn(\n      buttonVariants({\n        variant: isActive ? \"outline\" : \"ghost\",\n        size,\n      }),\n      className\n    )}\n    {...props}\n  />\n);\n\nconst PaginationPrevious = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof PaginationLink>) => (\n  <PaginationLink\n    aria-label=\"Go to previous page\"\n    size=\"default\"\n    className={cn(\"gap-1 px-2.5 sm:pl-2.5\", className)}\n    {...props}\n  >\n    <ChevronLeftIcon />\n    <span className=\"hidden sm:block\">Previous</span>\n  </PaginationLink>\n);\n\nconst PaginationNext = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof PaginationLink>) => (\n  <PaginationLink\n    aria-label=\"Go to next page\"\n    size=\"default\"\n    className={cn(\"gap-1 px-2.5 sm:pr-2.5\", className)}\n    {...props}\n  >\n    <span className=\"hidden sm:block\">Next</span>\n    <ChevronRightIcon />\n  </PaginationLink>\n);\n\nconst PaginationEllipsis = ({\n  className,\n  ...props\n}: React.ComponentProps<\"span\">) => (\n  <span\n    aria-hidden\n    data-slot=\"pagination-ellipsis\"\n    className={cn(\n      \"flex size-9 items-center justify-center text-muted-foreground\",\n      className\n    )}\n    {...props}\n  >\n    <MoreHorizontalIcon className=\"size-4\" />\n    <span className=\"sr-only\">More pages</span>\n  </span>\n);\n\nexport {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n};\n",
+      "type": "registry:ui",
+      "target": "components/ui/pagination.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

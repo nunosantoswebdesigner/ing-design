@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "new-component",
+  "title": "New Component",
+  "description": "Template — replace with your component name and description.",
+  "files": [
+    {
+      "path": "registry/new-york/new-component.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\n\nexport interface NewComponentProps\n  extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewComponent = ({\n  className,\n  children,\n  ...props\n}: NewComponentProps) => (\n  <div\n    className={cn(\n      \"rounded-md border bg-card text-card-foreground shadow-sm\",\n      className\n    )}\n    {...props}\n  >\n    {children}\n  </div>\n);\n\nNewComponent.displayName = \"NewComponent\";\n\nexport { NewComponent };\n",
+      "type": "registry:ui",
+      "target": "components/ui/new-component.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

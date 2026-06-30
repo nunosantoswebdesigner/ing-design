@@ -1,0 +1,213 @@
+---
+title: Button Group
+description: Connects multiple buttons into a single visual unit, sharing borders and aligned corners.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1185-1980&t=PC39eDJ4DRaws5UP-1
+---
+
+import { Button } from "@/registry/new-york/button";
+import { ButtonGroup } from "@/registry/new-york/button-group";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="button-group">
+      <ButtonGroup>
+        <Button variant="outline">Years</Button>
+        <Button variant="outline">Months</Button>
+        <Button variant="outline">Days</Button>
+      </ButtonGroup>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="button-group">
+      <ButtonGroup>
+        <Button variant="outline">Years</Button>
+        <Button variant="outline">Months</Button>
+        <Button variant="outline">Days</Button>
+      </ButtonGroup>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="button-group">
+      <ButtonGroup>
+        <Button variant="outline">Years</Button>
+        <Button variant="outline">Months</Button>
+        <Button variant="outline">Days</Button>
+      </ButtonGroup>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="button-group">
+      <ButtonGroup>
+        <Button variant="outline">Years</Button>
+        <Button variant="outline">Months</Button>
+        <Button variant="outline">Days</Button>
+      </ButtonGroup>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+`ButtonGroup` works with any `Button` variant. The visual join adapts automatically.
+
+### Default
+
+<div className="my-6 flex flex-wrap gap-4">
+  <ButtonGroup>
+    <Button>Save</Button>
+    <Button>Cancel</Button>
+  </ButtonGroup>
+</div>
+
+### Outline
+
+The most common pairing — shared borders make the group feel like a single segmented control.
+
+<div className="my-6">
+  <ButtonGroup>
+    <Button variant="outline">Years</Button>
+    <Button variant="outline">Months</Button>
+    <Button variant="outline">Days</Button>
+  </ButtonGroup>
+</div>
+
+### Secondary
+
+<div className="my-6">
+  <ButtonGroup>
+    <Button variant="secondary">Left</Button>
+    <Button variant="secondary">Center</Button>
+    <Button variant="secondary">Right</Button>
+  </ButtonGroup>
+</div>
+
+## Sizes
+
+Works with all `Button` size props.
+
+<div className="my-6 flex flex-wrap items-center gap-4">
+  <ButtonGroup>
+    <Button variant="outline" size="sm">sm</Button>
+    <Button variant="outline" size="sm">sm</Button>
+    <Button variant="outline" size="sm">sm</Button>
+  </ButtonGroup>
+  <ButtonGroup>
+    <Button variant="outline">default</Button>
+    <Button variant="outline">default</Button>
+    <Button variant="outline">default</Button>
+  </ButtonGroup>
+  <ButtonGroup>
+    <Button variant="outline" size="lg">lg</Button>
+    <Button variant="outline" size="lg">lg</Button>
+    <Button variant="outline" size="lg">lg</Button>
+  </ButtonGroup>
+</div>
+
+## Vertical
+
+Set `orientation="vertical"` for a stacked layout.
+
+<div className="my-6">
+  <ButtonGroup orientation="vertical">
+    <Button variant="outline">Top</Button>
+    <Button variant="outline">Middle</Button>
+    <Button variant="outline">Bottom</Button>
+  </ButtonGroup>
+</div>
+
+## With Icons
+
+`ButtonGroup` works with icon-only buttons too.
+
+<div className="my-6 flex flex-wrap gap-4">
+  <ButtonGroup>
+    <Button variant="outline" size="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4"><path d="M11 17H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h16"/><polyline points="15 15 19 19 23 15"/><line x1="19" x2="19" y1="19" y2="9"/></svg>
+    </Button>
+    <Button variant="outline" size="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4"><path d="M11 17H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h16"/><polyline points="15 9 19 5 23 9"/><line x1="19" x2="19" y1="5" y2="15"/></svg>
+    </Button>
+    <Button variant="outline" size="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4"><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></svg>
+    </Button>
+  </ButtonGroup>
+</div>
+
+## Props
+
+### ButtonGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction of the group |
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `ReactNode` | — | `Button` elements |
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+
+// Horizontal (default)
+<ButtonGroup>
+  <Button variant="outline">Years</Button>
+  <Button variant="outline">Months</Button>
+  <Button variant="outline">Days</Button>
+</ButtonGroup>
+
+// Vertical
+<ButtonGroup orientation="vertical">
+  <Button variant="outline">Top</Button>
+  <Button variant="outline">Middle</Button>
+  <Button variant="outline">Bottom</Button>
+</ButtonGroup>
+```
+
+## Specs
+
+```md
+# New York — Button Group Specs
+
+## Component
+- name: button-group
+- file: registry/new-york/button-group.tsx
+- installs to: components/ui/button-group.tsx
+- registryDependencies: button
+
+## What is it
+A layout wrapper that connects multiple Button elements into a single visual
+unit. Adjacent buttons share borders (via -mr-px / -mb-px overlap) and have
+their inner border-radius clipped to zero. The result reads as a segmented
+control or grouped action bar. No JavaScript — purely CSS using child selectors
+targeting data-slot="button".
+
+## Visual identity
+Borderless gap between buttons — they share a single 1px border. Outer corners
+retain the Button's rounded-md radius. Inner corners are fully square. On
+hover/focus, the active button lifts to z-10 so its border renders over its
+neighbors cleanly.
+
+## How it works
+- Targets [data-slot=button] direct children with CSS attribute selectors
+- Horizontal: first child: rounded-r-none, last child: rounded-l-none,
+  middle children: rounded-none, non-last: -mr-px
+- Vertical: first child: rounded-b-none, last child: rounded-t-none,
+  middle children: rounded-none, non-last: -mb-px
+- All children get position: relative for z-index to work
+- hover and focus-visible push the active button to z-10
+
+## Conventions
+- All children should use the same variant and size for visual consistency
+- Do not mix variants inside a group (e.g. default + outline)
+- For active/selected state management, use Radix ToggleGroup instead
+- Minimum 2 buttons; prefer 2–5 (beyond 5, consider a different pattern)
+- With icon-only buttons: use size="icon" consistently across all items
+```
+
+## Installation
+
+<CommandBox componentName="button-group" className="mt-2" />

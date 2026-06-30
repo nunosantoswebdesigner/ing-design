@@ -1,0 +1,288 @@
+---
+title: Command
+description: A fast, composable command palette for searching, navigating, and triggering actions.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-5422&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { CommandDemo } from "@/examples/command";
+import {
+  Calculator,
+  Calendar,
+  CreditCard,
+  Settings,
+  Smile,
+  User,
+} from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/registry/new-york/command";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="command">
+      <CommandDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="command">
+      <CommandDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="command">
+      <CommandDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="command">
+      <CommandDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Dialog
+
+Wrap `Command` in `CommandDialog` to open it as a modal. Typically triggered with `⌘K`.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+
+export function CommandDialogDemo() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((prev) => !prev);
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
+
+  return (
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Pages">
+          <CommandItem>Home</CommandItem>
+          <CommandItem>Components</CommandItem>
+          <CommandItem>Settings</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  );
+}
+```
+
+## Inline (no dialog)
+
+Use `Command` directly in the page — no popover, no dialog. Useful for embedded search panels or sidebars.
+
+<div className="my-6 flex justify-center">
+  <Command className="rounded-lg border shadow-md w-full max-w-sm">
+    <CommandInput placeholder="Search..." />
+    <CommandList>
+      <CommandEmpty>No results found.</CommandEmpty>
+      <CommandGroup heading="Components">
+        <CommandItem><Calendar className="size-4" /><span>Calendar</span></CommandItem>
+        <CommandItem><Settings className="size-4" /><span>Settings</span><CommandShortcut>⌘S</CommandShortcut></CommandItem>
+        <CommandItem><User className="size-4" /><span>Profile</span><CommandShortcut>⌘P</CommandShortcut></CommandItem>
+      </CommandGroup>
+    </CommandList>
+  </Command>
+</div>
+
+## With Separator
+
+Use `CommandSeparator` to visually divide groups without headings.
+
+<div className="my-6 flex justify-center">
+  <Command className="rounded-lg border shadow-md w-full max-w-sm">
+    <CommandInput placeholder="Search..." />
+    <CommandList>
+      <CommandEmpty>No results found.</CommandEmpty>
+      <CommandGroup heading="Actions">
+        <CommandItem><Smile className="size-4" /><span>Search Emoji</span></CommandItem>
+        <CommandItem><Calculator className="size-4" /><span>Calculator</span></CommandItem>
+      </CommandGroup>
+      <CommandSeparator />
+      <CommandGroup heading="Account">
+        <CommandItem><CreditCard className="size-4" /><span>Billing</span><CommandShortcut>⌘B</CommandShortcut></CommandItem>
+        <CommandItem><Settings className="size-4" /><span>Settings</span><CommandShortcut>⌘S</CommandShortcut></CommandItem>
+      </CommandGroup>
+    </CommandList>
+  </Command>
+</div>
+
+## Props
+
+### Command
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Controlled selected item value |
+| `onValueChange` | `(value: string) => void` | — | Callback when selection changes |
+| `shouldFilter` | `boolean` | `true` | Set to `false` for server-side filtering |
+| `filter` | `(value, search) => number` | — | Custom filter function |
+| `className` | `string` | — | Additional CSS classes |
+
+### CommandDialog
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes |
+| `title` | `string` | `"Command Palette"` | Screen reader title (sr-only) |
+| `description` | `string` | `"Search for a command..."` | Screen reader description |
+| `showCloseButton` | `boolean` | `true` | Show the × close button |
+
+### CommandInput
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `placeholder` | `string` | — | Input placeholder text |
+| `value` | `string` | — | Controlled input value |
+| `onValueChange` | `(value: string) => void` | — | Callback on input change |
+
+### CommandItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Unique identifier used for filtering |
+| `onSelect` | `(value: string) => void` | — | Callback when item is selected |
+| `disabled` | `boolean` | `false` | Prevents selection |
+| `keywords` | `string[]` | — | Extra search terms for this item |
+
+## Usage
+
+```tsx
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+
+// Inline panel
+<Command className="rounded-lg border">
+  <CommandInput placeholder="Search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Pages">
+      <CommandItem value="home" onSelect={() => router.push("/")}>
+        Home
+      </CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+
+// ⌘K dialog
+<CommandDialog open={open} onOpenChange={setOpen}>
+  <CommandInput placeholder="Type a command..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Actions">
+      <CommandItem value="settings" onSelect={openSettings}>
+        <Settings className="size-4" />
+        Settings
+        <CommandShortcut>⌘,</CommandShortcut>
+      </CommandItem>
+    </CommandGroup>
+  </CommandList>
+</CommandDialog>
+```
+
+## Specs
+
+```md
+# New York — Command Specs
+
+## Component
+- name: command
+- file: registry/new-york/command.tsx
+- installs to: components/ui/command.tsx
+- dependencies: cmdk, lucide-react
+- registryDependencies: dialog
+
+## What is it
+A keyboard-driven command palette and search interface built on the cmdk primitive.
+Use it as an inline search panel, a ⌘K modal, or as the dropdown layer inside a
+Combobox. Avoid using Command for simple single-select dropdowns — prefer Select
+or a plain list when keyboard-first navigation and fuzzy filtering are not needed.
+
+## Visual identity
+Popover-surface background (--popover) with matching foreground gives Command a
+floating, elevated feel. Compact row height and xs group headings keep density
+high. Selected items use the accent fill, consistent with other interactive
+surfaces in new-york.
+
+## Design tokens
+--popover: oklch(1 0 0) / oklch(0.269 0 0)           — root surface background
+--popover-foreground: oklch(0.145 0 0) / oklch(0.985 0 0) — root text
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)          — selected item background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)  — selected item text
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)   — group headings, placeholder, shortcut text, search icon
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)       — CommandInput bottom border, CommandSeparator
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)     — CommandGroup item text
+
+## Sub-components
+- Command          → root container; manages cmdk filtering and keyboard selection state
+- CommandDialog    → wraps Command in a Dialog modal (⌘K pattern); adds sr-only title/description
+- CommandInput     → search field with SearchIcon prefix and border-b separator
+- CommandList      → scrollable results container, max-h-[300px]
+- CommandEmpty     → zero-results message; rendered automatically by cmdk when list is empty
+- CommandGroup     → named section with optional xs heading
+- CommandSeparator → full-width horizontal rule (bg-border) between groups
+- CommandItem      → selectable row; auto-filtered against CommandInput value
+- CommandShortcut  → right-aligned keyboard hint (ml-auto, xs, tracking-widest)
+
+## External dependencies
+- cmdk: headless command palette primitive — filtering, keyboard navigation, empty state
+
+## States
+- data-[selected=true]: CommandItem receives --accent background and --accent-foreground text
+- data-[disabled=true]: CommandItem becomes pointer-events-none, opacity-50
+- disabled (input):     CommandInput cursor changes to not-allowed, opacity-50
+
+## Conventions
+- Always include CommandEmpty — cmdk hides it automatically when results exist
+- Match CommandItem value to the searchable identifier, not just the visible label
+- Add keywords={["alias"]} to CommandItem to match on alternative terms without showing them
+- CommandShortcut is display-only — wire actual keyboard shortcuts separately via useEffect
+- For ⌘K: listen for metaKey+k in a useEffect keydown listener and toggle open state
+- For Combobox: wrap Command in Popover and set PopoverContent className="p-0"
+- CommandDialog title and description are sr-only — always provide meaningful values for screen readers
+- showCloseButton={false} on CommandDialog removes the × button for a cleaner modal look
+- Sub-components expose data-slot attributes for CSS targeting:
+  "command", "command-input-wrapper", "command-input", "command-list",
+  "command-empty", "command-group", "command-separator", "command-item", "command-shortcut"
+```
+
+## Installation
+
+<CommandBox componentName="command" className="mt-2" />

@@ -1,0 +1,196 @@
+---
+title: Bubble
+description: A chat message bubble with 7 variants, alignment, grouping, and reactions.
+---
+
+import { BubbleDemo } from "@/examples/bubble";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="bubble">
+      <BubbleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="bubble">
+      <BubbleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="bubble">
+      <BubbleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="bubble">
+      <BubbleDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Variants
+
+Seven visual styles cover every message type from primary user messages to system errors.
+
+```tsx
+<Bubble variant="default">Current user message</Bubble>
+<Bubble variant="secondary">Other participant</Bubble>
+<Bubble variant="muted">System note</Bubble>
+<Bubble variant="tinted">Soft primary tint</Bubble>
+<Bubble variant="outline">Bordered, no fill</Bubble>
+<Bubble variant="ghost">Unframed AI response</Bubble>
+<Bubble variant="destructive">Error / failed action</Bubble>
+```
+
+## Alignment
+
+```tsx
+<Bubble align="start">Incoming — left aligned (default)</Bubble>
+<Bubble align="end">Outgoing — right aligned</Bubble>
+```
+
+When placed inside a `Message` with `align="end"`, the bubble inherits end alignment automatically.
+
+## Reactions
+
+`BubbleReactions` positions an emoji reaction strip relative to the bubble. Use `side` and `align` to control placement.
+
+```tsx
+<Bubble variant="secondary">
+  <BubbleContent>Great idea!</BubbleContent>
+  <BubbleReactions side="bottom" align="end">
+    👍 3
+  </BubbleReactions>
+</Bubble>
+```
+
+## Group
+
+Wrap consecutive messages from the same sender in `BubbleGroup` to reduce vertical spacing between bubbles.
+
+```tsx
+<BubbleGroup>
+  <Bubble variant="secondary"><BubbleContent>First message</BubbleContent></Bubble>
+  <Bubble variant="secondary"><BubbleContent>Second message</BubbleContent></Bubble>
+  <Bubble variant="secondary"><BubbleContent>Third message</BubbleContent></Bubble>
+</BubbleGroup>
+```
+
+## Props
+
+### Bubble
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "secondary" \| "muted" \| "tinted" \| "outline" \| "ghost" \| "destructive"` | `"default"` | Visual treatment |
+| `align` | `"start" \| "end"` | `"start"` | Inline alignment of the bubble |
+| `className` | `string` | — | Additional CSS classes |
+
+### BubbleContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as the child element (e.g. `<button>`) |
+| `className` | `string` | — | Additional CSS classes |
+
+### BubbleReactions
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "bottom"` | `"bottom"` | Vertical anchor relative to the bubble |
+| `align` | `"start" \| "end"` | `"end"` | Horizontal anchor relative to the bubble |
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
+} from "@/components/ui/bubble";
+
+<BubbleGroup>
+  <Bubble variant="secondary">
+    <BubbleContent>Hello!</BubbleContent>
+  </Bubble>
+  <Bubble variant="default" align="end">
+    <BubbleContent>Hi there!</BubbleContent>
+    <BubbleReactions side="bottom" align="end">
+      ❤️ 1
+    </BubbleReactions>
+  </Bubble>
+</BubbleGroup>
+```
+
+## Specs
+
+```md
+# New York — Bubble Specs
+
+## Component
+- name: bubble
+- file: registry/new-york/bubble.tsx
+- installs to: components/ui/bubble.tsx
+- dependencies: radix-ui, class-variance-authority
+- registryDependencies: none
+
+## What is it
+A chat message bubble for building conversation interfaces. Supports 7 visual
+variants to express user messages, AI responses, system notes, and error states.
+Prefer Bubble over a plain div when messages need alignment, grouping, or
+reaction anchoring; avoid using it for non-conversational content.
+
+## Visual identity
+Rounded pill-like content areas (rounded-xl) give a friendly chat feel.
+Colours stay neutral by default — near-black fill for outgoing, light-grey for
+incoming — and the tinted variant derives its hue from --primary for brand
+coherence without hard-coding a colour.
+
+## Design tokens
+--primary: oklch(0.205 0 0) / oklch(0.922 0 0)                        — default bubble fill
+--primary-foreground: oklch(0.985 0 0) / oklch(0.205 0 0)             — default bubble text
+--secondary: oklch(0.97 0 0) / oklch(0.269 0 0)                       — secondary bubble fill
+--secondary-foreground: oklch(0.205 0 0) / oklch(0.985 0 0)           — secondary bubble text
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)                           — muted bubble fill; reactions background
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0)               — muted bubble text
+--background: oklch(1 0 0) / oklch(0.145 0 0)                         — outline bubble fill
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)                       — outline bubble border
+--destructive: oklch(0.577 0.245 27.325) / oklch(0.704 0.191 22.216)  — destructive text; 10–20% alpha fill
+--card: oklch(1 0 0) / oklch(0.205 0 0)                               — ring-card on BubbleReactions
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)                           — focus ring on interactive content
+
+## Sub-components
+- BubbleGroup     → wraps consecutive same-sender bubbles; flex-col gap-2; reduces visual spacing
+- Bubble          → root container; holds variant + align; w-fit max-w-[80%]; positions reactions
+- BubbleContent   → styled content area; rounded-xl border px-3 py-2 text-sm; accepts asChild
+- BubbleReactions → absolute emoji strip anchored to bubble corner; bg-muted ring-card
+
+## Variants
+- default     → --primary fill, --primary-foreground text. Current user's outgoing messages.
+- secondary   → --secondary fill. Incoming messages from other participants.
+- muted       → --muted fill, no explicit text override. Low-emphasis system messages or timestamps.
+- tinted      → oklch-derived primary tint (light: ~0.93 L; dark: ~0.30 L). AI suggestions or highlighted replies.
+- outline     → --border border, --background fill, no colour override. Lightweight confirmations or quoted messages.
+- ghost       → no border, no fill, no padding, no radius. Long-form AI prose; max-w-full.
+- destructive → --destructive/10 fill (dark: /20), --destructive text. Error states, failed actions, critical warnings.
+
+## States
+- hover (button/a child):  default darkens to primary/80; secondary/muted/outline/ghost show a muted tint via color-mix or bg-muted
+- focus-visible (button/a): 3px ring in --ring/50, border switches to --ring
+- data-[align=end]:         bubble self-aligns to flex-end (right); also responds to parent group-data-[align=end]/message
+- data-[variant=ghost]:     overrides max-w-[80%] to max-w-full
+
+## Conventions
+- Use align="end" for the current user's messages; align="start" (default) for all others
+- Wrap consecutive messages from the same sender in BubbleGroup to reduce vertical spacing
+- BubbleReactions is absolutely positioned — the parent Bubble must not have overflow-hidden
+- Colour styles target *:data-[slot=bubble-content] via CSS child selectors; sibling elements (reactions, footers) remain unstyled by the variant
+- Do not mix multiple variants inside one BubbleGroup
+- Sub-components expose data-slot="bubble-group", data-slot="bubble", data-slot="bubble-content", and data-slot="bubble-reactions" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="bubble" className="mt-2" />

@@ -1,0 +1,252 @@
+---
+title: Carousel
+description: A swipeable slideshow for cycling through content — images, cards, or any elements.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-4464&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { CarouselDemo } from "@/examples/carousel";
+
+<Callout type="info">
+  **External dependency** — Carousel requires `embla-carousel-react@^8.0.0`. Install it before adding this component.
+
+  ```bash
+  pnpm add embla-carousel-react
+  ```
+</Callout>
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="carousel">
+      <CarouselDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="carousel">
+      <CarouselDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="carousel">
+      <CarouselDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="carousel">
+      <CarouselDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Sizes
+
+Control how many items are visible at once using `basis-*` on `CarouselItem`.
+
+```tsx
+// 1/3 width — 3 items visible at a time
+<Carousel className="w-full max-w-sm">
+  <CarouselContent>
+    {items.map((item) => (
+      <CarouselItem key={item} className="basis-1/3">
+        ...
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+## Spacing
+
+Add `pl-*` to `CarouselItem` to control gap between slides. The default is `pl-4`.
+
+```tsx
+<CarouselItem className="pl-2 md:basis-1/2">
+  ...
+</CarouselItem>
+```
+
+## Vertical
+
+Set `orientation="vertical"` for a top-to-bottom scroll direction.
+
+```tsx
+<Carousel orientation="vertical" className="w-full max-w-xs">
+  <CarouselContent className="h-64">
+    {items.map((item) => (
+      <CarouselItem key={item}>...</CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+## With API
+
+Access the Embla API via `setApi` to control the carousel programmatically or read state.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import type { CarouselApi } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+
+export function CarouselWithApi() {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+    api.on("select", () => setCurrent(api.selectedScrollSnap() + 1));
+  }, [api]);
+
+  return (
+    <div>
+      <Carousel setApi={setApi}>
+        <CarouselContent>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <CarouselItem key={i}>Slide {i + 1}</CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      <p className="text-center text-sm text-muted-foreground mt-2">
+        {current} of {count}
+      </p>
+    </div>
+  );
+}
+```
+
+## Autoplay
+
+Use `embla-carousel-autoplay` plugin for automatic slide advancement.
+
+```bash
+pnpm add embla-carousel-autoplay
+```
+
+```tsx
+import Autoplay from "embla-carousel-autoplay";
+
+<Carousel plugins={[Autoplay({ delay: 3000 })]}>
+  ...
+</Carousel>
+```
+
+## Props
+
+### Carousel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Scroll direction |
+| `opts` | `EmblaOptionsType` | — | Embla carousel options |
+| `plugins` | `EmblaPluginType[]` | — | Embla plugins (e.g. autoplay) |
+| `setApi` | `(api: CarouselApi) => void` | — | Callback to access the Embla API |
+| `className` | `string` | — | Additional CSS classes |
+
+### CarouselItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Use `basis-*` to set slide width (e.g. `basis-1/2`) |
+
+### CarouselPrevious / CarouselNext
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Override position or size |
+
+## Usage
+
+```tsx
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+<Carousel className="w-full max-w-xs">
+  <CarouselContent>
+    {items.map((item) => (
+      <CarouselItem key={item.id}>
+        <img src={item.src} alt={item.alt} />
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+## Specs
+
+```md
+# New York — Carousel Specs
+
+## Component
+- name: carousel
+- file: registry/new-york/carousel.tsx
+- installs to: components/ui/carousel.tsx
+- dependencies: embla-carousel-react, embla-carousel, lucide-react
+- registryDependencies: button
+
+## What is it
+A swipeable, keyboard-navigable slideshow built on Embla Carousel. Use it for
+images, cards, testimonials, or any repeating sequence of content. Touch drag
+and mouse drag are enabled by default; navigation arrows are rendered outside
+the slide track as outline icon buttons. Do not use when content must be
+simultaneously visible and compared — prefer a grid or table instead.
+
+## Visual identity
+Navigation buttons inherit the outline variant from Button: transparent fill,
+grey border, rounded-full shape. The slide track itself is unstyled, leaving
+visual character entirely to the content placed inside each CarouselItem.
+
+## Design tokens
+--border: oklch(0.922 0 0) / oklch(1 0 0 / 10%)    — nav button border (outline variant)
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)      — nav button border on hover (outline variant)
+--background: oklch(1 0 0) / oklch(0.145 0 0)        — nav button fill (outline variant)
+--foreground: oklch(0.145 0 0) / oklch(0.985 0 0)    — nav button icon colour
+--accent: oklch(0.97 0 0) / oklch(0.371 0 0)         — nav button hover background
+--accent-foreground: oklch(0.205 0 0) / oklch(0.985 0 0) — nav button hover icon colour
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)          — nav button focus ring
+
+## Sub-components
+- Carousel          → root context provider; sets role="region" aria-roledescription="carousel"; handles keyboard and Embla init
+- CarouselContent   → overflow-hidden viewport + flex track; negative margin offsets item padding
+- CarouselItem      → individual slide; role="group" aria-roledescription="slide"; basis-full by default
+- CarouselPrevious  → prev arrow button; absolute-positioned outside left/top edge; disabled when at start
+- CarouselNext      → next arrow button; absolute-positioned outside right/bottom edge; disabled when at end
+
+## External dependencies
+- embla-carousel-react: core carousel engine (scroll physics, API, plugins)
+- embla-carousel: TypeScript types (EmblaCarouselType, EmblaOptionsType)
+
+## States
+- disabled: nav buttons get opacity-50 pointer-events-none when canScrollPrev / canScrollNext is false
+- focus-visible: 3px ring in --ring colour on nav buttons (inherited from buttonVariants outline)
+- hover: nav buttons show --accent background tint (inherited from buttonVariants outline)
+
+## Conventions
+- Wrap Carousel in a container with max-w-* to constrain visible width
+- Nav buttons position at -left-12 / -right-12 (horizontal) or -top-12 / -bottom-12 (vertical) — add px-12 to the parent to avoid clipping
+- Control slide width via basis-* on CarouselItem (e.g. basis-1/2 for two-up, basis-1/3 for three-up)
+- Control inter-slide gap via pl-* on CarouselItem (default pl-4); match with -ml-* on CarouselContent
+- For vertical carousels, set a fixed height on CarouselContent (e.g. h-64) to define the viewport
+- Access the Embla API programmatically via the setApi prop to build dot indicators or auto-advance logic
+- Add plugins via the plugins prop — e.g. Autoplay from embla-carousel-autoplay
+- Do not place interactive elements inside CarouselItem that conflict with the swipe gesture (e.g. horizontal sliders)
+- Sub-components expose data-slot="carousel", "carousel-content", "carousel-item", "carousel-previous", "carousel-next" for CSS targeting
+```
+
+## Installation
+
+<CommandBox componentName="carousel" className="mt-2" />

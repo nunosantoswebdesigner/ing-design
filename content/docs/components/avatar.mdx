@@ -1,0 +1,253 @@
+---
+title: Avatar
+description: An image element with a fallback for representing a user.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=73-3473&t=PC39eDJ4DRaws5UP-1
+---
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/registry/new-york/avatar";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="avatar">
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+          <AvatarFallback>VC</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>NS</AvatarFallback>
+        </Avatar>
+      </div>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="force8">
+    <PreviewWithCode name="avatar">
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+          <AvatarFallback>VC</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>NS</AvatarFallback>
+        </Avatar>
+      </div>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="avatar">
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+          <AvatarFallback>VC</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>NS</AvatarFallback>
+        </Avatar>
+      </div>
+    </PreviewWithCode>
+  </ThemeTab>
+
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="avatar">
+      <div className="flex items-center gap-4">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+          <AvatarFallback>VC</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>NS</AvatarFallback>
+        </Avatar>
+      </div>
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## With Image
+
+Display a user's profile picture. When the image fails to load, the fallback renders automatically.
+
+<div className="my-6">
+  <Avatar>
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+</div>
+
+## Fallback Only
+
+When no image source is provided, or the image fails to load, the fallback displays initials or any content you pass.
+
+<div className="my-6 flex items-center gap-3">
+  <Avatar>
+    <AvatarFallback>NS</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>AB</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>JD</AvatarFallback>
+  </Avatar>
+</div>
+
+## Sizes
+
+The default size is `size-8` (32px). Override with Tailwind size utilities.
+
+<div className="my-6 flex items-end gap-4">
+  <Avatar className="size-6">
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback className="text-[10px]">CN</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar className="size-12">
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar className="size-16">
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+</div>
+
+## Group
+
+Stack avatars using negative margins to create a group effect.
+
+<div className="my-6 flex -space-x-2">
+  <Avatar className="border-2 border-background">
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+    <AvatarFallback>VC</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>NS</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>+3</AvatarFallback>
+  </Avatar>
+</div>
+
+## Props
+
+### Avatar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `ReactNode` | — | `AvatarImage` and `AvatarFallback` |
+
+### AvatarImage
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | — | Image source URL |
+| `alt` | `string` | — | Alt text for accessibility |
+| `className` | `string` | — | Additional CSS classes |
+
+### AvatarFallback
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `delayMs` | `number` | — | Delay before showing fallback (avoids flash) |
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `ReactNode` | — | Initials or icon to display |
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+// With image + fallback
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+
+// Fallback only
+<Avatar>
+  <AvatarFallback>NS</AvatarFallback>
+</Avatar>
+
+// Custom size
+<Avatar className="size-12">
+  <AvatarImage src={user.avatarUrl} alt={user.name} />
+  <AvatarFallback>{user.initials}</AvatarFallback>
+</Avatar>
+```
+
+## Specs
+
+```md
+# New York — Avatar Specs
+
+## Component
+- name: avatar
+- file: registry/new-york/avatar.tsx
+- installs to: components/ui/avatar.tsx
+- dependencies: radix-ui
+
+## What is it
+A circular image container for representing a user or entity. Falls back to
+initials or any ReactNode when the image is unavailable or fails to load.
+Use it in navigation bars, comment threads, user lists, and anywhere a
+person's identity needs a visual anchor.
+
+## Visual identity
+Minimal. A rounded-full container — no border, no shadow — that keeps the
+focus on the image or initials. The fallback uses bg-muted with centered
+text in a small font-medium weight.
+
+## Design tokens
+--muted: oklch(0.97 0 0)                 — fallback background
+--muted-foreground: oklch(0.556 0 0)     — fallback text color
+
+## Dark theme
+--muted: oklch(0.269 0 0)
+--muted-foreground: oklch(0.708 0 0)
+
+## Anatomy
+<Avatar>                  ← Root: rounded-full container, size-8 by default
+  <AvatarImage />         ← Radix image: aspect-square size-full
+  <AvatarFallback />      ← Shows when image missing/failed: flex centered, text-xs font-medium
+</Avatar>
+
+## States
+- image loaded:  AvatarImage fills the container, AvatarFallback hidden
+- image failed / no src:  AvatarFallback renders automatically
+- delayMs:  pass to AvatarFallback to avoid fallback flash during fast loads
+
+## Conventions
+- Always include AvatarFallback — even with a known src, network errors happen
+- Use 1–2 character initials in the fallback (e.g. "NS", "AB")
+- For grouped avatars: add border-2 border-background and -space-x-2 on the parent
+- Do not use square avatars — keep rounded-full unless explicitly redesigning
+- Default size is size-8 (32px); override with Tailwind size utilities
+```
+
+## Installation
+
+<CommandBox componentName="avatar" className="mt-2" />

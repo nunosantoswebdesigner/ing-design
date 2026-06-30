@@ -1,0 +1,208 @@
+---
+title: Input Group
+description: Composes an input with prefix and suffix addons — text, icons, or action buttons — with seamlessly shared borders.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1188-5364&t=n9ZYudwlr9OrHUSJ-1
+---
+
+import { InputGroupDemo } from "@/examples/input-group";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="input-group">
+      <InputGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="input-group">
+      <InputGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="input-group">
+      <InputGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="input-group">
+      <InputGroupDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Icon prefix
+
+Wrap a lucide icon in `InputGroupText` to add a decorative icon that labels the field.
+
+```tsx
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupText } from "@/components/ui/input-group";
+
+<InputGroup>
+  <InputGroupText>
+    <Search />
+  </InputGroupText>
+  <Input placeholder="Search..." />
+</InputGroup>
+```
+
+## Text prefix or suffix
+
+Use `InputGroupText` for static text such as a URL scheme, currency code, or unit label.
+
+```tsx
+<InputGroup>
+  <InputGroupText>https://</InputGroupText>
+  <Input placeholder="example.com" />
+</InputGroup>
+
+<InputGroup>
+  <Input type="number" placeholder="0.00" />
+  <InputGroupText>kg</InputGroupText>
+</InputGroup>
+```
+
+## Both sides
+
+Prefix and suffix can be combined freely.
+
+```tsx
+import { DollarSign } from "lucide-react";
+
+<InputGroup>
+  <InputGroupText>
+    <DollarSign />
+  </InputGroupText>
+  <Input type="number" placeholder="0.00" />
+  <InputGroupText>USD</InputGroupText>
+</InputGroup>
+```
+
+## Button suffix
+
+Place a `Button` as a direct child of `InputGroup`. The component uses `data-slot` selectors to strip the button's adjacent border-radius and collapse its left border against the input.
+
+```tsx
+import { Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+<InputGroup>
+  <Input defaultValue="https://ing.design/r/button" readOnly />
+  <Button variant="outline">
+    <Copy />
+    Copy
+  </Button>
+</InputGroup>
+```
+
+## With Field
+
+`InputGroup` composes cleanly with the `Field` component for accessible labels, descriptions, and error messages.
+
+```tsx
+import { Field, FieldLabel, FieldDescription, FieldError, useField } from "@/components/ui/field";
+import { Globe } from "lucide-react";
+
+function FieldInput(props) {
+  const { id, error } = useField();
+  return (
+    <InputGroup>
+      <InputGroupText>
+        <Globe />
+      </InputGroupText>
+      <Input
+        id={id}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : `${id}-description`}
+        {...props}
+      />
+    </InputGroup>
+  );
+}
+
+<Field>
+  <FieldLabel>Website</FieldLabel>
+  <FieldInput placeholder="example.com" />
+  <FieldDescription>Your public website URL.</FieldDescription>
+</Field>
+```
+
+## Props
+
+### InputGroup
+
+<span className="block">All props are forwarded to the underlying `<div>`. The component adds no required props — place `Input`, `InputGroupText`, and `Button` as direct children.</span>
+
+### InputGroupText
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Merged with addon styles. Use `px-2.5` to tighten icon-only addons. |
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupText } from "@/components/ui/input-group";
+
+<InputGroup>
+  <InputGroupText>$</InputGroupText>
+  <Input type="number" placeholder="0.00" />
+</InputGroup>
+```
+
+## Specs
+
+```md
+# New York — Input Group Specs
+
+## Component
+- name: input-group
+- file: registry/new-york/input-group.tsx
+- installs to: components/ui/input-group.tsx
+- dependencies: none (uses only React and cn utility)
+- registryDependencies: input, button
+
+## What is it
+A layout wrapper that merges an `Input` with one or more addons — static text,
+icons, or action `Button`s — into a visually unified field with shared borders
+and seamless rounded corners only on the outermost edges. Use it when a field
+needs a contextual prefix or suffix (URL scheme, currency symbol, unit label,
+copy button). Do not use it as a general flex container — children must carry
+`data-slot` attributes for the selectors to work.
+
+## Visual identity
+Addons use the muted surface (`--muted`) with a matching `--input` border, so
+they read as part of the field rather than separate elements. Radius is applied
+only to the outermost corners (`rounded-l-md` / `rounded-r-md`), creating a
+pill-like group with no internal gaps. The new-york default radius (0.625rem)
+keeps the group compact and professional.
+
+## Design tokens
+--input: oklch(0.922 0 0) / oklch(1 0 0 / 15%)   — addon and input border colour
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)       — addon background
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — addon text and icon colour
+--ring: oklch(0.708 0 0) / oklch(0.556 0 0)       — focus ring on Input / Button children
+--radius: 0.625rem                                 — outermost corner radius (via rounded-l-md / rounded-r-md)
+
+## Sub-components
+- InputGroup     → flex container; adjusts radius and negative margin on direct Input and Button children via data-slot selectors
+- InputGroupText → static addon (text, icon, or both); muted background, input border, first/last corner radius
+
+## States
+- focus-visible (Input child):  relative + z-10 so the focus ring renders above adjacent addon borders
+- focus-visible (Button child): relative + z-10, same stacking behaviour
+- No disabled or error state is applied at the group level — handle these on the Input child directly
+
+## Conventions
+- Children must be direct (not nested) for the data-slot selectors to apply
+- For icon-only addons use `className="px-2.5"` on `InputGroupText` to tighten horizontal padding
+- SVG icons inside `InputGroupText` auto-size to 16px — do not set a size class unless overriding intentionally
+- `InputGroup` does not wire up ARIA — wrap with `Field` + `useField()` to connect label, description, and error
+- Sub-components expose `data-slot="input-group"`, `data-slot="input-group-text"` for CSS targeting
+- Button children must use `variant="outline"` to match the input border weight visually
+```
+
+## Installation
+
+<CommandBox componentName="input-group" className="mt-2" />

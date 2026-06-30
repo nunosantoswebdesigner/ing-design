@@ -1,0 +1,107 @@
+---
+title: Featured
+description: A dashboard block with stat cards, an area chart, and a data table with tabs and pagination.
+figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=1088-8221&t=SGuloiMFD7r5jFI6-1
+---
+
+import { BFeaturedDemo } from "@/examples/b-featured";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="b-featured">
+      <BFeaturedDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="b-featured">
+      <BFeaturedDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="b-featured">
+      <BFeaturedDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="b-featured">
+      <BFeaturedDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Custom stats
+
+Pass your own metrics to the stats row:
+
+```tsx
+<FeaturedBlock
+  stats={[
+    {
+      label: "Monthly Revenue",
+      trend: "+8.2%",
+      trendUp: true,
+      value: "$42,500",
+      subtitle: "Up from last month",
+      description: "Based on completed transactions",
+    },
+    // ...
+  ]}
+/>
+```
+
+## Custom chart data
+
+```tsx
+<FeaturedBlock
+  chartTitle="Page Views"
+  chartDescription="Last 90 days"
+  chartData={[
+    { date: "Jan 1", visitors: 1200 },
+    { date: "Jan 8", visitors: 2400 },
+    // ...
+  ]}
+  chartRanges={["Last 90 days", "Last 30 days", "Last 7 days"]}
+/>
+```
+
+## Custom table data
+
+```tsx
+<FeaturedBlock
+  tableTabs={[
+    { label: "All" },
+    { label: "Active", count: 5 },
+    { label: "Archived" },
+  ]}
+  tableRows={[
+    {
+      id: "1",
+      header: "Introduction",
+      sectionType: "Narrative",
+      status: "done",
+      target: 10,
+      limit: 8,
+      reviewer: "Alice Johnson",
+    },
+  ]}
+  totalRows={42}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `stats` | `FeaturedStat[]` | See defaults | Four stat cards at the top |
+| `chartTitle` | `string` | `"Total Visitors"` | Chart card heading |
+| `chartDescription` | `string` | `"Total for the last 3 months"` | Chart card subheading |
+| `chartData` | `FeaturedChartPoint[]` | Sample data | Area chart data points |
+| `chartRanges` | `string[]` | `["Last 3 months", ...]` | Time range tabs |
+| `tableTabs` | `FeaturedTableTab[]` | See defaults | Table section tabs |
+| `tableRows` | `FeaturedTableRow[]` | See defaults | Table row data |
+| `totalRows` | `number` | `68` | Total row count for pagination |
+| `rowsPerPageOptions` | `number[]` | `[10, 20, 50]` | Rows per page options |
+
+## Installation
+
+<CommandBox componentName="b-featured" className="mt-2" />

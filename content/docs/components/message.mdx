@@ -1,0 +1,243 @@
+---
+title: Message
+description: A layout wrapper for a chat message row with avatar, header, content, and footer.
+---
+
+import { MessageDemo } from "@/examples/message";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="message">
+      <MessageDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="message">
+      <MessageDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="message">
+      <MessageDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="message">
+      <MessageDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Alignment
+
+Set `align` on the root `Message` to switch between incoming and outgoing layouts. All sub-components adapt automatically.
+
+```tsx
+<Message align="start">
+  <MessageContent>
+    <Bubble variant="secondary"><BubbleContent>Hello!</BubbleContent></Bubble>
+  </MessageContent>
+</Message>
+
+<Message align="end">
+  <MessageContent>
+    <Bubble variant="default"><BubbleContent>Hi there!</BubbleContent></Bubble>
+  </MessageContent>
+</Message>
+```
+
+## With avatar
+
+`MessageAvatar` anchors to the bottom of the message row. It lifts up automatically when a `MessageFooter` is present.
+
+```tsx
+<Message align="start">
+  <MessageAvatar>
+    <Avatar>
+      <AvatarImage src="/avatars/ai.png" alt="AI" />
+      <AvatarFallback>AI</AvatarFallback>
+    </Avatar>
+  </MessageAvatar>
+  <MessageContent>
+    <Bubble variant="secondary"><BubbleContent>How can I help?</BubbleContent></Bubble>
+  </MessageContent>
+</Message>
+```
+
+## Grouping
+
+Wrap consecutive messages from the same sender in `MessageGroup` to suppress redundant avatars and reduce spacing.
+
+```tsx
+<MessageGroup>
+  <Message align="start">
+    <MessageAvatar>...</MessageAvatar>
+    <MessageContent>
+      <Bubble variant="secondary"><BubbleContent>First</BubbleContent></Bubble>
+    </MessageContent>
+  </Message>
+  <Message align="start">
+    <MessageContent>
+      <Bubble variant="secondary"><BubbleContent>Second</BubbleContent></Bubble>
+    </MessageContent>
+  </Message>
+</MessageGroup>
+```
+
+## With header and footer
+
+`MessageHeader` and `MessageFooter` add sender name / timestamp rows above and below the message content.
+
+```tsx
+<Message align="start">
+  <MessageAvatar>...</MessageAvatar>
+  <div>
+    <MessageHeader>
+      <span className="font-medium text-sm">Claude</span>
+    </MessageHeader>
+    <MessageContent>
+      <Bubble variant="secondary"><BubbleContent>Here is the summary.</BubbleContent></Bubble>
+    </MessageContent>
+    <MessageFooter>
+      <span className="text-xs text-muted-foreground">12:04 PM</span>
+    </MessageFooter>
+  </div>
+</Message>
+```
+
+## With Bubble
+
+Typical full composition pairing `Message`, `Bubble`, and `BubbleContent`.
+
+```tsx
+import { Message, MessageAvatar, MessageContent } from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+<Message align="start">
+  <MessageAvatar>
+    <Avatar><AvatarFallback>AI</AvatarFallback></Avatar>
+  </MessageAvatar>
+  <MessageContent>
+    <Bubble variant="ghost">
+      <BubbleContent>
+        Here is everything you need to know about the topic.
+      </BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+## Props
+
+All Message sub-components are layout primitives. They accept `className` and forward all standard HTML div attributes.
+
+### Message
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `"start" \| "end"` | `"start"` | Aligns the row left (incoming) or right (outgoing) |
+| `className` | `string` | — | Additional CSS classes |
+
+### MessageAvatar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### MessageHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### MessageContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+### MessageFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+
+## Usage
+
+```tsx
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageGroup,
+  MessageHeader,
+} from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+<Message align="start">
+  <MessageAvatar>
+    <Avatar><AvatarFallback>AI</AvatarFallback></Avatar>
+  </MessageAvatar>
+  <MessageContent>
+    <Bubble variant="secondary">
+      <BubbleContent>Hello! How can I help?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+## Specs
+
+```md
+# New York — Message Specs
+
+## Component
+- name: message
+- file: registry/new-york/message.tsx
+- installs to: components/ui/message.tsx
+- dependencies: none
+- registryDependencies: none
+
+## What is it
+A pure layout primitive for a single chat message row. Provides the spatial
+structure (avatar column + content column) and alignment context for chat UIs.
+Has no visual styling of its own — all colour, shape, and surface come from
+Bubble or custom children. Do not use it for non-chat content; prefer Card or
+a custom layout instead.
+
+## Visual identity
+Invisible by itself — no background, no border, no radius. Visual weight is
+entirely delegated to the Bubble component placed inside MessageContent. The
+avatar slot uses --muted as a fallback background for the rounded container.
+
+## Design tokens
+--muted: oklch(0.97 0 0) / oklch(0.269 0 0)           — MessageAvatar fallback background
+--muted-foreground: oklch(0.556 0 0) / oklch(0.708 0 0) — MessageHeader and MessageFooter text colour
+
+## Sub-components
+- MessageGroup    → flex flex-col gap-2; wraps consecutive same-sender messages to reduce spacing
+- Message         → full-width flex row; drives alignment via data-align; base text-sm
+- MessageAvatar   → shrink-0 self-end rounded-full overflow-hidden bg-muted; auto-offsets when footer present
+- MessageContent  → full-width flex column gap-2.5; forces wrap-break-word; aligns children self-end when align="end"
+- MessageHeader   → px-3 text-xs font-medium text-muted-foreground; px-0 when inside ghost Bubble
+- MessageFooter   → px-3 text-xs font-medium text-muted-foreground; justify-end when align="end"; px-0 when ghost
+
+## States
+- data-align=end:   reverses the flex row (avatar right, content left) on Message
+- group-has-data-[slot=message-footer]: MessageAvatar translates up by 2rem to stay level with content bottom
+- group-has-data-[variant=ghost]:       MessageHeader and MessageFooter drop horizontal padding (px-0)
+- group-data-[align=end]:               MessageContent direct children with data-slot align self-end; MessageFooter justify-end
+
+## Conventions
+- Always place a Bubble (or equivalent surface) inside MessageContent — Message is layout-only, not a surface
+- Use MessageGroup to suppress repeated avatars and compress spacing between consecutive turns from the same sender
+- MessageHeader typically carries sender name; MessageFooter typically carries a timestamp or read receipt
+- Do not add border, background, or padding directly to Message — it is layout-only
+- Sub-components expose data-slot="message-group|message|message-avatar|message-content|message-header|message-footer" for CSS targeting
+- The group/message group class on Message enables child components to query parent state via Tailwind group variants — do not rename or remove it
+```
+
+## Installation
+
+<CommandBox componentName="message" className="mt-2" />
