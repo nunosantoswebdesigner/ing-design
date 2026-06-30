@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
-import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { useCallback, useEffect, useRef } from "react";
 
 import { dropdownClose, dropdownOpen } from "@/audio/core";

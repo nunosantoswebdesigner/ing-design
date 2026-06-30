@@ -1,6 +1,6 @@
 "use client";
 
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
+import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 import { useCallback, useEffect, useRef } from "react";
 
 import { collapse, expand } from "@/audio/core";

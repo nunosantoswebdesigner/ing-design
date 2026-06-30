@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Slot } from "radix-ui";
+import { Slot } from "@radix-ui/react-slot";
 
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ const Item = ({
   asChild = false,
   ...props
 }: React.ComponentProps<"div"> & { asChild?: boolean }) => {
-  const Comp = asChild ? Slot.Root : "div";
+  const Comp = asChild ? Slot : "div";
   return (
     <Comp data-slot="item" className={cn("flex items-center gap-3 py-2.5", className)} {...props} />
   );

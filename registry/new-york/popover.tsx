@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover as PopoverPrimitive } from "radix-ui";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { useCallback, useEffect, useRef } from "react";
 
 import { dropdownClose, dropdownOpen } from "@/audio/core";

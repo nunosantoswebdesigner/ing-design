@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs as TabsPrimitive } from "radix-ui";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import type { FeedbackType } from "@/hooks/use-feedback";
 import { useFeedback } from "@/hooks/use-feedback";

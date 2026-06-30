@@ -1,6 +1,6 @@
 "use client";
 
-import { Switch as SwitchPrimitive } from "radix-ui";
+import * as SwitchPrimitive from "@radix-ui/react-switch";
 
 import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";

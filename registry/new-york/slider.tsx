@@ -1,6 +1,6 @@
 "use client";
 
-import { Slider as SliderPrimitive } from "radix-ui";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 
 import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";

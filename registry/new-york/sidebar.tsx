@@ -3,7 +3,7 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
-import { Slot } from "radix-ui";
+import { Slot } from "@radix-ui/react-slot";
 import { createContext, useCallback, useContext, useEffect, useId, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -376,7 +376,7 @@ const SidebarGroupLabel = ({
   asChild = false,
   ...props
 }: React.ComponentProps<"div"> & { asChild?: boolean }) => {
-  const Comp = asChild ? Slot.Root : "div";
+  const Comp = asChild ? Slot : "div";
 
   return (
     <Comp
@@ -397,7 +397,7 @@ const SidebarGroupAction = ({
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> & { asChild?: boolean }) => {
-  const Comp = asChild ? Slot.Root : "button";
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
@@ -491,7 +491,7 @@ const SidebarMenuButton = ({
     onClick?.(e);
   };
 
-  const Comp = asChild ? Slot.Root : "button";
+  const Comp = asChild ? Slot : "button";
 
   const button = (
     <Comp
@@ -533,7 +533,7 @@ const SidebarMenuAction = ({
   asChild?: boolean;
   showOnHover?: boolean;
 }) => {
-  const Comp = asChild ? Slot.Root : "button";
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
@@ -640,7 +640,7 @@ const SidebarMenuSubButton = ({
   size?: "sm" | "md";
   isActive?: boolean;
 }) => {
-  const Comp = asChild ? Slot.Root : "a";
+  const Comp = asChild ? Slot : "a";
 
   return (
     <Comp

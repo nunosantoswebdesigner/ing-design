@@ -1,7 +1,7 @@
 "use client";
 
 import { XIcon } from "lucide-react";
-import { Dialog as SheetPrimitive } from "radix-ui";
+import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { useCallback, useEffect, useRef } from "react";
 
 import { drawerOpen, drawerClose } from "@/audio/core";
