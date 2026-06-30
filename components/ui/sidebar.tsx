@@ -582,7 +582,7 @@ const SidebarMenuSkeleton = ({
 }) => {
   const id = useId();
   const width = useMemo(() => {
-    const hash = [...id].reduce((acc, char) => acc + char.codePointAt(0), 0);
+    const hash = [...id].reduce((acc, char) => acc + (char.codePointAt(0) ?? 0), 0);
     return `${(hash % 40) + 50}%`;
   }, [id]);
 
