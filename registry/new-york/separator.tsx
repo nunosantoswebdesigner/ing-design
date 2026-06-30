@@ -23,3 +23,4 @@ const Separator = ({
 );
 
 export { Separator };
+export default Separator;

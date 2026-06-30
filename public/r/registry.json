@@ -709,11 +709,7 @@
       "dependencies": ["radix-ui", "class-variance-authority"],
       "registryDependencies": ["button"],
       "files": [
-        {
-          "path": "registry/new-york/attachment.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/attachment.tsx"
-        }
+        { "path": "registry/new-york/attachment.tsx", "type": "registry:ui", "target": "components/ui/attachment.tsx" }
       ]
     },
     {
@@ -723,11 +719,7 @@
       "description": "A chat message bubble with 7 variants, alignment, grouping, and reactions.",
       "dependencies": ["radix-ui", "class-variance-authority"],
       "files": [
-        {
-          "path": "registry/new-york/bubble.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/bubble.tsx"
-        }
+        { "path": "registry/new-york/bubble.tsx", "type": "registry:ui", "target": "components/ui/bubble.tsx" }
       ]
     },
     {
@@ -737,11 +729,7 @@
       "description": "An inline status note, system event, or labeled separator for conversation threads.",
       "dependencies": ["radix-ui", "class-variance-authority"],
       "files": [
-        {
-          "path": "registry/new-york/marker.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/marker.tsx"
-        }
+        { "path": "registry/new-york/marker.tsx", "type": "registry:ui", "target": "components/ui/marker.tsx" }
       ]
     },
     {
@@ -750,11 +738,7 @@
       "title": "Message",
       "description": "A layout wrapper for a chat message row with avatar, header, content, and footer.",
       "files": [
-        {
-          "path": "registry/new-york/message.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/message.tsx"
-        }
+        { "path": "registry/new-york/message.tsx", "type": "registry:ui", "target": "components/ui/message.tsx" }
       ]
     },
     {
@@ -765,11 +749,7 @@
       "dependencies": ["@shadcn/react", "lucide-react"],
       "registryDependencies": ["button"],
       "files": [
-        {
-          "path": "registry/new-york/message-scroller.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/message-scroller.tsx"
-        }
+        { "path": "registry/new-york/message-scroller.tsx", "type": "registry:ui", "target": "components/ui/message-scroller.tsx" }
       ]
     },
     {
@@ -779,11 +759,7 @@
       "description": "Toast notifications powered by Sonner, themed to match your design system.",
       "dependencies": ["sonner", "next-themes", "lucide-react"],
       "files": [
-        {
-          "path": "registry/new-york/sonner.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/sonner.tsx"
-        }
+        { "path": "registry/new-york/sonner.tsx", "type": "registry:ui", "target": "components/ui/sonner.tsx" }
       ]
     },
     {
@@ -793,11 +769,7 @@
       "description": "Draggable split panels for horizontal and vertical layouts.",
       "dependencies": ["react-resizable-panels", "lucide-react"],
       "files": [
-        {
-          "path": "registry/new-york/resizable.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/resizable.tsx"
-        }
+        { "path": "registry/new-york/resizable.tsx", "type": "registry:ui", "target": "components/ui/resizable.tsx" }
       ]
     },
     {
@@ -807,11 +779,7 @@
       "description": "A Recharts wrapper with themed tooltips, legends, and CSS variable color config.",
       "dependencies": ["recharts"],
       "files": [
-        {
-          "path": "registry/new-york/chart.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/chart.tsx"
-        }
+        { "path": "registry/new-york/chart.tsx", "type": "registry:ui", "target": "components/ui/chart.tsx" }
       ]
     },
     {
@@ -860,11 +828,7 @@
       "description": "Shared auth UI elements: header, social login, divider, footer.",
       "dependencies": [],
       "files": [
-        {
-          "path": "registry/new-york/e-auth.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/e-auth.tsx"
-        }
+        { "path": "registry/new-york/e-auth.tsx", "type": "registry:ui", "target": "components/ui/e-auth.tsx" }
       ]
     },
     {
@@ -875,11 +839,7 @@
       "dependencies": [],
       "registryDependencies": ["button", "input", "label", "e-auth"],
       "files": [
-        {
-          "path": "registry/new-york/b-login.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/b-login.tsx"
-        }
+        { "path": "registry/new-york/b-login.tsx", "type": "registry:ui", "target": "components/ui/b-login.tsx" }
       ]
     },
     {
@@ -890,11 +850,7 @@
       "dependencies": [],
       "registryDependencies": ["button", "input", "label", "e-auth"],
       "files": [
-        {
-          "path": "registry/new-york/b-signup.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/b-signup.tsx"
-        }
+        { "path": "registry/new-york/b-signup.tsx", "type": "registry:ui", "target": "components/ui/b-signup.tsx" }
       ]
     },
     {
@@ -905,11 +861,7 @@
       "dependencies": ["recharts"],
       "registryDependencies": ["button", "card", "chart", "tabs", "e-data-table"],
       "files": [
-        {
-          "path": "registry/new-york/b-featured.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/b-featured.tsx"
-        }
+        { "path": "registry/new-york/b-featured.tsx", "type": "registry:ui", "target": "components/ui/b-featured.tsx" }
       ]
     },
     {
@@ -918,24 +870,9 @@
       "title": "Data Table",
       "description": "Sortable, filterable task table with status/priority facets, column visibility, and pagination.",
       "dependencies": ["@tanstack/react-table"],
-      "registryDependencies": [
-        "avatar",
-        "badge",
-        "button",
-        "card",
-        "checkbox",
-        "dropdown-menu",
-        "input",
-        "select",
-        "separator",
-        "table"
-      ],
+      "registryDependencies": ["avatar", "badge", "button", "card", "checkbox", "dropdown-menu", "input", "select", "separator", "table"],
       "files": [
-        {
-          "path": "registry/new-york/e-data-table.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/e-data-table.tsx"
-        }
+        { "path": "registry/new-york/e-data-table.tsx", "type": "registry:ui", "target": "components/ui/e-data-table.tsx" }
       ]
     }
   ]

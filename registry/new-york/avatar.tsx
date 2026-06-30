@@ -38,3 +38,4 @@ const AvatarFallback = ({
 );
 
 export { Avatar, AvatarFallback, AvatarImage };
+export default Avatar;

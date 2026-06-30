@@ -3,11 +3,13 @@
   "name": "separator",
   "title": "Separator",
   "description": "A thin visual divider between sections or inline content, supporting horizontal and vertical orientations.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/separator.tsx",
-      "content": "\"use client\";\n\nimport { Separator as SeparatorPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Separator = ({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (\n  <SeparatorPrimitive.Root\n    data-slot=\"separator\"\n    decorative={decorative}\n    orientation={orientation}\n    className={cn(\n      \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px\",\n      className\n    )}\n    {...props}\n  />\n);\n\nexport { Separator };\n",
+      "content": "\"use client\";\n\nimport { Separator as SeparatorPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Separator = ({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (\n  <SeparatorPrimitive.Root\n    data-slot=\"separator\"\n    decorative={decorative}\n    orientation={orientation}\n    className={cn(\n      \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Separator };\nexport default Separator;\n",
       "type": "registry:ui",
       "target": "components/ui/separator.tsx"
     }

@@ -221,3 +221,4 @@ function LoginBlock({
 
 export { LoginBlock };
 export type { LoginBlockProps };
+export default LoginBlock;

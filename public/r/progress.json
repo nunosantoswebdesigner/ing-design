@@ -3,11 +3,13 @@
   "name": "progress",
   "title": "Progress",
   "description": "A horizontal bar that visualises completion of a task or process.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/progress.tsx",
-      "content": "\"use client\";\n\nimport { Progress as ProgressPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Progress = ({\n  className,\n  value,\n  ...props\n}: React.ComponentProps<typeof ProgressPrimitive.Root>) => (\n  <ProgressPrimitive.Root\n    data-slot=\"progress\"\n    className={cn(\n      \"bg-primary/20 relative h-2 w-full overflow-hidden rounded-full\",\n      className\n    )}\n    {...props}\n  >\n    <ProgressPrimitive.Indicator\n      data-slot=\"progress-indicator\"\n      className=\"bg-primary h-full w-full flex-1 transition-all\"\n      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}\n    />\n  </ProgressPrimitive.Root>\n);\n\nexport { Progress };\n",
+      "content": "\"use client\";\n\nimport { Progress as ProgressPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Progress = ({\n  className,\n  value,\n  ...props\n}: React.ComponentProps<typeof ProgressPrimitive.Root>) => (\n  <ProgressPrimitive.Root\n    data-slot=\"progress\"\n    className={cn(\"bg-primary/20 relative h-2 w-full overflow-hidden rounded-full\", className)}\n    {...props}\n  >\n    <ProgressPrimitive.Indicator\n      data-slot=\"progress-indicator\"\n      className=\"bg-primary h-full w-full flex-1 transition-all\"\n      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}\n    />\n  </ProgressPrimitive.Root>\n);\n\nexport { Progress };\nexport default Progress;\n",
       "type": "registry:ui",
       "target": "components/ui/progress.tsx"
     }

@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/new-york/new-element.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\n\nexport interface NewElementProps extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewElement = ({ className, children, ...props }: NewElementProps) => (\n  <div\n    data-slot=\"new-element\"\n    className={cn(\n      \"rounded-md border bg-card text-card-foreground shadow-sm\",\n      className\n    )}\n    {...props}\n  >\n    {children}\n  </div>\n);\n\nNewElement.displayName = \"NewElement\";\n\nexport { NewElement };\n",
+      "content": "import { cn } from \"@/lib/utils\";\n\nexport interface NewElementProps extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewElement = ({ className, children, ...props }: NewElementProps) => (\n  <div\n    data-slot=\"new-element\"\n    className={cn(\"rounded-md border bg-card text-card-foreground shadow-sm\", className)}\n    {...props}\n  >\n    {children}\n  </div>\n);\n\nNewElement.displayName = \"NewElement\";\n\nexport { NewElement };\nexport default NewElement;\n",
       "type": "registry:ui",
       "target": "components/ui/new-element.tsx"
     }

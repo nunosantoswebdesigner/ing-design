@@ -83,3 +83,4 @@ function MessageFooter({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 export { MessageGroup, Message, MessageAvatar, MessageContent, MessageFooter, MessageHeader };
+export default MessageGroup;

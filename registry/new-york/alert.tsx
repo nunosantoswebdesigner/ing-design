@@ -52,3 +52,4 @@ const AlertDescription = ({ className, ...props }: React.ComponentProps<"div">) 
 );
 
 export { Alert, AlertDescription, AlertTitle };
+export default Alert;

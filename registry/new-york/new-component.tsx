@@ -16,3 +16,4 @@ const NewComponent = ({ className, children, ...props }: NewComponentProps) => (
 NewComponent.displayName = "NewComponent";
 
 export { NewComponent };
+export default NewComponent;

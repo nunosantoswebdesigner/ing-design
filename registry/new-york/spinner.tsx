@@ -45,3 +45,4 @@ const Spinner = ({
 );
 
 export { Spinner, spinnerVariants };
+export default Spinner;

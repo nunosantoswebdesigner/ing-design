@@ -16,3 +16,4 @@ const Textarea = ({ className, ...props }: React.ComponentProps<"textarea">) => 
 );
 
 export { Textarea };
+export default Textarea;

@@ -17,3 +17,4 @@ const NewElement = ({ className, children, ...props }: NewElementProps) => (
 NewElement.displayName = "NewElement";
 
 export { NewElement };
+export default NewElement;

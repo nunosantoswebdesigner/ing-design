@@ -39,3 +39,4 @@ const InputGroupText = ({ className, ...props }: React.ComponentProps<"div">) =>
 );
 
 export { InputGroup, InputGroupText };
+export default InputGroup;

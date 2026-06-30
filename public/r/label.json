@@ -3,11 +3,13 @@
   "name": "label",
   "title": "Label",
   "description": "An accessible form label that associates with its input and responds to disabled state.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/label.tsx",
-      "content": "\"use client\";\n\nimport { Label as LabelPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Label = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof LabelPrimitive.Root>) => (\n  <LabelPrimitive.Root\n    data-slot=\"label\"\n    className={cn(\n      \"flex items-center gap-2 text-sm font-medium leading-none select-none\",\n      \"group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50\",\n      \"peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n      className\n    )}\n    {...props}\n  />\n);\n\nexport { Label };\n",
+      "content": "\"use client\";\n\nimport { Label as LabelPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Label = ({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) => (\n  <LabelPrimitive.Root\n    data-slot=\"label\"\n    className={cn(\n      \"flex items-center gap-2 text-sm font-medium leading-none select-none\",\n      \"group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50\",\n      \"peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Label };\nexport default Label;\n",
       "type": "registry:ui",
       "target": "components/ui/label.tsx"
     }

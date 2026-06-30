@@ -15,3 +15,4 @@ const NewBlock = ({ className, children, ...props }: NewBlockProps) => (
 NewBlock.displayName = "NewBlock";
 
 export { NewBlock };
+export default NewBlock;

@@ -46,3 +46,4 @@ const EmptyAction = ({ className, ...props }: React.ComponentProps<"div">) => (
 );
 
 export { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyAction };
+export default Empty;

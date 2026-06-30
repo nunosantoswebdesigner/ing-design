@@ -49,3 +49,4 @@ const Switch = ({
 };
 
 export { Switch };
+export default Switch;
