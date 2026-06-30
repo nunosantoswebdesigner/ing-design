@@ -4,6 +4,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 import { DEFAULT_REGISTRY_THEME_ID, REGISTRY_THEMES } from "@/lib/themes";
+import type { ThemeCssVars } from "@/lib/themes";
 import registry from "@/registry.json";
 
 export const dynamic = "force-dynamic";
@@ -92,8 +93,13 @@ const expandCssVars = (vars: Record<string, string>): Record<string, string> => 
   return out;
 };
 
+const toVars = (vars: Record<string, string>) =>
+  Object.entries(vars)
+    .map(([k, v]) => `  ${k}: ${v};`)
+    .join("\n");
+
 // Simple demo page so v0 has something to render immediately.
-const buildDemoPage = (component: string, title: string): string => {
+const buildDemoPage = (component: string, title: string, cssVars?: ThemeCssVars): string => {
   const importName = title
     .split(" ")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -236,7 +242,7 @@ export default function Page() {
 }`,
   };
 
-  return (
+  const base =
     demos[component] ??
     `import { ${importName} } from "@/components/ui/${component}";
 
@@ -246,8 +252,18 @@ export default function Page() {
       <${importName} />
     </div>
   );
-}`
-  );
+}`;
+
+  if (!cssVars) {
+    return base;
+  }
+
+  const css = `:root {\n${toVars(cssVars.light)}\n}\n.dark {\n${toVars(cssVars.dark)}\n}`;
+  const styleJsx = `<style>{\`${css}\`}</style>`;
+
+  return base
+    .replace(/return \(\n {4}</, `return (\n    <>\n      ${styleJsx}\n      <`)
+    .replace(/\n {2}\);\n}$/, "\n    </>\n  );\n}");
 };
 
 export const GET = async (
@@ -322,7 +338,7 @@ export const GET = async (
     })),
     // Demo page so v0 renders a preview immediately
     {
-      content: buildDemoPage(component, title),
+      content: buildDemoPage(component, title, rawCssVars),
       path: "app/page.tsx",
       target: "app/page.tsx",
       type: "registry:page",

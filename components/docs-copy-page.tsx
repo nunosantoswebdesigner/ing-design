@@ -1,22 +1,11 @@
 "use client";
 
-import { ChevronDownIcon } from "lucide-react";
+import { BracesIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { CopyButton } from "@/components/copy-button";
-import {
-  ChatGptIcon,
-  ClaudeIcon,
-  CursorIcon,
-  FigmaIcon,
-  GeminiIcon,
-  GrokIcon,
-  MarkdownDocIcon,
-  PerplexityIcon,
-  SciraIcon,
-  V0Icon,
-} from "@/components/icons";
+import { ChatGptIcon, ClaudeIcon, FigmaIcon, MarkdownDocIcon, V0Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -164,7 +153,7 @@ export const DocsCopyPage = ({
   const searchParams = useSearchParams();
   const themeParam = searchParams.get("theme");
   const currentTheme = REGISTRY_THEMES.some((t) => t.id === themeParam)
-    ? themeParam!
+    ? (themeParam ?? DEFAULT_REGISTRY_THEME_ID)
     : DEFAULT_REGISTRY_THEME_ID;
   const currentThemeConfig = REGISTRY_THEMES.find((t) => t.id === currentTheme);
   const currentThemeLabel = currentThemeConfig?.label ?? "New York";
@@ -179,7 +168,9 @@ export const DocsCopyPage = ({
   const copyValue = useCallback(async () => {
     const response = await fetch(markdownUrl);
     const text = await response.text();
-    if (currentTheme === DEFAULT_REGISTRY_THEME_ID) {return text;}
+    if (currentTheme === DEFAULT_REGISTRY_THEME_ID) {
+      return text;
+    }
     return `> Theme: **${currentThemeLabel}**\n\n${text}`;
   }, [markdownUrl, currentTheme, currentThemeLabel]);
 
@@ -225,6 +216,14 @@ export const DocsCopyPage = ({
                 <span className="-translate-x-0.5">Open in v0</span>
               </a>
             </DropdownMenuItem>
+            {componentSlug && (
+              <DropdownMenuItem asChild sound="click">
+                <a href={registryApiUrl} rel="noopener noreferrer" target="_blank">
+                  <BracesIcon />
+                  Open in JSON
+                </a>
+              </DropdownMenuItem>
+            )}
             {MENU_ITEMS.map(([key, render]) => (
               <DropdownMenuItem key={key} asChild sound="click">
                 {render(url, markdownUrl, currentThemeLabel)}
@@ -269,6 +268,20 @@ export const DocsCopyPage = ({
               <span className="-translate-x-0.5">Open in v0</span>
             </a>
           </Button>
+          {componentSlug && (
+            <Button
+              variant="ghost"
+              size="lg"
+              asChild
+              sound="click"
+              className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
+            >
+              <a href={registryApiUrl} rel="noopener noreferrer" target="_blank">
+                <BracesIcon />
+                Open in JSON
+              </a>
+            </Button>
+          )}
           {MENU_ITEMS.map(([key, render]) => (
             <Button
               variant="ghost"

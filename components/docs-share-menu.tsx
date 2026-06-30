@@ -1,10 +1,12 @@
 "use client";
 
-import { LinkIcon } from "lucide-react";
+import { BracesIcon, LinkIcon } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-import { SITE } from "@/constants/site";
+import { FALLBACK_SITE_ORIGIN, SITE } from "@/constants/site";
 import { toast } from "sonner";
+import { DEFAULT_REGISTRY_THEME_ID, REGISTRY_THEMES } from "@/lib/themes";
 
 import type { ShareIconHandle } from "@/components/animated-icons/share";
 import { ShareIcon } from "@/components/animated-icons/share";
@@ -32,6 +34,20 @@ export const DocsShareMenu = ({
   const { copyToClipboard } = useCopyToClipboard();
   const [posting, setPosting] = useState(false);
 
+  const searchParams = useSearchParams();
+  const themeParam = searchParams.get("theme");
+  const currentTheme = REGISTRY_THEMES.some((t) => t.id === themeParam)
+    ? (themeParam ?? DEFAULT_REGISTRY_THEME_ID)
+    : DEFAULT_REGISTRY_THEME_ID;
+  const componentSlug =
+    url
+      .split("/")
+      .findLast((p) => p.length > 0)
+      ?.split("?")[0] ?? "";
+  const isComponentPage = url.includes("/components/") || url.includes("/blocks/");
+  const PUBLIC_ORIGIN = process.env.NODE_ENV === "production" ? SITE.URL : FALLBACK_SITE_ORIGIN;
+  const registryApiUrl = `${PUBLIC_ORIGIN}/api/registry/${currentTheme}/${componentSlug}`;
+
   const absoluteUrl = useMemo(() => {
     if (url.startsWith("http")) {
       return url;
@@ -50,29 +66,24 @@ export const DocsShareMenu = ({
   const urlEncoded = encodeURIComponent(absoluteUrl);
 
   const handlePostToDiscord = useCallback(async () => {
-    if (posting) {
-      return;
-    }
+    if (posting) {return;}
     setPosting(true);
 
-    const share = fetch("/api/share/discord", {
-      body: JSON.stringify({ description, title, url: absoluteUrl }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-    }).then(async (res) => {
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? `Failed (${res.status})`);
-      }
-    });
-
-    toast.promise(share, {
-      error: (err: Error) => err.message ?? "Something went wrong",
-      loading: "Sharing to Discord…",
-      success: "Posted to Discord!",
-    });
-
-    share.finally(() => setPosting(false));
+    const toastId = toast.loading("Sharing to Discord…");
+    try {
+      const res = await fetch("/api/share/discord", {
+        body: JSON.stringify({ description, title, url: absoluteUrl }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      });
+      if (!res.ok) {throw new Error(`Failed (${res.status})`);}
+      toast.success("Posted to Discord!", { id: toastId });
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Something went wrong";
+      toast.error(msg, { id: toastId });
+    } finally {
+      setPosting(false);
+    }
   }, [posting, title, description, absoluteUrl]);
 
   return (
@@ -105,6 +116,21 @@ export const DocsShareMenu = ({
           <LinkIcon />
           Copy link
         </DropdownMenuItem>
+
+        {isComponentPage && (
+          <DropdownMenuItem
+            sound="copy"
+            onClick={async () => {
+              const res = await fetch(registryApiUrl);
+              const json = await res.json();
+              copyToClipboard(JSON.stringify(json, null, 2));
+              toast.success("JSON copied");
+            }}
+          >
+            <BracesIcon />
+            Copy JSON
+          </DropdownMenuItem>
+        )}
 
         {LINK.X && (
           <DropdownMenuItem asChild sound="click">
