@@ -3,19 +3,15 @@
   "name": "hover-card",
   "title": "Hover Card",
   "description": "A floating card that appears when hovering over a trigger — for previewing content without navigating away.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/hover-card.tsx",
       "content": "\"use client\";\n\nimport * as HoverCardPrimitive from \"@radix-ui/react-hover-card\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst HoverCard = ({ ...props }: React.ComponentProps<typeof HoverCardPrimitive.Root>) => (\n  <HoverCardPrimitive.Root data-slot=\"hover-card\" {...props} />\n);\n\nconst HoverCardTrigger = ({\n  ...props\n}: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) => (\n  <HoverCardPrimitive.Trigger data-slot=\"hover-card-trigger\" {...props} />\n);\n\nconst HoverCardContent = ({\n  className,\n  align = \"center\",\n  sideOffset = 4,\n  ...props\n}: React.ComponentProps<typeof HoverCardPrimitive.Content>) => (\n  <HoverCardPrimitive.Portal>\n    <HoverCardPrimitive.Content\n      data-slot=\"hover-card-content\"\n      align={align}\n      sideOffset={sideOffset}\n      className={cn(\n        \"bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-64 origin-(--radix-hover-card-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden\",\n        className,\n      )}\n      {...props}\n    />\n  </HoverCardPrimitive.Portal>\n);\n\nexport { HoverCard, HoverCardTrigger, HoverCardContent };\nexport default HoverCard;\n",
       "type": "registry:ui",
       "target": "components/ui/hover-card.tsx"
-    },
-    {
-      "path": "registry/new-york/page/hover-card.tsx",
-      "content": "import { CalendarDays } from \"lucide-react\";\n\nimport { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\nimport { Button } from \"@/components/ui/button\";\nimport { HoverCard, HoverCardContent, HoverCardTrigger } from \"@/components/ui/hover-card\";\n\nexport function HoverCardDemo() {\n  return (\n    <HoverCard>\n      <HoverCardTrigger asChild>\n        <Button variant=\"link\">@nextjs</Button>\n      </HoverCardTrigger>\n      <HoverCardContent className=\"w-80\">\n        <div className=\"flex justify-between gap-4\">\n          <Avatar>\n            <AvatarImage src=\"https://github.com/vercel.png\" />\n            <AvatarFallback>VC</AvatarFallback>\n          </Avatar>\n          <div className=\"space-y-1\">\n            <h4 className=\"text-sm font-semibold\">@nextjs</h4>\n            <p className=\"text-sm text-muted-foreground\">\n              The React Framework — created and maintained by @vercel.\n            </p>\n            <div className=\"flex items-center gap-2 pt-2\">\n              <CalendarDays className=\"size-4 text-muted-foreground\" />\n              <span className=\"text-xs text-muted-foreground\">Joined December 2021</span>\n            </div>\n          </div>\n        </div>\n      </HoverCardContent>\n    </HoverCard>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <HoverCardDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

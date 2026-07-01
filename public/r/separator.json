@@ -3,19 +3,15 @@
   "name": "separator",
   "title": "Separator",
   "description": "A thin visual divider between sections or inline content, supporting horizontal and vertical orientations.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/separator.tsx",
       "content": "\"use client\";\n\nimport * as SeparatorPrimitive from \"@radix-ui/react-separator\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Separator = ({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (\n  <SeparatorPrimitive.Root\n    data-slot=\"separator\"\n    decorative={decorative}\n    orientation={orientation}\n    className={cn(\n      \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Separator };\nexport default Separator;\n",
       "type": "registry:ui",
       "target": "components/ui/separator.tsx"
-    },
-    {
-      "path": "registry/new-york/page/separator.tsx",
-      "content": "import { Separator } from \"@/components/ui/separator\";\n\nexport function SeparatorDemo() {\n  return (\n    <div className=\"flex flex-col gap-8\">\n      {/* Horizontal in text context */}\n      <div className=\"w-full max-w-xs\">\n        <div className=\"space-y-1\">\n          <h4 className=\"text-sm font-medium leading-none\">ING Design</h4>\n          <p className=\"text-muted-foreground text-sm\">A component registry built on shadcn/ui.</p>\n        </div>\n        <Separator className=\"my-4\" />\n        <div className=\"flex h-5 items-center gap-4 text-sm\">\n          <span>Blog</span>\n          <Separator orientation=\"vertical\" />\n          <span>Docs</span>\n          <Separator orientation=\"vertical\" />\n          <span>Source</span>\n        </div>\n      </div>\n\n      {/* Between list items */}\n      <div className=\"w-full max-w-xs divide-y\">\n        {[\"Profile\", \"Billing\", \"Settings\", \"Logout\"].map((item) => (\n          <div key={item} className=\"py-2.5 text-sm\">\n            {item}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <SeparatorDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

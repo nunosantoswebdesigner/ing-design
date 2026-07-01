@@ -3,19 +3,16 @@
   "name": "radio-group",
   "title": "Radio Group",
   "description": "A set of mutually exclusive options where only one can be selected at a time.",
-  "dependencies": ["radix-ui", "lucide-react"],
+  "dependencies": [
+    "radix-ui",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/new-york/radio-group.tsx",
       "content": "\"use client\";\n\nimport { CircleIcon } from \"lucide-react\";\nimport * as RadioGroupPrimitive from \"@radix-ui/react-radio-group\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst RadioGroup = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) => (\n  <RadioGroupPrimitive.Root\n    data-slot=\"radio-group\"\n    className={cn(\"grid gap-3\", className)}\n    {...props}\n  />\n);\n\nconst RadioGroupItem = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) => (\n  <RadioGroupPrimitive.Item\n    data-slot=\"radio-group-item\"\n    className={cn(\n      \"border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aspect-square size-4 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50\",\n      className,\n    )}\n    {...props}\n  >\n    <RadioGroupPrimitive.Indicator\n      data-slot=\"radio-group-indicator\"\n      className=\"relative flex items-center justify-center\"\n    >\n      <CircleIcon className=\"fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2\" />\n    </RadioGroupPrimitive.Indicator>\n  </RadioGroupPrimitive.Item>\n);\n\nexport { RadioGroup, RadioGroupItem };\nexport default RadioGroup;\n",
       "type": "registry:ui",
       "target": "components/ui/radio-group.tsx"
-    },
-    {
-      "path": "registry/new-york/page/radio-group.tsx",
-      "content": "import { Label } from \"@/components/ui/label\";\nimport { RadioGroup, RadioGroupItem } from \"@/components/ui/radio-group\";\n\nexport function RadioGroupDemo() {\n  return (\n    <div className=\"flex flex-col gap-8\">\n      {/* Vertical (default) */}\n      <RadioGroup defaultValue=\"comfortable\">\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"default\" id=\"r-default\" />\n          <Label htmlFor=\"r-default\">Default</Label>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"comfortable\" id=\"r-comfortable\" />\n          <Label htmlFor=\"r-comfortable\">Comfortable</Label>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"compact\" id=\"r-compact\" />\n          <Label htmlFor=\"r-compact\">Compact</Label>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"disabled\" id=\"r-disabled\" disabled />\n          <Label htmlFor=\"r-disabled\">Disabled option</Label>\n        </div>\n      </RadioGroup>\n\n      {/* Horizontal */}\n      <RadioGroup defaultValue=\"card\" className=\"flex gap-6\">\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"card\" id=\"r-card\" />\n          <Label htmlFor=\"r-card\">Card</Label>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"paypal\" id=\"r-paypal\" />\n          <Label htmlFor=\"r-paypal\">PayPal</Label>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <RadioGroupItem value=\"apple\" id=\"r-apple\" />\n          <Label htmlFor=\"r-apple\">Apple Pay</Label>\n        </div>\n      </RadioGroup>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <RadioGroupDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

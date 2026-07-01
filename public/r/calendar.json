@@ -3,20 +3,19 @@
   "name": "calendar",
   "title": "Calendar",
   "description": "A date picker calendar with support for single, multiple, and range selection.",
-  "dependencies": ["react-day-picker", "lucide-react"],
-  "registryDependencies": ["button"],
+  "dependencies": [
+    "react-day-picker",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "files": [
     {
       "path": "registry/new-york/calendar.tsx",
       "content": "\"use client\";\n\nimport { ChevronLeft, ChevronRight } from \"lucide-react\";\nimport type { ChevronProps } from \"react-day-picker\";\nimport { DayPicker } from \"react-day-picker\";\n\nimport { cn } from \"@/lib/utils\";\nimport { buttonVariants } from \"@/registry/new-york/button\";\n\nfunction Calendar({\n  className,\n  classNames,\n  showOutsideDays = true,\n  ...props\n}: React.ComponentProps<typeof DayPicker>) {\n  return (\n    <DayPicker\n      showOutsideDays={showOutsideDays}\n      className={cn(\"p-3\", className)}\n      classNames={{\n        button_next: cn(\n          buttonVariants({ variant: \"outline\" }),\n          \"size-7 bg-transparent p-0 opacity-50 hover:opacity-100\",\n        ),\n        button_previous: cn(\n          buttonVariants({ variant: \"outline\" }),\n          \"size-7 bg-transparent p-0 opacity-50 hover:opacity-100\",\n        ),\n        caption_label: \"text-sm font-medium\",\n        day: cn(\n          \"relative p-0 text-center text-sm focus-within:relative focus-within:z-20\",\n          \"[&:has([aria-selected])]:bg-accent\",\n          \"first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md\",\n          \"[&:has([aria-selected].day-outside)]:bg-accent/50\",\n          \"[&:has([aria-selected].range_end)]:rounded-r-md\",\n          \"[&:has([aria-selected].range_start)]:rounded-l-md\",\n        ),\n        day_button: cn(\n          buttonVariants({ variant: \"ghost\" }),\n          \"size-8 p-0 font-normal aria-selected:opacity-100\",\n        ),\n        disabled: \"text-muted-foreground opacity-50\",\n        hidden: \"invisible\",\n        month: \"flex flex-col gap-4\",\n        month_caption: \"relative flex items-center justify-center pt-1\",\n        month_grid: \"w-full border-collapse\",\n        months: \"flex flex-col gap-2 sm:flex-row\",\n        nav: \"absolute inset-x-0 top-0 flex items-center justify-between gap-1 px-1 pt-1\",\n        outside:\n          \"day-outside text-muted-foreground opacity-50 [&>button]:aria-selected:text-muted-foreground\",\n        range_end:\n          \"range_end rounded-r-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground\",\n        range_middle: \"aria-selected:bg-accent aria-selected:text-accent-foreground\",\n        range_start:\n          \"range_start rounded-l-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground\",\n        selected:\n          \"[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground\",\n        today: \"[&>button]:bg-accent [&>button]:text-accent-foreground\",\n        week: \"mt-2 flex w-full\",\n        weekday: \"text-muted-foreground w-8 rounded-md text-center text-[0.8rem] font-normal\",\n        weekdays: \"flex\",\n        weeks: \"\",\n        ...classNames,\n      }}\n      components={{\n        Chevron: ({ orientation }: ChevronProps) =>\n          orientation === \"left\" ? (\n            <ChevronLeft className=\"size-4\" />\n          ) : (\n            <ChevronRight className=\"size-4\" />\n          ),\n      }}\n      {...props}\n    />\n  );\n}\n\nCalendar.displayName = \"Calendar\";\nexport { Calendar };\nexport default Calendar;\n",
       "type": "registry:ui",
       "target": "components/ui/calendar.tsx"
-    },
-    {
-      "path": "registry/new-york/page/calendar.tsx",
-      "content": "\"use client\";\n\nimport { useState } from \"react\";\n\nimport { Calendar } from \"@/components/ui/calendar\";\n\nexport function CalendarDemo() {\n  const [date, setDate] = useState<Date | undefined>(new Date());\n\n  return (\n    <Calendar mode=\"single\" selected={date} onSelect={setDate} className=\"rounded-lg border\" />\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <CalendarDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

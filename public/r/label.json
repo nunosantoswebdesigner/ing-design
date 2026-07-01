@@ -3,19 +3,15 @@
   "name": "label",
   "title": "Label",
   "description": "An accessible form label that associates with its input and responds to disabled state.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/label.tsx",
       "content": "\"use client\";\n\nimport * as LabelPrimitive from \"@radix-ui/react-label\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Label = ({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) => (\n  <LabelPrimitive.Root\n    data-slot=\"label\"\n    className={cn(\n      \"flex items-center gap-2 text-sm font-medium leading-none select-none\",\n      \"group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50\",\n      \"peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Label };\nexport default Label;\n",
       "type": "registry:ui",
       "target": "components/ui/label.tsx"
-    },
-    {
-      "path": "registry/new-york/page/label.tsx",
-      "content": "import { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\n\nexport function LabelDemo() {\n  return (\n    <div className=\"flex flex-col gap-6\">\n      {/* Basic label + input */}\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"email\">Email address</Label>\n        <Input id=\"email\" type=\"email\" placeholder=\"you@example.com\" />\n      </div>\n\n      {/* Required */}\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"username\">\n          Username\n          <span className=\"text-destructive\">*</span>\n        </Label>\n        <Input id=\"username\" placeholder=\"johndoe\" />\n      </div>\n\n      {/* Disabled — peer-disabled styling */}\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"disabled-input\">Disabled field</Label>\n        <Input id=\"disabled-input\" disabled placeholder=\"Not available\" />\n      </div>\n\n      {/* With icon */}\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"avatar\" className=\"cursor-pointer\">\n          <span className=\"flex size-5 items-center justify-center rounded-full bg-muted text-[10px] font-semibold\">\n            NS\n          </span>\n          Display name\n        </Label>\n        <Input id=\"avatar\" placeholder=\"Nuno Santos\" />\n      </div>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <LabelDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

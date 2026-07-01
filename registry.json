@@ -15,11 +15,6 @@
           "path": "registry/new-york/aspect-ratio.tsx",
           "type": "registry:ui",
           "target": "components/ui/aspect-ratio.tsx"
-        },
-        {
-          "path": "registry/new-york/page/aspect-ratio.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -82,11 +77,6 @@
           "path": "registry/new-york/alert-dialog.tsx",
           "type": "registry:ui",
           "target": "components/ui/alert-dialog.tsx"
-        },
-        {
-          "path": "registry/new-york/page/alert-dialog.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -146,11 +136,6 @@
           "path": "registry/new-york/alert.tsx",
           "type": "registry:ui",
           "target": "components/ui/alert.tsx"
-        },
-        {
-          "path": "registry/new-york/page/alert.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -214,11 +199,6 @@
           "path": "registry/new-york/command.tsx",
           "type": "registry:ui",
           "target": "components/ui/command.tsx"
-        },
-        {
-          "path": "registry/new-york/page/command.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -278,11 +258,6 @@
           "path": "registry/new-york/collapsible.tsx",
           "type": "registry:ui",
           "target": "components/ui/collapsible.tsx"
-        },
-        {
-          "path": "registry/new-york/page/collapsible.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -343,11 +318,6 @@
           "path": "registry/new-york/checkbox.tsx",
           "type": "registry:ui",
           "target": "components/ui/checkbox.tsx"
-        },
-        {
-          "path": "registry/new-york/page/checkbox.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -398,7 +368,7 @@
       "name": "carousel",
       "type": "registry:ui",
       "title": "Carousel",
-      "description": "A swipeable slideshow for cycling through content \u2014 images, cards, or any elements.",
+      "description": "A swipeable slideshow for cycling through content — images, cards, or any elements.",
       "dependencies": [
         "embla-carousel-react",
         "lucide-react"
@@ -411,11 +381,6 @@
           "path": "registry/new-york/carousel.tsx",
           "type": "registry:ui",
           "target": "components/ui/carousel.tsx"
-        },
-        {
-          "path": "registry/new-york/page/carousel.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -535,11 +500,6 @@
           "path": "registry/new-york/calendar.tsx",
           "type": "registry:ui",
           "target": "components/ui/calendar.tsx"
-        },
-        {
-          "path": "registry/new-york/page/calendar.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -599,11 +559,6 @@
           "path": "registry/new-york/button-group.tsx",
           "type": "registry:ui",
           "target": "components/ui/button-group.tsx"
-        },
-        {
-          "path": "registry/new-york/page/button-group.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -664,11 +619,6 @@
           "path": "registry/new-york/breadcrumb.tsx",
           "type": "registry:ui",
           "target": "components/ui/breadcrumb.tsx"
-        },
-        {
-          "path": "registry/new-york/page/breadcrumb.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -729,11 +679,6 @@
           "path": "registry/new-york/badge.tsx",
           "type": "registry:ui",
           "target": "components/ui/badge.tsx"
-        },
-        {
-          "path": "registry/new-york/page/badge.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -793,11 +738,6 @@
           "path": "registry/new-york/avatar.tsx",
           "type": "registry:ui",
           "target": "components/ui/avatar.tsx"
-        },
-        {
-          "path": "registry/new-york/page/avatar.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -858,11 +798,6 @@
           "path": "registry/new-york/accordion.tsx",
           "type": "registry:ui",
           "target": "components/ui/accordion.tsx"
-        },
-        {
-          "path": "registry/new-york/page/accordion.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -923,11 +858,6 @@
           "path": "registry/new-york/button.tsx",
           "type": "registry:ui",
           "target": "components/ui/button.tsx"
-        },
-        {
-          "path": "registry/new-york/page/button.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -978,7 +908,7 @@
       "name": "hover-card",
       "type": "registry:ui",
       "title": "Hover Card",
-      "description": "A floating card that appears when hovering over a trigger \u2014 for previewing content without navigating away.",
+      "description": "A floating card that appears when hovering over a trigger — for previewing content without navigating away.",
       "dependencies": [
         "radix-ui"
       ],
@@ -987,11 +917,6 @@
           "path": "registry/new-york/hover-card.tsx",
           "type": "registry:ui",
           "target": "components/ui/hover-card.tsx"
-        },
-        {
-          "path": "registry/new-york/page/hover-card.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1042,17 +967,12 @@
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
-      "description": "A form field wrapper that connects a label, control, description, and error message \u2014 eliminating manual id wiring.",
+      "description": "A form field wrapper that connects a label, control, description, and error message — eliminating manual id wiring.",
       "files": [
         {
           "path": "registry/new-york/field.tsx",
           "type": "registry:ui",
           "target": "components/ui/field.tsx"
-        },
-        {
-          "path": "registry/new-york/page/field.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1103,17 +1023,12 @@
       "name": "empty",
       "type": "registry:ui",
       "title": "Empty",
-      "description": "A placeholder state for when content is absent \u2014 communicates context and guides the user toward the next action.",
+      "description": "A placeholder state for when content is absent — communicates context and guides the user toward the next action.",
       "files": [
         {
           "path": "registry/new-york/empty.tsx",
           "type": "registry:ui",
           "target": "components/ui/empty.tsx"
-        },
-        {
-          "path": "registry/new-york/page/empty.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1164,7 +1079,7 @@
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
-      "description": "A floating menu triggered by a button \u2014 for actions, navigation, and contextual options.",
+      "description": "A floating menu triggered by a button — for actions, navigation, and contextual options.",
       "dependencies": [
         "radix-ui",
         "lucide-react"
@@ -1174,11 +1089,6 @@
           "path": "registry/new-york/dropdown-menu.tsx",
           "type": "registry:ui",
           "target": "components/ui/dropdown-menu.tsx"
-        },
-        {
-          "path": "registry/new-york/page/dropdown-menu.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1229,7 +1139,7 @@
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
-      "description": "A panel that slides in from any edge of the screen \u2014 draggable on touch, dismissable by overlay click or swipe.",
+      "description": "A panel that slides in from any edge of the screen — draggable on touch, dismissable by overlay click or swipe.",
       "dependencies": [
         "vaul"
       ],
@@ -1238,11 +1148,6 @@
           "path": "registry/new-york/drawer.tsx",
           "type": "registry:ui",
           "target": "components/ui/drawer.tsx"
-        },
-        {
-          "path": "registry/new-york/page/drawer.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1303,11 +1208,6 @@
           "path": "registry/new-york/dialog.tsx",
           "type": "registry:ui",
           "target": "components/ui/dialog.tsx"
-        },
-        {
-          "path": "registry/new-york/page/dialog.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1364,11 +1264,6 @@
           "path": "registry/new-york/table.tsx",
           "type": "registry:ui",
           "target": "components/ui/table.tsx"
-        },
-        {
-          "path": "registry/new-york/page/table.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1429,11 +1324,6 @@
           "path": "registry/new-york/context-menu.tsx",
           "type": "registry:ui",
           "target": "components/ui/context-menu.tsx"
-        },
-        {
-          "path": "registry/new-york/page/context-menu.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1484,7 +1374,7 @@
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
-      "description": "A modal panel that slides in from any edge of the screen \u2014 for navigation, settings, and focused tasks.",
+      "description": "A modal panel that slides in from any edge of the screen — for navigation, settings, and focused tasks.",
       "dependencies": [
         "radix-ui",
         "lucide-react"
@@ -1494,11 +1384,6 @@
           "path": "registry/new-york/sheet.tsx",
           "type": "registry:ui",
           "target": "components/ui/sheet.tsx"
-        },
-        {
-          "path": "registry/new-york/page/sheet.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1558,11 +1443,6 @@
           "path": "registry/new-york/separator.tsx",
           "type": "registry:ui",
           "target": "components/ui/separator.tsx"
-        },
-        {
-          "path": "registry/new-york/page/separator.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1613,7 +1493,7 @@
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
-      "description": "A custom dropdown for selecting a single value \u2014 with groups, labels, separators, and keyboard navigation.",
+      "description": "A custom dropdown for selecting a single value — with groups, labels, separators, and keyboard navigation.",
       "dependencies": [
         "radix-ui",
         "lucide-react"
@@ -1623,11 +1503,6 @@
           "path": "registry/new-york/select.tsx",
           "type": "registry:ui",
           "target": "components/ui/select.tsx"
-        },
-        {
-          "path": "registry/new-york/page/select.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1687,11 +1562,6 @@
           "path": "registry/new-york/scroll-area.tsx",
           "type": "registry:ui",
           "target": "components/ui/scroll-area.tsx"
-        },
-        {
-          "path": "registry/new-york/page/scroll-area.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1752,11 +1622,6 @@
           "path": "registry/new-york/radio-group.tsx",
           "type": "registry:ui",
           "target": "components/ui/radio-group.tsx"
-        },
-        {
-          "path": "registry/new-york/page/radio-group.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1816,11 +1681,6 @@
           "path": "registry/new-york/progress.tsx",
           "type": "registry:ui",
           "target": "components/ui/progress.tsx"
-        },
-        {
-          "path": "registry/new-york/page/progress.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1871,7 +1731,7 @@
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
-      "description": "A floating panel anchored to a trigger \u2014 for non-modal overlays, forms, and contextual detail.",
+      "description": "A floating panel anchored to a trigger — for non-modal overlays, forms, and contextual detail.",
       "dependencies": [
         "radix-ui"
       ],
@@ -1880,11 +1740,6 @@
           "path": "registry/new-york/popover.tsx",
           "type": "registry:ui",
           "target": "components/ui/popover.tsx"
-        },
-        {
-          "path": "registry/new-york/page/popover.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -1947,11 +1802,6 @@
           "path": "registry/new-york/pagination.tsx",
           "type": "registry:ui",
           "target": "components/ui/pagination.tsx"
-        },
-        {
-          "path": "registry/new-york/page/pagination.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2013,11 +1863,6 @@
           "path": "registry/new-york/navigation-menu.tsx",
           "type": "registry:ui",
           "target": "components/ui/navigation-menu.tsx"
-        },
-        {
-          "path": "registry/new-york/page/navigation-menu.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2077,11 +1922,6 @@
           "path": "registry/new-york/native-select.tsx",
           "type": "registry:ui",
           "target": "components/ui/native-select.tsx"
-        },
-        {
-          "path": "registry/new-york/page/native-select.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2132,7 +1972,7 @@
       "name": "menubar",
       "type": "registry:ui",
       "title": "Menubar",
-      "description": "A persistent horizontal menu bar with dropdown menus \u2014 checkboxes, radio groups, sub-menus, and keyboard shortcuts.",
+      "description": "A persistent horizontal menu bar with dropdown menus — checkboxes, radio groups, sub-menus, and keyboard shortcuts.",
       "dependencies": [
         "radix-ui",
         "lucide-react"
@@ -2142,11 +1982,6 @@
           "path": "registry/new-york/menubar.tsx",
           "type": "registry:ui",
           "target": "components/ui/menubar.tsx"
-        },
-        {
-          "path": "registry/new-york/page/menubar.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2206,11 +2041,6 @@
           "path": "registry/new-york/label.tsx",
           "type": "registry:ui",
           "target": "components/ui/label.tsx"
-        },
-        {
-          "path": "registry/new-york/page/label.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2267,11 +2097,6 @@
           "path": "registry/new-york/kbd.tsx",
           "type": "registry:ui",
           "target": "components/ui/kbd.tsx"
-        },
-        {
-          "path": "registry/new-york/page/kbd.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2322,7 +2147,7 @@
       "name": "item",
       "type": "registry:ui",
       "title": "Item",
-      "description": "A composable row for lists, settings, and navigation \u2014 combines an icon, label, description, and trailing action slot.",
+      "description": "A composable row for lists, settings, and navigation — combines an icon, label, description, and trailing action slot.",
       "dependencies": [
         "radix-ui"
       ],
@@ -2331,11 +2156,6 @@
           "path": "registry/new-york/item.tsx",
           "type": "registry:ui",
           "target": "components/ui/item.tsx"
-        },
-        {
-          "path": "registry/new-york/page/item.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2392,11 +2212,6 @@
           "path": "registry/new-york/input.tsx",
           "type": "registry:ui",
           "target": "components/ui/input.tsx"
-        },
-        {
-          "path": "registry/new-york/page/input.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2457,11 +2272,6 @@
           "path": "registry/new-york/input-otp.tsx",
           "type": "registry:ui",
           "target": "components/ui/input-otp.tsx"
-        },
-        {
-          "path": "registry/new-york/page/input-otp.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2512,7 +2322,7 @@
       "name": "input-group",
       "type": "registry:ui",
       "title": "Input Group",
-      "description": "Composes an input with prefix and suffix addons \u2014 text, icons, or action buttons \u2014 with seamlessly shared borders.",
+      "description": "Composes an input with prefix and suffix addons — text, icons, or action buttons — with seamlessly shared borders.",
       "registryDependencies": [
         "input",
         "button"
@@ -2522,11 +2332,6 @@
           "path": "registry/new-york/input-group.tsx",
           "type": "registry:ui",
           "target": "components/ui/input-group.tsx"
-        },
-        {
-          "path": "registry/new-york/page/input-group.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2596,11 +2401,6 @@
           "path": "registry/new-york/sidebar.tsx",
           "type": "registry:ui",
           "target": "components/ui/sidebar.tsx"
-        },
-        {
-          "path": "registry/new-york/page/sidebar.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2657,11 +2457,6 @@
           "path": "registry/new-york/skeleton.tsx",
           "type": "registry:ui",
           "target": "components/ui/skeleton.tsx"
-        },
-        {
-          "path": "registry/new-york/page/skeleton.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2721,11 +2516,6 @@
           "path": "registry/new-york/slider.tsx",
           "type": "registry:ui",
           "target": "components/ui/slider.tsx"
-        },
-        {
-          "path": "registry/new-york/page/slider.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2785,11 +2575,6 @@
           "path": "registry/new-york/spinner.tsx",
           "type": "registry:ui",
           "target": "components/ui/spinner.tsx"
-        },
-        {
-          "path": "registry/new-york/page/spinner.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2849,11 +2634,6 @@
           "path": "registry/new-york/switch.tsx",
           "type": "registry:ui",
           "target": "components/ui/switch.tsx"
-        },
-        {
-          "path": "registry/new-york/page/switch.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2913,11 +2693,6 @@
           "path": "registry/new-york/tabs.tsx",
           "type": "registry:ui",
           "target": "components/ui/tabs.tsx"
-        },
-        {
-          "path": "registry/new-york/page/tabs.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -2974,11 +2749,6 @@
           "path": "registry/new-york/textarea.tsx",
           "type": "registry:ui",
           "target": "components/ui/textarea.tsx"
-        },
-        {
-          "path": "registry/new-york/page/textarea.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3039,11 +2809,6 @@
           "path": "registry/new-york/toggle.tsx",
           "type": "registry:ui",
           "target": "components/ui/toggle.tsx"
-        },
-        {
-          "path": "registry/new-york/page/toggle.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3106,11 +2871,6 @@
           "path": "registry/new-york/toggle-group.tsx",
           "type": "registry:ui",
           "target": "components/ui/toggle-group.tsx"
-        },
-        {
-          "path": "registry/new-york/page/toggle-group.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3170,11 +2930,6 @@
           "path": "registry/new-york/tooltip.tsx",
           "type": "registry:ui",
           "target": "components/ui/tooltip.tsx"
-        },
-        {
-          "path": "registry/new-york/page/tooltip.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3238,11 +2993,6 @@
           "path": "registry/new-york/attachment.tsx",
           "type": "registry:ui",
           "target": "components/ui/attachment.tsx"
-        },
-        {
-          "path": "registry/new-york/page/attachment.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3303,11 +3053,6 @@
           "path": "registry/new-york/bubble.tsx",
           "type": "registry:ui",
           "target": "components/ui/bubble.tsx"
-        },
-        {
-          "path": "registry/new-york/page/bubble.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3368,11 +3113,6 @@
           "path": "registry/new-york/marker.tsx",
           "type": "registry:ui",
           "target": "components/ui/marker.tsx"
-        },
-        {
-          "path": "registry/new-york/page/marker.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3429,11 +3169,6 @@
           "path": "registry/new-york/message.tsx",
           "type": "registry:ui",
           "target": "components/ui/message.tsx"
-        },
-        {
-          "path": "registry/new-york/page/message.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3497,11 +3232,6 @@
           "path": "registry/new-york/message-scroller.tsx",
           "type": "registry:ui",
           "target": "components/ui/message-scroller.tsx"
-        },
-        {
-          "path": "registry/new-york/page/message-scroller.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3563,11 +3293,6 @@
           "path": "registry/new-york/sonner.tsx",
           "type": "registry:ui",
           "target": "components/ui/sonner.tsx"
-        },
-        {
-          "path": "registry/new-york/page/sonner.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3628,11 +3353,6 @@
           "path": "registry/new-york/resizable.tsx",
           "type": "registry:ui",
           "target": "components/ui/resizable.tsx"
-        },
-        {
-          "path": "registry/new-york/page/resizable.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3692,11 +3412,6 @@
           "path": "registry/new-york/chart.tsx",
           "type": "registry:ui",
           "target": "components/ui/chart.tsx"
-        },
-        {
-          "path": "registry/new-york/page/chart.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3747,17 +3462,12 @@
       "name": "new-component",
       "type": "registry:ui",
       "title": "New Component",
-      "description": "Template \u2014 replace with your component name and description.",
+      "description": "Template — replace with your component name and description.",
       "files": [
         {
           "path": "registry/new-york/new-component.tsx",
           "type": "registry:ui",
           "target": "components/ui/new-component.tsx"
-        },
-        {
-          "path": "registry/new-york/page/new-component.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3808,17 +3518,12 @@
       "name": "new-element",
       "type": "registry:ui",
       "title": "New Element",
-      "description": "Template \u2014 replace with your element name and description.",
+      "description": "Template — replace with your element name and description.",
       "files": [
         {
           "path": "registry/new-york/new-element.tsx",
           "type": "registry:ui",
           "target": "components/ui/new-element.tsx"
-        },
-        {
-          "path": "registry/new-york/page/new-element.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -3869,17 +3574,12 @@
       "name": "new-block",
       "type": "registry:ui",
       "title": "New Block",
-      "description": "Template \u2014 replace with your block name and description.",
+      "description": "Template — replace with your block name and description.",
       "files": [
         {
           "path": "registry/new-york/new-block.tsx",
           "type": "registry:ui",
           "target": "components/ui/new-block.tsx"
-        },
-        {
-          "path": "registry/new-york/page/new-block.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -4000,11 +3700,6 @@
           "path": "registry/new-york/b-login.tsx",
           "type": "registry:ui",
           "target": "components/ui/b-login.tsx"
-        },
-        {
-          "path": "registry/new-york/page/b-login.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -4068,11 +3763,6 @@
           "path": "registry/new-york/b-signup.tsx",
           "type": "registry:ui",
           "target": "components/ui/b-signup.tsx"
-        },
-        {
-          "path": "registry/new-york/page/b-signup.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {
@@ -4215,11 +3905,6 @@
           "path": "registry/new-york/e-data-table.tsx",
           "type": "registry:ui",
           "target": "components/ui/e-data-table.tsx"
-        },
-        {
-          "path": "registry/new-york/page/e-data-table.tsx",
-          "type": "registry:page",
-          "target": "app/page.tsx"
         }
       ],
       "cssVars": {

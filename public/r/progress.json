@@ -3,19 +3,15 @@
   "name": "progress",
   "title": "Progress",
   "description": "A horizontal bar that visualises completion of a task or process.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/progress.tsx",
       "content": "\"use client\";\n\nimport * as ProgressPrimitive from \"@radix-ui/react-progress\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Progress = ({\n  className,\n  value,\n  ...props\n}: React.ComponentProps<typeof ProgressPrimitive.Root>) => (\n  <ProgressPrimitive.Root\n    data-slot=\"progress\"\n    className={cn(\"bg-primary/20 relative h-2 w-full overflow-hidden rounded-full\", className)}\n    {...props}\n  >\n    <ProgressPrimitive.Indicator\n      data-slot=\"progress-indicator\"\n      className=\"bg-primary h-full w-full flex-1 transition-all\"\n      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}\n    />\n  </ProgressPrimitive.Root>\n);\n\nexport { Progress };\nexport default Progress;\n",
       "type": "registry:ui",
       "target": "components/ui/progress.tsx"
-    },
-    {
-      "path": "registry/new-york/page/progress.tsx",
-      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\nimport { Progress } from \"@/components/ui/progress\";\n\nexport function ProgressDemo() {\n  const [value, setValue] = useState(0);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setValue(68), 300);\n    return () => clearTimeout(timer);\n  }, []);\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-6\">\n      {/* Animated on mount */}\n      <div className=\"flex flex-col gap-1.5\">\n        <div className=\"flex justify-between text-sm\">\n          <span className=\"text-muted-foreground\">Uploading…</span>\n          <span className=\"font-medium\">{value}%</span>\n        </div>\n        <Progress value={value} />\n      </div>\n\n      {/* Fixed values */}\n      <div className=\"flex flex-col gap-3\">\n        <Progress value={0} />\n        <Progress value={25} />\n        <Progress value={50} />\n        <Progress value={75} />\n        <Progress value={100} />\n      </div>\n\n      {/* Thick */}\n      <Progress value={42} className=\"h-3\" />\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <ProgressDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

@@ -3,19 +3,15 @@
   "name": "avatar",
   "title": "Avatar",
   "description": "An image element with a fallback for representing a user.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/avatar.tsx",
       "content": "\"use client\";\n\nimport * as AvatarPrimitive from \"@radix-ui/react-avatar\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Avatar = ({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Root>) => (\n  <AvatarPrimitive.Root\n    data-slot=\"avatar\"\n    className={cn(\"relative flex size-8 shrink-0 overflow-hidden rounded-full\", className)}\n    {...props}\n  />\n);\n\nconst AvatarImage = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof AvatarPrimitive.Image>) => (\n  <AvatarPrimitive.Image\n    data-slot=\"avatar-image\"\n    className={cn(\"aspect-square size-full\", className)}\n    {...props}\n  />\n);\n\nconst AvatarFallback = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) => (\n  <AvatarPrimitive.Fallback\n    data-slot=\"avatar-fallback\"\n    className={cn(\n      \"bg-muted flex size-full items-center justify-center rounded-full text-xs font-medium\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Avatar, AvatarFallback, AvatarImage };\nexport default Avatar;\n",
       "type": "registry:ui",
       "target": "components/ui/avatar.tsx"
-    },
-    {
-      "path": "registry/new-york/page/avatar.tsx",
-      "content": "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\";\n\nexport function AvatarDemo() {\n  return (\n    <div className=\"flex items-center gap-4\">\n      <Avatar>\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src=\"https://github.com/vercel.png\" alt=\"@vercel\" />\n        <AvatarFallback>VC</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarFallback>NS</AvatarFallback>\n      </Avatar>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <AvatarDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

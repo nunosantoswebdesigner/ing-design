@@ -9,12 +9,6 @@
       "content": "import { cn } from \"@/lib/utils\";\n\nexport interface NewElementProps extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewElement = ({ className, children, ...props }: NewElementProps) => (\n  <div\n    data-slot=\"new-element\"\n    className={cn(\"rounded-md border bg-card text-card-foreground shadow-sm\", className)}\n    {...props}\n  >\n    {children}\n  </div>\n);\n\nNewElement.displayName = \"NewElement\";\n\nexport { NewElement };\nexport default NewElement;\n",
       "type": "registry:ui",
       "target": "components/ui/new-element.tsx"
-    },
-    {
-      "path": "registry/new-york/page/new-element.tsx",
-      "content": "import { NewElement } from \"@/components/ui/new-element\";\n\nexport function NewElementDemo() {\n  return <NewElement className=\"p-6\">New element</NewElement>;\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <NewElementDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

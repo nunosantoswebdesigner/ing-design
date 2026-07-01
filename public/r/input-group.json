@@ -3,19 +3,16 @@
   "name": "input-group",
   "title": "Input Group",
   "description": "Composes an input with prefix and suffix addons — text, icons, or action buttons — with seamlessly shared borders.",
-  "registryDependencies": ["input", "button"],
+  "registryDependencies": [
+    "input",
+    "button"
+  ],
   "files": [
     {
       "path": "registry/new-york/input-group.tsx",
       "content": "import * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst InputGroup = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"input-group\"\n    className={cn(\n      \"flex\",\n      // --- Input ---\n      \"[&>[data-slot=input]]:flex-1 [&>[data-slot=input]]:min-w-0\",\n      \"[&>[data-slot=input]:not(:first-child)]:rounded-l-none\",\n      \"[&>[data-slot=input]:not(:first-child)]:-ml-px\",\n      \"[&>[data-slot=input]:not(:last-child)]:rounded-r-none\",\n      \"[&>[data-slot=input]:focus-visible]:relative [&>[data-slot=input]:focus-visible]:z-10\",\n      // --- Button ---\n      \"[&>[data-slot=button]:not(:first-child)]:-ml-px\",\n      \"[&>[data-slot=button]:not(:first-child)]:rounded-l-none\",\n      \"[&>[data-slot=button]:not(:last-child)]:rounded-r-none\",\n      \"[&>[data-slot=button]:focus-visible]:relative [&>[data-slot=button]:focus-visible]:z-10\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nconst InputGroupText = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"input-group-text\"\n    className={cn(\n      \"border-input bg-muted text-muted-foreground flex items-center border px-3 text-sm whitespace-nowrap\",\n      \"rounded-none first:rounded-l-md last:rounded-r-md\",\n      \"not-first:-ml-px\",\n      \"[&_svg:not([class*='size-'])]:size-4\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { InputGroup, InputGroupText };\nexport default InputGroup;\n",
       "type": "registry:ui",
       "target": "components/ui/input-group.tsx"
-    },
-    {
-      "path": "registry/new-york/page/input-group.tsx",
-      "content": "\"use client\";\n\nimport { Copy, DollarSign, Globe, Search } from \"lucide-react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { InputGroup, InputGroupText } from \"@/components/ui/input-group\";\n\nexport function InputGroupDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-4\">\n      {/* Icon prefix */}\n      <InputGroup>\n        <InputGroupText>\n          <Search />\n        </InputGroupText>\n        <Input placeholder=\"Search...\" />\n      </InputGroup>\n\n      {/* Text prefix */}\n      <InputGroup>\n        <InputGroupText>\n          <Globe />\n        </InputGroupText>\n        <InputGroupText className=\"text-muted-foreground/60\">https://</InputGroupText>\n        <Input placeholder=\"example.com\" />\n      </InputGroup>\n\n      {/* Currency prefix + text suffix */}\n      <InputGroup>\n        <InputGroupText>\n          <DollarSign />\n        </InputGroupText>\n        <Input type=\"number\" placeholder=\"0.00\" />\n        <InputGroupText>USD</InputGroupText>\n      </InputGroup>\n\n      {/* Input + button suffix */}\n      <InputGroup>\n        <Input defaultValue=\"https://ing.design/r/button\" readOnly />\n        <Button variant=\"outline\">\n          <Copy />\n          Copy\n        </Button>\n      </InputGroup>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <InputGroupDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

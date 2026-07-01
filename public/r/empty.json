@@ -9,12 +9,6 @@
       "content": "import * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Empty = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty\"\n    className={cn(\"flex flex-col items-center justify-center gap-3 py-12 text-center\", className)}\n    {...props}\n  />\n);\n\nconst EmptyIcon = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty-icon\"\n    className={cn(\n      \"flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg:not([class*='size-'])]:size-6\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nconst EmptyTitle = ({ className, ...props }: React.ComponentProps<\"h3\">) => (\n  <h3\n    data-slot=\"empty-title\"\n    className={cn(\"text-base font-semibold leading-none tracking-tight\", className)}\n    {...props}\n  />\n);\n\nconst EmptyDescription = ({ className, ...props }: React.ComponentProps<\"p\">) => (\n  <p\n    data-slot=\"empty-description\"\n    className={cn(\"max-w-xs text-sm text-muted-foreground\", className)}\n    {...props}\n  />\n);\n\nconst EmptyAction = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div\n    data-slot=\"empty-action\"\n    className={cn(\"mt-1 flex flex-wrap items-center justify-center gap-2\", className)}\n    {...props}\n  />\n);\n\nexport { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyAction };\nexport default Empty;\n",
       "type": "registry:ui",
       "target": "components/ui/empty.tsx"
-    },
-    {
-      "path": "registry/new-york/page/empty.tsx",
-      "content": "import { Inbox } from \"lucide-react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Empty, EmptyAction, EmptyDescription, EmptyIcon, EmptyTitle } from \"@/components/ui/empty\";\n\nexport function EmptyDemo() {\n  return (\n    <Empty>\n      <EmptyIcon>\n        <Inbox />\n      </EmptyIcon>\n      <EmptyTitle>No messages yet</EmptyTitle>\n      <EmptyDescription>\n        When you receive messages they'll appear here. Start a conversation to get going.\n      </EmptyDescription>\n      <EmptyAction>\n        <Button>New message</Button>\n      </EmptyAction>\n    </Empty>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <EmptyDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

@@ -3,19 +3,15 @@
   "name": "aspect-ratio",
   "title": "Aspect Ratio",
   "description": "Displays content within a desired ratio, preventing layout shift as media loads.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/new-york/aspect-ratio.tsx",
       "content": "\"use client\";\n\nimport * as AspectRatioPrimitive from \"@radix-ui/react-aspect-ratio\";\n\nconst AspectRatio = ({ ...props }: React.ComponentProps<typeof AspectRatioPrimitive.Root>) => (\n  <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />\n);\n\nexport { AspectRatio };\nexport default AspectRatio;\n",
       "type": "registry:ui",
       "target": "components/ui/aspect-ratio.tsx"
-    },
-    {
-      "path": "registry/new-york/page/aspect-ratio.tsx",
-      "content": "import { AspectRatio } from \"@/components/ui/aspect-ratio\";\n\nexport function AspectRatioDemo() {\n  return (\n    <div className=\"w-full max-w-sm\">\n      <AspectRatio ratio={16 / 9}>\n        <img\n          src=\"https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80\"\n          alt=\"Photo by Drew Beamer\"\n          className=\"h-full w-full rounded-md object-cover\"\n        />\n      </AspectRatio>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <AspectRatioDemo />\n    </div>\n  );\n}\n",
-      "type": "registry:page",
-      "target": "app/page.tsx"
     }
   ],
   "cssVars": {
