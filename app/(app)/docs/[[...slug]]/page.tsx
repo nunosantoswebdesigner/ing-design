@@ -86,6 +86,12 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
     (params.slug?.[0] === "blocks" || params.slug?.[0] === "elements") &&
     (params.slug?.length ?? 0) > 1;
 
+  const isDetailPage =
+    (params.slug?.[0] === "components" ||
+      params.slug?.[0] === "blocks" ||
+      params.slug?.[0] === "elements") &&
+    (params.slug?.length ?? 0) > 1;
+
   return (
     <>
       <BreadcrumbJsonLd items={breadcrumbs} />
@@ -112,19 +118,23 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                       {doc.title}
                     </h1>
                     <div className="docs-nav flex items-center gap-2">
-                      <div className="hidden sm:block">
-                        <DocsCopyPage
-                          markdownUrl={absoluteUrl(markdownUrl)}
-                          url={absoluteUrl(page.url)}
-                          figmaUrl={doc.figma}
-                        />
-                      </div>
+                      {isDetailPage && (
+                        <div className="hidden sm:block">
+                          <DocsCopyPage
+                            markdownUrl={absoluteUrl(markdownUrl)}
+                            url={absoluteUrl(page.url)}
+                            figmaUrl={doc.figma}
+                          />
+                        </div>
+                      )}
                       <div className="ml-auto flex gap-2">
-                        <DocsShareMenu
-                          url={absoluteUrl(page.url)}
-                          title={doc.title}
-                          description={doc.description}
-                        />
+                        {isDetailPage && (
+                          <DocsShareMenu
+                            url={absoluteUrl(page.url)}
+                            title={doc.title}
+                            description={doc.description}
+                          />
+                        )}
                         {neighbours.previous && (
                           <DocsNavLink
                             href={neighbours.previous.url}
