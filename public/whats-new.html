@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ING Design — Adoption Proposal</title>
+<style>
+  :root{
+    --bg: oklch(0.16 0.01 264);
+    --surface: oklch(0.21 0.012 264);
+    --surface-2: oklch(0.25 0.014 264);
+    --line: oklch(0.33 0.015 264);
+    --ink: oklch(0.95 0.006 90);
+    --muted: oklch(0.66 0.02 264);
+    --muted-dim: oklch(0.48 0.015 264);
+    --accent: oklch(0.76 0.12 75);
+    --accent-ink: oklch(0.18 0.03 75);
+    --good: oklch(0.68 0.12 155);
+    --info: oklch(0.7 0.08 235);
+    --critical: oklch(0.64 0.14 25);
+
+    --font-display: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+
+  a{ color:var(--accent); }
+  a:focus-visible, button:focus-visible, .rail-dot:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  /* ---------- chrome: wordmark, counter, rail, notes toggle ---------- */
+
+  .chrome{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:40;
+  }
+  .wordmark{
+    position:absolute;
+    top:1.75rem;
+    left:1.75rem;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .wordmark b{ color:var(--ink); font-weight:600; }
+
+  .counter{
+    position:absolute;
+    bottom:1.75rem;
+    left:1.75rem;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    color:var(--muted-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .counter b{ color:var(--accent); }
+
+  .rail{
+    position:absolute;
+    top:50%;
+    right:1.5rem;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap:0.55rem;
+    pointer-events:auto;
+  }
+  .rail-dot{
+    width:0.5rem;
+    height:0.5rem;
+    border-radius:1px;
+    background:var(--line);
+    border:none;
+    padding:0;
+    cursor:pointer;
+    transition:background 120ms ease, transform 120ms ease;
+  }
+  .rail-dot:hover{ background:var(--muted); }
+  .rail-dot[aria-current="true"]{
+    background:var(--accent);
+    transform:scaleY(1.6);
+  }
+
+  .notes-toggle{
+    position:absolute;
+    bottom:1.75rem;
+    right:1.75rem;
+    pointer-events:auto;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:0.5rem 0.85rem;
+    cursor:pointer;
+  }
+  .notes-toggle:hover{ color:var(--ink); border-color:var(--muted-dim); }
+  .notes-toggle kbd{
+    font-family:var(--font-mono);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    padding:0.05rem 0.35rem;
+    margin-left:0.4rem;
+    border-radius:2px;
+  }
+
+  /* ---------- sections ---------- */
+
+  section{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:6.5rem 2rem 6.5rem 4.5rem;
+    scroll-snap-align:start;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .wrap{ scroll-snap-type:y proximity; }
+
+  .col{ max-width:840px; }
+  .col-wide{ max-width:1080px; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 1.1rem;
+  }
+  .eyebrow span{ color:var(--muted-dim); }
+
+  h1,h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    text-wrap:balance;
+    margin:0 0 1.1rem;
+    color:var(--ink);
+  }
+  h1{ font-size:clamp(2.6rem, 3.4vw + 1.4rem, 4.4rem); line-height:1.05; letter-spacing:-0.01em; }
+  h2{ font-size:clamp(1.9rem, 1.8vw + 1.2rem, 2.7rem); line-height:1.12; }
+
+  .lede{
+    font-size:1.2rem;
+    color:var(--muted);
+    max-width:60ch;
+    margin:0 0 2rem;
+  }
+
+  ul.plain{ list-style:none; margin:0; padding:0; }
+
+  .bullets{ display:flex; flex-direction:column; gap:0.9rem; margin:0 0 1rem; max-width:62ch; }
+  .bullets li{
+    display:flex;
+    gap:0.85rem;
+    font-size:1.06rem;
+    color:var(--ink);
+  }
+  .bullets li::before{
+    content:"—";
+    color:var(--accent);
+    flex:none;
+  }
+
+  .notes{
+    display:none;
+    margin-top:2rem;
+    padding:1.25rem 1.4rem;
+    background:var(--surface);
+    border-left:2px solid var(--accent);
+    max-width:66ch;
+  }
+  body.show-notes .notes{ display:block; }
+  .notes p{ margin:0 0 0.75rem; font-size:0.92rem; color:var(--muted); line-height:1.6; }
+  .notes p:last-child{ margin-bottom:0; }
+  .notes .notes-label{
+    font-family:var(--font-mono);
+    font-size:0.65rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:0.6rem;
+  }
+
+  code, .mono{ font-family:var(--font-mono); }
+
+  .cli{
+    font-family:var(--font-mono);
+    font-size:0.95rem;
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:0.9rem 1.1rem;
+    color:var(--ink);
+    display:inline-block;
+    max-width:100%;
+    overflow-x:auto;
+  }
+  .cli .dim{ color:var(--muted-dim); }
+  .cli .hl{ color:var(--accent); }
+
+  /* ---------- cover ---------- */
+
+  #cover{ justify-content:flex-end; padding-bottom:5rem; }
+  #cover .tag{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:1.6rem;
+  }
+  #cover h1{ font-size:clamp(3.4rem, 7vw + 1rem, 7rem); }
+  #cover .lede{ font-size:1.35rem; }
+  #cover .meta{
+    display:flex;
+    gap:2.5rem;
+    margin-top:3rem;
+    font-family:var(--font-mono);
+    font-size:0.8rem;
+    color:var(--muted-dim);
+  }
+  #cover .meta b{ display:block; color:var(--muted); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.3rem; }
+
+  /* ---------- diagram (architecture) ---------- */
+
+  .diagram{ display:flex; flex-direction:column; gap:2.75rem; margin-top:1rem; }
+  .d-row{ display:flex; align-items:stretch; flex-wrap:wrap; gap:0; }
+  .d-box{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:1rem 1.2rem;
+    min-width:150px;
+    flex:1 1 150px;
+  }
+  .d-box .k{ font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted-dim); display:block; margin-bottom:0.35rem; }
+  .d-box .v{ font-size:0.95rem; color:var(--ink); }
+  .d-box.accent{ border-color:var(--accent); }
+  .d-arrow{
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:2.4rem;
+    color:var(--muted-dim);
+    font-family:var(--font-mono);
+  }
+  .d-branches{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.1rem;
+    position:relative;
+    padding-top:2.25rem;
+  }
+  .d-branches::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:16.6%;
+    right:16.6%;
+    height:1px;
+    background:var(--line);
+  }
+  .d-branches .d-box::before{
+    content:"";
+    position:absolute;
+    top:-2.25rem;
+    left:50%;
+    width:1px;
+    height:2.25rem;
+    background:var(--line);
+  }
+  .d-branches .d-box{ position:relative; }
+
+  @media (max-width:760px){
+    .d-row{ flex-direction:column; }
+    .d-arrow{ width:auto; height:1.6rem; transform:rotate(90deg); }
+    .d-branches{ grid-template-columns:1fr; }
+    .d-branches::before{ display:none; }
+    .d-branches .d-box::before{ display:none; }
+  }
+
+  /* ---------- themes ---------- */
+
+  .themes{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem; margin-top:0.5rem; }
+  .theme-card{ background:var(--surface); border:1px solid var(--line); padding:1.1rem; }
+  .swatch{ width:100%; height:2.6rem; margin-bottom:0.9rem; }
+  .theme-card .t-name{ font-weight:600; font-size:0.95rem; margin-bottom:0.2rem; }
+  .theme-card .t-desc{ font-size:0.8rem; color:var(--muted); }
+  @media (max-width:820px){ .themes{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ---------- feature grid ---------- */
+
+  .features{ display:grid; grid-template-columns:repeat(2, 1fr); gap:0; margin-top:0.5rem; border-top:1px solid var(--line); border-left:1px solid var(--line); }
+  .feature{ padding:1.35rem 1.5rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .feature .f-tag{ font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:0.45rem; display:block; }
+  .feature .f-title{ font-weight:600; margin-bottom:0.3rem; }
+  .feature .f-desc{ font-size:0.87rem; color:var(--muted); }
+  @media (max-width:760px){ .features{ grid-template-columns:1fr; } }
+
+  /* ---------- keystone unlock ---------- */
+
+  .keystone-box{
+    font-family:var(--font-mono);
+    font-size:0.88rem;
+    background:var(--surface);
+    border:1px solid var(--accent);
+    color:var(--muted);
+    padding:1.1rem 1.3rem;
+    max-width:100%;
+    overflow-x:auto;
+    margin:1.6rem 0 2.2rem;
+  }
+  .keystone-box .k-key{ color:var(--accent); }
+  .keystone-box .k-val{ color:var(--ink); }
+
+  /* ---------- convergence diagram ---------- */
+
+  .converge-top{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1rem;
+    position:relative;
+    padding-bottom:2.25rem;
+  }
+  .converge-top::after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:12%;
+    right:12%;
+    height:1px;
+    background:var(--line);
+  }
+  .converge-top .d-box{ position:relative; }
+  .converge-top .d-box::after{
+    content:"";
+    position:absolute;
+    bottom:-2.25rem;
+    left:50%;
+    width:1px;
+    height:2.25rem;
+    background:var(--line);
+  }
+  .mini-steps{ list-style:none; margin:0.6rem 0 0; padding:0; display:flex; flex-direction:column; gap:0.3rem; }
+  .mini-steps li{ font-size:0.82rem; color:var(--ink); padding-left:0.9rem; position:relative; }
+  .mini-steps li::before{ content:"›"; color:var(--accent); position:absolute; left:0; }
+  .converge-label{
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted-dim);
+    margin:0 0 1.75rem;
+  }
+  @media (max-width:820px){
+    .converge-top{ grid-template-columns:repeat(2, 1fr); }
+    .converge-top::after, .converge-top .d-box::after{ display:none; }
+  }
+
+  /* ---------- flow tags ---------- */
+
+  .flow-tags{ display:flex; gap:1.75rem; margin-bottom:1rem; }
+  .flow-tag{ font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); }
+  .flow-tag b{ color:var(--accent); font-weight:600; }
+  .trunk-divider{
+    font-family:var(--font-mono);
+    font-size:0.66rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted-dim);
+    text-align:center;
+    padding:0.85rem 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  /* ---------- demo checklist ---------- */
+
+  .checklist{ counter-reset:step; display:flex; flex-direction:column; gap:0; margin-top:0.5rem; max-width:66ch; }
+  .check{ counter-increment:step; display:flex; gap:1.1rem; padding:1rem 0; border-bottom:1px solid var(--line); align-items:baseline; }
+  .check:first-child{ border-top:1px solid var(--line); }
+  .check::before{
+    content:counter(step, decimal-leading-zero);
+    font-family:var(--font-mono);
+    color:var(--accent);
+    font-size:0.85rem;
+    flex:none;
+    width:1.6rem;
+  }
+  .check .c-title{ font-weight:600; margin-bottom:0.15rem; }
+  .check .c-desc{ font-size:0.87rem; color:var(--muted); }
+
+  /* ---------- timeline ---------- */
+
+  .timeline{ display:flex; flex-direction:column; gap:0; margin-top:0.5rem; max-width:70ch; }
+  .t-item{ display:flex; gap:1.5rem; padding:1.15rem 0; border-bottom:1px solid var(--line); }
+  .t-item:first-child{ border-top:1px solid var(--line); }
+  .t-phase{ font-family:var(--font-mono); font-size:0.7rem; color:var(--muted-dim); flex:none; width:6.5rem; padding-top:0.15rem; letter-spacing:0.04em; }
+  .t-body .t-title{ font-weight:600; margin-bottom:0.25rem; }
+  .t-body .t-desc{ font-size:0.9rem; color:var(--muted); }
+  .t-list{ list-style:none; margin:0.5rem 0 0.7rem; padding:0; display:flex; flex-direction:column; gap:0.32rem; }
+  .t-list li{ font-size:0.9rem; color:var(--ink); padding-left:0.95rem; position:relative; }
+  .t-list li::before{ content:"–"; color:var(--accent); position:absolute; left:0; }
+  .t-done{ font-family:var(--font-mono); font-size:0.8rem; color:var(--muted); margin-top:0.3rem; }
+  .t-done b{ color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:0.66rem; margin-right:0.6rem; }
+
+  /* ---------- stats ---------- */
+
+  .stats{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); margin-top:1rem; }
+  .stat{ background:var(--bg); padding:1.5rem 1.4rem; }
+  .stat .n{ font-family:var(--font-mono); font-size:2.2rem; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1; margin-bottom:0.5rem; }
+  .stat .l{ font-size:0.82rem; color:var(--muted); }
+  @media (max-width:820px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ---------- status list (limitations) ---------- */
+
+  .status-list{ display:flex; flex-direction:column; gap:0; margin-top:0.5rem; max-width:70ch; }
+  .status-row{ display:flex; gap:1rem; padding:1.1rem 0; border-bottom:1px solid var(--line); align-items:flex-start; }
+  .status-row:first-child{ border-top:1px solid var(--line); }
+  .pill{
+    flex:none;
+    font-family:var(--font-mono);
+    font-size:0.62rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:0.2rem 0.55rem;
+    border-radius:2px;
+    margin-top:0.2rem;
+  }
+  .pill.blocked{ background:oklch(0.64 0.14 25 / 18%); color:var(--critical); }
+  .pill.progress{ background:oklch(0.7 0.08 235 / 18%); color:var(--info); }
+  .pill.minor{ background:oklch(0.68 0.12 155 / 16%); color:var(--good); }
+  .status-body .s-title{ font-weight:600; margin-bottom:0.2rem; }
+  .status-body .s-desc{ font-size:0.88rem; color:var(--muted); }
+
+  /* ---------- asks ---------- */
+
+  .asks{ display:flex; flex-direction:column; gap:1.1rem; margin-top:0.5rem; max-width:66ch; }
+  .ask{ display:flex; gap:1.2rem; padding:1.25rem 1.4rem; background:var(--surface); border:1px solid var(--line); }
+  .ask .a-num{ font-family:var(--font-mono); color:var(--accent); font-size:1.1rem; flex:none; }
+  .ask .a-title{ font-weight:600; margin-bottom:0.25rem; }
+  .ask .a-desc{ font-size:0.9rem; color:var(--muted); }
+
+  /* ---------- closing ---------- */
+
+  #closing{ justify-content:center; align-items:flex-start; }
+  #closing h1{ font-size:clamp(2.4rem, 4vw + 1rem, 4rem); }
+  #closing .lede{ font-size:1.25rem; }
+</style>
+</head>
+<body>
+
+<div class="chrome">
+  <div class="wordmark"><b>ING Design</b> — Proposal</div>
+  <div class="counter"><span class="counter-current">01</span> / 18</div>
+  <div class="rail" role="tablist" aria-label="Sections"></div>
+  <button class="notes-toggle" type="button" id="notesToggle">Notes <kbd>N</kbd></button>
+</div>
+
+<main class="wrap">
+
+  <section id="cover" data-title="Cover">
+    <div class="tag">Adoption proposal · Internal</div>
+    <h1>ING Design</h1>
+    <p class="lede">A multi-brand component registry — from proof of concept to the foundation of ING's design system.</p>
+    <div class="meta">
+      <div><b>Presented by</b>Nuno Santos</div>
+      <div><b>For</b>Engineering team &amp; leadership</div>
+      <div><b>Ask</b>Green light to adopt</div>
+    </div>
+  </section>
+
+  <section id="s-problema" data-title="The problem">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 01 —</span> The problem</p>
+      <h2>Every project reinvents the same button.</h2>
+      <p class="lede">Without a single source of components, the cost of keeping products and brands consistent grows with every new project.</p>
+      <ul class="bullets plain">
+        <li>Duplicated components, slightly different from one project to the next</li>
+        <li>No direct bridge between the tokens defined in Figma and the code in production</li>
+        <li>Every new project starts the UI from scratch instead of installing what already exists</li>
+        <li>Visual inconsistency between brands that should share the same base</li>
+      </ul>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>Customize this slide with 2–3 concrete, internally recognizable examples — a component already implemented differently across two projects, or a case of visual drift between brands. Real examples convince more than the generic list.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-oque" data-title="What it is">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 02 —</span> What it is</p>
+      <h2>One registry, one source of truth, many brands.</h2>
+      <p class="lede">ING Design is a <span class="mono">shadcn/ui</span> component registry: installable via CLI, with the code living inside the consumer's project — not in a runtime dependency that updates from under you.</p>
+      <div class="cli">$ npx shadcn add <span class="hl">https://ing-design.vercel.app/r/button.json</span></div>
+      <ul class="bullets plain" style="margin-top:2rem">
+        <li><b>Registry</b> — versioned source of truth, with prefixes by type (component / element / block)</li>
+        <li><b>Theming</b> — a neutral base, with brand layers on top; already proven to work across different brands</li>
+        <li><b>Figma Diff</b> — automatically checks whether the code still matches the tokens defined in Figma</li>
+        <li><b>Docs</b> — every component documented, with preview, code, and design specs</li>
+      </ul>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>The key point for a technical audience: unlike a shared npm package, the code is copied into the consumer's project at install time. That eliminates the classic "breaking change in a shared dependency" problem — every project owns its own code, but all of them start from the same source.</p>
+        <p>Don't center the conversation on the specific brands already supported or their names — what matters here is the multi-brand capability itself, not which brands exist today.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-arquitetura" data-title="Architecture">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 03 —</span> How it works</p>
+      <h2>From design token to installed component</h2>
+      <div class="diagram">
+        <div class="d-row">
+          <div class="d-box"><span class="k">Design</span><span class="v">Tokens in Figma</span></div>
+          <div class="d-arrow">→</div>
+          <div class="d-box accent"><span class="k">Source</span><span class="v">registry/new-york (66 components)</span></div>
+          <div class="d-arrow">→</div>
+          <div class="d-box"><span class="k">Manifest</span><span class="v">registry.json</span></div>
+          <div class="d-arrow">→</div>
+          <div class="d-box"><span class="k">Build</span><span class="v">pnpm registry:build</span></div>
+          <div class="d-arrow">→</div>
+          <div class="d-box accent"><span class="k">Output</span><span class="v">public/r/*.json</span></div>
+        </div>
+        <div class="d-branches">
+          <div class="d-box"><span class="k">Consumer</span><span class="v">npx shadcn add → projects</span></div>
+          <div class="d-box"><span class="k">Docs</span><span class="v">Live preview + code</span></div>
+          <div class="d-box"><span class="k">AI</span><span class="v">v0 · ChatGPT · Claude · Figma</span></div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>The same <span class="mono">public/r/*.json</span> file feeds three different consumers at once: a real project installing the component via the CLI, the docs site itself rendering the live preview, and AI tools reading it to generate or explain code. There aren't three sources to maintain — there's one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-marcas" data-title="Multi-brand">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 04 —</span> Multi-brand</p>
+      <h2>One base, as many identities as needed.</h2>
+      <p class="lede">The same component structure, with a different visual identity per brand — without duplicating logic. Already validated with more than one brand.</p>
+      <div class="themes">
+        <div class="theme-card">
+          <div class="swatch" style="background:oklch(0.205 0 0)"></div>
+          <div class="t-name">Base</div>
+          <div class="t-desc">Neutral — the foundation for every brand</div>
+        </div>
+        <div class="theme-card">
+          <div class="swatch" style="background:oklch(0.62 0.22 38)"></div>
+          <div class="t-name">Brand A</div>
+          <div class="t-desc">Sharp corners, uppercase type</div>
+        </div>
+        <div class="theme-card">
+          <div class="swatch" style="background:oklch(0.42 0.2 255)"></div>
+          <div class="t-name">Brand B</div>
+          <div class="t-desc">Rounded corners</div>
+        </div>
+        <div class="theme-card">
+          <div class="swatch" style="background:oklch(0.48 0.18 210)"></div>
+          <div class="t-name">Brand C</div>
+          <div class="t-desc">Very rounded corners</div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>What matters here isn't the specific brands already supported, but the capability: any new brand comes in as a layer on top of the base, without touching existing components.</p>
+        <p>Technical mechanism: a <span class="mono">.theme-{name}</span> class swaps the CSS variables (color, radius, typography). For most components, that's enough. But for the ones with genuine structural differences — button, card, table, dialog — dedicated per-brand files already exist in code, just not yet wired into the docs preview UI. That's item #1 in "what's missing" (entry 14).</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-features" data-title="Features">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 05 —</span> Features</p>
+      <h2>It's not just a list of components.</h2>
+      <div class="features">
+        <div class="feature">
+          <span class="f-tag">Docs</span>
+          <div class="f-title">Preview + code side by side</div>
+          <div class="f-desc">Every component with an interactive example and the exact source code that will be installed.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Export</span>
+          <div class="f-title">Open in v0 / ChatGPT / Claude</div>
+          <div class="f-desc">One click sends the component and its design specs to the chosen AI tool.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Design ↔ code</span>
+          <div class="f-title">Figma Diff</div>
+          <div class="f-desc">Compares the tokens defined in Figma with the CSS variables in production — shows what's in sync, drifting, or missing.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Navigation</span>
+          <div class="f-title">Universal Cmd+K</div>
+          <div class="f-desc">Instant search across components, themes, and documentation pages.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">AI agents</span>
+          <div class="f-title">llms.txt / OpenAPI</div>
+          <div class="f-desc">A surface built to be read by AI agents — a markdown documentation index, an API catalog.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Cataloging</span>
+          <div class="f-title">Item types by prefix</div>
+          <div class="f-desc">No prefix = component · <span class="mono">e-</span> = element · <span class="mono">b-</span> = block. Charts, icons, and pages already reserved.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-keystone" data-title="The keystone">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 06 —</span> The keystone</p>
+      <h2>Registering isn't paperwork. It's what connects everything.</h2>
+      <p class="lede">While a component is just a loose file, it's just code. The moment it's registered, it becomes structured data — and structured data can be read by anything.</p>
+      <div class="keystone-box"><span class="k-key">"name"</span>: <span class="k-val">"button"</span>, <span class="k-key">"files"</span>: [...], <span class="k-key">"dependencies"</span>: [...], <span class="k-key">"cssVars"</span>: {...}</div>
+      <div class="features" style="border-top:1px solid var(--line); border-left:1px solid var(--line)">
+        <div class="feature">
+          <span class="f-tag">Unlocks</span>
+          <div class="f-title">Diff with Figma</div>
+          <div class="f-desc">Without the component's JSON and its cssVars, there's nothing to compare against Figma.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Unlocks</span>
+          <div class="f-title">v0 / ChatGPT / Claude</div>
+          <div class="f-desc">The AI reads the registry entry's structure — it doesn't guess the component from loose code.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Unlocks</span>
+          <div class="f-title">CLI installation</div>
+          <div class="f-desc"><span class="mono">npx shadcn add</span> only works because a manifest points to the right file.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Unlocks</span>
+          <div class="f-title">Automatic docs preview</div>
+          <div class="f-desc">The documentation page isn't written by hand — it's generated from that same registry entry.</div>
+        </div>
+        <div class="feature">
+          <span class="f-tag">Unlocks</span>
+          <div class="f-title">Discord sharing</div>
+          <div class="f-desc">Specs and preview pulled automatically from the registry entry, not copied by hand into the message.</div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>This is the central argument of the proposal: the value isn't in any single feature (the Diff, the v0 button, Cmd+K) — it's in the fact that they all share the same structured data source. Adding a new feature down the line (e.g. auto-generating tests) doesn't require collecting information again — it's already in the registry entry.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-convergencia" data-title="Four workflows, one spine">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 07 —</span> Four workflows, one shared spine</p>
+      <h2>The origin changes. What comes after registering doesn't.</h2>
+      <p class="lede">There are four ways to arrive at a new component — through Figma or through code, by hand or with AI support. From the moment it's registered, the path is always the same.</p>
+      <div class="converge-top">
+        <div class="d-box">
+          <span class="k">Figma · no AI</span>
+          <ul class="mini-steps">
+            <li>Create in Figma</li>
+            <li>Publish</li>
+            <li>Build in React</li>
+          </ul>
+        </div>
+        <div class="d-box">
+          <span class="k">Figma · with AI</span>
+          <ul class="mini-steps">
+            <li>AI plugin in Figma</li>
+            <li>Publish</li>
+            <li>Build in React</li>
+          </ul>
+        </div>
+        <div class="d-box">
+          <span class="k">ing-design · no AI</span>
+          <ul class="mini-steps">
+            <li>Create / duplicate</li>
+            <li>Build in React</li>
+          </ul>
+        </div>
+        <div class="d-box">
+          <span class="k">ing-design · with AI</span>
+          <ul class="mini-steps">
+            <li>Create / duplicate</li>
+            <li>v0 / Claude / ChatGPT</li>
+          </ul>
+        </div>
+      </div>
+      <p class="converge-label">converges here</p>
+      <div class="d-row">
+        <div class="d-box accent"><span class="k">01</span><span class="v">Register</span></div>
+        <div class="d-arrow">→</div>
+        <div class="d-box"><span class="k">02</span><span class="v">Build</span></div>
+        <div class="d-arrow">→</div>
+        <div class="d-box"><span class="k">03</span><span class="v">Test locally</span></div>
+        <div class="d-arrow">→</div>
+        <div class="d-box"><span class="k">04</span><span class="v">Figma diff</span></div>
+        <div class="d-arrow">→</div>
+        <div class="d-box"><span class="k">05</span><span class="v">Deploy</span></div>
+        <div class="d-arrow">→</div>
+        <div class="d-box"><span class="k">06</span><span class="v">Discord</span></div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>In the two workflows that start from ing-design (without going through Figma first), the Diff only has value if the component reuses tokens that already exist in Figma. If it's a genuinely new visual pattern, a feedback step is missing — replicating the component in Figma before the Diff — so design doesn't end up trailing behind code. Worth deciding as a team rule.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-flow-1" data-title="Workflow: Figma, no AI">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 08 —</span> Workflow 1</p>
+      <div class="flow-tags"><span class="flow-tag">Origin <b>Figma</b></span><span class="flow-tag">Method <b>No AI</b></span></div>
+      <h2>From Figma to code, by hand.</h2>
+      <p class="lede">The slowest path — but the most predictable, because every design decision has already been made before it reaches code.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Create, use, or duplicate an existing component</div><div class="c-desc">In Figma.</div></div></div>
+        <div class="check"><div><div class="c-title">Apply modes / variables</div><div class="c-desc">Wire the component to the design system's tokens.</div></div></div>
+        <div class="check"><div><div class="c-title">Publish the component in Figma</div><div class="c-desc">Make it part of the shared library.</div></div></div>
+        <div class="check"><div><div class="c-title">Move to ing-design</div><div class="c-desc">Open the repository, create the component file.</div></div></div>
+        <div class="check"><div><div class="c-title">Build in React</div><div class="c-desc">Translate the Figma component into code.</div></div></div>
+        <div class="check"><div><div class="c-title">Document</div><div class="c-desc">Specs, usage examples, variants.</div></div></div>
+        <div class="trunk-divider">from here on — the spine shared by all 4 workflows</div>
+        <div class="check"><div><div class="c-title">Register the component</div><div class="c-desc"><span class="mono">registry.json</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Build the registry</div><div class="c-desc"><span class="mono">pnpm registry:build</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Test locally</div><div class="c-desc">Clean build, correct preview.</div></div></div>
+        <div class="check"><div><div class="c-title">Run the Diff (Figma ↔ code)</div><div class="c-desc">Confirm the tokens match.</div></div></div>
+        <div class="check"><div><div class="c-title">Deploy</div><div class="c-desc">Publish to production.</div></div></div>
+        <div class="check"><div><div class="c-title">Post to Discord</div><div class="c-desc">Announce it to the team.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-flow-2" data-title="Workflow: Figma, with AI">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 09 —</span> Workflow 2</p>
+      <div class="flow-tags"><span class="flow-tag">Origin <b>Figma</b></span><span class="flow-tag">Method <b>With AI</b></span></div>
+      <h2>The same path, with a shortcut on design.</h2>
+      <p class="lede">AI speeds up the first version in Figma — but it rarely respects the design system on the first try, so manual adjustment is still needed.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Create a layout/component with an AI plugin</div><div class="c-desc">In Figma.</div></div></div>
+        <div class="check"><div><div class="c-title">Review and adjust tokens/variants by hand</div><div class="c-desc">Align with the existing design system.</div></div></div>
+        <div class="check"><div><div class="c-title">Publish the component in Figma</div><div class="c-desc">Make it part of the shared library.</div></div></div>
+        <div class="check"><div><div class="c-title">Move to ing-design</div><div class="c-desc">Open the repository, create the component file.</div></div></div>
+        <div class="check"><div><div class="c-title">Build in React</div><div class="c-desc">Translate the Figma component into code.</div></div></div>
+        <div class="check"><div><div class="c-title">Document</div><div class="c-desc">Specs, usage examples, variants.</div></div></div>
+        <div class="trunk-divider">from here on — the spine shared by all 4 workflows</div>
+        <div class="check"><div><div class="c-title">Register the component</div><div class="c-desc"><span class="mono">registry.json</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Build the registry</div><div class="c-desc"><span class="mono">pnpm registry:build</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Test locally</div><div class="c-desc">Clean build, correct preview.</div></div></div>
+        <div class="check"><div><div class="c-title">Run the Diff (Figma ↔ code)</div><div class="c-desc">Confirm the tokens match.</div></div></div>
+        <div class="check"><div><div class="c-title">Deploy</div><div class="c-desc">Publish to production.</div></div></div>
+        <div class="check"><div><div class="c-title">Post to Discord</div><div class="c-desc">Announce it to the team.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-flow-3" data-title="Workflow: ing-design, no AI">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 10 —</span> Workflow 3</p>
+      <div class="flow-tags"><span class="flow-tag">Origin <b>ing-design</b></span><span class="flow-tag">Method <b>No AI</b></span></div>
+      <h2>Straight to code, skipping Figma.</h2>
+      <p class="lede">The shortest path — right for components that reuse visual patterns that already exist.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Create, use, or duplicate an existing component</div><div class="c-desc">Directly in the repository.</div></div></div>
+        <div class="check"><div><div class="c-title">Build in React</div><div class="c-desc">Write the component by hand.</div></div></div>
+        <div class="check"><div><div class="c-title">Document</div><div class="c-desc">Specs, usage examples, variants.</div></div></div>
+        <div class="trunk-divider">from here on — the spine shared by all 4 workflows</div>
+        <div class="check"><div><div class="c-title">Register the component</div><div class="c-desc"><span class="mono">registry.json</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Build the registry</div><div class="c-desc"><span class="mono">pnpm registry:build</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Test locally</div><div class="c-desc">Clean build, correct preview.</div></div></div>
+        <div class="check"><div><div class="c-title">Run the Diff (Figma ↔ code)</div><div class="c-desc">Only makes sense if Figma already has the equivalent tokens.</div></div></div>
+        <div class="check"><div><div class="c-title">Deploy</div><div class="c-desc">Publish to production.</div></div></div>
+        <div class="check"><div><div class="c-title">Post to Discord</div><div class="c-desc">Announce it to the team.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-flow-4" data-title="Workflow: ing-design, with AI">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 11 —</span> Workflow 4</p>
+      <div class="flow-tags"><span class="flow-tag">Origin <b>ing-design</b></span><span class="flow-tag">Method <b>With AI</b></span></div>
+      <h2>The fastest path, with human review at the end.</h2>
+      <p class="lede">AI writes the first version of the component — a person confirms it's correct before moving on.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Create, use, or duplicate an existing component</div><div class="c-desc">Directly in the repository.</div></div></div>
+        <div class="check"><div><div class="c-title">Open in v0 / Claude / ChatGPT</div><div class="c-desc">Build the React with AI assistance.</div></div></div>
+        <div class="check"><div><div class="c-title">Review the generated code</div><div class="c-desc">Human confirmation before moving on.</div></div></div>
+        <div class="check"><div><div class="c-title">Document</div><div class="c-desc">Specs, usage examples, variants.</div></div></div>
+        <div class="trunk-divider">from here on — the spine shared by all 4 workflows</div>
+        <div class="check"><div><div class="c-title">Register the component</div><div class="c-desc"><span class="mono">registry.json</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Build the registry</div><div class="c-desc"><span class="mono">pnpm registry:build</span>.</div></div></div>
+        <div class="check"><div><div class="c-title">Test locally</div><div class="c-desc">Clean build, correct preview.</div></div></div>
+        <div class="check"><div><div class="c-title">Run the Diff (Figma ↔ code)</div><div class="c-desc">Only makes sense if Figma already has the equivalent tokens.</div></div></div>
+        <div class="check"><div><div class="c-title">Deploy</div><div class="c-desc">Publish to production.</div></div></div>
+        <div class="check"><div><div class="c-title">Post to Discord</div><div class="c-desc">Announce it to the team.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-caminho" data-title="The road to here">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 12 —</span> The road to here</p>
+      <h2>From open-source template to an in-house foundation, in three phases.</h2>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-phase">Starting point</div>
+          <div class="t-body">
+            <div class="t-title">Forked an open-source starter for shadcn/ui registries</div>
+            <div class="t-desc">Instead of starting from scratch, we built on a base already tested by the community — a speed decision, not a shortcut.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 1</div>
+          <div class="t-body">
+            <div class="t-title">Compatibility with AI tools</div>
+            <div class="t-desc">Adjusted all 66 source components to work in external sandboxes (v0): exports, imports, and CSS variables normalized one by one.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 2</div>
+          <div class="t-body">
+            <div class="t-title">Architecture and organization</div>
+            <div class="t-desc">Reorganized the components folder by domain, fixed the registry build, removed orphaned files.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 3</div>
+          <div class="t-body">
+            <div class="t-title">Documentation and polish</div>
+            <div class="t-desc">Design specs per component, cataloged item types, export and sharing.</div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>This entire journey — from the initial fork to the current state, around 26 commits — happened over a very short span, with an AI agent (Claude Code) supporting most of the implementation, review, and testing. That's a relevant data point for a technical audience: it shows maintaining this doesn't require a large dedicated team, and that the iteration pace can be high.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-estado" data-title="Current state">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 13 —</span> Current state</p>
+      <h2>Where the project stands today.</h2>
+      <div class="stats">
+        <div class="stat"><div class="n">66</div><div class="l">Source components</div></div>
+        <div class="stat"><div class="n">67</div><div class="l">Items in registry.json</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">Brand themes</div></div>
+        <div class="stat"><div class="n">81</div><div class="l">Documentation pages</div></div>
+      </div>
+      <p class="lede" style="margin-top:2rem">Build and deploy verified — locally and in production (Vercel) — before every change is shipped.</p>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>Double-check these numbers before presenting — the registry grows with every work session. Worth running <span class="mono">git log --oneline | wc -l</span> and counting the files in <span class="mono">registry/new-york</span> on the day of the presentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-falta" data-title="What's missing">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 14 —</span> What's missing</p>
+      <h2>Being honest about the state of the POC.</h2>
+      <div class="status-list">
+        <div class="status-row">
+          <span class="pill blocked">Blocked</span>
+          <div class="status-body">
+            <div class="s-title">Figma Diff on the free tier</div>
+            <div class="s-desc">Figma's free API only reads published styles in a team library; the current file only uses local styles. Fixed with a Figma Professional plan — the switch to the Variables API is already mapped out and ready to implement.</div>
+          </div>
+        </div>
+        <div class="status-row">
+          <span class="pill progress">In progress</span>
+          <div class="status-body">
+            <div class="s-title">Per-brand preview not wired up yet</div>
+            <div class="s-desc">The 38 per-brand component variants already exist in code, but the docs preview still only swaps CSS variables — the right component still needs to be wired to each theme tab.</div>
+          </div>
+        </div>
+        <div class="status-row">
+          <span class="pill minor">Minor</span>
+          <div class="status-body">
+            <div class="s-title">One flagged spot of technical debt</div>
+            <div class="s-desc">One function's complexity sits above the linter's limit, documented with an explicit note in the code for a future refactor — doesn't block functionality.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-pedido" data-title="The ask">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 15 —</span> The ask</p>
+      <h2>What we need to move forward.</h2>
+      <div class="asks">
+        <div class="ask">
+          <div class="a-num">01</div>
+          <div>
+            <div class="a-title">Green light for a pilot project</div>
+            <div class="a-desc">Adopt the registry as the component source in a real project, to validate the workflow outside the POC's controlled environment.</div>
+          </div>
+        </div>
+        <div class="ask">
+          <div class="a-num">02</div>
+          <div>
+            <div class="a-title">Budget for a Figma Professional plan</div>
+            <div class="a-desc">Unlocks the Variables API and closes the design ↔ code loop — today's biggest blind spot in the system.</div>
+          </div>
+        </div>
+        <div class="ask">
+          <div class="a-num">03</div>
+          <div>
+            <div class="a-title">An owner for maintenance</div>
+            <div class="a-desc">Doesn't need to be full-time — it needs to be clear who reviews and approves changes to the registry.</div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="notes-label">Notes</span>
+        <p>Adjust these three asks to whatever will actually be requested in the meeting — they're designed as a starting point, not final text. What matters is leaving the presentation with a "yes" to something concrete and small (the pilot), not a "we'll think about it" to something vague.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-roadmap" data-title="Roadmap">
+    <div class="col-wide">
+      <p class="eyebrow"><span>Entry 16 —</span> Roadmap</p>
+      <h2>After the yes.</h2>
+      <p class="lede">Five phases, each solving something already identified in earlier entries — not a list of good intentions.</p>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-phase">Kickoff</div>
+          <div class="t-body">
+            <div class="t-title">Get the pilot off the ground</div>
+            <ul class="t-list">
+              <li>Name an owner for maintenance</li>
+              <li>Choose the pilot project</li>
+            </ul>
+            <div class="t-done"><b>Done when</b>pilot identified and owner named</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Close the Figma loop</div>
+          <div class="t-body">
+            <div class="t-title">Get off the Diff's free tier</div>
+            <ul class="t-list">
+              <li>Get a Figma Professional plan</li>
+              <li>Switch the Diff from the Styles API to the Variables API — already mapped out in code</li>
+            </ul>
+            <div class="t-done"><b>Done when</b>the Diff shows real tokens instead of "no published styles found"</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Wire up the brands</div>
+          <div class="t-body">
+            <div class="t-title">Close the per-brand preview gap</div>
+            <ul class="t-list">
+              <li>Wire the already-written brand variants into the docs' tab interface</li>
+              <li>Resolve the flagged complexity refactor</li>
+            </ul>
+            <div class="t-done"><b>Done when</b>switching themes in the browser shows the right component, not just the color</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Validate</div>
+          <div class="t-body">
+            <div class="t-title">Test outside the controlled environment</div>
+            <ul class="t-list">
+              <li>Install real components in the pilot project</li>
+              <li>Validate the registry on every PR (CI)</li>
+            </ul>
+            <div class="t-done"><b>Done when</b>at least 1 component is in production outside ing-design</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Expand</div>
+          <div class="t-body">
+            <div class="t-title">Grow beyond the pilot</div>
+            <ul class="t-list">
+              <li>New prefixes: charts, icons, full pages</li>
+              <li>New brands on request, adoption as the standard across projects</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="closing" data-title="Closing">
+    <div class="col">
+      <p class="eyebrow"><span>Entry 17 —</span> Closing</p>
+      <h1>This isn't a side project.<br>It's the missing infrastructure.</h1>
+      <p class="lede">Questions, objections, and the concrete next step.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function(){
+    var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+    var rail = document.querySelector('.rail');
+    var counterEl = document.querySelector('.counter-current');
+
+    sections.forEach(function(sec, i){
+      var dot = document.createElement('button');
+      dot.className = 'rail-dot';
+      dot.type = 'button';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', (i+1) + '. ' + (sec.dataset.title || sec.id));
+      dot.addEventListener('click', function(){
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      rail.appendChild(dot);
+    });
+
+    var dots = Array.prototype.slice.call(rail.querySelectorAll('.rail-dot'));
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          var idx = sections.indexOf(entry.target);
+          dots.forEach(function(d, i){ d.setAttribute('aria-current', i === idx ? 'true' : 'false'); });
+          counterEl.textContent = String(idx + 1).padStart(2, '0');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    sections.forEach(function(sec){ observer.observe(sec); });
+
+    var notesToggle = document.getElementById('notesToggle');
+    function toggleNotes(){ document.body.classList.toggle('show-notes'); }
+    notesToggle.addEventListener('click', toggleNotes);
+    window.addEventListener('keydown', function(e){
+      if (e.key === 'n' || e.key === 'N'){
+        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+        toggleNotes();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

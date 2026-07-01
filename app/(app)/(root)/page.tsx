@@ -1,6 +1,7 @@
 import { CommandBox } from "@/components/docs/command-box";
 import { HomeCtas } from "@/components/site/home-ctas";
 import { PageTransition } from "@/components/site/page-transition";
+import { WhatsNewDialog } from "@/components/site/whats-new-dialog";
 import { ROUTES } from "@/constants/routes";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
 
@@ -11,6 +12,7 @@ export default function IndexPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[{ name: "Home", path: ROUTES.HOME }]} />
+      <WhatsNewDialog />
       <PageTransition>
         <section className="container-wrapper relative">
           <div className="container flex flex-col items-center gap-4 py-16 text-center md:py-20 lg:py-24">
