@@ -1,59 +1,93 @@
 ---
 title: Introduction
-description: A multi-brand component library. One codebase, multiple visual identities — each brand gets its own theme without duplicating components.
+description: A component library for teams building with multiple brands — registry-based, Figma-connected, and built for AI workflows.
 ---
 
-**ING Design** is a multi-brand design system built by [ING Infinitive](https://github.com/nunosantoswebdesigner).
+**ING Design** is a component library for teams building with multiple brands — built by [ING Infinitive](https://github.com/nunosantoswebdesigner).
 
-It solves a specific problem: when you build products for multiple brands, you don't want to rebuild the same Button, Input, or Modal ten times. You want one solid implementation that each brand can make its own — different colours, different corner radius, different typography — without touching the component logic.
+## The Registry
 
-## How It Works
+Components are not an npm package. When you install a component, the shadcn CLI copies the source file directly into your project — you own the code and can change anything, without waiting for an upstream release.
 
-Components are built once against the **New York** base theme. Each brand then gets its own theme — a set of CSS variable overrides that change how every component looks without changing how it works.
-
-```
-Base component (New York)
-├── force8      → orange, sharp corners, bold uppercase
-├── myswissski  → red, rounded, clean outdoor feel
-└── myicehockey → blue, pill-shaped, modern and fast
+```bash
+npx shadcn add https://ing-design.vercel.app/r/button
 ```
 
-When you install a component, you get the code — not a package. The shadcn registry model means you own it fully and can customize it per project.
+Every component page shows the exact command to install it. Pick what you need, leave what you don't.
+
+## Figma Integration
+
+Each component can be linked to a Figma frame. When a Figma URL is declared on a component page, a **View in Figma** shortcut appears alongside the component preview — opening the exact frame or section in your design file.
+
+Beyond linking, the library includes a **Figma Diff** feature: connect your Figma file via API token and get a structured diff of what changed in your designs since the last sync — useful for keeping code and design in step when the design evolves.
+
+To use it, set your Figma access token:
+
+```bash
+FIGMA_ACCESS_TOKEN=your_token_here
+```
+
+## AI Integration
+
+Every component page is built to work as AI context, not just documentation.
+
+### Copy Page
+
+The **Copy Page** button fetches the full page content as markdown and copies it to your clipboard. Paste it directly into Claude, ChatGPT, Cursor chat, or any local model as structured context for the component you're working with.
+
+The dropdown extends this into one-click actions:
+
+- **Open in Claude / Open in ChatGPT** — opens the AI tool with a pre-built prompt that points to the page's markdown URL and tells the model which brand theme is active. The model reads the full documentation before you type a single word.
+- **Open in v0** — opens the component in v0's sandbox using the registry JSON, with CSS variables pre-loaded so the preview renders correctly in your brand's colours.
+- **View as Markdown** — opens the raw `.md` version of the page in a new tab. Every docs page is available at its `.md` URL (`/docs/components/button.md`) for programmatic access, MCP tools, or custom AI pipelines.
+- **Open in JSON** — opens the raw registry entry, useful for inspecting what gets installed or feeding it to an agent.
+
+### Specs Block
+
+Every component page ends with a `## Specs` section — a structured block designed to be pasted into any AI prompt. It contains:
+
+- Component name, file path, install target, and dependencies
+- Full CSS design tokens (light and dark mode values)
+- Variant and size reference with their exact Tailwind classes
+- Prop definitions with types and defaults
+- Code conventions: `cn`, `cva`, `Slot`, focus ring, disabled state
+
+When you open a page in Claude or ChatGPT via the toolbar, the Specs block is already included — the model gets exact token values and variant names, not generic shadcn assumptions.
+
+### LLM Index
+
+The library exposes two machine-readable endpoints for AI crawlers and custom pipelines:
+
+- `/llms.txt` — lists all documented pages
+- `/llms-full.txt` — includes the full markdown content of every page in one file
+
+These follow the [llms.txt](https://llmstxt.org) convention and make the entire library indexable by any tool that supports it.
+
+## Themes
+
+Components are built on a base theme (New York) and support multiple brand themes — each a set of CSS variable overrides. Available themes are listed in the [Themes](/docs/themes) section of the sidebar.
 
 ## What's Inside
 
 ### Components
 
-Foundational UI primitives — buttons, inputs, dialogs, selects, and more. Each one is:
-
-- Built on **Radix UI** for accessibility out of the box
-- Styled with **Tailwind CSS 4** using CSS variables for theme switching
-- Documented with live previews, per-brand theme tabs, and one-click code view
-
-### Blocks
-
-Pre-assembled UI sections built from the component library — cards, modals, stat panels, and other patterns you'd otherwise build from scratch on every project.
+UI primitives — buttons, inputs, dialogs, and more. Built on Radix UI for accessibility, styled with Tailwind CSS 4.
 
 ### Elements
 
-Complex, data-driven components — data tables, charts, calendars, and dashboard widgets. These go beyond simple primitives and are designed to drop into real product pages.
+Complex, data-driven components: data tables, calendars, auth forms. Designed to drop into real product pages with minimal setup.
 
-## How to Install a Component
+### Blocks
 
-Pick a component from the sidebar and run the install command in your project:
+Pre-assembled page sections: login, signup, featured layouts. Built from the component library and ready to adapt.
 
-<CommandBox className="mt-2" />
+## Copy Page and Share
 
-The component files are copied directly into your codebase — no dependency, no lock-in.
+Each component page has two toolbar buttons:
 
-## AI-Ready Docs
+**Copy Page** copies the full page content as markdown to your clipboard — ready to paste into any AI tool as context. The dropdown also lets you open the component directly in Claude, ChatGPT, or v0, or jump to the Figma frame, the raw JSON registry entry, or the markdown URL.
 
-Every component page is built for use with AI tools:
-
-- **Specs block** — each page ends with a structured spec: shadcn config, design tokens, Tailwind conventions, and variant reference. Paste it into any AI prompt for accurate, on-brand output.
-- **Copy Page** — opens the full page context directly in Claude, ChatGPT, v0, Cursor, or Gemini
-- **Markdown URL** — every page is available at its `.md` URL for programmatic access
-- **LLM index** — `/llms.txt` lists all pages; `/llms-full.txt` includes the full content of each
+**Share** (the icon button) copies the page link, lets you copy the raw registry JSON, or posts the component directly to your team's Discord channel.
 
 ## FAQ
 
@@ -65,7 +99,7 @@ Why copy/paste instead of an npm package?
 </AccordionTrigger>
 <AccordionContent>
 
-Packages version-lock you and make customization a fight. The shadcn approach copies the source directly into your project — you own it, you control it, and you can change anything without waiting for an upstream update or opening a PR.
+Packages version-lock you and make customisation a fight. The shadcn approach copies the source directly into your project — you own it, you control it, and you can change anything without waiting for an upstream update or opening a PR.
 
 </AccordionContent>
 </AccordionItem>
@@ -87,7 +121,7 @@ Can I use this in multiple projects?
 </AccordionTrigger>
 <AccordionContent>
 
-Yes — that's the point. Install the same component across every project under your brand umbrella. Each project gets its own copy that inherits the brand theme and can be customized further from there.
+Yes — that's the point. Install the same component across every project under your brand umbrella. Each project gets its own copy that inherits the brand theme and can be customised further from there.
 
 </AccordionContent>
 </AccordionItem>
