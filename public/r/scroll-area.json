@@ -3,15 +3,19 @@
   "name": "scroll-area",
   "title": "Scroll Area",
   "description": "A custom-styled scrollable container with a thin overlay scrollbar for both vertical and horizontal overflow.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/scroll-area.tsx",
       "content": "\"use client\";\n\nimport * as ScrollAreaPrimitive from \"@radix-ui/react-scroll-area\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst ScrollArea = ({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) => (\n  <ScrollAreaPrimitive.Root\n    data-slot=\"scroll-area\"\n    className={cn(\"relative\", className)}\n    {...props}\n  >\n    <ScrollAreaPrimitive.Viewport\n      data-slot=\"scroll-area-viewport\"\n      className=\"focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px]\"\n    >\n      {children}\n    </ScrollAreaPrimitive.Viewport>\n    <ScrollBar />\n    <ScrollAreaPrimitive.Corner />\n  </ScrollAreaPrimitive.Root>\n);\n\nconst ScrollBar = ({\n  className,\n  orientation = \"vertical\",\n  ...props\n}: React.ComponentProps<typeof ScrollAreaPrimitive.Scrollbar>) => (\n  <ScrollAreaPrimitive.Scrollbar\n    data-slot=\"scroll-area-scrollbar\"\n    orientation={orientation}\n    className={cn(\n      \"flex touch-none p-px transition-colors select-none\",\n      orientation === \"vertical\" && \"h-full w-2.5 border-l border-l-transparent\",\n      orientation === \"horizontal\" && \"h-2.5 flex-col border-t border-t-transparent\",\n      className,\n    )}\n    {...props}\n  >\n    <ScrollAreaPrimitive.Thumb\n      data-slot=\"scroll-area-thumb\"\n      className=\"bg-border relative flex-1 rounded-full\"\n    />\n  </ScrollAreaPrimitive.Scrollbar>\n);\n\nexport { ScrollArea, ScrollBar };\nexport default ScrollArea;\n",
       "type": "registry:ui",
       "target": "components/ui/scroll-area.tsx"
+    },
+    {
+      "path": "registry/new-york/page/scroll-area.tsx",
+      "content": "import { ScrollArea, ScrollBar } from \"@/components/ui/scroll-area\";\nimport { Separator } from \"@/components/ui/separator\";\n\nconst tags = Array.from({ length: 50 }, (_, i) => `Component ${i + 1}`);\n\nconst artworks = [\n  { artist: \"Charlie Parker\", title: \"Ornithology\" },\n  { artist: \"Miles Davis\", title: \"So What\" },\n  { artist: \"Bill Evans\", title: \"Waltz for Debby\" },\n  { artist: \"John Coltrane\", title: \"A Love Supreme\" },\n  { artist: \"Dave Brubeck\", title: \"Take Five\" },\n  { artist: \"Miles Davis\", title: \"Kind of Blue\" },\n  { artist: \"John Coltrane\", title: \"Giant Steps\" },\n  { artist: \"Herbie Hancock\", title: \"Maiden Voyage\" },\n];\n\nexport function ScrollAreaDemo() {\n  return (\n    <div className=\"flex gap-6\">\n      {/* Vertical */}\n      <ScrollArea className=\"h-72 w-48 rounded-md border\">\n        <div className=\"p-4\">\n          <h4 className=\"mb-4 text-sm font-medium leading-none\">Tags</h4>\n          {tags.map((tag) => (\n            <div key={tag}>\n              <p className=\"text-sm\">{tag}</p>\n              <Separator className=\"my-2\" />\n            </div>\n          ))}\n        </div>\n      </ScrollArea>\n\n      {/* Horizontal */}\n      <ScrollArea className=\"w-64 rounded-md border\">\n        <div className=\"flex gap-4 p-4\">\n          {artworks.map((artwork) => (\n            <figure key={artwork.title} className=\"shrink-0\">\n              <div className=\"overflow-hidden rounded-md\">\n                <div className=\"size-[150px] bg-muted\" />\n              </div>\n              <figcaption className=\"pt-2 text-xs text-muted-foreground\">\n                <span className=\"font-medium text-foreground block truncate w-[150px]\">\n                  {artwork.title}\n                </span>\n                {artwork.artist}\n              </figcaption>\n            </figure>\n          ))}\n        </div>\n        <ScrollBar orientation=\"horizontal\" />\n      </ScrollArea>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <ScrollAreaDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

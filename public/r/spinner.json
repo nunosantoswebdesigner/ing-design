@@ -3,15 +3,19 @@
   "name": "spinner",
   "title": "Spinner",
   "description": "An animated SVG loading indicator with size variants and inheritable color.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/new-york/spinner.tsx",
       "content": "import type { VariantProps } from \"class-variance-authority\";\nimport { cva } from \"class-variance-authority\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst spinnerVariants = cva(\"animate-spin text-current\", {\n  defaultVariants: {\n    size: \"default\",\n  },\n  variants: {\n    size: {\n      default: \"size-5\",\n      lg: \"size-6\",\n      sm: \"size-4\",\n      xl: \"size-8\",\n    },\n  },\n});\n\nconst Spinner = ({\n  className,\n  size,\n  label = \"Loading…\",\n  ...props\n}: React.ComponentProps<\"svg\"> &\n  VariantProps<typeof spinnerVariants> & {\n    label?: string;\n  }) => (\n  <svg\n    data-slot=\"spinner\"\n    role=\"status\"\n    aria-label={label}\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    className={cn(spinnerVariants({ size }), className)}\n    {...props}\n  >\n    <circle className=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" strokeWidth=\"3\" />\n    <path\n      className=\"opacity-75\"\n      fill=\"currentColor\"\n      d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"\n    />\n  </svg>\n);\n\nexport { Spinner, spinnerVariants };\nexport default Spinner;\n",
       "type": "registry:ui",
       "target": "components/ui/spinner.tsx"
+    },
+    {
+      "path": "registry/new-york/page/spinner.tsx",
+      "content": "import { Button } from \"@/components/ui/button\";\nimport { Spinner } from \"@/components/ui/spinner\";\n\nexport function SpinnerDemo() {\n  return (\n    <div className=\"flex flex-col gap-8\">\n      {/* Sizes */}\n      <div className=\"flex items-center gap-4\">\n        <Spinner size=\"sm\" />\n        <Spinner size=\"default\" />\n        <Spinner size=\"lg\" />\n        <Spinner size=\"xl\" />\n      </div>\n\n      {/* Colors via text color */}\n      <div className=\"flex items-center gap-4\">\n        <Spinner className=\"text-primary\" />\n        <Spinner className=\"text-destructive\" />\n        <Spinner className=\"text-muted-foreground\" />\n        <Spinner className=\"text-green-500\" />\n      </div>\n\n      {/* In a button */}\n      <div className=\"flex flex-wrap items-center gap-3\">\n        <Button disabled>\n          <Spinner size=\"sm\" />\n          Saving…\n        </Button>\n        <Button variant=\"outline\" disabled>\n          <Spinner size=\"sm\" />\n          Loading\n        </Button>\n        <Button variant=\"ghost\" disabled>\n          <Spinner size=\"sm\" />\n          Please wait\n        </Button>\n      </div>\n\n      {/* Full-page overlay pattern */}\n      <div className=\"bg-background relative flex h-28 items-center justify-center rounded-lg border\">\n        <div className=\"text-muted-foreground flex flex-col items-center gap-2\">\n          <Spinner size=\"lg\" className=\"text-primary\" />\n          <span className=\"text-sm\">Loading content…</span>\n        </div>\n      </div>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <SpinnerDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

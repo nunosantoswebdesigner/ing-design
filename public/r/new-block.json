@@ -9,6 +9,12 @@
       "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport interface NewBlockProps extends React.HTMLAttributes<HTMLDivElement> {\n  // Add your props here\n}\n\nconst NewBlock = ({ className, children, ...props }: NewBlockProps) => (\n  <div data-slot=\"new-block\" className={cn(\"flex flex-col gap-6 p-6\", className)} {...props}>\n    {children}\n  </div>\n);\n\nNewBlock.displayName = \"NewBlock\";\n\nexport { NewBlock };\nexport default NewBlock;\n",
       "type": "registry:ui",
       "target": "components/ui/new-block.tsx"
+    },
+    {
+      "path": "registry/new-york/page/new-block.tsx",
+      "content": "\"use client\";\n\nimport { NewBlock } from \"@/components/ui/new-block\";\n\nexport function NewBlockDemo() {\n  return <NewBlock>New block</NewBlock>;\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <NewBlockDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

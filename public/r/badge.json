@@ -3,16 +3,19 @@
   "name": "badge",
   "title": "Badge",
   "description": "Small status indicators and labels for categorizing, tagging, or highlighting content.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "files": [
     {
       "path": "registry/new-york/badge.tsx",
       "content": "import { cva } from \"class-variance-authority\";\nimport type { VariantProps } from \"class-variance-authority\";\nimport { Slot } from \"@radix-ui/react-slot\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst badgeVariants = cva(\n  \"inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden\",\n  {\n    defaultVariants: {\n      variant: \"default\",\n    },\n    variants: {\n      variant: {\n        default: \"border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90\",\n        destructive:\n          \"border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60\",\n        outline: \"text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground\",\n        secondary:\n          \"border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90\",\n      },\n    },\n  },\n);\n\nconst Badge = ({\n  className,\n  variant,\n  asChild = false,\n  ...props\n}: React.ComponentProps<\"span\"> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) => {\n  const Comp = asChild ? Slot : \"span\";\n\n  return (\n    <Comp\n      data-slot=\"badge\"\n      data-variant={variant}\n      className={cn(badgeVariants({ variant }), className)}\n      {...props}\n    />\n  );\n};\n\nexport { Badge, badgeVariants };\nexport default Badge;\n",
       "type": "registry:ui",
       "target": "components/ui/badge.tsx"
+    },
+    {
+      "path": "registry/new-york/page/badge.tsx",
+      "content": "import { Badge } from \"@/components/ui/badge\";\n\nexport function BadgeDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Badge>Default</Badge>\n      <Badge variant=\"secondary\">Secondary</Badge>\n      <Badge variant=\"outline\">Outline</Badge>\n      <Badge variant=\"destructive\">Destructive</Badge>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <BadgeDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

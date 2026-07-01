@@ -3,16 +3,19 @@
   "name": "input-otp",
   "title": "Input OTP",
   "description": "An accessible one-time password input with individual character slots, grouping, and separator support.",
-  "dependencies": [
-    "input-otp",
-    "lucide-react"
-  ],
+  "dependencies": ["input-otp", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/input-otp.tsx",
       "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { OTPInput, OTPInputContext } from \"input-otp\";\nimport { MinusIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst InputOTP = ({\n  className,\n  containerClassName,\n  ...props\n}: React.ComponentProps<typeof OTPInput> & {\n  containerClassName?: string;\n}) => (\n  <OTPInput\n    containerClassName={cn(\"flex items-center gap-2 has-disabled:opacity-50\", containerClassName)}\n    className={cn(\"disabled:cursor-not-allowed\", className)}\n    {...props}\n  />\n);\n\nconst InputOTPGroup = ({ className, ...props }: React.ComponentProps<\"div\">) => (\n  <div className={cn(\"flex items-center\", className)} {...props} />\n);\n\nconst InputOTPSlot = ({\n  index,\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & { index: number }) => {\n  const inputOTPContext = React.useContext(OTPInputContext);\n  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];\n\n  return (\n    <div\n      className={cn(\n        \"border-input relative flex h-9 w-9 items-center justify-center border-y border-r text-sm shadow-xs transition-all\",\n        \"first:rounded-l-md first:border-l\",\n        \"last:rounded-r-md\",\n        \"aria-invalid:border-destructive\",\n        isActive && \"border-ring ring-ring/50 z-10 ring-[3px]\",\n        className,\n      )}\n      {...props}\n    >\n      {char}\n      {hasFakeCaret && (\n        <div className=\"pointer-events-none absolute inset-0 flex items-center justify-center\">\n          <div className=\"animate-caret-blink bg-foreground h-4 w-px duration-1000\" />\n        </div>\n      )}\n    </div>\n  );\n};\n\nconst InputOTPSeparator = ({ ...props }: React.ComponentProps<\"div\">) => (\n  <div role=\"separator\" {...props}>\n    <MinusIcon />\n  </div>\n);\n\nexport { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };\nexport default InputOTP;\n",
       "type": "registry:ui",
       "target": "components/ui/input-otp.tsx"
+    },
+    {
+      "path": "registry/new-york/page/input-otp.tsx",
+      "content": "\"use client\";\n\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\";\n\nexport function InputOTPDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-6\">\n      {/* Basic 6-digit */}\n      <InputOTP maxLength={6}>\n        <InputOTPGroup>\n          <InputOTPSlot index={0} />\n          <InputOTPSlot index={1} />\n          <InputOTPSlot index={2} />\n          <InputOTPSlot index={3} />\n          <InputOTPSlot index={4} />\n          <InputOTPSlot index={5} />\n        </InputOTPGroup>\n      </InputOTP>\n\n      {/* Two groups with separator */}\n      <InputOTP maxLength={6}>\n        <InputOTPGroup>\n          <InputOTPSlot index={0} />\n          <InputOTPSlot index={1} />\n          <InputOTPSlot index={2} />\n        </InputOTPGroup>\n        <InputOTPSeparator />\n        <InputOTPGroup>\n          <InputOTPSlot index={3} />\n          <InputOTPSlot index={4} />\n          <InputOTPSlot index={5} />\n        </InputOTPGroup>\n      </InputOTP>\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <InputOTPDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

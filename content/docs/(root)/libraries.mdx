@@ -5,8 +5,56 @@ description: External libraries used by ING Design components. Install these in 
 
 External libraries that components in this registry depend on or are designed to work with. Install them in your project when using the relevant components.
 
-- **[Radix UI](https://www.radix-ui.com)** — Headless UI primitives. All components are built on Radix — it handles accessibility, keyboard navigation, and ARIA automatically.
+## Styling
+
+- **[Tailwind CSS](https://tailwindcss.com)** — The core styling system. All components are styled with Tailwind CSS 4 using CSS variables for theme switching.
+
+- **[shadcn/ui](https://ui.shadcn.com)** — The registry model this library is built on. Components are installed via the shadcn CLI and copied directly into your project.
+
+- **[class-variance-authority](https://cva.style)** — Variant logic for components. Used to define size, variant, and state combinations with full TypeScript support.
+
+- **[tailwind-merge](https://github.com/dcastil/tailwind-merge)** — Merges Tailwind classes without conflicts. Used internally by `cn()` in every component.
+
+- **[clsx](https://github.com/lukeed/clsx)** — Conditional class names. Used alongside tailwind-merge in the `cn()` utility.
+
+## Icons
+
+- **[Lucide React](https://lucide.dev)** — Icon library used across all components. The default icon set for this registry.
+
+## Components
+
+- **[Radix UI](https://www.radix-ui.com)** — Headless UI primitives. All interactive components are built on Radix — it handles accessibility, keyboard navigation, and ARIA automatically.
+
+- **[cmdk](https://cmdk.paco.me)** — Command menu primitive. Used by the Command component.
+
+- **[vaul](https://vaul.emilkowal.ski)** — Drawer component built for mobile-first interactions. Used by the Drawer component.
+
+- **[input-otp](https://input-otp.rodz.dev)** — OTP input field. Used by the Input OTP component.
+
+- **[Embla Carousel](https://www.embla-carousel.com)** — Carousel engine. Used by the Carousel component.
+
+- **[react-resizable-panels](https://github.com/bvaughn/react-resizable-panels)** — Resizable panel layouts. Used by the Resizable component.
+
+- **[react-day-picker](https://daypicker.dev)** — Calendar and date picker. Used by the Calendar component.
 
 - **[Sonner](https://sonner.emilkowal.ski)** — Toast notifications. Used by any component that triggers user feedback messages.
 
-- **[Chart.js](https://www.chartjs.org)** — Chart and data visualisation library. Used by chart-related components.
+## Data
+
+- **[@tanstack/react-table](https://tanstack.com/table)** — Headless table engine. Used by the Data Table element.
+
+- **[Recharts](https://recharts.org)** — Chart and data visualisation library. Used by the Chart component.
+
+- **[date-fns](https://date-fns.org)** — Date formatting and manipulation utilities. Used by calendar and date-related components.
+
+## Animation
+
+- **[Motion](https://motion.dev)** — Animation library (Framer Motion). Used for UI transitions, page animations, and interactive motion effects.
+
+## Utilities
+
+- **[next-themes](https://github.com/pacocoursey/next-themes)** — Dark/light mode management. Handles theme switching and system preference detection.
+
+- **[Jotai](https://jotai.org)** — Atomic state management. Used for persisted UI preferences such as the selected package manager.
+
+- **[react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook)** — Keyboard shortcuts. Used to bind navigation shortcuts across docs pages.

@@ -3,16 +3,19 @@
   "name": "accordion",
   "title": "Accordion",
   "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/new-york/accordion.tsx",
       "content": "\"use client\";\n\nimport { ChevronDownIcon } from \"lucide-react\";\nimport * as AccordionPrimitive from \"@radix-ui/react-accordion\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Accordion = ({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) => (\n  <AccordionPrimitive.Root data-slot=\"accordion\" {...props} />\n);\n\nconst AccordionItem = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof AccordionPrimitive.Item>) => (\n  <AccordionPrimitive.Item\n    data-slot=\"accordion-item\"\n    className={cn(\"border-b last:border-b-0\", className)}\n    {...props}\n  />\n);\n\nconst AccordionTrigger = ({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) => (\n  <AccordionPrimitive.Header className=\"flex\">\n    <AccordionPrimitive.Trigger\n      data-slot=\"accordion-trigger\"\n      className={cn(\n        \"focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180\",\n        className,\n      )}\n      {...props}\n    >\n      {children}\n      <ChevronDownIcon className=\"text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200\" />\n    </AccordionPrimitive.Trigger>\n  </AccordionPrimitive.Header>\n);\n\nconst AccordionContent = ({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof AccordionPrimitive.Content>) => (\n  <AccordionPrimitive.Content\n    data-slot=\"accordion-content\"\n    className=\"data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm\"\n    {...props}\n  >\n    <div className={cn(\"pt-0 pb-4\", className)}>{children}</div>\n  </AccordionPrimitive.Content>\n);\n\nexport { Accordion, AccordionContent, AccordionItem, AccordionTrigger };\nexport default Accordion;\n",
       "type": "registry:ui",
       "target": "components/ui/accordion.tsx"
+    },
+    {
+      "path": "registry/new-york/page/accordion.tsx",
+      "content": "import {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from \"@/components/ui/accordion\";\n\nexport function AccordionDemo() {\n  return (\n    <Accordion type=\"single\" collapsible className=\"w-full max-w-sm\">\n      <AccordionItem value=\"item-1\">\n        <AccordionTrigger>Is it accessible?</AccordionTrigger>\n        <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value=\"item-2\">\n        <AccordionTrigger>Is it styled?</AccordionTrigger>\n        <AccordionContent>\n          Yes. It comes with default styles that match the other components.\n        </AccordionContent>\n      </AccordionItem>\n      <AccordionItem value=\"item-3\">\n        <AccordionTrigger>Is it animated?</AccordionTrigger>\n        <AccordionContent>\n          Yes. It's animated by default with a smooth expand and collapse.\n        </AccordionContent>\n      </AccordionItem>\n    </Accordion>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <AccordionDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

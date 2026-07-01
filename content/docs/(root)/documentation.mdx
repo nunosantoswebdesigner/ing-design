@@ -54,6 +54,19 @@ When a user runs `npx shadcn add https://ing-design.vercel.app/r/button`, the CL
 
 The registry endpoint is served at `/r/[name].json` via `app/r/[name]/route.ts`, which reads `registry.json` and transforms the entries into the format the shadcn CLI expects.
 
+## Registry Item Types
+
+Each item in the registry has a prefix that identifies its type. Components have no prefix; all other types use a short letter prefix followed by a dash.
+
+| Prefix | Type | Example | Status |
+|---|---|---|---|
+| _(none)_ | Component | `button` | Available |
+| `e-` | Element | `e-data-table` | Available |
+| `b-` | Block | `b-featured` | Available |
+| `c-` | Chart | `c-bar` | Coming soon |
+| `i-` | Icons | `i-social` | Coming soon |
+| `p-` | Page | `p-dashboard` | Coming soon |
+
 ## Component Authoring
 
 All registry components live in `registry/new-york/`. The `new-york` directory is the shadcn style identifier — components authored here follow the New York design style.

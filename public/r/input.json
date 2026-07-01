@@ -9,6 +9,12 @@
       "content": "import { cn } from \"@/lib/utils\";\n\nconst Input = ({ className, type, ...props }: React.ComponentProps<\"input\">) => (\n  <input\n    type={type}\n    data-slot=\"input\"\n    className={cn(\n      \"file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm\",\n      \"focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]\",\n      \"aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive\",\n      className,\n    )}\n    {...props}\n  />\n);\n\nexport { Input };\nexport default Input;\n",
       "type": "registry:ui",
       "target": "components/ui/input.tsx"
+    },
+    {
+      "path": "registry/new-york/page/input.tsx",
+      "content": "import { Input } from \"@/components/ui/input\";\n\nexport function InputDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-3\">\n      <Input placeholder=\"Email address\" />\n      <Input type=\"password\" placeholder=\"Password\" />\n      <Input disabled placeholder=\"Disabled\" />\n      <Input aria-invalid placeholder=\"Invalid value\" defaultValue=\"bad@\" />\n      <Input type=\"file\" />\n    </div>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <InputDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {

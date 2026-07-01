@@ -3,15 +3,19 @@
   "name": "collapsible",
   "title": "Collapsible",
   "description": "An interactive section that expands and collapses to show or hide content.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/new-york/collapsible.tsx",
       "content": "\"use client\";\n\nimport * as CollapsiblePrimitive from \"@radix-ui/react-collapsible\";\n\nconst Collapsible = ({ ...props }: React.ComponentProps<typeof CollapsiblePrimitive.Root>) => (\n  <CollapsiblePrimitive.Root data-slot=\"collapsible\" {...props} />\n);\n\nconst CollapsibleTrigger = ({\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) => (\n  <CollapsiblePrimitive.CollapsibleTrigger data-slot=\"collapsible-trigger\" {...props} />\n);\n\nconst CollapsibleContent = ({\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) => (\n  <CollapsiblePrimitive.CollapsibleContent data-slot=\"collapsible-content\" {...props} />\n);\n\nexport { Collapsible, CollapsibleContent, CollapsibleTrigger };\nexport default Collapsible;\n",
       "type": "registry:ui",
       "target": "components/ui/collapsible.tsx"
+    },
+    {
+      "path": "registry/new-york/page/collapsible.tsx",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { ChevronsUpDown } from \"lucide-react\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/collapsible\";\n\nexport function CollapsibleDemo() {\n  const [isOpen, setIsOpen] = useState(false);\n\n  return (\n    <Collapsible open={isOpen} onOpenChange={setIsOpen} className=\"w-full max-w-sm space-y-2\">\n      <div className=\"flex items-center justify-between gap-4\">\n        <h4 className=\"text-sm font-semibold\">@ing-design/ui</h4>\n        <CollapsibleTrigger asChild>\n          <Button variant=\"ghost\" size=\"icon\" className=\"size-8\">\n            <ChevronsUpDown className=\"size-4\" />\n            <span className=\"sr-only\">Toggle</span>\n          </Button>\n        </CollapsibleTrigger>\n      </div>\n      <div className=\"rounded-md border px-4 py-3 font-mono text-sm\">\n        @radix-ui/react-collapsible\n      </div>\n      <CollapsibleContent className=\"space-y-2\">\n        <div className=\"rounded-md border px-4 py-3 font-mono text-sm\">@radix-ui/react-dialog</div>\n        <div className=\"rounded-md border px-4 py-3 font-mono text-sm\">\n          @radix-ui/react-dropdown-menu\n        </div>\n      </CollapsibleContent>\n    </Collapsible>\n  );\n}\n\n\nexport default function Page() {\n  return (\n    <div className=\"flex min-h-svh items-center justify-center p-8 bg-background\">\n      <CollapsibleDemo />\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/page.tsx"
     }
   ],
   "cssVars": {
