@@ -1,6 +1,6 @@
 "use client";
 
-import { GithubIcon } from "@/components/icons";
+import { GithubIcon } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { LINK } from "@/constants/links";

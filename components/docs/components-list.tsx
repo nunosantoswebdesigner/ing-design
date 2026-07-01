@@ -33,16 +33,22 @@ export const ComponentsList = ({
   className?: string;
 }) => {
   const folder = getFolder(folderName);
-  if (!folder) {return null;}
+  if (!folder) {
+    return null;
+  }
 
   if (!isComponentsFolder(folder)) {
     const pages = getPagesFromFolder(folder);
-    if (pages.length === 0) {return null;}
+    if (pages.length === 0) {
+      return null;
+    }
     return <ComponentsListView pages={toItems(pages)} className={className} />;
   }
 
   const pages = getAllPagesFromFolder(folder).filter((page) => page.url !== ROUTES.DOCS_COMPONENTS);
-  if (pages.length === 0) {return null;}
+  if (pages.length === 0) {
+    return null;
+  }
 
   return <ComponentsListView pages={toItems(pages)} className={className} />;
 };

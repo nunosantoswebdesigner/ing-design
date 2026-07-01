@@ -3,10 +3,10 @@
 import { motion } from "motion/react";
 import { useRef } from "react";
 
-import { CopyButton } from "@/components/copy-button";
-import { FigmaDiffButton } from "@/components/figma-diff-button";
-import { getIconForPackageManager } from "@/components/icons";
-import { RegistryAddButton } from "@/components/registry-add-button";
+import { CopyButton } from "@/components/features/copy-button";
+import { FigmaDiffButton } from "@/components/docs/figma-diff-button";
+import { getIconForPackageManager } from "@/components/icons/icons";
+import { RegistryAddButton } from "@/components/docs/registry-add-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextFlip } from "@/components/ui/text-flip";
 import { SITE } from "@/constants/site";

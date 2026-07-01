@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { CopyButton } from "@/components/copy-button";
+import { CopyButton } from "@/components/features/copy-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

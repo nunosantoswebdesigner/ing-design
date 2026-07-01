@@ -1,17 +1,11 @@
-import Link from "next/link";
-
-import { BrandContextMenu } from "@/components/brand-context-menu";
-import { CommandMenu } from "@/components/command-menu";
-import { LogoMark } from "@/components/logo";
-import { MainNav } from "@/components/main-nav";
-import { MobileNav } from "@/components/mobile-nav";
-import { ModeSwitcher } from "@/components/mode-switcher";
-// import { NavItemGithub } from "@/components/nav-item-github";
-import { SiteSettings } from "@/components/site-settings";
-import { SponsorLink } from "@/components/sponsor-link";
-import { Button } from "@/components/ui/button";
+import { CommandMenu } from "@/components/site/command-menu";
+import { MainNav } from "@/components/site/main-nav";
+import { MobileNav } from "@/components/site/mobile-nav";
+import { ModeSwitcher } from "@/components/site/mode-switcher";
+// import { NavItemGithub } from "@/components/site/nav-item-github";
+import { SiteSettings } from "@/components/site/site-settings";
+import { SponsorLink } from "@/components/site/sponsor-link";
 import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
 import { source } from "@/lib/source";
 
 const navItems = [

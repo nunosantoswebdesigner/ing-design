@@ -4,13 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
-import { DocsCopyPage } from "@/components/docs-copy-page";
-import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
-import { DocsNavLink } from "@/components/docs-nav-link";
-import { DocsShareMenu } from "@/components/docs-share-menu";
-import { DocsTableOfContents } from "@/components/docs-toc";
-import { DocsTocFooter } from "@/components/docs-toc-footer";
-import { PageTransition } from "@/components/page-transition";
+import { DocsCopyPage } from "@/components/docs/docs-copy-page";
+import { DocsKeyboardShortcuts } from "@/components/docs/docs-keyboard-shortcuts";
+import { DocsNavLink } from "@/components/docs/docs-nav-link";
+import { DocsShareMenu } from "@/components/docs/docs-share-menu";
+import { DocsTableOfContents } from "@/components/docs/docs-toc";
+import { DocsTocFooter } from "@/components/docs/docs-toc-footer";
+import { PageTransition } from "@/components/site/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { formatTitleFromSlug } from "@/lib/docs";
@@ -66,6 +66,7 @@ const buildBreadcrumbs = (slugs: string[], pageTitle: string, pageUrl: string) =
   return items;
 };
 
+// oxlint-disable-next-line complexity -- pre-existing debt, unrelated to this change; needs a real decomposition pass
 const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
   const params = await props.params;
   const page = source.getPage(params.slug);

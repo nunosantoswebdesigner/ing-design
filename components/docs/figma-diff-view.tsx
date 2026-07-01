@@ -183,12 +183,12 @@ export const FigmaDiffView = ({ data }: { data: DiffResult }) => {
       {/* Filters */}
       <div className="flex items-center gap-0.5 px-3 py-2 border-b border-border/50">
         {(["all", "drift", "missing"] as FilterMode[]).map((f) => {
-          const count =
-            f === "all"
-              ? data.summary.total
-              : (f === "drift"
-                ? data.summary.drift
-                : data.summary.missing);
+          const countByFilter: Record<FilterMode, number> = {
+            all: data.summary.total,
+            drift: data.summary.drift,
+            missing: data.summary.missing,
+          };
+          const count = countByFilter[f];
           return (
             <button
               key={f}

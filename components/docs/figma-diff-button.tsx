@@ -3,8 +3,8 @@
 import { AlertTriangleIcon, GitCompareArrows, Loader2Icon } from "lucide-react";
 import { useCallback, useState } from "react";
 
-import { CodeBlockCommand } from "@/components/code-block-command";
-import { FigmaDiffView } from "@/components/figma-diff-view";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { FigmaDiffView } from "@/components/docs/figma-diff-view";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

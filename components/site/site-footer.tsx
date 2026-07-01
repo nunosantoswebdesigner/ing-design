@@ -1,7 +1,7 @@
 "use client";
 
 import { LINK } from "@/constants/links";
-import { SITE, UTM_PARAMS } from "@/constants/site";
+import { UTM_PARAMS } from "@/constants/site";
 import { useFeedback } from "@/hooks/use-feedback";
 import { addQueryParams } from "@/lib/url";
 

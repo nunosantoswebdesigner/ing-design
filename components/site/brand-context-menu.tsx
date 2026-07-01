@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
-import { LogoMark, getLogoMarkSVG } from "@/components/logo";
+import { LogoMark, getLogoMarkSVG } from "@/components/site/logo";
 import {
   ContextMenu,
   ContextMenuContent,

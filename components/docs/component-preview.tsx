@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { ComponentSource } from "@/components/component-source";
+import { ComponentSource } from "@/components/docs/component-source";
 
 export const ComponentPreview = ({
   name,

@@ -26,7 +26,9 @@ export const ComponentThemeTabs = ({
     React.Children.forEach(children, (child) => {
       if (React.isValidElement(child)) {
         const props = child.props as { name?: string; children?: React.ReactNode };
-        if (props.name) {map.set(props.name, props.children);}
+        if (props.name) {
+          map.set(props.name, props.children);
+        }
       }
     });
     return map;
@@ -42,9 +44,11 @@ export const ComponentThemeTabs = ({
     label: theme.label,
   }));
 
-  if (!baseContent) {return null;}
+  if (!baseContent) {
+    return null;
+  }
 
-  const activeTab = tabs.some((t) => t.id === themeParam) ? themeParam! : tabs[0].id;
+  const activeTab = tabs.find((t) => t.id === themeParam)?.id ?? tabs[0].id;
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());

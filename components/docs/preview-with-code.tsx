@@ -1,4 +1,4 @@
-import { PreviewWithCodeUI } from "@/components/preview-with-code-ui";
+import { PreviewWithCodeUI } from "@/components/docs/preview-with-code-ui";
 import { formatCode } from "@/lib/format-code";
 import { highlightCode } from "@/lib/highlight-code";
 import { getDemoSource, getRegistrySource, readOptionalFromRoot } from "@/lib/registry";

@@ -1,8 +1,8 @@
 import { SoundProvider } from "@web-kits/audio/react";
 import type { Metadata } from "next";
 
-import { Analytics } from "@/components/analytics";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@/components/features/analytics";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { META_THEME_COLORS } from "@/constants/site";
 import { fontVariables } from "@/lib/fonts";

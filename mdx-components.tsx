@@ -2,21 +2,21 @@ import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Callout } from "@/components/callout";
-import { CodeBlockCommand } from "@/components/code-block-command";
-import { CommandBox } from "@/components/command-box";
+import { Callout } from "@/components/docs/callout";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { CommandBox } from "@/components/docs/command-box";
 import {
   ComponentThemeTabs,
   ThemeTab,
-} from "@/components/component-theme-tabs";
-import { PreviewWithCode } from "@/components/preview-with-code";
-import { CodeTabs } from "@/components/code-tabs";
-import { ComponentPreview } from "@/components/component-preview";
-import { ComponentSource } from "@/components/component-source";
-import { ComponentsList } from "@/components/components-list";
-import { RegistryThemesList } from "@/components/registry-themes-list";
-import { CopyButton } from "@/components/copy-button";
-import { getIconForLanguageExtension } from "@/components/icons";
+} from "@/components/docs/component-theme-tabs";
+import { PreviewWithCode } from "@/components/docs/preview-with-code";
+import { CodeTabs } from "@/components/docs/code-tabs";
+import { ComponentPreview } from "@/components/docs/component-preview";
+import { ComponentSource } from "@/components/docs/component-source";
+import { ComponentsList } from "@/components/docs/components-list";
+import { RegistryThemesList } from "@/components/docs/registry-themes-list";
+import { CopyButton } from "@/components/features/copy-button";
+import { getIconForLanguageExtension } from "@/components/icons/icons";
 import {
   Accordion,
   AccordionContent,

@@ -1,6 +1,6 @@
-import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper";
-import { CopyButton } from "@/components/copy-button";
-import { getIconForLanguageExtension } from "@/components/icons";
+import { CodeCollapsibleWrapper } from "@/components/docs/code-collapsible-wrapper";
+import { CopyButton } from "@/components/features/copy-button";
+import { getIconForLanguageExtension } from "@/components/icons/icons";
 import { formatCode } from "@/lib/format-code";
 import { highlightCode } from "@/lib/highlight-code";
 import { getDemoSource, getRegistrySource, readOptionalFromRoot } from "@/lib/registry";

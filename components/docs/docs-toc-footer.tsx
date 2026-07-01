@@ -1,6 +1,6 @@
 "use client";
 
-import { GithubIcon, XIcon } from "@/components/icons";
+import { GithubIcon, XIcon } from "@/components/icons/icons";
 import { GITHUB, LINK } from "@/constants/links";
 import { DOCS_DIR } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";

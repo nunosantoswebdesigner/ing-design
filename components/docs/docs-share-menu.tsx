@@ -10,7 +10,7 @@ import { DEFAULT_REGISTRY_THEME_ID, REGISTRY_THEMES } from "@/lib/themes";
 
 import type { ShareIconHandle } from "@/components/animated-icons/share";
 import { ShareIcon } from "@/components/animated-icons/share";
-import { DiscordIcon, XIcon } from "@/components/icons";
+import { DiscordIcon, XIcon } from "@/components/icons/icons";
 import { LINK } from "@/constants/links";
 import { Button } from "@/components/ui/button";
 import {

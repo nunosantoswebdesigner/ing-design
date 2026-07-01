@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeIcon } from "@/components/icons";
+import { ThemeIcon } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";

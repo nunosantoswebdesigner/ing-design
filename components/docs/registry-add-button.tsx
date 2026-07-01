@@ -3,7 +3,7 @@
 import { PlusIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { CodeBlockCommand } from "@/components/code-block-command";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

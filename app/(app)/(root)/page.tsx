@@ -1,6 +1,6 @@
-import { CommandBox } from "@/components/command-box";
-import { HomeCtas } from "@/components/home-ctas";
-import { PageTransition } from "@/components/page-transition";
+import { CommandBox } from "@/components/docs/command-box";
+import { HomeCtas } from "@/components/site/home-ctas";
+import { PageTransition } from "@/components/site/page-transition";
 import { ROUTES } from "@/constants/routes";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
 

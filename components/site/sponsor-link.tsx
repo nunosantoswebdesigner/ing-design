@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCallback, useRef } from "react";
 
 import type { HeartHandshakeIconHandle } from "@/components/animated-icons/heart-handshake";
-import { HeartHandshakeIcon } from "@/components/animated-icons/heart-handshake";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 

@@ -4,8 +4,14 @@ import { BracesIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { CopyButton } from "@/components/copy-button";
-import { ChatGptIcon, ClaudeIcon, FigmaIcon, MarkdownDocIcon, V0Icon } from "@/components/icons";
+import { CopyButton } from "@/components/features/copy-button";
+import {
+  ChatGptIcon,
+  ClaudeIcon,
+  FigmaIcon,
+  MarkdownDocIcon,
+  V0Icon,
+} from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

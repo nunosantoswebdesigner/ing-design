@@ -2,8 +2,8 @@ import { ExternalLink, Heart, Plus, Star } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import { ExternalLinkButton } from "@/components/external-link-button";
-import { PageTransition } from "@/components/page-transition";
+import { ExternalLinkButton } from "@/components/site/external-link-button";
+import { PageTransition } from "@/components/site/page-transition";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";

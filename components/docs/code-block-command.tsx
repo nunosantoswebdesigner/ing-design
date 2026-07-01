@@ -2,8 +2,8 @@
 
 import { useCallback, useMemo } from "react";
 
-import { CopyButton } from "@/components/copy-button";
-import { getIconForPackageManager } from "@/components/icons";
+import { CopyButton } from "@/components/features/copy-button";
+import { getIconForPackageManager } from "@/components/icons/icons";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { usePackageManager } from "@/hooks/use-package-manager";
