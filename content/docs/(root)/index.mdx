@@ -13,6 +13,8 @@ Components are not an npm package. When you install a component, the shadcn CLI 
 npx shadcn add https://ing-design.vercel.app/r/button
 ```
 
+The `/r/` path is the registry endpoint — a shadcn convention. The CLI fetches `https://ing-design.vercel.app/r/button.json`, reads the component manifest (source files, dependencies, install targets), and copies everything into your project. You never interact with that URL directly; it's what the CLI calls behind the scenes.
+
 Every component page shows the exact command to install it. Pick what you need, leave what you don't.
 
 ## Figma Integration
