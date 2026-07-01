@@ -3815,7 +3815,8 @@
       "title": "Featured",
       "description": "Dashboard block with stat cards, area chart, and data table with tabs and pagination.",
       "dependencies": [
-        "recharts"
+        "recharts",
+        "lucide-react"
       ],
       "registryDependencies": [
         "button",

@@ -44,7 +44,8 @@ export const DocsShareMenu = ({
       .split("/")
       .findLast((p) => p.length > 0)
       ?.split("?")[0] ?? "";
-  const isComponentPage = url.includes("/components/") || url.includes("/blocks/");
+  const isComponentPage =
+    url.includes("/components/") || url.includes("/blocks/") || url.includes("/elements/");
   const PUBLIC_ORIGIN = process.env.NODE_ENV === "production" ? SITE.URL : FALLBACK_SITE_ORIGIN;
   const registryApiUrl = `${PUBLIC_ORIGIN}/api/registry/${currentTheme}/${componentSlug}`;
 
@@ -66,7 +67,9 @@ export const DocsShareMenu = ({
   const urlEncoded = encodeURIComponent(absoluteUrl);
 
   const handlePostToDiscord = useCallback(async () => {
-    if (posting) {return;}
+    if (posting) {
+      return;
+    }
     setPosting(true);
 
     const toastId = toast.loading("Sharing to Discord…");
@@ -76,7 +79,9 @@ export const DocsShareMenu = ({
         headers: { "Content-Type": "application/json" },
         method: "POST",
       });
-      if (!res.ok) {throw new Error(`Failed (${res.status})`);}
+      if (!res.ok) {
+        throw new Error(`Failed (${res.status})`);
+      }
       toast.success("Posted to Discord!", { id: toastId });
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Something went wrong";

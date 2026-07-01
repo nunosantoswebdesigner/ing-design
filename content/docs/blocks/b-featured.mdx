@@ -102,6 +102,107 @@ Pass your own metrics to the stats row:
 | `totalRows` | `number` | `68` | Total row count for pagination |
 | `rowsPerPageOptions` | `number[]` | `[10, 20, 50]` | Rows per page options |
 
+## Specs
+
+```md
+# New York — Featured Block Specs
+
+## Component
+- name: b-featured
+- file: registry/new-york/b-featured.tsx
+- installs to: components/ui/b-featured.tsx
+- npm dependencies: recharts, lucide-react
+- registry dependencies: card, chart, tabs, button, e-data-table
+
+## What is it
+A full-width dashboard block composed of three stacked sections: a row of
+stat cards, an area chart with time-range tabs, and a paginated data table
+with filterable tabs. Use it as the primary view of a dashboard or analytics
+page. All three sections accept data via props so the block can be dropped in
+with any domain — athletes, users, orders, documents.
+
+## Visual identity
+Clean and data-forward. Each section is a Card with a consistent header/body
+split. Stat cards use a two-row layout: the metric value at large type, trend
+badge (green/red) top-right, subtitle and description below. The chart uses a
+single area series with a soft gradient fill and a hairline stroke. The table
+uses minimal row dividers with no background fill — emphasis is on the data,
+not the chrome.
+
+## Structure
+- StatCards row: 4 cards, 1 col → 2 col (sm) → 4 col (xl)
+- ChartSection: full-width Card with Tabs for time range, ResponsiveContainer
+  wrapping recharts AreaChart
+- TableSection: full-width Card with Tabs for status filters, DataTable with
+  column header sort, filter input, row selection, and pagination
+
+## Design tokens
+--background: oklch(1 0 0)               — page background behind the block
+--card: oklch(1 0 0)                     — card surface
+--card-foreground: oklch(0.145 0 0)      — card text
+--border: oklch(0.922 0 0)               — card borders, table row dividers
+--foreground: oklch(0.145 0 0)           — stat values, headings
+--muted: oklch(0.97 0 0)                 — tab list background, hover rows
+--muted-foreground: oklch(0.556 0 0)     — stat labels, chart axis labels
+--primary: oklch(0.205 0 0)              — active tab indicator, buttons
+--primary-foreground: oklch(0.985 0 0)   — text on primary backgrounds
+--ring: oklch(0.708 0 0)                 — focus ring on interactive elements
+--radius: 0.625rem                       — card and badge corner radius
+
+## Dark theme
+--background: oklch(0.145 0 0)
+--card: oklch(0.205 0 0)
+--card-foreground: oklch(0.985 0 0)
+--border: oklch(1 0 0 / 10%)
+--foreground: oklch(0.985 0 0)
+--muted: oklch(0.269 0 0)
+--muted-foreground: oklch(0.708 0 0)
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: false (uses "use client" — state for tabs, chart range, table filters)
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Stat card anatomy
+Each stat in FeaturedStat renders:
+- label: text-sm text-muted-foreground (top-left)
+- trend: text-xs font-medium, TrendingUp (emerald) or TrendingDown (red) icon
+- value: text-2xl font-bold leading-none
+- subtitle: text-sm font-medium with repeat icon
+- description: text-xs text-muted-foreground
+
+## Chart section
+Built with recharts AreaChart inside ResponsiveContainer (height 220):
+- Single Area series, type="monotone", gradient fill (5% → 2% opacity)
+- CartesianGrid vertical={false} for horizontal-only grid lines
+- XAxis: tickLine=false, axisLine=false for a clean baseline
+- Tooltip: white card with border, 8px radius
+
+## Table section
+Uses the e-data-table element with tabs for status filters:
+- Default columns: header, sectionType, status (badge), target, limit, reviewer
+- Status badge colours: done (emerald), in-process (blue), pending (yellow), cancelled (red)
+- Filter input filters across all string columns
+- Pagination via DataTable's built-in rowsPerPage
+
+## Conventions
+- Pass all four sections as props — do not import sub-components separately
+- chartData points must have { date: string, visitors: number } shape
+- tableRows must satisfy FeaturedTableRow (id, header, sectionType, status,
+  target, limit, reviewer)
+- Use totalRows to reflect the full dataset size when rows are paginated server-side
+- The block is "use client" — wrap in a Suspense boundary if lazy loading
+```
+
 ## Installation
 
 <CommandBox componentName="b-featured" className="mt-2" />

@@ -4,13 +4,12 @@ import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import type { ChartConfig } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from '@/components/ui/e-data-table';
-import type { DataTableRow } from '@/components/ui/e-data-table';
+import { DataTable } from "@/components/ui/e-data-table";
+import type { DataTableRow } from "@/components/ui/e-data-table";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -200,8 +199,7 @@ const DEFAULT_TABLE_ROWS: DataTableRow[] = [
 
 // ─── Stat Cards ──────────────────────────────────────────────────────────────
 
-function StatCards({ stats }: { stats: FeaturedStat[] }) {
-  return (
+const StatCards = ({ stats }: { stats: FeaturedStat[] }) => (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {stats.map((stat, i) => (
         <Card key={i}>
@@ -239,7 +237,6 @@ function StatCards({ stats }: { stats: FeaturedStat[] }) {
       ))}
     </div>
   );
-}
 
 // ─── Chart ───────────────────────────────────────────────────────────────────
 
@@ -250,7 +247,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function ChartSection({
+const ChartSection = ({
   title,
   description,
   data,
@@ -260,7 +257,7 @@ function ChartSection({
   description: string;
   data: FeaturedChartPoint[];
   ranges: string[];
-}) {
+}) => {
   const [activeRange, setActiveRange] = React.useState(ranges[0]);
 
   return (
@@ -312,11 +309,11 @@ function ChartSection({
       </CardContent>
     </Card>
   );
-}
+};
 
 // ─── FeaturedBlock ────────────────────────────────────────────────────────────
 
-function FeaturedBlock({
+const FeaturedBlock = ({
   stats = DEFAULT_STATS,
   chartTitle = "Training Sessions",
   chartDescription = "Total sessions completed across the season",
@@ -327,8 +324,7 @@ function FeaturedBlock({
   tableRows = DEFAULT_TABLE_ROWS,
   rowsPerPageOptions = [10, 20, 50],
   className,
-}: FeaturedBlockProps) {
-  return (
+}: FeaturedBlockProps) => (
     <div data-slot="featured-block" className={cn("flex flex-col gap-6 p-6", className)}>
       <StatCards stats={stats} />
       <ChartSection
@@ -354,7 +350,7 @@ function FeaturedBlock({
       />
     </div>
   );
-}
 
 export { FeaturedBlock };
+export { FeaturedBlock as BFeatured };
 export default FeaturedBlock;
