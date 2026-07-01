@@ -14,7 +14,7 @@ The repository is a Next.js 16 App Router application that serves two purposes s
 | Framework | Next.js 16, App Router, React 19 |
 | Docs engine | Fumadocs (MDX-based) |
 | Styling | Tailwind CSS 4, CSS variables |
-| Component primitives | Radix UI |
+| Component primitives | Radix UI (`@radix-ui/react-*`) |
 | State management | Jotai (`atomWithStorage`) |
 | Animations | Motion (Framer Motion) |
 | Syntax highlighting | Shiki + rehype-pretty-code |
@@ -37,7 +37,7 @@ The registry is defined in `registry.json` at the root of the repository. Each e
       "type": "registry:ui",
       "title": "Button",
       "description": "...",
-      "dependencies": ["class-variance-authority", "radix-ui"],
+      "dependencies": ["class-variance-authority", "@radix-ui/react-slot"],
       "files": [
         {
           "path": "registry/new-york/button.tsx",
@@ -56,7 +56,7 @@ The registry endpoint is served at `/r/[name].json` via `app/r/[name]/route.ts`,
 
 ## Component Authoring
 
-All registry components live in `registry/new-york/`. The `new-york` directory is the shadcn style identifier — components authored here follow the new-york design style.
+All registry components live in `registry/new-york/`. The `new-york` directory is the shadcn style identifier — components authored here follow the New York design style.
 
 A registry component is a plain TypeScript/React file with no `"use client"` directive unless it genuinely requires browser APIs or hooks. Components that only compose JSX render as Server Components and avoid hydration issues.
 
@@ -65,7 +65,7 @@ A registry component is a plain TypeScript/React file with no `"use client"` dir
 ```tsx
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 const componentVariants = cva("base-classes", {
@@ -73,14 +73,14 @@ const componentVariants = cva("base-classes", {
   defaultVariants: { variant: "default" },
 });
 
-export interface ComponentProps
+interface ComponentProps
   extends React.ComponentProps<"element">,
     VariantProps<typeof componentVariants> {
   asChild?: boolean;
 }
 
 const Component = ({ className, variant, asChild = false, ...props }: ComponentProps) => {
-  const Comp = asChild ? Slot.Root : "element";
+  const Comp = asChild ? Slot : "element";
   return <Comp className={cn(componentVariants({ className, variant }))} {...props} />;
 };
 
@@ -90,7 +90,7 @@ export { Component, componentVariants };
 **Conventions:**
 - `cn()` from `@/lib/utils` — merges Tailwind classes via `clsx` + `tailwind-merge`
 - `cva()` from `class-variance-authority` — variant logic
-- `Slot.Root` from `radix-ui` — enables the `asChild` pattern (renders as any element)
+- `Slot` from `@radix-ui/react-slot` — enables the `asChild` pattern (renders as any element)
 - `data-slot`, `data-size`, `data-variant` — data attributes for external targeting via CSS
 
 ## shadcn Configuration
@@ -102,17 +102,23 @@ The repository uses the `new-york` style with the following defaults:
   "style": "new-york",
   "rsc": true,
   "tsx": true,
-  "cssVariables": true,
-  "iconLibrary": "lucide",
+  "tailwind": {
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
   "aliases": {
     "components": "@/components",
     "ui": "@/components/ui",
-    "utils": "@/lib/utils"
-  }
+    "utils": "@/lib/utils",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
 }
 ```
 
-CSS design tokens are defined as CSS variables in `styles/globals.css`, following the shadcn token convention. All tokens have light and dark mode values:
+CSS design tokens are defined as CSS variables in `app/globals.css`, following the shadcn token convention. All tokens have light and dark mode values:
 
 ```css
 :root {
@@ -175,41 +181,53 @@ Every documentation page is available as machine-readable markdown at its `.md` 
 
 The markdown route is served by `app/llms.md/docs/[[...slug]]/route.ts`. It uses `getLLMText()` from `lib/source.ts`, which extracts the processed markdown content from the MDX page data. This endpoint is used internally by the Copy Page and Open in AI features.
 
+Two additional endpoints make the full library indexable by AI tools:
+
+- `/llms.txt` — lists all documented pages (follows the [llms.txt](https://llmstxt.org) convention)
+- `/llms-full.txt` — includes the full markdown content of every page in one file
+
 ## AI Tooling
 
-Each component page has a **Copy Page** button that exposes the following actions:
+Each component, element, and block page has a **Copy Page** button in the header toolbar.
+
+### Copy Page
+
+Fetches the `.md` endpoint for the current page and copies the raw markdown to the clipboard. Useful for pasting into AI tools that don't support URL prompts — Cursor chat, local models, or any tool where you paste context manually.
 
 ### Open in AI tool
 
-Opens the page in Claude, ChatGPT, v0, Cursor, Gemini, Perplexity, Grok, or Scira AI. The prompt sent to the AI tool is constructed in `components/docs-copy-page.tsx` via `getPromptUrl()`:
+Opens the page directly in Claude or ChatGPT with a pre-built prompt constructed in `components/docs-copy-page.tsx` via `getPromptUrl()`:
 
 ```
 I'm building with ING Design — a custom component library (https://ing-design.vercel.app).
 
+Active theme: **{themeLabel}**
+
 Read the full component documentation here: {markdownUrl}
 
-Pay special attention to the **Specs** section at the end of the page. It contains:
-- shadcn config: style new-york, cssVariables, tsx, iconLibrary lucide
-- All CSS design tokens (light and dark mode)
-- Tailwind and component conventions
-- Variant and size reference
+Focus on the **{themeLabel}** Specs section — it contains the exact design tokens,
+border radius, colour palette, variant meanings, and conventions for this theme.
 
-Based on that, help me use this component correctly.
+Based on that, help me use this component correctly in the {themeLabel} theme.
 ```
 
-The AI is directed to the `.md` URL of the page, which includes the full content — usage examples, variants, props, and the Specs block.
+The model is directed to the `.md` URL of the page, which includes the full content — usage examples, variants, props, and the Specs block.
 
-### Copy as Markdown
+### Open in v0
 
-The **Copy Page** button fetches the `.md` endpoint and copies the raw markdown to the clipboard. This is useful for pasting into AI tools that don't support URL prompts (Cursor chat, local LLMs, etc.).
+Opens the component in v0's sandbox using the registry JSON endpoint (`/api/registry/{theme}/{component}`), with the theme's CSS variables pre-loaded so the preview renders in the correct brand colours.
 
-### View as Markdown
+### Dropdown actions
 
-The **View as Markdown** menu item opens the `.md` URL directly in a new tab.
+The Copy Page dropdown also provides:
+
+- **View as Markdown** — opens the `.md` URL in a new tab
+- **Open in JSON** — opens the raw registry entry (`/r/{name}.json`)
+- **View in Figma** — appears only when the page declares a `figma` URL in its frontmatter
 
 ## Specs Block
 
-Every component page ends with a `## Specs` section — a fenced markdown code block designed to be copied and pasted into any AI tool as a structured context document.
+Every component page ends with a `## Specs` section — a fenced markdown block designed to be copied and pasted into any AI tool as structured context.
 
 It contains:
 - Component name, file path, install target, dependencies
@@ -218,7 +236,7 @@ It contains:
 - Tailwind CSS conventions (border-radius, spacing, font scale)
 - Variant and size reference with their Tailwind classes
 - Prop definitions with types and defaults
-- Code conventions (cn, cva, Slot, focus ring, disabled state)
+- Code conventions (`cn`, `cva`, `Slot`, focus ring, disabled state)
 
 ## Figma Integration
 
@@ -231,7 +249,7 @@ figma: https://www.figma.com/design/{fileId}/{name}?node-id={nodeId}
 ---
 ```
 
-When a `figma` URL is present, a **View in Figma** item appears in the Copy Page dropdown, linking directly to the component's Figma frame or section. Pages without a `figma` field do not show the item.
+When a `figma` URL is present, a **View in Figma** item appears in the Copy Page dropdown, linking directly to the component's Figma frame or section.
 
 The `figma` field is typed in `source.config.ts` as an optional URL via Zod:
 
@@ -241,29 +259,43 @@ schema: frontmatterSchema.extend({
 })
 ```
 
+### Figma Diff
+
+Beyond linking, the library exposes a Figma Diff API at `app/api/diff/figma/`. Connect a Figma file via access token and get a structured diff of what changed in your designs — useful for keeping code and design in step when the design evolves.
+
+Configure via environment variable:
+
+```bash
+FIGMA_ACCESS_TOKEN=your_token_here
+```
+
 ## Sharing
 
-The share button (top right of each page) provides:
+The share button (top right of each component, element, or block page) provides:
 
 - **Copy link** — copies the absolute URL to clipboard
-- **Share on X** — opens the X share intent (shown when `LINK.X` is set)
-- **Share on Discord** — opens the configured Discord thread (shown when `LINK.DISCORD` is set)
+- **Copy JSON** — fetches and copies the raw registry JSON for the component
+- **Share on Discord** — posts the component link directly to the configured Discord channel via webhook (requires `DISCORD_WEBHOOK_URL` env var)
 
-Social links are configured in `constants/links.ts`. Items only appear in the UI when their corresponding link value is non-empty.
+Discord and X sharing are configured in `constants/links.ts`. Items only appear in the UI when their corresponding value is non-empty.
 
 ## Package Manager Support
 
 The docs support four package managers: **npm**, **pnpm**, **yarn**, and **vite**. The selected manager is persisted in `localStorage` via a Jotai atom (`atomWithStorage`) in `hooks/use-package-manager.ts`.
 
-All code block commands render tabs for each manager. The `__npm__`, `__pnpm__`, `__yarn__`, and `__vite__` props on `CodeBlockCommand` control the per-tab content. The `CommandBox` component reads the active manager to build the correct install command.
+All code block commands render tabs for each manager. The `CommandBox` component reads the active manager to build the correct install command.
 
 ## File Structure
 
 ```
 ├── app/
 │   ├── (app)/docs/[[...slug]]/   # Docs page renderer
-│   ├── r/[name]/                 # Registry API endpoint
-│   └── llms.md/docs/[[...slug]]/ # Markdown endpoint
+│   ├── r/[name]/                 # Registry JSON endpoint (/r/button.json)
+│   ├── api/
+│   │   ├── registry/             # Registry API for v0 and AI tools
+│   │   ├── diff/figma/           # Figma diff endpoint
+│   │   └── share/discord/        # Discord webhook endpoint
+│   └── llms.md/docs/[[...slug]]/ # Markdown endpoint (.md URLs)
 ├── components/
 │   ├── command-box.tsx           # Install command card
 │   ├── docs-copy-page.tsx        # Copy Page / Open in AI button
@@ -277,6 +309,7 @@ All code block commands render tabs for each manager. The `__npm__`, `__pnpm__`,
 │   └── site.ts                   # Site metadata, registry URL, tokens
 ├── lib/
 │   ├── source.ts                 # Fumadocs source loader
+│   ├── figma-diff.ts             # Figma diff logic
 │   └── events.ts                 # Analytics event schema
 ├── registry.json                 # Registry manifest
 └── source.config.ts              # Fumadocs MDX config + frontmatter schema
