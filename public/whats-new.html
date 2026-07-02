@@ -462,6 +462,7 @@
   .pill.minor{ background:oklch(0.68 0.12 155 / 16%); color:var(--good); }
   .status-body .s-title{ font-weight:600; margin-bottom:0.2rem; }
   .status-body .s-desc{ font-size:0.88rem; color:var(--muted); }
+  .s-num{ flex:none; font-family:var(--font-mono); color:var(--accent); font-size:1.1rem; margin-top:0.1rem; }
 
   /* ---------- asks ---------- */
 
@@ -479,6 +480,7 @@
 </style>
 </head>
 <body>
+
 
 <div class="chrome">
   <div class="wordmark"><b>ING Design</b> — Proposal</div>
@@ -900,24 +902,24 @@
       <h2>Being honest about the state of the POC.</h2>
       <div class="status-list">
         <div class="status-row">
-          <span class="pill blocked">Blocked</span>
+          <span class="s-num">01</span>
           <div class="status-body">
-            <div class="s-title">Figma Diff on the free tier</div>
-            <div class="s-desc">Figma's free API only reads published styles in a team library; the current file only uses local styles. Fixed with a Figma Professional plan — the switch to the Variables API is already mapped out and ready to implement.</div>
+            <div class="s-title">Figma Diff is stuck on the free tier</div>
+            <div class="s-desc">Figma's free API only returns styles published to a team library — this file never published its tokens, so every request comes back empty. Not a bug, a plan limitation: the Variables API fixes it properly, but needs a Figma Professional plan. The code for that switch is already written and waiting.</div>
           </div>
         </div>
         <div class="status-row">
-          <span class="pill progress">In progress</span>
+          <span class="s-num">02</span>
           <div class="status-body">
-            <div class="s-title">Per-brand preview not wired up yet</div>
-            <div class="s-desc">The 38 per-brand component variants already exist in code, but the docs preview still only swaps CSS variables — the right component still needs to be wired to each theme tab.</div>
+            <div class="s-title">The per-brand preview promises more than it shows</div>
+            <div class="s-desc">The docs fake multi-brand support by swapping CSS variables over the New York component. Three of the four brands have hand-written components with real structural differences that never render, because the preview always shows the New York file. 38 of these files already exist — just disconnected from the theme switcher.</div>
           </div>
         </div>
         <div class="status-row">
-          <span class="pill minor">Minor</span>
+          <span class="s-num">03</span>
           <div class="status-body">
-            <div class="s-title">One flagged spot of technical debt</div>
-            <div class="s-desc">One function's complexity sits above the linter's limit, documented with an explicit note in the code for a future refactor — doesn't block functionality.</div>
+            <div class="s-title">Charts and Icons are still just the skeleton</div>
+            <div class="s-desc">Both categories opened today, but each has only one placeholder item — no real chart or icon yet. The category exists; the content doesn't.</div>
           </div>
         </div>
       </div>
@@ -1075,6 +1077,7 @@
     });
   })();
 </script>
+
 
 </body>
 </html>
