@@ -27,7 +27,7 @@ export const SiteFooter = () => {
               ing Infinitive
               {/* {SITE.AUTHOR.NAME} */}
             </a>
-            . The source code is available on{" "}
+            {/* . The source code is available on{" "}
             <a
               href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
               target="_blank"
@@ -37,7 +37,7 @@ export const SiteFooter = () => {
             >
               GitHub
             </a>
-            .
+            . */}
           </div>
         </div>
       </div>

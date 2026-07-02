@@ -138,6 +138,8 @@ const CommandMenuItem = ({
   );
 };
 
+const slugifyGroupLabel = (label: string) => label.toLowerCase().replaceAll(/\s+/g, "-");
+
 export const CommandMenu = ({
   blocks,
   navItems,
@@ -145,7 +147,7 @@ export const CommandMenu = ({
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   blocks?: { name: string; description: string; categories: string[] }[];
-  navItems: { href: string; label: string }[];
+  navItems: { href: string; label: string; scrollToGroup?: string }[];
   tree: PageTreeRoot;
 }) => {
   const router = useRouter();
@@ -225,6 +227,11 @@ export const CommandMenu = ({
   const runCommand = useCallback((command: () => unknown) => {
     setOpen(false);
     command();
+  }, []);
+
+  const scrollToGroup = useCallback((label: string) => {
+    const el = document.querySelector(`#command-group-${slugifyGroupLabel(label)}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
   const handleOpenClick = useCallback(() => setOpen(true), []);
@@ -337,10 +344,16 @@ export const CommandMenu = ({
                     value={`Navigation ${item.label}`}
                     keywords={["nav", "navigation", item.label.toLowerCase()]}
                     onHighlight={() => {
-                      setShowGoToPage(true);
+                      setShowGoToPage(!item.scrollToGroup);
                       setCopyPayload("");
                     }}
-                    onSelect={() => runCommand(() => router.push(item.href))}
+                    onSelect={() => {
+                      if (item.scrollToGroup) {
+                        scrollToGroup(item.scrollToGroup);
+                        return;
+                      }
+                      runCommand(() => router.push(item.href));
+                    }}
                   >
                     <ArrowRightIcon />
                     {item.label}
@@ -349,7 +362,12 @@ export const CommandMenu = ({
               </CommandGroup>
             )}
             {treeGroups.map((group) => (
-              <CommandGroup key={group.label} className={GROUP_HEADING_CLS} heading={group.label}>
+              <CommandGroup
+                key={group.label}
+                id={`command-group-${slugifyGroupLabel(group.label)}`}
+                className={GROUP_HEADING_CLS}
+                heading={group.label}
+              >
                 {group.pages.map((page) => renderDocPageItem(page.name, page.url, [group.label]))}
               </CommandGroup>
             ))}

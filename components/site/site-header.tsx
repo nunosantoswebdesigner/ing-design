@@ -13,6 +13,12 @@ const navItems = [
   { href: ROUTES.DOCS_COMPONENTS, label: "Components" },
 ];
 
+const commandNavItems = [
+  ...navItems,
+  { href: ROUTES.DOCS_ELEMENTS, label: "Elements", scrollToGroup: "Elements" },
+  { href: ROUTES.DOCS_BLOCKS, label: "Blocks", scrollToGroup: "Blocks" },
+];
+
 export const SiteHeader = () => (
   <header
     className="bg-background sticky top-0 z-50 w-full"
@@ -33,7 +39,7 @@ export const SiteHeader = () => (
         <MainNav items={navItems} className="hidden lg:flex" />
         <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
           <div className="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
-            <CommandMenu navItems={navItems} tree={source.pageTree} />
+            <CommandMenu navItems={commandNavItems} tree={source.pageTree} />
           </div>
           {/* <NavItemGithub /> */}
           <ModeSwitcher />
