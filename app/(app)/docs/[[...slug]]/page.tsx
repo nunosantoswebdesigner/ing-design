@@ -84,13 +84,17 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
   const breadcrumbs = buildBreadcrumbs(params.slug ?? [], doc.title, page.url);
 
   const isFluid =
-    (params.slug?.[0] === "blocks" || params.slug?.[0] === "elements") &&
+    (params.slug?.[0] === "blocks" ||
+      params.slug?.[0] === "elements" ||
+      params.slug?.[0] === "charts") &&
     (params.slug?.length ?? 0) > 1;
 
   const isDetailPage =
     (params.slug?.[0] === "components" ||
       params.slug?.[0] === "blocks" ||
-      params.slug?.[0] === "elements") &&
+      params.slug?.[0] === "elements" ||
+      params.slug?.[0] === "charts" ||
+      params.slug?.[0] === "icons") &&
     (params.slug?.length ?? 0) > 1;
 
   return (

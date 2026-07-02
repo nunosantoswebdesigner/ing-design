@@ -5,7 +5,7 @@
 <h1 align="center">ING Design</h1>
 
 <p align="center">
-  Components, elements, and blocks registry by ING Infinitive. Install directly into your project with <code>npx shadcn add</code>, own the code fully, and apply brand themes via CSS variables.
+  Components, elements, blocks, charts, and icons registry by ING Infinitive. Install directly into your project with <code>npx shadcn add</code>, own the code fully, and apply brand themes via CSS variables.
   <br />
   <br />
   <a href="https://github.com/nunosantoswebdesigner/ing-design"><img src="https://www.shieldcn.dev/github/stars/nunosantoswebdesigner/ing-design.svg?variant=secondary&size=xs&theme=zinc" alt="GitHub Stars" /></a>
@@ -19,6 +19,8 @@
 | **Components** | — | Button, Input, Dialog, Sidebar | Foundational UI primitives |
 | **Elements** | `e-` | `e-data-table`, `e-calendar`, `e-auth-form` | Complex, data-driven components |
 | **Blocks** | `b-` | `b-login`, `b-signup`, `b-featured` | Pre-assembled page sections |
+| **Charts** | `c-` | `c-bar`, `c-line` | Data visualization components |
+| **Icons** | `i-` | `i-social`, `i-brand` | Icon sets beyond the default Lucide set |
 
 Install any piece directly into your project:
 

@@ -27,6 +27,8 @@ const TOP_LEVEL_SECTIONS = [
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
   { href: ROUTES.DOCS_BLOCKS, name: "Blocks" },
   { href: ROUTES.DOCS_ELEMENTS, name: "Elements" },
+  { href: ROUTES.DOCS_CHARTS, name: "Charts" },
+  { href: ROUTES.DOCS_ICONS, name: "Icons" },
   // { href: ROUTES.LLMS, name: "llms.txt" },
 ];
 

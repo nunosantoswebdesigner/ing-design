@@ -1,0 +1,126 @@
+---
+title: New Chart
+description: Replace this description with a one-line summary of what the chart visualizes.
+---
+
+import { NewChartDemo } from "@/examples/new-chart";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="new-chart">
+      <NewChartDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="new-chart">
+      <NewChartDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="new-chart">
+      <NewChartDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="new-chart">
+      <NewChartDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `children` | `React.ReactNode` | — | Content inside the chart |
+
+## Usage
+
+```tsx
+import { NewChart } from "@/components/ui/new-chart";
+
+<NewChart>Content</NewChart>
+```
+
+## Specs
+
+```md
+# c-new-chart — Chart Specs
+
+## Component
+- name: new-chart
+- file: registry/new-york/new-chart.tsx
+- installs to: components/ui/new-chart.tsx
+- dependencies: (none — add if needed, e.g. recharts)
+- registryDependencies: (none — add if needed, e.g. chart)
+
+## What is it
+Replace this with a description of what the chart visualizes, when to use it,
+and what problem it solves. Charts communicate trends, comparisons, or
+distributions in structured data — prefer them over tables when the shape
+of the data matters more than exact values.
+
+## Visual identity
+Describe the visual character of this chart in this theme.
+- Layout: (e.g. flex flex-col gap-6 p-6, fixed aspect ratio)
+- Surface: (e.g. transparent, --card, --background)
+- Weight: (e.g. dominant, contained within a card)
+- Key trait: (the one thing that makes it recognisable)
+
+## Design tokens
+--background: oklch(1 0 0)
+--foreground: oklch(0.145 0 0)
+--card: oklch(1 0 0)
+--card-foreground: oklch(0.145 0 0)
+--primary: oklch(0.205 0 0)
+--primary-foreground: oklch(0.985 0 0)
+--secondary: oklch(0.97 0 0)
+--secondary-foreground: oklch(0.205 0 0)
+--muted: oklch(0.97 0 0)
+--muted-foreground: oklch(0.556 0 0)
+--accent: oklch(0.97 0 0)
+--accent-foreground: oklch(0.205 0 0)
+--destructive: oklch(0.577 0.245 27.325)
+--border: oklch(0.922 0 0)
+--input: oklch(0.922 0 0)
+--ring: oklch(0.708 0 0)
+--radius: 0.625rem
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: false  (charts use "use client" by default — Recharts requires the browser)
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Sub-components
+- NewChart → root layout wrapper; data-slot="new-chart"
+- (add sub-components as the chart grows, e.g. legend, tooltip)
+
+## States
+- default:  (describe the resting appearance)
+- loading:  (skeleton placeholder while data loads)
+- empty:    (no data to plot)
+- error:    (data fetch or malformed data)
+
+## Conventions
+- Use cn() from @/lib/utils for all conditional classNames
+- Charts use the c- prefix to distinguish from elements (e-) and blocks (b-)
+- "use client" directive required — charting relies on browser measurement
+- Built on top of the base `chart` component (ChartContainer, ChartTooltip)
+- Tailwind CSS 4 utility classes only — no inline styles
+- No external dependencies unless declared in registry.json
+- data-slot attribute on the root for targeted CSS overrides
+```
+
+## Installation
+
+<CommandBox componentName="new-chart" className="mt-2" />

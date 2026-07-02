@@ -17,6 +17,8 @@ const commandNavItems = [
   ...navItems,
   { href: ROUTES.DOCS_ELEMENTS, label: "Elements", scrollToGroup: "Elements" },
   { href: ROUTES.DOCS_BLOCKS, label: "Blocks", scrollToGroup: "Blocks" },
+  { href: ROUTES.DOCS_CHARTS, label: "Charts", scrollToGroup: "Charts" },
+  { href: ROUTES.DOCS_ICONS, label: "Icons", scrollToGroup: "Icons" },
 ];
 
 export const SiteHeader = () => (

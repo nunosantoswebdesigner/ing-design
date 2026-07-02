@@ -45,7 +45,11 @@ export const DocsShareMenu = ({
       .findLast((p) => p.length > 0)
       ?.split("?")[0] ?? "";
   const isComponentPage =
-    url.includes("/components/") || url.includes("/blocks/") || url.includes("/elements/");
+    url.includes("/components/") ||
+    url.includes("/blocks/") ||
+    url.includes("/elements/") ||
+    url.includes("/charts/") ||
+    url.includes("/icons/");
   const PUBLIC_ORIGIN = process.env.NODE_ENV === "production" ? SITE.URL : FALLBACK_SITE_ORIGIN;
   const registryApiUrl = `${PUBLIC_ORIGIN}/api/registry/${currentTheme}/${componentSlug}`;
 

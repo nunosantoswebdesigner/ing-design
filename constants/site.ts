@@ -20,8 +20,8 @@ export const SITE = {
     TWITTER: "@nunosantos",
   },
   DESCRIPTION: {
-    LONG: "ING Design is a custom component library and shadcn registry built by ING Infinitive. It ships base components, data-driven elements (e- prefix), and pre-assembled blocks (b- prefix) — all copy-owned via npx shadcn add. Apply brand themes through CSS variable overrides, compare tokens against Figma with the built-in diff tool, and share to Discord with one click. Built with Next.js, React, Radix UI, and Tailwind CSS.",
-    SHORT: "Components, elements, and blocks registry by ING Infinitive",
+    LONG: "ING Design is a custom component library and shadcn registry built by ING Infinitive. It ships base components, data-driven elements (e- prefix), pre-assembled blocks (b- prefix), charts (c- prefix), and icon sets (i- prefix) — all copy-owned via npx shadcn add. Apply brand themes through CSS variable overrides, compare tokens against Figma with the built-in diff tool, and share to Discord with one click. Built with Next.js, React, Radix UI, and Tailwind CSS.",
+    SHORT: "Components, elements, blocks, charts, and icons registry by ING Infinitive",
   },
   KEYWORDS: [
     "design system",
@@ -37,6 +37,8 @@ export const SITE = {
     "figma diff",
     "elements",
     "blocks",
+    "charts",
+    "icons",
     "next.js",
     "react",
     "tailwindcss",

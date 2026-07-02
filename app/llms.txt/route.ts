@@ -18,10 +18,16 @@ const documentationIndex = (base: string) =>
     )
     .trim();
 
+const COPY_BANNER = `# ============================================================
+# COPY THIS AND PASTE IN ANY AI TOOL
+# ============================================================
+`;
+
 const docsIndex = (origin: string) => {
   const base = origin.replace(/\/$/, "");
 
-  return `# ${SITE.NAME}
+  return `${COPY_BANNER}
+# ${SITE.NAME}
 
 > ${SITE.DESCRIPTION.LONG} Use this index to discover the available documentation pages, markdown mirrors, and registry resources before browsing.
 

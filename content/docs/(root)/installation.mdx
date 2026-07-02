@@ -21,15 +21,17 @@ Pick a component from the sidebar and run the install command shown on its page:
 
 The component files are copied directly into your project — you own them completely and can customise as needed. Dependencies are installed automatically.
 
-## Components, Elements, and Blocks
+## Components, Elements, Blocks, Charts, and Icons
 
-The registry has three types of installable items, each with its own naming convention:
+The registry has five types of installable items, each with its own naming convention:
 
 | Type | Prefix | Example | Description |
 |---|---|---|---|
 | Component | _(none)_ | `button` | UI primitives — buttons, inputs, dialogs |
 | Element | `e-` | `e-data-table` | Data-driven components — tables, calendars |
 | Block | `b-` | `b-login` | Pre-assembled page sections |
+| Chart | `c-` | `c-bar` | Data visualization components |
+| Icons | `i-` | `i-social` | Icon sets beyond the default Lucide set |
 
 ```bash
 # Component
@@ -40,6 +42,12 @@ npx shadcn add https://ing-design.vercel.app/r/e-data-table
 
 # Block
 npx shadcn add https://ing-design.vercel.app/r/b-login
+
+# Chart
+npx shadcn add https://ing-design.vercel.app/r/new-chart
+
+# Icons
+npx shadcn add https://ing-design.vercel.app/r/new-icon
 ```
 
 ## Install Multiple

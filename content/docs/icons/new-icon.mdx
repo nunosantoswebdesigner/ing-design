@@ -1,0 +1,109 @@
+---
+title: New Icon
+description: Replace this description with a one-line summary of what the icon set covers.
+---
+
+import { NewIconDemo } from "@/examples/new-icon";
+
+<ComponentThemeTabs>
+  <ThemeTab name="new-york">
+    <PreviewWithCode name="new-icon">
+      <NewIconDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="force8">
+    <PreviewWithCode name="new-icon">
+      <NewIconDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myswissski">
+    <PreviewWithCode name="new-icon">
+      <NewIconDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+  <ThemeTab name="myicehockey">
+    <PreviewWithCode name="new-icon">
+      <NewIconDemo />
+    </PreviewWithCode>
+  </ThemeTab>
+</ComponentThemeTabs>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes |
+| `size` | `number` | `24` | Icon size in pixels |
+
+## Usage
+
+```tsx
+import { NewIcon } from "@/components/ui/new-icon";
+
+<NewIcon />
+```
+
+## Specs
+
+```md
+# i-new-icon — Icon Specs
+
+## Component
+- name: new-icon
+- file: registry/new-york/new-icon.tsx
+- installs to: components/ui/new-icon.tsx
+- dependencies: (none — add if needed)
+- registryDependencies: (none — add if needed)
+
+## What is it
+Replace this with a description of what the icon set covers, when to use it
+instead of the default `lucide-react` set, and any brand-specific meaning
+individual glyphs carry.
+
+## Visual identity
+Describe the visual character of this icon set in this theme.
+- Stroke/fill: (e.g. stroke-based, 1.5px, currentColor)
+- Grid: (e.g. 24x24 viewBox)
+- Weight: (e.g. light, regular, bold)
+- Key trait: (the one thing that makes it recognisable)
+
+## Design tokens
+--foreground: oklch(0.145 0 0)
+--muted-foreground: oklch(0.556 0 0)
+--primary: oklch(0.205 0 0)
+
+## shadcn config (components.json)
+- style: new-york
+- rsc: true
+- tsx: true
+- baseColor: neutral
+- cssVariables: true
+- iconLibrary: lucide
+- aliases:
+  - components → @/components
+  - ui → @/components/ui
+  - utils → @/lib/utils
+  - lib → @/lib
+  - hooks → @/hooks
+
+## Variants
+- default → currentColor, inherits from parent text color
+- (add more variants as needed, e.g. filled, duotone)
+
+## States
+- default:  (describe the resting appearance)
+- disabled: opacity-50
+
+## Conventions
+- Use cn() from @/lib/utils for all conditional classNames
+- Icons use the i- prefix to distinguish from elements (e-), blocks (b-), and charts (c-)
+- Use currentColor for stroke/fill so icons inherit text color by default
+- Accept a `size` prop (number, in pixels) — do not hardcode dimensions
+- Tailwind CSS 4 utility classes only — no inline styles
+- No external dependencies unless declared in registry.json
+- Decorative icons need aria-hidden; meaningful icons need aria-label
+```
+
+## Installation
+
+<CommandBox componentName="new-icon" className="mt-2" />
