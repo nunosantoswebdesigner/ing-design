@@ -14,8 +14,7 @@ const artworks = [
   { artist: "Herbie Hancock", title: "Maiden Voyage" },
 ];
 
-export function ScrollAreaDemo() {
-  return (
+export const ScrollAreaDemo = () => (
     <div className="flex gap-6">
       {/* Vertical */}
       <ScrollArea className="h-72 w-48 rounded-md border">
@@ -29,19 +28,14 @@ export function ScrollAreaDemo() {
           ))}
         </div>
       </ScrollArea>
-
       {/* Horizontal */}
       <ScrollArea className="w-64 rounded-md border">
         <div className="flex gap-4 p-4">
           {artworks.map((artwork) => (
             <figure key={artwork.title} className="shrink-0">
-              <div className="overflow-hidden rounded-md">
-                <div className="size-[150px] bg-muted" />
-              </div>
+              <div className="overflow-hidden rounded-md"><div className="size-[150px] bg-muted" /></div>
               <figcaption className="pt-2 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground block truncate w-[150px]">
-                  {artwork.title}
-                </span>
+                <span className="font-medium text-foreground block truncate w-[150px]">{artwork.title}</span>
                 {artwork.artist}
               </figcaption>
             </figure>
@@ -51,4 +45,3 @@ export function ScrollAreaDemo() {
       </ScrollArea>
     </div>
   );
-}

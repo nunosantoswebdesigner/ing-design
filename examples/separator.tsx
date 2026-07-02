@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 
-export function SeparatorDemo() {
-  return (
+export const SeparatorDemo = () => (
     <div className="flex flex-col gap-8">
       {/* Horizontal in text context */}
       <div className="w-full max-w-xs">
@@ -18,15 +17,11 @@ export function SeparatorDemo() {
           <span>Source</span>
         </div>
       </div>
-
       {/* Between list items */}
       <div className="w-full max-w-xs divide-y">
         {["Profile", "Billing", "Settings", "Logout"].map((item) => (
-          <div key={item} className="py-2.5 text-sm">
-            {item}
-          </div>
+          <div key={item} className="py-2.5 text-sm">{item}</div>
         ))}
       </div>
     </div>
   );
-}

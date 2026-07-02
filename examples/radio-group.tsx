@@ -1,8 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export function RadioGroupDemo() {
-  return (
+export const RadioGroupDemo = () => (
     <div className="flex flex-col gap-8">
       {/* Vertical (default) */}
       <RadioGroup defaultValue="comfortable">
@@ -23,7 +22,6 @@ export function RadioGroupDemo() {
           <Label htmlFor="r-disabled">Disabled option</Label>
         </div>
       </RadioGroup>
-
       {/* Horizontal */}
       <RadioGroup defaultValue="card" className="flex gap-6">
         <div className="flex items-center gap-2">
@@ -41,4 +39,3 @@ export function RadioGroupDemo() {
       </RadioGroup>
     </div>
   );
-}

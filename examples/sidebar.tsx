@@ -1,33 +1,6 @@
-"use client";
-
-import {
-  HomeIcon,
-  InboxIcon,
-  LayoutDashboardIcon,
-  SearchIcon,
-  SettingsIcon,
-  UsersIcon,
-} from "lucide-react";
-
+import { HomeIcon, InboxIcon, LayoutDashboardIcon, SearchIcon, SettingsIcon, UsersIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInput,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarSeparator,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarSeparator, SidebarTrigger } from "@/components/ui/sidebar";
 
 const navItems = [
   { active: false, icon: HomeIcon, label: "Home" },
@@ -37,32 +10,22 @@ const navItems = [
   { active: false, icon: SettingsIcon, label: "Settings" },
 ];
 
-export function SidebarDemo() {
-  return (
+export const SidebarDemo = () => (
     <SidebarProvider className="h-[480px] min-h-0 overflow-hidden rounded-lg border contain-strict">
       <Sidebar collapsible="icon">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" tooltip="ING Design">
-                <div className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-md text-xs font-bold">
-                  ING
-                </div>
+                <div className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-md text-xs font-bold">ING</div>
                 <span className="font-semibold">ING Design</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarInput placeholder="Search…" />
-            </SidebarGroupContent>
-          </SidebarGroup>
-
+          <SidebarGroup><SidebarGroupContent><SidebarInput placeholder="Search…" /></SidebarGroupContent></SidebarGroup>
           <SidebarSeparator />
-
           <SidebarGroup>
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -80,7 +43,6 @@ export function SidebarDemo() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -88,16 +50,13 @@ export function SidebarDemo() {
                 <div className="bg-muted size-8 shrink-0 rounded-full" />
                 <div className="flex flex-col text-left text-xs leading-tight">
                   <span className="font-medium">Nuno Santos</span>
-                  <span className="text-muted-foreground truncate">
-                    nunosantos@inginfinitive.pt
-                  </span>
+                  <span className="text-muted-foreground truncate">nunosantos@inginfinitive.pt</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-
       <SidebarInset>
         <header className="flex h-12 items-center gap-2 border-b px-4">
           <SidebarTrigger />
@@ -116,4 +75,3 @@ export function SidebarDemo() {
       </SidebarInset>
     </SidebarProvider>
   );
-}

@@ -1,14 +1,6 @@
-"use client";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-
-export function InputOTPDemo() {
-  return (
+export const InputOTPDemo = () => (
     <div className="flex flex-col items-center gap-6">
       {/* Basic 6-digit */}
       <InputOTP maxLength={6}>
@@ -21,7 +13,6 @@ export function InputOTPDemo() {
           <InputOTPSlot index={5} />
         </InputOTPGroup>
       </InputOTP>
-
       {/* Two groups with separator */}
       <InputOTP maxLength={6}>
         <InputOTPGroup>
@@ -38,4 +29,3 @@ export function InputOTPDemo() {
       </InputOTP>
     </div>
   );
-}

@@ -1,18 +1,7 @@
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/ui/command";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
-
-export function CommandDemo() {
-  return (
+export const CommandDemo = () => (
     <Command className="rounded-lg border shadow-md w-full max-w-sm">
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
@@ -52,4 +41,3 @@ export function CommandDemo() {
       </CommandList>
     </Command>
   );
-}

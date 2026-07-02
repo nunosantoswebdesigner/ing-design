@@ -1,96 +1,9 @@
 "use client";
 
 import * as React from "react";
-
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-
-const gettingStarted: { title: string; href: string; description: string }[] = [
-  {
-    description: "How to install and configure ING Design in your project.",
-    href: "/docs/installation",
-    title: "Installation",
-  },
-  {
-    description: "Fonts, sizes, and text styling conventions.",
-    href: "/docs/typography",
-    title: "Typography",
-  },
-  {
-    description: "Customize colors, radius, and design tokens.",
-    href: "/docs/theming",
-    title: "Theming",
-  },
-];
-
-export function NavigationMenuDemo() {
-  return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        {/* Trigger with content panel */}
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b p-6 no-underline outline-none select-none focus:shadow-md"
-                    href="/"
-                  >
-                    <div className="mt-4 mb-2 text-lg font-semibold">ING Design</div>
-                    <p className="text-muted-foreground text-sm leading-tight">
-                      A custom component registry built on shadcn/ui.
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-              </li>
-              {gettingStarted.map((item) => (
-                <ListItem key={item.title} href={item.href} title={item.title}>
-                  {item.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        {/* Trigger with simple grid */}
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {[
-                { href: "/docs/components/button", title: "Button" },
-                { href: "/docs/components/dialog", title: "Dialog" },
-                { href: "/docs/components/dropdown-menu", title: "Dropdown Menu" },
-                { href: "/docs/components/input", title: "Input" },
-                { href: "/docs/components/select", title: "Select" },
-                { href: "/docs/components/tooltip", title: "Tooltip" },
-              ].map((item) => (
-                <ListItem key={item.title} href={item.href} title={item.title} />
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        {/* Plain link — no content panel */}
-        <NavigationMenuItem>
-          <NavigationMenuLink href="/docs" className={navigationMenuTriggerStyle()}>
-            Documentation
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  );
-}
+import { gettingStarted } from "@/data/navigation-menu";
 
 const ListItem = ({
   className,
@@ -117,3 +30,52 @@ const ListItem = ({
     </NavigationMenuLink>
   </li>
 );
+
+export const NavigationMenuDemo = () => (
+    <NavigationMenu>
+      <NavigationMenuList>
+        {/* Trigger with content panel */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+              <li className="row-span-3">
+                <NavigationMenuLink asChild>
+                  <a
+                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b p-6 no-underline outline-none select-none focus:shadow-md"
+                    href="/"
+                  >
+                    <div className="mt-4 mb-2 text-lg font-semibold">ING Design</div>
+                    <p className="text-muted-foreground text-sm leading-tight">A custom component registry built on shadcn/ui.</p>
+                  </a>
+                </NavigationMenuLink>
+              </li>
+              {gettingStarted.map((item) => (
+                <ListItem key={item.title} href={item.href} title={item.title}>{item.description}</ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        {/* Trigger with simple grid */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {[
+                { href: "/docs/components/button", title: "Button" },
+                { href: "/docs/components/dialog", title: "Dialog" },
+                { href: "/docs/components/dropdown-menu", title: "Dropdown Menu" },
+                { href: "/docs/components/input", title: "Input" },
+                { href: "/docs/components/select", title: "Select" },
+                { href: "/docs/components/tooltip", title: "Tooltip" },
+              ].map((item) => (
+                <ListItem key={item.title} href={item.href} title={item.title} />
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        {/* Plain link — no content panel */}
+        <NavigationMenuItem><NavigationMenuLink href="/docs" className={navigationMenuTriggerStyle()}>Documentation</NavigationMenuLink></NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );

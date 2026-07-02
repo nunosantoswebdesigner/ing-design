@@ -21,6 +21,7 @@ export default defineConfig({
     ".claude/**",
     ".web-kits/**",
     "audio/**",
+    "examples/**",
   ],
   jsxSingleQuote: false,
   printWidth: 80,

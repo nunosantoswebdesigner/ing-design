@@ -1,9 +1,7 @@
 "use client";
-
 import { SignupBlock } from "@/components/ui/b-signup";
 
-export function BSignupDemo() {
-  return (
+export const BSignupDemo = () => (
     <SignupBlock
       layout="split"
       social={["github"]}
@@ -11,4 +9,3 @@ export function BSignupDemo() {
       onLogin={() => console.log("switch to login")}
     />
   );
-}

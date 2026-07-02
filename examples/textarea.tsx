@@ -2,18 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export function TextareaDemo() {
-  return (
+export const TextareaDemo = () => (
     <div className="flex flex-col gap-6">
       {/* Default */}
       <Textarea placeholder="Write something…" />
-
       {/* With label */}
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="ta-bio">Bio</Label>
         <Textarea id="ta-bio" placeholder="Tell us about yourself" className="min-h-24" />
       </div>
-
       {/* With label and helper + button */}
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="ta-message">Message</Label>
@@ -23,13 +20,11 @@ export function TextareaDemo() {
           <Button size="sm">Send</Button>
         </div>
       </div>
-
       {/* Disabled */}
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="ta-disabled">Disabled</Label>
         <Textarea id="ta-disabled" defaultValue="This field is read-only." disabled />
       </div>
-
       {/* Invalid */}
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="ta-invalid">Feedback</Label>
@@ -38,4 +33,3 @@ export function TextareaDemo() {
       </div>
     </div>
   );
-}

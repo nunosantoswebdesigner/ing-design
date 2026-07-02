@@ -1,21 +1,12 @@
-"use client";
-
 import { Settings2 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-export function PopoverDemo() {
-  return (
+export const PopoverDemo = () => (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">
-          <Settings2 />
-          Open settings
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger asChild><Button variant="outline"><Settings2 />Open settings</Button></PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="flex flex-col gap-4">
           <div className="space-y-1">
@@ -40,4 +31,3 @@ export function PopoverDemo() {
       </PopoverContent>
     </Popover>
   );
-}

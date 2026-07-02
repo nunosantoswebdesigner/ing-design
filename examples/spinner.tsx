@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-export function SpinnerDemo() {
-  return (
+export const SpinnerDemo = () => (
     <div className="flex flex-col gap-8">
       {/* Sizes */}
       <div className="flex items-center gap-4">
@@ -11,7 +10,6 @@ export function SpinnerDemo() {
         <Spinner size="lg" />
         <Spinner size="xl" />
       </div>
-
       {/* Colors via text color */}
       <div className="flex items-center gap-4">
         <Spinner className="text-primary" />
@@ -19,7 +17,6 @@ export function SpinnerDemo() {
         <Spinner className="text-muted-foreground" />
         <Spinner className="text-green-500" />
       </div>
-
       {/* In a button */}
       <div className="flex flex-wrap items-center gap-3">
         <Button disabled>
@@ -35,7 +32,6 @@ export function SpinnerDemo() {
           Please wait
         </Button>
       </div>
-
       {/* Full-page overlay pattern */}
       <div className="bg-background relative flex h-28 items-center justify-center rounded-lg border">
         <div className="text-muted-foreground flex flex-col items-center gap-2">
@@ -45,4 +41,3 @@ export function SpinnerDemo() {
       </div>
     </div>
   );
-}

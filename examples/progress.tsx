@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { Progress } from "@/components/ui/progress";
 
-export function ProgressDemo() {
+export const ProgressDemo = () => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export function ProgressDemo() {
         </div>
         <Progress value={value} />
       </div>
-
       {/* Fixed values */}
       <div className="flex flex-col gap-3">
         <Progress value={0} />
@@ -31,9 +29,8 @@ export function ProgressDemo() {
         <Progress value={75} />
         <Progress value={100} />
       </div>
-
       {/* Thick */}
       <Progress value={42} className="h-3" />
     </div>
   );
-}
+};

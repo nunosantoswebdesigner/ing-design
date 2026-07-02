@@ -1,22 +1,10 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function SelectDemo() {
-  return (
+export const SelectDemo = () => (
     <div className="flex flex-col gap-4">
       {/* Basic */}
       <Select>
-        <SelectTrigger className="w-56">
-          <SelectValue placeholder="Select a fruit" />
-        </SelectTrigger>
+        <SelectTrigger className="w-56"><SelectValue placeholder="Select a fruit" /></SelectTrigger>
         <SelectContent>
           <SelectItem value="apple">Apple</SelectItem>
           <SelectItem value="banana">Banana</SelectItem>
@@ -25,12 +13,9 @@ export function SelectDemo() {
           <SelectItem value="pineapple">Pineapple</SelectItem>
         </SelectContent>
       </Select>
-
       {/* Groups + separator */}
       <Select>
-        <SelectTrigger className="w-56">
-          <SelectValue placeholder="Select a timezone" />
-        </SelectTrigger>
+        <SelectTrigger className="w-56"><SelectValue placeholder="Select a timezone" /></SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>North America</SelectLabel>
@@ -48,12 +33,9 @@ export function SelectDemo() {
           </SelectGroup>
         </SelectContent>
       </Select>
-
       {/* Small size */}
       <Select>
-        <SelectTrigger size="sm" className="w-40">
-          <SelectValue placeholder="Sort by" />
-        </SelectTrigger>
+        <SelectTrigger size="sm" className="w-40"><SelectValue placeholder="Sort by" /></SelectTrigger>
         <SelectContent>
           <SelectItem value="newest">Newest</SelectItem>
           <SelectItem value="oldest">Oldest</SelectItem>
@@ -61,16 +43,10 @@ export function SelectDemo() {
           <SelectItem value="za">Z → A</SelectItem>
         </SelectContent>
       </Select>
-
       {/* Disabled */}
       <Select disabled>
-        <SelectTrigger className="w-56">
-          <SelectValue placeholder="Disabled" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="x">Option</SelectItem>
-        </SelectContent>
+        <SelectTrigger className="w-56"><SelectValue placeholder="Disabled" /></SelectTrigger>
+        <SelectContent><SelectItem value="x">Option</SelectItem></SelectContent>
       </Select>
     </div>
   );
-}

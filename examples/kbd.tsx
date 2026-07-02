@@ -1,9 +1,7 @@
 import { ArrowUp, Command } from "lucide-react";
-
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
-export function KbdDemo() {
-  return (
+export const KbdDemo = () => (
     <div className="flex flex-col items-start gap-4">
       {/* Single keys */}
       <div className="flex flex-wrap items-center gap-2">
@@ -16,7 +14,6 @@ export function KbdDemo() {
         <Kbd>Tab</Kbd>
         <Kbd>Esc</Kbd>
       </div>
-
       {/* Key combos */}
       <div className="flex flex-wrap items-center gap-3">
         <KbdGroup>
@@ -34,23 +31,16 @@ export function KbdDemo() {
           <Kbd>Del</Kbd>
         </KbdGroup>
       </div>
-
       {/* With icon */}
       <div className="flex items-center gap-2">
         <KbdGroup>
-          <Kbd>
-            <Command />
-          </Kbd>
-          <Kbd>
-            <ArrowUp />
-          </Kbd>
+          <Kbd><Command /></Kbd>
+          <Kbd><ArrowUp /></Kbd>
         </KbdGroup>
       </div>
-
       {/* Inline in text */}
       <p className="text-sm text-muted-foreground">
         Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open the command menu, or <Kbd>Esc</Kbd> to close it.
       </p>
     </div>
   );
-}

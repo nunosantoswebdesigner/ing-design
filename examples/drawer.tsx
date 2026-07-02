@@ -1,21 +1,9 @@
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
-export function DrawerDemo() {
-  return (
+export const DrawerDemo = () => (
     <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Open drawer</Button>
-      </DrawerTrigger>
+      <DrawerTrigger asChild><Button variant="outline">Open drawer</Button></DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
@@ -32,12 +20,9 @@ export function DrawerDemo() {
           </div>
           <DrawerFooter>
             <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
+            <DrawerClose asChild><Button variant="outline">Cancel</Button></DrawerClose>
           </DrawerFooter>
         </div>
       </DrawerContent>
     </Drawer>
   );
-}

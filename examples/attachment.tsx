@@ -1,67 +1,39 @@
-import { FileTextIcon, ImageIcon, Trash2Icon, XIcon } from "lucide-react";
-
-import {
-  Attachment,
-  AttachmentAction,
-  AttachmentActions,
-  AttachmentContent,
-  AttachmentDescription,
-  AttachmentGroup,
-  AttachmentMedia,
-  AttachmentTitle,
-  AttachmentTrigger,
-} from "@/components/ui/attachment";
 import { Spinner } from "@/components/ui/spinner";
+import { FileTextIcon, ImageIcon, Trash2Icon, XIcon } from "lucide-react";
+import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentGroup, AttachmentMedia, AttachmentTitle, AttachmentTrigger } from "@/components/ui/attachment";
 
-export function AttachmentDemo() {
-  return (
+export const AttachmentDemo = () => (
     <div className="flex flex-col gap-6 max-w-xl">
+      
       {/* States */}
       <div className="flex flex-wrap gap-3">
+        {/* Done */}
         <Attachment state="done">
-          <AttachmentMedia>
-            <FileTextIcon />
-          </AttachmentMedia>
+          <AttachmentMedia><FileTextIcon /></AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>report.pdf</AttachmentTitle>
             <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
           </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction aria-label="Remove">
-              <XIcon />
-            </AttachmentAction>
-          </AttachmentActions>
+          <AttachmentActions><AttachmentAction aria-label="Remove"><XIcon /></AttachmentAction></AttachmentActions>
           <AttachmentTrigger />
         </Attachment>
-
+        {/* Uploading */}
         <Attachment state="uploading">
-          <AttachmentMedia>
-            <Spinner size="sm" />
-          </AttachmentMedia>
+          <AttachmentMedia><Spinner size="sm" /></AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>uploading.zip</AttachmentTitle>
             <AttachmentDescription>Uploading… 34%</AttachmentDescription>
           </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction aria-label="Cancel">
-              <XIcon />
-            </AttachmentAction>
-          </AttachmentActions>
+          <AttachmentActions><AttachmentAction aria-label="Cancel"><XIcon /></AttachmentAction></AttachmentActions>
         </Attachment>
-
+        {/* Error */}
         <Attachment state="error">
-          <AttachmentMedia>
-            <FileTextIcon />
-          </AttachmentMedia>
+          <AttachmentMedia><FileTextIcon /></AttachmentMedia>
           <AttachmentContent>
             <AttachmentTitle>failed.docx</AttachmentTitle>
             <AttachmentDescription>Upload failed</AttachmentDescription>
           </AttachmentContent>
-          <AttachmentActions>
-            <AttachmentAction variant="destructive" aria-label="Remove">
-              <Trash2Icon />
-            </AttachmentAction>
-          </AttachmentActions>
+          <AttachmentActions><AttachmentAction variant="destructive" aria-label="Remove"><Trash2Icon /></AttachmentAction></AttachmentActions>
         </Attachment>
       </div>
 
@@ -134,4 +106,3 @@ export function AttachmentDemo() {
       </AttachmentGroup>
     </div>
   );
-}

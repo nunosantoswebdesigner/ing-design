@@ -1,7 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function SkeletonDemo() {
-  return (
+export const SkeletonDemo = () => (
     <div className="flex flex-col gap-8">
       {/* Card skeleton */}
       <div className="flex flex-col gap-3">
@@ -14,7 +13,6 @@ export function SkeletonDemo() {
           </div>
         </div>
       </div>
-
       {/* List skeleton */}
       <div className="flex flex-col gap-3">
         {Array.from({ length: 3 }).map((_, i) => (
@@ -28,7 +26,6 @@ export function SkeletonDemo() {
           </div>
         ))}
       </div>
-
       {/* Text block skeleton */}
       <div className="flex flex-col gap-2">
         <Skeleton className="h-4 w-full" />
@@ -38,4 +35,3 @@ export function SkeletonDemo() {
       </div>
     </div>
   );
-}

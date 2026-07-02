@@ -1,9 +1,7 @@
 "use client";
-
 import { LoginBlock } from "@/components/ui/b-login";
 
-export function BLoginDemo() {
-  return (
+export const BLoginDemo = () => (
     <LoginBlock
       layout="card"
       social={["google", "github"]}
@@ -13,4 +11,3 @@ export function BLoginDemo() {
       onRegister={() => console.log("switch to register")}
     />
   );
-}
