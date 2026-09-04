@@ -6,7 +6,6 @@ import {
   extractTokensFromNode,
   fetchFigmaNodes,
   fetchFigmaStyles,
-  fetchFigmaVariables,
   parseFigmaUrl,
   resolveFigmaUrl,
 } from "@/lib/figma-diff";
@@ -98,14 +97,13 @@ export const GET = async (
     // hex-matching against the code tokens inside extractTokensFromNode.
   }
 
-  // ── Probe Variables API (unverified plan gating — never block on failure) ──
-  let variablesAvailable = false;
-  try {
-    await fetchFigmaVariables(fileKey, figmaToken);
-    variablesAvailable = true;
-  } catch {
-    variablesAvailable = false;
-  }
+  // Variables API is confirmed unavailable on this Figma plan (no
+  // file_variables:read scope offered at all) — that's an account-level fact,
+  // not something to re-check on every diff request. Probing it here on
+  // every open burned real rate-limit quota for a known-negative result and
+  // contributed to 429s in production. If the plan changes, flip this back
+  // to a live `fetchFigmaVariables` probe.
+  const variablesAvailable = false;
 
   // ── Diff against this theme's light tokens ──────────────────────────────────
   const baseTheme = REGISTRY_THEMES.find(

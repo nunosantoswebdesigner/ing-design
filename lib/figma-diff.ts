@@ -26,9 +26,10 @@ export interface DiffResult {
   theme: string;
   mode: string;
   figmaFile: string;
-  /** Whether `GET /v1/files/:key/variables/local` succeeded for this file —
-   * lets the UI/caller know if native light+dark variable values are available
-   * (historically Enterprise-gated; probed live rather than assumed). */
+  /** Whether native light+dark Figma Variables are available for this diff.
+   * Currently always `false` — confirmed Enterprise-gated for this account,
+   * so it's a hardcoded fact rather than a live per-request probe (probing
+   * it on every diff wasted rate-limit quota on a known-negative result). */
   variablesAvailable: boolean;
   tokens: DiffToken[];
   summary: DiffSummary;
@@ -222,13 +223,20 @@ export const parseFigmaUrl = (url: string): ParsedFigmaUrl | null => {
   };
 };
 
+// Figma's own rate limit is per-token, shared across every visitor hitting
+// this route — a 5 min cache keeps repeated diffs (same component, same
+// theme) from re-spending that quota on data that rarely changes minute to
+// minute. Diffing a design that just changed may lag briefly; that's an
+// acceptable trade for not 429ing under normal traffic.
+const FIGMA_CACHE_SECONDS = 300;
+
 export const fetchFigmaStyles = async (
   fileKey: string,
   token: string
 ): Promise<FigmaStylesResponse> => {
   const res = await fetch(`https://api.figma.com/v1/files/${fileKey}/styles`, {
-    cache: "no-store",
     headers: { "X-Figma-Token": token },
+    next: { revalidate: FIGMA_CACHE_SECONDS },
   });
   if (!res.ok) {
     const body = await res.text();
@@ -245,7 +253,10 @@ export const fetchFigmaNodes = async (
   const ids = nodeIds.join(",");
   const res = await fetch(
     `https://api.figma.com/v1/files/${fileKey}/nodes?ids=${encodeURIComponent(ids)}`,
-    { cache: "no-store", headers: { "X-Figma-Token": token } }
+    {
+      headers: { "X-Figma-Token": token },
+      next: { revalidate: FIGMA_CACHE_SECONDS },
+    }
   );
   if (!res.ok) {
     const body = await res.text();
