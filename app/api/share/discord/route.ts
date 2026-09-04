@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { SITE } from "@/constants/site";
+import { parseFigmaUrl, resolveFigmaUrl } from "@/lib/figma-diff";
 import { source } from "@/lib/source";
+import { DEFAULT_REGISTRY_THEME_ID } from "@/lib/themes";
 
 export const dynamic = "force-dynamic";
 
@@ -13,31 +15,22 @@ export interface DiscordSharePayload {
 
 // ─── Figma helpers ────────────────────────────────────────────────────────────
 
-const parseFigmaUrl = (figmaUrl: string): { fileKey: string; nodeId: string } | null => {
-  const fileMatch = figmaUrl.match(/figma\.com\/(?:design|file)\/([A-Za-z0-9]+)/);
-  const nodeMatch = figmaUrl.match(/node-id=([^&]+)/);
-  if (!fileMatch || !nodeMatch) {
-    return null;
-  }
-  return {
-    fileKey: fileMatch[1],
-    nodeId: decodeURIComponent(nodeMatch[1]).replace(/-/, ":"),
-  };
-};
-
 const fetchFigmaNodeImage = async (
   fileKey: string,
   nodeId: string,
-  token: string,
+  token: string
 ): Promise<string | null> => {
   const res = await fetch(
     `https://api.figma.com/v1/images/${fileKey}?ids=${encodeURIComponent(nodeId)}&format=png&scale=2`,
-    { cache: "no-store", headers: { "X-Figma-Token": token } },
+    { cache: "no-store", headers: { "X-Figma-Token": token } }
   );
   if (!res.ok) {
     return null;
   }
-  const json = (await res.json()) as { err: string | null; images: Record<string, string> };
+  const json = (await res.json()) as {
+    err: string | null;
+    images: Record<string, string>;
+  };
   if (json.err) {
     return null;
   }
@@ -79,7 +72,7 @@ interface EmbedField {
 }
 
 const buildSpecsFields = async (
-  page: ReturnType<typeof source.getPages>[number],
+  page: ReturnType<typeof source.getPages>[number]
 ): Promise<EmbedField[]> => {
   try {
     const pageText = await page.data.getText("processed");
@@ -96,7 +89,11 @@ const buildSpecsFields = async (
       ] as [string, string | null][]
     )
       .filter(([, v]) => v !== null)
-      .map(([name, v]) => ({ inline: false, name, value: truncate(`\`\`\`\n${v}\n\`\`\``) }));
+      .map(([name, v]) => ({
+        inline: false,
+        name,
+        value: truncate(`\`\`\`\n${v}\n\`\`\``),
+      }));
   } catch {
     return [];
   }
@@ -107,14 +104,20 @@ const buildSpecsFields = async (
 export const POST = async (req: Request) => {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) {
-    return NextResponse.json({ error: "DISCORD_WEBHOOK_URL not configured" }, { status: 501 });
+    return NextResponse.json(
+      { error: "DISCORD_WEBHOOK_URL not configured" },
+      { status: 501 }
+    );
   }
 
   const body = (await req.json()) as DiscordSharePayload;
   const { title, description, url } = body;
 
   if (!title || !url) {
-    return NextResponse.json({ error: "title and url are required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "title and url are required" },
+      { status: 400 }
+    );
   }
 
   const absolutePageUrl = url.startsWith("http")
@@ -123,20 +126,29 @@ export const POST = async (req: Request) => {
 
   // ── Look up MDX page ────────────────────────────────────────────────────────
   const pagePath = absolutePageUrl.replace(SITE.URL, "");
-  const page = source.getPages().find((p) => p.url === pagePath || absolutePageUrl.endsWith(p.url));
+  const page = source
+    .getPages()
+    .find((p) => p.url === pagePath || absolutePageUrl.endsWith(p.url));
 
   // ── Figma preview image ─────────────────────────────────────────────────────
   let previewImageUrl: string | null = null;
   const figmaToken = process.env.FIGMA_ACCESS_TOKEN;
 
-  if (figmaToken && page?.data.figma) {
-    const parsed = parseFigmaUrl(page.data.figma);
+  const figmaUrl = resolveFigmaUrl(page?.data.figma, DEFAULT_REGISTRY_THEME_ID);
+  if (figmaToken && figmaUrl) {
+    const parsed = parseFigmaUrl(figmaUrl);
     if (parsed) {
-      previewImageUrl = await fetchFigmaNodeImage(parsed.fileKey, parsed.nodeId, figmaToken);
+      previewImageUrl = await fetchFigmaNodeImage(
+        parsed.fileKey,
+        parsed.nodeId,
+        figmaToken
+      );
     }
   }
 
-  const ogPath = absolutePageUrl.replace(SITE.URL, "").replace(/^\/docs\//, "/og/docs/");
+  const ogPath = absolutePageUrl
+    .replace(SITE.URL, "")
+    .replace(/^\/docs\//, "/og/docs/");
   const imageUrl = previewImageUrl ?? `${SITE.URL}${ogPath}`;
 
   // ── Extract specs from page content ────────────────────────────────────────
@@ -172,7 +184,10 @@ export const POST = async (req: Request) => {
 
   if (!discordRes.ok) {
     const detail = await discordRes.text();
-    return NextResponse.json({ detail, error: "Discord webhook failed" }, { status: 502 });
+    return NextResponse.json(
+      { detail, error: "Discord webhook failed" },
+      { status: 502 }
+    );
   }
 
   return NextResponse.json({ ok: true });

@@ -2,7 +2,6 @@
 
 import { BracesIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { CopyButton } from "@/components/features/copy-button";
 import {
@@ -19,15 +18,29 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { FALLBACK_SITE_ORIGIN, SITE } from "@/constants/site";
-import { DEFAULT_REGISTRY_THEME_ID, REGISTRY_THEMES } from "@/lib/themes";
+import { useCurrentRegistryTheme } from "@/hooks/use-registry-theme";
+import type { FigmaFrontmatter } from "@/lib/figma-diff";
+import { resolveFigmaUrl } from "@/lib/figma-diff";
+import { DEFAULT_REGISTRY_THEME_ID } from "@/lib/themes";
 
 // v0 needs a publicly reachable URL — use production origin even in local dev
-const PUBLIC_ORIGIN = process.env.NODE_ENV === "production" ? SITE.URL : FALLBACK_SITE_ORIGIN;
+const PUBLIC_ORIGIN =
+  process.env.NODE_ENV === "production" ? SITE.URL : FALLBACK_SITE_ORIGIN;
 
-const getPromptUrl = (baseURL: string, markdownUrl: string, themeLabel: string, param = "q") =>
+const getPromptUrl = (
+  baseURL: string,
+  markdownUrl: string,
+  themeLabel: string,
+  param = "q"
+) =>
   `${baseURL}?${param}=${encodeURIComponent(
     `I'm building with ${SITE.NAME} — a custom component library (${SITE.URL}).
 
@@ -39,10 +52,14 @@ Focus on the **${themeLabel}** Specs section — it contains the exact design to
 
 Based on that, help me use this component correctly in the ${themeLabel} theme.
 I may ask you to build a... (e.g. a button, a form, a modal, etc.) using this component.
-`,
+`
   )}`;
 
-type MenuItemRenderer = (url: string, markdownUrl: string, themeLabel: string) => React.ReactNode;
+type MenuItemRenderer = (
+  url: string,
+  markdownUrl: string,
+  themeLabel: string
+) => React.ReactNode;
 const MENU_ITEMS: [string, MenuItemRenderer][] = [
   [
     "markdown",
@@ -154,16 +171,16 @@ export const DocsCopyPage = ({
 }: {
   markdownUrl: string;
   url: string;
-  figmaUrl?: string;
+  figmaUrl?: FigmaFrontmatter;
 }) => {
-  const searchParams = useSearchParams();
-  const themeParam = searchParams.get("theme");
-  const currentTheme = REGISTRY_THEMES.some((t) => t.id === themeParam)
-    ? (themeParam ?? DEFAULT_REGISTRY_THEME_ID)
-    : DEFAULT_REGISTRY_THEME_ID;
-  const currentThemeConfig = REGISTRY_THEMES.find((t) => t.id === currentTheme);
-  const currentThemeLabel = currentThemeConfig?.label ?? "New York";
-  const effectiveFigmaUrl = currentThemeConfig?.figma ?? figmaUrl;
+  const currentThemeConfig = useCurrentRegistryTheme();
+  const currentTheme = currentThemeConfig.id;
+  const currentThemeLabel = currentThemeConfig.label;
+  const effectiveFigmaUrl = resolveFigmaUrl(
+    figmaUrl,
+    currentTheme,
+    currentThemeConfig.figma
+  );
 
   // Extract component slug from URL (e.g. /docs/components/button → button)
   const componentSlug = url.split("/").pop()?.split("?")[0] ?? "";
@@ -207,10 +224,17 @@ export const DocsCopyPage = ({
           <DropdownMenuTrigger asChild className="hidden sm:flex">
             {trigger}
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="animate-none! rounded-lg shadow-none">
+          <DropdownMenuContent
+            align="end"
+            className="animate-none! rounded-lg shadow-none"
+          >
             {effectiveFigmaUrl && (
               <DropdownMenuItem asChild sound="click">
-                <a href={effectiveFigmaUrl} rel="noopener noreferrer" target="_blank">
+                <a
+                  href={effectiveFigmaUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <FigmaIcon />
                   View in Figma
                 </a>
@@ -224,7 +248,11 @@ export const DocsCopyPage = ({
             </DropdownMenuItem>
             {componentSlug && (
               <DropdownMenuItem asChild sound="click">
-                <a href={registryApiUrl} rel="noopener noreferrer" target="_blank">
+                <a
+                  href={registryApiUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <BracesIcon />
                   Open in JSON
                 </a>
@@ -256,7 +284,11 @@ export const DocsCopyPage = ({
               sound="click"
               className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
             >
-              <a href={effectiveFigmaUrl} rel="noopener noreferrer" target="_blank">
+              <a
+                href={effectiveFigmaUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <FigmaIcon />
                 View in Figma
               </a>
@@ -282,7 +314,11 @@ export const DocsCopyPage = ({
               sound="click"
               className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
             >
-              <a href={registryApiUrl} rel="noopener noreferrer" target="_blank">
+              <a
+                href={registryApiUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <BracesIcon />
                 Open in JSON
               </a>

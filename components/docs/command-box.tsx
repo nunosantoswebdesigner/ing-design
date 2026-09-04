@@ -3,11 +3,12 @@
 import { motion } from "motion/react";
 import { useRef } from "react";
 
-import { CopyButton } from "@/components/features/copy-button";
 import { FigmaDiffButton } from "@/components/docs/figma-diff-button";
 import { RegistryAddButton } from "@/components/docs/registry-add-button";
+import { CopyButton } from "@/components/features/copy-button";
 import { TextFlip } from "@/components/ui/text-flip";
 import { SITE } from "@/constants/site";
+import { useCurrentRegistryTheme } from "@/hooks/use-registry-theme";
 import { cn } from "@/lib/utils";
 import registry from "@/registry.json";
 
@@ -23,7 +24,7 @@ const registryItemNames = registry.items
   .toSorted((a, b) =>
     a.localeCompare(b, "en", {
       sensitivity: "base",
-    }),
+    })
   );
 
 export const CommandBox = ({
@@ -34,18 +35,27 @@ export const CommandBox = ({
   componentName?: string;
 }) => {
   const currentItemRef = useRef(registryItemNames[0]);
+  const currentTheme = useCurrentRegistryTheme();
 
   return (
-    <div className={cn("bg-code text-code-foreground relative rounded-lg text-sm", className)}>
+    <div
+      className={cn(
+        "bg-code text-code-foreground relative rounded-lg text-sm",
+        className
+      )}
+    >
       <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
         <div className="flex items-center gap-2 py-1.5">
           <img alt="" className="size-4" src="/favicon.svg" />
-          <span className="text-muted-foreground text-sm font-medium">ING Design Plugin</span>
+          <span className="text-muted-foreground text-sm font-medium">
+            ING Design Plugin
+          </span>
         </div>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 mr-6">
           <FigmaDiffButton
             componentName={componentName}
+            theme={currentTheme.id}
             disabled={!componentName}
             variant="ghost"
             size="sm"

@@ -4,8 +4,8 @@ import {
   frontmatterSchema,
   metaSchema,
 } from "fumadocs-mdx/config";
-import { z } from "zod";
 import { rehypePrettyCode } from "rehype-pretty-code";
+import { z } from "zod";
 
 import { DOCS_DIR } from "@/lib/docs";
 import { transformers } from "@/lib/highlight-code";
@@ -37,7 +37,9 @@ export const docs = defineDocs({
       includeProcessedMarkdown: true,
     },
     schema: frontmatterSchema.extend({
-      figma: z.string().url().optional(),
+      figma: z
+        .union([z.string().url(), z.record(z.string(), z.string().url())])
+        .optional(),
     }),
   },
   meta: {

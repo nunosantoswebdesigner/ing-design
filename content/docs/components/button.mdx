@@ -1,7 +1,9 @@
 ---
 title: Button
 description: Triggers an action or navigates. Supports multiple visual variants and sizes.
-figma: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=402-654&t=oHRH1EwF6y1gtDtO-1
+figma:
+  new-york: https://www.figma.com/design/6AEES9oizcs6g7MZR6LPQ3/ING-design?node-id=402-654&t=oHRH1EwF6y1gtDtO-1
+  force8: https://www.figma.com/design/DNTdmU8BBvIfQX34FJbQcm/Force8-Design-System?node-id=3226-7522&m=dev
 ---
 
 import { Button } from "@/registry/new-york/button";
@@ -14,17 +16,17 @@ import { ArrowRightIcon, MailIcon, Loader2Icon } from "lucide-react";
     </PreviewWithCode>
   </ThemeTab>
 
-  <ThemeTab name="force8">
-    <PreviewWithCode name="button">
-      <Button>Button</Button>
-    </PreviewWithCode>
-  </ThemeTab>
+<ThemeTab name="force8">
+  <PreviewWithCode name="button">
+    <Button>Button</Button>
+  </PreviewWithCode>
+</ThemeTab>
 
-  <ThemeTab name="myswissski">
-    <PreviewWithCode name="button">
-      <Button>Button</Button>
-    </PreviewWithCode>
-  </ThemeTab>
+<ThemeTab name="myswissski">
+  <PreviewWithCode name="button">
+    <Button>Button</Button>
+  </PreviewWithCode>
+</ThemeTab>
 
   <ThemeTab name="myicehockey">
     <PreviewWithCode name="button">
@@ -54,9 +56,15 @@ Four general sizes plus three icon-only sizes.
   <Button size="sm">Small</Button>
   <Button size="default">Default</Button>
   <Button size="lg">Large</Button>
-  <Button size="icon"><MailIcon /></Button>
-  <Button size="icon-sm"><MailIcon /></Button>
-  <Button size="icon-lg"><MailIcon /></Button>
+  <Button size="icon">
+    <MailIcon />
+  </Button>
+  <Button size="icon-sm">
+    <MailIcon />
+  </Button>
+  <Button size="icon-lg">
+    <MailIcon />
+  </Button>
 </div>
 
 ## With Icon
@@ -64,8 +72,13 @@ Four general sizes plus three icon-only sizes.
 Icons are sized automatically via `[&_svg]:size-4`.
 
 <div className="flex flex-wrap gap-3 items-center my-6">
-  <Button><MailIcon />Send email</Button>
-  <Button variant="outline">Continue <ArrowRightIcon /></Button>
+  <Button>
+    <MailIcon />
+    Send email
+  </Button>
+  <Button variant="outline">
+    Continue <ArrowRightIcon />
+  </Button>
 </div>
 
 ## Loading
@@ -73,8 +86,14 @@ Icons are sized automatically via `[&_svg]:size-4`.
 Swap the icon for a spinner. Disable the button to prevent repeated submissions.
 
 <div className="flex flex-wrap gap-3 items-center my-6">
-  <Button disabled><Loader2Icon className="animate-spin" />Saving…</Button>
-  <Button variant="outline" disabled><Loader2Icon className="animate-spin" />Loading</Button>
+  <Button disabled>
+    <Loader2Icon className="animate-spin" />
+    Saving…
+  </Button>
+  <Button variant="outline" disabled>
+    <Loader2Icon className="animate-spin" />
+    Loading
+  </Button>
 </div>
 
 ## As Child
@@ -82,17 +101,19 @@ Swap the icon for a spinner. Disable the button to prevent repeated submissions.
 Use `asChild` to render the button styles on a different element.
 
 <div className="my-6">
-  <Button asChild><a href="#">Go to docs</a></Button>
+  <Button asChild>
+    <a href="#">Go to docs</a>
+  </Button>
 </div>
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"` | `"default"` | Visual style |
-| `size` | `"default" \| "sm" \| "lg" \| "icon" \| "icon-sm" \| "icon-lg"` | `"default"` | Size of the button |
-| `asChild` | `boolean` | `false` | Renders children as the root element |
-| `className` | `string` | — | Additional CSS classes |
+| Prop        | Type                                                                          | Default     | Description                          |
+| ----------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------ |
+| `variant`   | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"` | `"default"` | Visual style                         |
+| `size`      | `"default" \| "sm" \| "lg" \| "icon" \| "icon-sm" \| "icon-lg"`               | `"default"` | Size of the button                   |
+| `asChild`   | `boolean`                                                                     | `false`     | Renders children as the root element |
+| `className` | `string`                                                                      | —           | Additional CSS classes               |
 
 ## Usage
 
@@ -119,50 +140,57 @@ import { MailIcon } from "lucide-react";
 # New York — Button Specs
 
 ## Component
+
 - name: button
 - file: registry/new-york/button.tsx
 - installs to: components/ui/button.tsx
 - dependencies: class-variance-authority, radix-ui
 
 ## What is it
+
 A multipurpose action trigger. Use it to submit forms, navigate, or initiate
 operations. Prefer Button over a link when the action changes state or triggers
 a process. Avoid using more than one "default" variant in the same visual area.
 
 ## Visual identity
+
 Neutral dark palette. Near-black primary conveys seriousness and clarity.
 Standard border radius (0.625rem) gives a balanced, professional feel.
 No colour bias — works across any content type or brand context.
 
 ## Design tokens
---primary: oklch(0.205 0 0)              — near-black
---primary-foreground: oklch(0.985 0 0)   — near-white
---secondary: oklch(0.97 0 0)             — very light grey
+
+--primary: oklch(0.205 0 0) — near-black
+--primary-foreground: oklch(0.985 0 0) — near-white
+--secondary: oklch(0.97 0 0) — very light grey
 --secondary-foreground: oklch(0.205 0 0)
 --accent: oklch(0.97 0 0)
 --accent-foreground: oklch(0.205 0 0)
 --muted: oklch(0.97 0 0)
---muted-foreground: oklch(0.556 0 0)     — mid grey
+--muted-foreground: oklch(0.556 0 0) — mid grey
 --destructive: oklch(0.577 0.245 27.325) — red
---border: oklch(0.922 0 0)               — light grey
---ring: oklch(0.708 0 0)                 — medium grey focus ring
---radius: 0.625rem                       — balanced, slightly rounded
+--border: oklch(0.922 0 0) — light grey
+--ring: oklch(0.708 0 0) — medium grey focus ring
+--radius: 0.625rem — balanced, slightly rounded
 
 ## Variants
-- default     → near-black fill. Primary CTA. High visual weight.
-- secondary   → light grey fill. Secondary action. Low visual weight.
-- outline     → transparent, grey border. Equal weight to secondary.
-- ghost       → no border, no fill. Tertiary action or toolbar button.
+
+- default → near-black fill. Primary CTA. High visual weight.
+- secondary → light grey fill. Secondary action. Low visual weight.
+- outline → transparent, grey border. Equal weight to secondary.
+- ghost → no border, no fill. Tertiary action or toolbar button.
 - destructive → red fill. Irreversible or dangerous actions only.
-- link        → text-only underline. Inline navigation or contextual actions.
+- link → text-only underline. Inline navigation or contextual actions.
 
 ## States
-- hover:    primary darkens slightly; outline/ghost shows tinted background
-- focus:    3px ring in --ring colour (grey), offset 0
+
+- hover: primary darkens slightly; outline/ghost shows tinted background
+- focus: 3px ring in --ring colour (grey), offset 0
 - disabled: opacity-50, pointer-events-none
-- loading:  Loader2Icon + animate-spin, always disable the button when loading
+- loading: Loader2Icon + animate-spin, always disable the button when loading
 
 ## Conventions
+
 - One default variant per visual group maximum
 - Pair default + outline for primary/secondary action pairs
 - Pair default + ghost for toolbar actions

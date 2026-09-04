@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { CheckIcon, AlertTriangleIcon, XIcon, MinusIcon } from "lucide-react";
+import { useState } from "react";
 
-import type { DiffResult, DiffStatus, DiffToken, TokenCategory } from "@/lib/figma-diff";
+import type {
+  DiffResult,
+  DiffStatus,
+  DiffToken,
+  TokenCategory,
+} from "@/lib/figma-diff";
 import { cn } from "@/lib/utils";
 
 // ─── Status helpers ───────────────────────────────────────────────────────────
@@ -39,7 +44,7 @@ const Swatch = ({ hex, className }: { hex?: string; className?: string }) => {
     <span
       className={cn(
         "inline-block size-3.5 shrink-0 rounded-[3px] border border-white/10 shadow-sm",
-        className,
+        className
       )}
       style={{ background: hex }}
     />
@@ -59,9 +64,11 @@ const TokenRow = ({ token }: { token: DiffToken }) => {
         "px-4 py-2.5 min-h-[44px]",
         "border-l-2 transition-colors",
         status === "sync" && "border-l-transparent hover:bg-muted/30",
-        status === "drift" && "border-l-amber-500 bg-amber-500/5 hover:bg-amber-500/10",
-        status === "missing" && "border-l-destructive bg-destructive/5 hover:bg-destructive/10",
-        status === "extra" && "border-l-muted-foreground/30 hover:bg-muted/30",
+        status === "drift" &&
+          "border-l-amber-500 bg-amber-500/5 hover:bg-amber-500/10",
+        status === "missing" &&
+          "border-l-destructive bg-destructive/5 hover:bg-destructive/10",
+        status === "extra" && "border-l-muted-foreground/30 hover:bg-muted/30"
       )}
     >
       {/* Token name + figma value */}
@@ -80,16 +87,26 @@ const TokenRow = ({ token }: { token: DiffToken }) => {
             </span>
           </div>
         ) : (
-          <span className="text-[11px] italic text-muted-foreground/40">not in Figma</span>
+          <span className="text-[11px] italic text-muted-foreground/40">
+            not in Figma
+          </span>
         )}
       </div>
 
       {/* Separator */}
       <div className="px-2 flex items-center justify-center w-8 shrink-0">
-        {status === "sync" && <span className="text-[13px] text-muted-foreground/40">=</span>}
-        {status === "drift" && <span className="text-[13px] font-semibold text-amber-500">≠</span>}
-        {status === "missing" && <span className="text-[13px] text-destructive">—</span>}
-        {status === "extra" && <span className="text-[13px] text-muted-foreground/40">—</span>}
+        {status === "sync" && (
+          <span className="text-[13px] text-muted-foreground/40">=</span>
+        )}
+        {status === "drift" && (
+          <span className="text-[13px] font-semibold text-amber-500">≠</span>
+        )}
+        {status === "missing" && (
+          <span className="text-[13px] text-destructive">—</span>
+        )}
+        {status === "extra" && (
+          <span className="text-[13px] text-muted-foreground/40">—</span>
+        )}
       </div>
 
       {/* Code value */}
@@ -103,14 +120,16 @@ const TokenRow = ({ token }: { token: DiffToken }) => {
             <span
               className={cn(
                 "text-[11px] font-mono truncate",
-                status === "drift" ? "text-foreground" : "text-muted-foreground",
+                status === "drift" ? "text-foreground" : "text-muted-foreground"
               )}
             >
               {code.value}
             </span>
           </>
         ) : (
-          <span className="text-[11px] italic text-muted-foreground/30">not defined</span>
+          <span className="text-[11px] italic text-muted-foreground/30">
+            not defined
+          </span>
         )}
       </div>
 
@@ -122,7 +141,7 @@ const TokenRow = ({ token }: { token: DiffToken }) => {
               "inline-flex items-center gap-1 text-[10.5px] font-semibold",
               status === "drift" && "text-amber-500",
               status === "missing" && "text-destructive",
-              status === "extra" && "text-muted-foreground",
+              status === "extra" && "text-muted-foreground"
             )}
           >
             {STATUS_ICON[status]}
@@ -141,14 +160,22 @@ const TokenRow = ({ token }: { token: DiffToken }) => {
 
 // ─── Summary pill ─────────────────────────────────────────────────────────────
 
-const SummaryPill = ({ status, count }: { status: DiffStatus; count: number }) => (
+const SummaryPill = ({
+  status,
+  count,
+}: {
+  status: DiffStatus;
+  count: number;
+}) => (
   <span
     className={cn(
       "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium tabular-nums",
-      status === "sync" && "border-emerald-500/20 bg-emerald-500/7 text-emerald-500",
+      status === "sync" &&
+        "border-emerald-500/20 bg-emerald-500/7 text-emerald-500",
       status === "drift" && "border-amber-500/25 bg-amber-500/7 text-amber-500",
-      status === "missing" && "border-destructive/20 bg-destructive/7 text-destructive",
-      status === "extra" && "border-border text-muted-foreground",
+      status === "missing" &&
+        "border-destructive/20 bg-destructive/7 text-destructive",
+      status === "extra" && "border-border text-muted-foreground"
     )}
   >
     <span className="size-1.5 rounded-full bg-current opacity-70" />
@@ -163,7 +190,9 @@ type FilterMode = "all" | "drift" | "missing";
 export const FigmaDiffView = ({ data }: { data: DiffResult }) => {
   const [filter, setFilter] = useState<FilterMode>("all");
 
-  const filtered = data.tokens.filter((t) => (filter === "all" ? true : t.status === filter));
+  const filtered = data.tokens.filter((t) =>
+    filter === "all" ? true : t.status === filter
+  );
 
   const categories = [...new Set(filtered.map((t) => t.category))];
 
@@ -174,9 +203,14 @@ export const FigmaDiffView = ({ data }: { data: DiffResult }) => {
         <SummaryPill status="sync" count={data.summary.sync} />
         <SummaryPill status="drift" count={data.summary.drift} />
         <SummaryPill status="missing" count={data.summary.missing} />
-        {data.summary.extra > 0 && <SummaryPill status="extra" count={data.summary.extra} />}
+        {data.summary.extra > 0 && (
+          <SummaryPill status="extra" count={data.summary.extra} />
+        )}
         <span className="ml-auto text-[11px] text-muted-foreground/60">
-          {data.mode} · {data.figmaFile.slice(0, 8)}…
+          {data.mode} · {data.figmaFile.slice(0, 8)}… ·{" "}
+          {data.variablesAvailable
+            ? "variables available"
+            : "variables unavailable"}
         </span>
       </div>
 
@@ -197,7 +231,7 @@ export const FigmaDiffView = ({ data }: { data: DiffResult }) => {
                 "rounded-md px-2.5 py-1 text-[11.5px] font-medium transition-colors",
                 filter === f
                   ? "bg-muted text-foreground"
-                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
               )}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}{" "}
