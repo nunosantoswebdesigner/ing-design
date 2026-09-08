@@ -57,6 +57,7 @@ interface FigmaFill {
 interface FigmaNodeDocument {
   name?: string;
   fills?: FigmaFill[];
+  strokes?: FigmaFill[];
   /** Style-type → style key, e.g. `{ fill: "abcd1234..." }`, matching `FigmaStyleMeta.key`. */
   styles?: Record<string, string>;
   style?: {
@@ -394,24 +395,41 @@ export const extractTokensFromNode = (
     }
   }
 
+  // Names a solid paint (a fill or a stroke): its attached style wins first,
+  // then an exact hex match against the code tokens, then a hex-keyed
+  // fallback bucket (not a per-occurrence counter) so the same unnamed color
+  // reused across many nodes — e.g. every variant in a component set —
+  // collapses into one entry instead of dozens.
+  const namePaint = (
+    paints: FigmaFill[] | undefined,
+    styleKey: string | undefined,
+    fallbackPrefix: string
+  ) => {
+    const paint = paints?.find(
+      (p) => p.type === "SOLID" && p.visible !== false
+    );
+    if (!paint?.color) {
+      return null;
+    }
+    const hex = figmaRgbaToHex(paint.color.r, paint.color.g, paint.color.b);
+    const cssVar =
+      (styleKey && styleKeyToCssVar.get(styleKey)) ??
+      hexToCssVar.get(hex) ??
+      `--${fallbackPrefix}-${hex.slice(1)}`;
+    return { cssVar, hex };
+  };
+
   const tokens = new Map<string, { value: string; hex?: string }>();
   let radius: number | undefined;
 
   walkNode(root, (node) => {
-    const fill = node.fills?.find(
-      (f) => f.type === "SOLID" && f.visible !== false
-    );
-    if (fill?.color) {
-      const hex = figmaRgbaToHex(fill.color.r, fill.color.g, fill.color.b);
-      const styleKey = node.styles?.fill;
-      // Fall back to a hex-keyed bucket (not a per-occurrence counter) so the
-      // same unnamed color reused across many nodes — e.g. every variant in a
-      // component set — collapses into one entry instead of dozens.
-      const cssVar =
-        (styleKey && styleKeyToCssVar.get(styleKey)) ??
-        hexToCssVar.get(hex) ??
-        `--figma-fill-${hex.slice(1)}`;
-      tokens.set(cssVar, { hex, value: hex });
+    const fill = namePaint(node.fills, node.styles?.fill, "figma-fill");
+    if (fill) {
+      tokens.set(fill.cssVar, { hex: fill.hex, value: fill.hex });
+    }
+    const stroke = namePaint(node.strokes, node.styles?.stroke, "figma-stroke");
+    if (stroke) {
+      tokens.set(stroke.cssVar, { hex: stroke.hex, value: stroke.hex });
     }
     if (
       radius === undefined &&

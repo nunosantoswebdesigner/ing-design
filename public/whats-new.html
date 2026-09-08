@@ -904,8 +904,8 @@
         <div class="status-row">
           <span class="s-num">01</span>
           <div class="status-body">
-            <div class="s-title">Figma Diff is stuck on the free tier</div>
-            <div class="s-desc">Figma's free API only returns styles published to a team library — this file never published its tokens, so every request comes back empty. Not a bug, a plan limitation: the Variables API fixes it properly, but needs a Figma Professional plan. The code for that switch is already written and waiting.</div>
+            <div class="s-title">Figma Diff is live — read the fine print below</div>
+            <div class="s-desc">It no longer depends on published team-library styles: it now reads the exact Figma node linked in each component's frontmatter directly, and diffs its real fills and corner-radius against the code tokens. Works today, per component, per brand theme — light mode only. See "How the Diff actually works" below before trusting its verdicts blindly.</div>
           </div>
         </div>
         <div class="status-row">
@@ -922,6 +922,32 @@
             <div class="s-desc">Both categories opened today, but each has only one placeholder item — no real chart or icon yet. The category exists; the content doesn't.</div>
           </div>
         </div>
+      </div>
+
+      <p class="lede" style="margin-top:2rem">How the Figma Diff actually works now.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Resolve the URL</div><div class="c-desc">For a given component + theme, resolve the figma: frontmatter field into a file key and a node id — it can be a single URL, or a map keyed by theme id for brands that live in their own Figma file (New York and Force8 already do).</div></div></div>
+        <div class="check"><div><div class="c-title">Fetch that exact node</div><div class="c-desc">GET /v1/files/:key/nodes for that node id — the literal frame linked in the component's frontmatter, not every style in the file.</div></div></div>
+        <div class="check"><div><div class="c-title">Walk it for fills and radius</div><div class="c-desc">Every solid fill color on that node and its children, plus the first non-zero corner-radius found.</div></div></div>
+        <div class="check"><div><div class="c-title">Name each color</div><div class="c-desc">A published Color Style on the layer wins first; failing that, an exact hex match against the theme's own CSS variables; failing that, it's still shown as an unnamed color instead of being dropped.</div></div></div>
+        <div class="check"><div><div class="c-title">Compare against the theme's light tokens</div><div class="c-desc">Same name, same hex → sync. Same name, different hex → drift. Only in Figma → missing. Only in code and unused by this node → extra.</div></div></div>
+      </div>
+
+      <p class="lede" style="margin-top:2rem">Nothing to export. It runs live against the Figma API — no CSS tokens, no Variables file, nothing to hand-copy. Two things help accuracy without being required: point figma: at the exact frame, not a whole component set with every variant bundled in; and give color layers a real published Color Style named like the token (e.g. "primary") — without one, the fallback still catches identical hex values, just not close-but-different ones.</p>
+
+      <div class="notes">
+        <span class="notes-label">Known limits</span>
+        <p>Light mode only — matching a Figma dark frame or variable mode to the code's dark tokens needs the Variables API, and that's confirmed unavailable on this account: Enterprise-only, not unlocked by a Professional plan or a Full seat (both were tried). Radius is whichever corner-radius is found first walking the node, not necessarily "the" radius if a component nests shapes with different corners. Only Button has been migrated to the per-theme figma: map so far — every other component doc still points at a single Figma file.</p>
+      </div>
+
+      <p class="lede" style="margin-top:2rem">Test plan — run this before trusting a verdict on a new component.</p>
+      <div class="checklist">
+        <div class="check"><div><div class="c-title">Open the exact frame</div><div class="c-desc">Copy the figma: URL for that component + theme and open it directly in Figma — confirm it's a single instance, not a component set.</div></div></div>
+        <div class="check"><div><div class="c-title">Read it by hand first</div><div class="c-desc">Figma's Inspect panel gives the exact fill hex and corner radius per layer — note them down before looking at the app.</div></div></div>
+        <div class="check"><div><div class="c-title">Read the code tokens by hand too</div><div class="c-desc">Pull the equivalent --primary / --radius / etc. values for that theme from lib/themes.ts.</div></div></div>
+        <div class="check"><div><div class="c-title">Run the Diff and cross-check every row</div><div class="c-desc">Does "Figma" match what you read in step 2? Does "Code" match step 3? If both do, the tool is reading correctly — that's the proof, not just that it ran without an error.</div></div></div>
+        <div class="check"><div><div class="c-title">Break something on purpose</div><div class="c-desc">Nudge a fill color in Figma (or a token value in code), re-run the Diff, confirm it flags "drift" — then undo the change and confirm it goes back to "sync". This is what proves drift detection actually works.</div></div></div>
+        <div class="check"><div><div class="c-title">Sanity-check "missing" and "extra"</div><div class="c-desc">"extra" = tokens this component simply doesn't use — expected. "missing" / unnamed colors are worth a look: should that layer have a proper Color Style applied?</div></div></div>
       </div>
     </div>
   </section>
@@ -941,8 +967,8 @@
         <div class="ask">
           <div class="a-num">02</div>
           <div>
-            <div class="a-title">Budget for a Figma Professional plan</div>
-            <div class="a-desc">Unlocks the Variables API and closes the design ↔ code loop — today's biggest blind spot in the system.</div>
+            <div class="a-title">Decide if full dark-mode parity is worth an Enterprise upgrade</div>
+            <div class="a-desc">The Diff is live today in light mode on a Professional plan + Full seat — that part is done. Matching dark-mode tokens automatically needs the Variables API, which stayed Enterprise-only even after upgrading; light mode alone may already be enough signal for most reviews.</div>
           </div>
         </div>
         <div class="ask">
@@ -980,12 +1006,13 @@
         <div class="t-item">
           <div class="t-phase">Close the Figma loop</div>
           <div class="t-body">
-            <div class="t-title">Get off the Diff's free tier</div>
+            <div class="t-title">Get the Diff reading real components — done, next steps below</div>
             <ul class="t-list">
-              <li>Get a Figma Professional plan</li>
-              <li>Switch the Diff from the Styles API to the Variables API — already mapped out in code</li>
+              <li>Full seat secured, live per-component per-theme diff shipped</li>
+              <li>Migrate the remaining ~59 component docs to the per-theme figma: map — only Button is done so far</li>
+              <li>Decide whether dark-mode parity justifies an Enterprise upgrade (see The ask)</li>
             </ul>
-            <div class="t-done"><b>Done when</b>the Diff shows real tokens instead of "no published styles found"</div>
+            <div class="t-done"><b>Done when</b>every component doc has a real figma: link per brand, and the team has run the manual test plan at least once</div>
           </div>
         </div>
         <div class="t-item">
