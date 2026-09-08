@@ -1,6 +1,11 @@
 "use client";
 
-import { AlertTriangleIcon, GitCompareArrows, Loader2Icon } from "lucide-react";
+import {
+  AlertTriangleIcon,
+  ClockAlertIcon,
+  GitCompareArrows,
+  Loader2Icon,
+} from "lucide-react";
 import { useCallback, useState } from "react";
 
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
@@ -26,6 +31,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  formatRetryEta,
+  useFigmaRateLimit,
+} from "@/hooks/use-figma-rate-limit";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { DiffResult } from "@/lib/figma-diff";
 import { DEFAULT_REGISTRY_THEME_ID } from "@/lib/themes";
@@ -39,9 +53,30 @@ type FetchState =
   | { status: "success"; data: DiffResult }
   | { status: "error"; message: string; hint?: string; noToken?: boolean };
 
+// ─── Rate limit badge ─────────────────────────────────────────────────────────
+
+const RateLimitBadge = ({ retryAt }: { retryAt: number }) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <span className="inline-flex items-center text-amber-500">
+        <ClockAlertIcon className="size-3.5" />
+      </span>
+    </TooltipTrigger>
+    <TooltipContent>
+      Figma API rate limited — {formatRetryEta(retryAt)}
+    </TooltipContent>
+  </Tooltip>
+);
+
 // ─── Inner content ────────────────────────────────────────────────────────────
 
-const DiffContent = ({ state, componentName }: { state: FetchState; componentName?: string }) => {
+const DiffContent = ({
+  state,
+  componentName,
+}: {
+  state: FetchState;
+  componentName?: string;
+}) => {
   if (state.status === "idle" || state.status === "loading") {
     return (
       <div className="flex h-32 items-center justify-center text-muted-foreground">
@@ -59,9 +94,13 @@ const DiffContent = ({ state, componentName }: { state: FetchState; componentNam
           <div className="flex items-start gap-2 rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2.5 text-[12px] text-amber-600 dark:text-amber-400">
             <AlertTriangleIcon className="mt-0.5 size-3.5 shrink-0" />
             <span>
-              Add <code className="font-mono font-semibold">FIGMA_ACCESS_TOKEN</code> to your{" "}
-              <code className="font-mono font-semibold">.env.local</code> to enable live diff. Until
-              then, use the CLI:
+              Add{" "}
+              <code className="font-mono font-semibold">
+                FIGMA_ACCESS_TOKEN
+              </code>{" "}
+              to your{" "}
+              <code className="font-mono font-semibold">.env.local</code> to
+              enable live diff. Until then, use the CLI:
             </span>
           </div>
           <CodeBlockCommand
@@ -80,7 +119,9 @@ const DiffContent = ({ state, componentName }: { state: FetchState; componentNam
         <AlertTriangleIcon className="size-5 text-destructive" />
         <p className="text-sm text-muted-foreground">{state.message}</p>
         {state.hint && (
-          <p className="max-w-xs text-[12px] text-muted-foreground/70">{state.hint}</p>
+          <p className="max-w-xs text-[12px] text-muted-foreground/70">
+            {state.hint}
+          </p>
         )}
       </div>
     );
@@ -106,6 +147,7 @@ export const FigmaDiffButton = ({
   const [isOpen, setIsOpen] = useState(false);
   const [fetchState, setFetchState] = useState<FetchState>({ status: "idle" });
   const isMobile = useIsMobile();
+  const { isRateLimited, markRateLimited, retryAt } = useFigmaRateLimit();
 
   const runFetch = useCallback(async () => {
     if (!componentName) {
@@ -115,7 +157,25 @@ export const FigmaDiffButton = ({
     try {
       const res = await fetch(`/api/diff/figma/${theme}/${componentName}`);
       if (res.status === 501) {
-        setFetchState({ message: "No Figma token", noToken: true, status: "error" });
+        setFetchState({
+          message: "No Figma token",
+          noToken: true,
+          status: "error",
+        });
+        return;
+      }
+      if (res.status === 429) {
+        const body = await res.json().catch(() => ({}));
+        const seconds =
+          typeof body.retryAfterSeconds === "number"
+            ? body.retryAfterSeconds
+            : 60;
+        markRateLimited(seconds);
+        setFetchState({
+          hint: "The Figma API itself is rate limited for this account, not this app — it'll clear on its own.",
+          message: "Figma API rate limit exceeded",
+          status: "error",
+        });
         return;
       }
       if (!res.ok) {
@@ -131,9 +191,12 @@ export const FigmaDiffButton = ({
       const data: DiffResult = await res.json();
       setFetchState({ data, status: "success" });
     } catch {
-      setFetchState({ message: "Network error — check your connection.", status: "error" });
+      setFetchState({
+        message: "Network error — check your connection.",
+        status: "error",
+      });
     }
-  }, [componentName, theme]);
+  }, [componentName, theme, markRateLimited]);
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -142,21 +205,29 @@ export const FigmaDiffButton = ({
         runFetch();
       }
     },
-    [fetchState.status, runFetch],
+    [fetchState.status, runFetch]
   );
 
   const trigger = (
-    <Button size={size} variant={variant} className={cn(className)} onClick={onClick} {...props}>
+    <Button
+      size={size}
+      variant={variant}
+      className={cn(className)}
+      onClick={onClick}
+      {...props}
+    >
       <GitCompareArrows />
       <span className="hidden sm:inline">Diff</span>
     </Button>
   );
 
   const title = "Diff with Figma";
-  const description = "Compare design tokens between the Figma source file and your local theme.";
+  const description =
+    "Compare design tokens between the Figma source file and your local theme.";
 
   return (
-    <>
+    <span className="inline-flex items-center gap-1.5">
+      {isRateLimited && retryAt && <RateLimitBadge retryAt={retryAt} />}
       {isMobile ? (
         <Drawer open={isOpen} onOpenChange={handleOpenChange} sounds>
           <DrawerTrigger asChild>{trigger}</DrawerTrigger>
@@ -181,7 +252,9 @@ export const FigmaDiffButton = ({
           <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-xl">
             <DialogHeader className="px-5 pt-5 pb-3">
               <DialogTitle>{title}</DialogTitle>
-              <DialogDescription className="text-balance">{description}</DialogDescription>
+              <DialogDescription className="text-balance">
+                {description}
+              </DialogDescription>
             </DialogHeader>
             <div className="border-t border-border/50">
               <DiffContent state={fetchState} componentName={componentName} />
@@ -199,6 +272,6 @@ export const FigmaDiffButton = ({
           </DialogContent>
         </Dialog>
       )}
-    </>
+    </span>
   );
 };

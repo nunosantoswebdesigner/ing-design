@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 
 import {
+  extractButtonFigmaTokens,
+  resolveButtonCodeTokens,
+} from "@/lib/button-pilot";
+import {
   buildStyleKeyToCssVar,
   computeDiff,
   extractTokensFromNode,
+  FigmaRateLimitError,
   fetchFigmaNodes,
   fetchFigmaStyles,
   parseFigmaUrl,
@@ -67,6 +72,18 @@ export const GET = async (
   try {
     nodeResponse = await fetchFigmaNodes(fileKey, figmaToken, [nodeId]);
   } catch (error) {
+    if (error instanceof FigmaRateLimitError) {
+      return NextResponse.json(
+        {
+          error: "Figma API rate limit exceeded",
+          retryAfterSeconds: error.retryAfterSeconds,
+          retryAt: new Date(
+            Date.now() + error.retryAfterSeconds * 1000
+          ).toISOString(),
+        },
+        { status: 429 }
+      );
+    }
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       { detail: message, error: "Figma node request failed", fileKey, nodeId },
@@ -119,9 +136,23 @@ export const GET = async (
     styleKeyToCssVar,
     cssVarsLight
   );
+  let codeTokens = cssVarsLight;
+
+  // Pilot: Button also gets padding/gap/radius/typography/stroke/shadow/opacity
+  // compared, not just color + generic radius. See lib/button-pilot.ts for why
+  // this isn't generalized to every component yet.
+  if (component === "button") {
+    for (const [cssVar, value] of extractButtonFigmaTokens(
+      nodeEntry.document
+    )) {
+      figmaTokens.set(cssVar, value);
+    }
+    codeTokens = { ...codeTokens, ...resolveButtonCodeTokens(cssVarsLight) };
+  }
+
   const result = computeDiff(
     figmaTokens,
-    cssVarsLight,
+    codeTokens,
     component,
     theme,
     fileKey,

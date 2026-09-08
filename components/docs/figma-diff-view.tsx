@@ -31,6 +31,7 @@ const CATEGORY_LABEL: Record<TokenCategory, string> = {
   colors: "Colors",
   other: "Other",
   radius: "Radius",
+  spacing: "Spacing",
   typography: "Typography",
 };
 

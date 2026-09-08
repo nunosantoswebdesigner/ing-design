@@ -1,9 +1,38 @@
 import { DEFAULT_REGISTRY_THEME_ID } from "@/lib/themes";
 
+// ─── Rate limiting ──────────────────────────────────────────────────────────────
+
+/** Thrown when Figma responds 429. Carries the `Retry-After` header (seconds)
+ * so callers can tell users when to expect it to clear, instead of a generic
+ * failure — Figma's own limits have been observed here to reset on anything
+ * from minutes to multiple days, so this is worth surfacing precisely. */
+export class FigmaRateLimitError extends Error {
+  retryAfterSeconds: number;
+
+  constructor(retryAfterSeconds: number) {
+    super(`Figma API rate limit exceeded — retry after ${retryAfterSeconds}s`);
+    this.name = "FigmaRateLimitError";
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
+
+const FALLBACK_RETRY_AFTER_SECONDS = 60;
+
+const parseRetryAfterSeconds = (res: Response): number => {
+  const header = res.headers.get("retry-after");
+  const parsed = header ? Number.parseInt(header, 10) : Number.NaN;
+  return Number.isFinite(parsed) ? parsed : FALLBACK_RETRY_AFTER_SECONDS;
+};
+
 // ─── Output types ─────────────────────────────────────────────────────────────
 
 export type DiffStatus = "sync" | "drift" | "missing" | "extra";
-export type TokenCategory = "colors" | "radius" | "typography" | "other";
+export type TokenCategory =
+  | "colors"
+  | "radius"
+  | "spacing"
+  | "typography"
+  | "other";
 
 export interface DiffToken {
   cssVar: string;
@@ -54,8 +83,14 @@ interface FigmaFill {
   visible?: boolean;
 }
 
-interface FigmaNodeDocument {
+interface FigmaEffect {
+  type: string;
+  visible?: boolean;
+}
+
+export interface FigmaNodeDocument {
   name?: string;
+  type?: string;
   fills?: FigmaFill[];
   strokes?: FigmaFill[];
   /** Style-type → style key, e.g. `{ fill: "abcd1234..." }`, matching `FigmaStyleMeta.key`. */
@@ -63,9 +98,18 @@ interface FigmaNodeDocument {
   style?: {
     fontSize?: number;
     fontFamily?: string;
+    fontWeight?: number;
     lineHeightPx?: number;
   };
   cornerRadius?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
+  itemSpacing?: number;
+  opacity?: number;
+  strokeWeight?: number;
+  effects?: FigmaEffect[];
   children?: FigmaNodeDocument[];
 }
 
@@ -239,6 +283,9 @@ export const fetchFigmaStyles = async (
     headers: { "X-Figma-Token": token },
     next: { revalidate: FIGMA_CACHE_SECONDS },
   });
+  if (res.status === 429) {
+    throw new FigmaRateLimitError(parseRetryAfterSeconds(res));
+  }
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`Figma API ${res.status}: ${body}`);
@@ -259,6 +306,9 @@ export const fetchFigmaNodes = async (
       next: { revalidate: FIGMA_CACHE_SECONDS },
     }
   );
+  if (res.status === 429) {
+    throw new FigmaRateLimitError(parseRetryAfterSeconds(res));
+  }
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`Figma API ${res.status}: ${body}`);
@@ -293,35 +343,35 @@ export const buildStyleKeyToCssVar = (
   return map;
 };
 
+const CATEGORY_KEYWORDS: [TokenCategory, string[]][] = [
+  ["radius", ["radius"]],
+  ["typography", ["font", "text", "leading", "line-height"]],
+  ["spacing", ["gap", "padding", "spacing"]],
+  [
+    "colors",
+    [
+      "background",
+      "foreground",
+      "primary",
+      "secondary",
+      "muted",
+      "accent",
+      "destructive",
+      "border",
+      "input",
+      "ring",
+      "card",
+      "popover",
+      "color",
+    ],
+  ],
+];
+
 const guessCategory = (cssVar: string): TokenCategory => {
-  if (cssVar.includes("radius")) {
-    return "radius";
-  }
-  if (
-    cssVar.includes("font") ||
-    cssVar.includes("text") ||
-    cssVar.includes("leading")
-  ) {
-    return "typography";
-  }
-  if (
-    cssVar.includes("background") ||
-    cssVar.includes("foreground") ||
-    cssVar.includes("primary") ||
-    cssVar.includes("secondary") ||
-    cssVar.includes("muted") ||
-    cssVar.includes("accent") ||
-    cssVar.includes("destructive") ||
-    cssVar.includes("border") ||
-    cssVar.includes("input") ||
-    cssVar.includes("ring") ||
-    cssVar.includes("card") ||
-    cssVar.includes("popover") ||
-    cssVar.includes("color")
-  ) {
-    return "colors";
-  }
-  return "other";
+  const match = CATEGORY_KEYWORDS.find(([, keywords]) =>
+    keywords.some((keyword) => cssVar.includes(keyword))
+  );
+  return match?.[0] ?? "other";
 };
 
 // ─── Extract tokens from Figma styles + nodes ─────────────────────────────────
